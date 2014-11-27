@@ -1,0 +1,24 @@
+//
+// Prefix header for all source files of the 'ShortcutSDK' target in the 'ShortcutSDK' project
+//
+
+#import <Availability.h>
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#define CURRENT_API_VERSION 1
+#endif
+
+#ifdef DEBUG
+#define DebugLog(...) NSLog(__VA_ARGS__)
+#else
+#define DebugLog(...)
+#endif
+
+#ifndef NSFoundationVersionNumber_iOS_6_1
+#define NSFoundationVersionNumber_iOS_6_1 993.00
+#endif
+#ifndef NSFoundationVersionNumber_iOS_7_1
+#define NSFoundationVersionNumber_iOS_7_1 1047.25
+#endif

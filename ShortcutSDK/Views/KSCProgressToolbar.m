@@ -1,0 +1,75 @@
+//
+//  KSCProgressToolbar.m
+//  Shortcut
+//
+//  Created by David Wisti on 3/25/12.
+//  Copyright (c) 2012 kooaba AG. All rights reserved.
+//
+
+#import "KSCProgressToolbar.h"
+
+
+@interface KSCProgressToolbar (/* Private */)
+
+@property (nonatomic, strong, readwrite) IBOutlet UIButton* cancelButton;
+@property (nonatomic, strong, readwrite) IBOutlet UILabel* statusLabel;
+@property (nonatomic, strong, readwrite) IBOutlet UIActivityIndicatorView* activityIndicator;
+
+@end
+
+
+@implementation KSCProgressToolbar
+
+@synthesize animating;
+@synthesize cancelButton;
+@synthesize statusLabel;
+@synthesize activityIndicator;
+
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	self.cancelButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0, 0.0, 4.0);
+	[self.cancelButton setTitle:NSLocalizedString(@"Cancel", nil) forState:UIControlStateNormal];
+	self.statusLabel.text = NSLocalizedString(@"Sending", nil);
+	self.activityIndicator.hidesWhenStopped = YES;
+}
+
+- (void)setAnimating:(BOOL)value
+{
+	animating = value;
+	
+	if (animating)
+	{
+		self.statusLabel.hidden = NO;
+		[self.activityIndicator startAnimating];
+	}
+	else
+	{
+		self.statusLabel.hidden = YES;
+		[self.activityIndicator stopAnimating];
+	}
+}
+
+- (void)layoutSubviews
+{
+	[super layoutSubviews];
+
+	// The width of the button is 16 pixels wider than the text label. This is 4.0 for the edge insets + 12.0 for the rounded edges.
+	CGFloat buttonEdgeInset = 16.0;
+	CGFloat cancelButtonX = CGRectGetMinX(self.cancelButton.frame);
+	CGFloat maxCancelButtonX = CGRectGetMinX(self.activityIndicator.frame) - 8.0;
+	NSString* cancelButtonTitle = [self.cancelButton titleForState:UIControlStateNormal];
+	CGSize cancelTitleSize = [cancelButtonTitle sizeWithFont:self.cancelButton.titleLabel.font
+																									forWidth:maxCancelButtonX - cancelButtonX - buttonEdgeInset
+																						 lineBreakMode:NSLineBreakByTruncatingTail];
+	self.cancelButton.frame = CGRectMake(cancelButtonX, CGRectGetMinY(self.cancelButton.frame),
+																			 cancelTitleSize.width + buttonEdgeInset, CGRectGetHeight(self.cancelButton.frame));
+	
+	CGFloat statusLabelX = CGRectGetMaxX(self.cancelButton.frame) + 8.0;
+	CGFloat statusLabelWidth = CGRectGetMinX(self.activityIndicator.frame) - 8.0 - statusLabelX;
+	self.statusLabel.frame = CGRectMake(statusLabelX, CGRectGetMinY(self.statusLabel.frame), statusLabelWidth, CGRectGetHeight(self.statusLabel.frame));
+}
+
+
+@end
