@@ -7,6 +7,7 @@
 //
 
 #import "KSCProgressToolbar.h"
+#import "KSCLocalization.h"
 
 
 @interface KSCProgressToolbar (/* Private */)
@@ -30,8 +31,8 @@
 	[super awakeFromNib];
 	
 	self.cancelButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0, 0.0, 4.0);
-	[self.cancelButton setTitle:NSLocalizedString(@"Cancel", nil) forState:UIControlStateNormal];
-	self.statusLabel.text = NSLocalizedString(@"Sending", nil);
+	[self.cancelButton setTitle:[KSCLocalization translationFor:@"CancelButtonTitle" withDefaultValue:@"Cancel"] forState:UIControlStateNormal];
+	self.statusLabel.text = [KSCLocalization translationFor:@"ProcessingTitle" withDefaultValue:@"Processing…"];
 	self.activityIndicator.hidesWhenStopped = YES;
 }
 

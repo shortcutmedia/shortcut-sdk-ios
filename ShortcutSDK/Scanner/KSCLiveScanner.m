@@ -13,6 +13,7 @@
 #import "KSCRecognitionOperation.h"
 #import "KSCBarcodeScanner.h"
 #import "KSCImageUtils.h"
+#import "KSCLocalization.h"
 
 
 NSString* kKSCLiveScannerErrorDomain = @"KSCLiveScannerErrorDomain";
@@ -196,11 +197,11 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 	if (self.running == NO)
 	{
         if (![KSCCaptureSessionController authorizedForVideoCapture]) {
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CameraAccessRequired", @"Displayed in alertview title when camera access is disabled")
-                                                             message:NSLocalizedString(@"CameraAccessRequiredBody", @"Displayed in alertview body when camera access is disabled")
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:[KSCLocalization translationFor:@"CameraAccessRequiredTitle" withDefaultValue:@"Camera access required"]
+                                                             message:[KSCLocalization translationFor:@"CameraAccessRequiredBody" withDefaultValue:@"The app needs access to the camera to scan things.\nPlease allow usage of the camera by enabling it in the privacy settings."]
                                                             delegate:nil
                                                    cancelButtonTitle:nil
-                                                   otherButtonTitles:@"OK", nil];
+                                                   otherButtonTitles:[KSCLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"], nil];
             [alert show];
             [self.delegate liveScannerShouldClose:self];
             

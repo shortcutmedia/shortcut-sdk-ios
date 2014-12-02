@@ -9,6 +9,7 @@
 #import "KSCItemViewController.h"
 #import "KSCSDKConfig.h"
 #import "KSCStatusView.h"
+#import "KSCLocalization.h"
 
 @interface KSCItemViewController () <UIWebViewDelegate>
 
@@ -98,7 +99,7 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)aWebView
 {
-    [self.statusView setStatusTitle:NSLocalizedString(@"Loading…", nil) subtitle:nil showActivityIndicator:YES];
+    [self.statusView setStatusTitle:[KSCLocalization translationFor:@"LoadingTitle" withDefaultValue:@"Loading…"] subtitle:nil showActivityIndicator:YES];
     self.statusView.hidden = NO;
 }
 

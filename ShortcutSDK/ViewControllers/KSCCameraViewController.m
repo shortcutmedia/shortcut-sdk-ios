@@ -17,6 +17,7 @@
 #import "KSCCameraModeControl.h"
 #import "KSCLiveScannerDelegate.h"
 #import "KSCSDKConfig.h"
+#import "KSCLocalization.h"
 
 static NSString* kUnrecognizedChanged = @"unrecognized changed";
 static NSString* kScanningStatusChanged = @"scanning status changed";
@@ -375,12 +376,12 @@ typedef enum
 - (void)singleImageDidFailWithError:(NSError*)error
 {
     [self singleImageRecognitionFinished];
-	NSString* title = NSLocalizedString(@"Submission failed", nil);
+	NSString* title = [KSCLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
 	NSString* message = [error localizedDescription];
 	UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"OKButtonTitle", nil)
+                                              cancelButtonTitle:[KSCLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
                                               otherButtonTitles:nil];
 	[alertView show];
 }
@@ -438,15 +439,15 @@ typedef enum
                                                                     error.code == NSURLErrorDNSLookupFailed ||
                                                                     error.code == NSURLErrorNotConnectedToInternet)) {
                 // no internet connection
-                title = NSLocalizedString(@"NoInternetConnectionErrorTitle", nil);
+                title = [KSCLocalization translationFor:@"NoInternetConnectionTitle" withDefaultValue:@"No Internet connection"];
                 if (self.liveScanner.liveScannerMode == kKSCLiveScannerLiveScanningMode) {
-                    subtitle = NSLocalizedString(@"SwitchingToSnapshotModeMessage", nil);
+                    subtitle = [KSCLocalization translationFor:@"SwitchingToSnapshotModeBody" withDefaultValue:@"Switching to Snapshot mode"];
                 }
             } else if ([error.domain isEqualToString:kKSCLiveScannerErrorDomain] && error.code == kKSCLiveScannerErrorServerResponseTooSlow) {
                 // slow internet connection
-                title = NSLocalizedString(@"SlowInternetConnectionErrorTitle", nil);
+                title = [KSCLocalization translationFor:@"SlowInternetConnectionTitle" withDefaultValue:@"No Internet connection"];
                 if (self.liveScanner.liveScannerMode == kKSCLiveScannerLiveScanningMode) {
-                    subtitle = NSLocalizedString(@"SwitchingToSnapshotModeMessage", nil);
+                    subtitle = [KSCLocalization translationFor:@"SwitchingToSnapshotModeBody" withDefaultValue:@"Switching to Snapshot mode"];
                 }
             }
             
@@ -525,13 +526,14 @@ typedef enum
 {
 	if (self.liveScanner.liveScannerMode == kKSCLiveScannerLiveScanningMode)
 	{
-		[self.cameraStatusView setStatusTitle:NSLocalizedString(@"LiveScanningModeStatusTitle", nil)
-																 subtitle:NSLocalizedString(@"LiveScanningModeStatusSubtitle", nil)];
+        
+		[self.cameraStatusView setStatusTitle:[KSCLocalization translationFor:@"LiveScanningModeStatusTitle" withDefaultValue:@"Scanning mode"]
+                                     subtitle:[KSCLocalization translationFor:@"LiveScanningModeStatusBody" withDefaultValue:@"Make sure that the whole item is visible in the scanner"]];
 	}
 	else
 	{
-		[self.cameraStatusView setStatusTitle:NSLocalizedString(@"SingleShotModeStatusTitle", nil)
-																 subtitle:NSLocalizedString(@"SingleShotModeStatusSubtitle", nil)];
+        [self.cameraStatusView setStatusTitle:[KSCLocalization translationFor:@"SingleShotModeStatusTitle" withDefaultValue:@"Snapshot mode"]
+                                     subtitle:[KSCLocalization translationFor:@"SingleShotModeStatusBody" withDefaultValue:@"Make sure to capture the whole item"]];
 	}
 	[self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
 }
@@ -901,7 +903,8 @@ typedef enum
 {
 	if (self.liveScanner.liveScannerMode == kKSCLiveScannerLiveScanningMode && self.liveScanner.currentImageIsUnrecognized)
 	{
-		[self.cameraStatusView setStatusTitle:NSLocalizedString(@"LiveScannerItemNotRecognizedText", nil) subtitle:nil];
+		[self.cameraStatusView setStatusTitle:[KSCLocalization translationFor:@"LiveScannerItemNotRecognizedTitle" withDefaultValue:@"No results found"]
+                                     subtitle:nil];
 		[self showStatusViewAndHideAfterTimeInterval:0.0];
 	}
 	else

@@ -9,6 +9,7 @@
 #import "KSCRecognitionOperation.h"
 #import "KSCSDKConfig.h"
 #import "KWSImageRequest.h"
+#import "KSCLocalization.h"
 
 @interface KSCRecognitionOperation ()
 

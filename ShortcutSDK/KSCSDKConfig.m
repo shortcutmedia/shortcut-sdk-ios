@@ -10,10 +10,27 @@
 
 NSString* const kDefaultQueryServerAddress = @"query-api.kooaba.com";
 NSString* const kDefaultItemServerAddress = @"shortcut-service.shortcutmedia.com";
+NSString* const kDefaultLocalizationTable = @"Localizable";
 
 @implementation KSCSDKConfig
 
 #pragma mark - Properties (default values)
+
+- (NSString *)localizationTable
+{
+    if (!_localizationTable) {
+        _localizationTable = kDefaultLocalizationTable;
+    }
+    return _localizationTable;
+}
+
+- (NSBundle *)localizationTableBundle
+{
+    if (!_localizationTableBundle) {
+        _localizationTableBundle = [NSBundle mainBundle];
+    }
+    return _localizationTableBundle;
+}
 
 - (NSString *)queryServerAddress
 {

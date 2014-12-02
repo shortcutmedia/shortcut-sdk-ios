@@ -7,6 +7,7 @@
 //
 
 #import "KSCCameraToolbar.h"
+#import "KSCLocalization.h"
 
 
 @interface KSCCameraToolbar (/* Private */)
@@ -29,7 +30,8 @@
 	[super awakeFromNib];
 	
 	self.doneButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0, 0.0, 4.0);
-	[self.doneButton setTitle:NSLocalizedString(@"DoneButtonTitle", nil) forState:UIControlStateNormal];
+	[self.doneButton setTitle:[KSCLocalization translationFor:@"DoneButtonTitle" withDefaultValue:@"Done"]
+                     forState:UIControlStateNormal];
 }
 
 - (void)layoutSubviews

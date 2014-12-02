@@ -51,6 +51,8 @@
 		86BD71451A2DE5E500EA8633 /* PLCameraZoomTrackMin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86BD71391A2DE5E500EA8633 /* PLCameraZoomTrackMin@2x.png */; };
 		86BD71481A2DE64600EA8633 /* OrangeColor.png in Resources */ = {isa = PBXBuildFile; fileRef = 86BD71461A2DE64600EA8633 /* OrangeColor.png */; };
 		86BD71491A2DE64600EA8633 /* OrangeColor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86BD71471A2DE64600EA8633 /* OrangeColor@2x.png */; };
+		86CCF7DC1A2E0BDE004FA85C /* KSCLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = 86CCF7DA1A2E0BDE004FA85C /* KSCLocalization.h */; };
+		86CCF7DD1A2E0BDE004FA85C /* KSCLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CCF7DB1A2E0BDE004FA85C /* KSCLocalization.m */; };
 		86D085491A2889EC005CECD3 /* KSCCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86ED35AC1A2772F700D9F3B0 /* KSCCameraViewController.xib */; };
 		86D0854A1A2889F2005CECD3 /* KSCItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86ED35B01A2772F700D9F3B0 /* KSCItemViewController.xib */; };
 		86D085781A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D0856A1A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png */; };
@@ -279,6 +281,8 @@
 		86BD71391A2DE5E500EA8633 /* PLCameraZoomTrackMin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PLCameraZoomTrackMin@2x.png"; path = "Resources/PLCameraZoomTrackMin@2x.png"; sourceTree = "<group>"; };
 		86BD71461A2DE64600EA8633 /* OrangeColor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = OrangeColor.png; path = Resources/OrangeColor.png; sourceTree = "<group>"; };
 		86BD71471A2DE64600EA8633 /* OrangeColor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "OrangeColor@2x.png"; path = "Resources/OrangeColor@2x.png"; sourceTree = "<group>"; };
+		86CCF7DA1A2E0BDE004FA85C /* KSCLocalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSCLocalization.h; sourceTree = "<group>"; };
+		86CCF7DB1A2E0BDE004FA85C /* KSCLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSCLocalization.m; sourceTree = "<group>"; };
 		86D085401A2888B5005CECD3 /* ShortcutSDK.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortcutSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		86D085431A2888B5005CECD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86D0856A1A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraButtonBackgroundDefault.png; path = Resources/CameraButtonBackgroundDefault.png; sourceTree = "<group>"; };
@@ -1096,6 +1100,8 @@
 				86ED35A61A2772F700D9F3B0 /* KSCUUIDUtils.m */,
 				86ED35A71A2772F700D9F3B0 /* UIImage+ImageOrientation.h */,
 				86ED35A81A2772F700D9F3B0 /* UIImage+ImageOrientation.m */,
+				86CCF7DA1A2E0BDE004FA85C /* KSCLocalization.h */,
+				86CCF7DB1A2E0BDE004FA85C /* KSCLocalization.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1180,6 +1186,7 @@
 				86ED36551A27789100D9F3B0 /* ShortcutSDK-Prefix.pch in Headers */,
 				86ED36481A27784700D9F3B0 /* KSCMotionDetector.h in Headers */,
 				86ED36441A27783800D9F3B0 /* KSCCaptureSessionController.h in Headers */,
+				86CCF7DC1A2E0BDE004FA85C /* KSCLocalization.h in Headers */,
 				86ED36451A27783C00D9F3B0 /* KSCHistogramFilter.h in Headers */,
 				86ED364A1A27786300D9F3B0 /* KSCCameraToolbar.h in Headers */,
 				86ED364D1A27786E00D9F3B0 /* KSCCustomToolbarButton.h in Headers */,
@@ -1386,6 +1393,7 @@
 				86ED360E1A2772F700D9F3B0 /* FormatInformation.cpp in Sources */,
 				86ED35DD1A2772F700D9F3B0 /* StringUtils.cpp in Sources */,
 				86ED35E81A2772F700D9F3B0 /* DecodeHints.cpp in Sources */,
+				86CCF7DD1A2E0BDE004FA85C /* KSCLocalization.m in Sources */,
 				86ED36191A2772F700D9F3B0 /* TwoDDecoderResult.m in Sources */,
 				86ED36291A2772F700D9F3B0 /* KSCCameraViewController.m in Sources */,
 				86ED35EC1A2772F700D9F3B0 /* ByQuadrantReader.cpp in Sources */,

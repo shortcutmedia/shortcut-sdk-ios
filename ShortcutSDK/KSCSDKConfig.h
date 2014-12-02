@@ -13,6 +13,9 @@
 @property (strong, nonatomic) NSString *accessKey;
 @property (strong, nonatomic) NSString *secretKey;
 
+@property (strong, nonatomic) NSString *localizationTable;
+@property (strong, nonatomic) NSBundle *localizationTableBundle;
+
 @property (strong, nonatomic) NSString *queryServerAddress;
 @property (strong, nonatomic) NSString *itemServerAddress;
 @property (strong, nonatomic) NSString *clientID;
