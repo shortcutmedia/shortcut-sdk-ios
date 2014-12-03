@@ -34,7 +34,7 @@ ln -s "Versions/Current/Headers" "${FRAMEWORK}/Headers"
 ln -s "Versions/Current/${PROJECT_NAME}" "${FRAMEWORK}/${PROJECT_NAME}"
 
 # Copy .framework and .bundle to project dir
-mkdir -p "${PROJECT_DIR}/build/"
-rm -rf "${PROJECT_DIR}/build/*"
-cp -r "${FRAMEWORK}" "${PROJECT_DIR}/build/"
-cp -r "${BUNDLE}" "${PROJECT_DIR}/build/"
+rm -rf "${PROJECT_DIR}/build"
+mkdir -p "${PROJECT_DIR}/build"
+cp -R "${FRAMEWORK}" "${PROJECT_DIR}/build/"
+cp -R "${BUNDLE}" "${PROJECT_DIR}/build/"
