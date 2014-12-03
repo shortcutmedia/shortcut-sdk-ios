@@ -440,22 +440,26 @@ typedef enum
                                                                     error.code == NSURLErrorNotConnectedToInternet)) {
                 // no internet connection
                 title = [KSCLocalization translationFor:@"NoInternetConnectionTitle" withDefaultValue:@"No Internet connection"];
-                if (self.liveScanner.liveScannerMode == kKSCLiveScannerLiveScanningMode) {
-                    subtitle = [KSCLocalization translationFor:@"SwitchingToSnapshotModeBody" withDefaultValue:@"Switching to Snapshot mode"];
-                }
             } else if ([error.domain isEqualToString:kKSCLiveScannerErrorDomain] && error.code == kKSCLiveScannerErrorServerResponseTooSlow) {
                 // slow internet connection
                 title = [KSCLocalization translationFor:@"SlowInternetConnectionTitle" withDefaultValue:@"No Internet connection"];
                 if (self.liveScanner.liveScannerMode == kKSCLiveScannerLiveScanningMode) {
                     subtitle = [KSCLocalization translationFor:@"SwitchingToSnapshotModeBody" withDefaultValue:@"Switching to Snapshot mode"];
+                    [self switchToMode:kKSCLiveScannerSingleShotMode];
                 }
+            } else if ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorUserCancelledAuthentication)) {
+                // authentication error
+                title = [KSCLocalization translationFor:@"AuthenticationErrorTitle" withDefaultValue:@"Authentication error"];
+                subtitle = [KSCLocalization translationFor:@"AuthenticationErrorBody" withDefaultValue:@"The image recognition service could not authenticate your request"];
+            } else {
+                title = [KSCLocalization translationFor:@"RecognitionOperationFailedTitle" withDefaultValue:@"Recognition could not be completed"];
+                subtitle = [NSString stringWithFormat:@"Error code %d", error.code];
             }
             
-            if (title || subtitle) {
-                [self switchToMode:kKSCLiveScannerSingleShotMode];
-                [self.cameraStatusView setStatusTitle:title subtitle:subtitle];
-                [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
-            }
+            [self.cameraStatusView setStatusTitle:title subtitle:subtitle];
+            [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
+            
+            [self singleImageRecognitionFinished];
 		}
 	}
 }

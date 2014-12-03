@@ -429,7 +429,8 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
             [self recognitionOperationCompleted:completedOperation];
         }
     }];
-        
+    
+    self.recognitionError = nil;
     [self.recognitionQueue addOperation:operation];
     self.numImagesSentForRecognition += 1;
     self.outstandingRecognitionOperations++;
@@ -487,9 +488,11 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
                         self.recognitionError = [NSError errorWithDomain:kKSCLiveScannerErrorDomain code:kKSCLiveScannerErrorServerResponseTooSlow userInfo:nil];
                     } else if (self.liveScannerMode == kKSCLiveScannerSingleShotMode) {
                         [self.delegate liveScanner:self capturedSingleImageWhileOffline:recognitionOperation.imageData atLocation:self.location];
-                        self.recognitionError = recognitionOperation.error;
                     }
                 }
+            }
+            if (!self.recognitionError) {
+                self.recognitionError = recognitionOperation.error;
             }
         });
     }
