@@ -9,9 +9,6 @@
 #import "KSCCustomToolbar.h"
 #import "KSCSDKConfig.h"
 
-#ifndef NSFoundationVersionNumber_iOS_6_1
-#define NSFoundationVersionNumber_iOS_6_1 993.00
-#endif
 
 @interface KSCCustomToolbar (/* Private */)
 
