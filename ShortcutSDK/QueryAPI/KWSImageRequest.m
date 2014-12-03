@@ -9,8 +9,8 @@
 #import "KWSImageRequest.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonHMAC.h>
-#import "KSCBase64Utils.h"
-#import "KSCUUIDUtils.h"
+#import "SCMBase64Utils.h"
+#import "SCMUUIDUtils.h"
 
 
 @interface KWSImageRequest (/* Private */)
@@ -40,7 +40,7 @@
 		self.queryURL = requestURL;
 		self.imageData = data;
 		self.bodyData = [NSMutableData data];
-		self.boundary = [KSCUUIDUtils generateUUID];
+		self.boundary = [SCMUUIDUtils generateUUID];
 	}
 	
 	return self;
@@ -162,7 +162,7 @@
     NSString* contentMD5 = [self md5DigestForData:self.bodyData];
     NSString* stringToSign = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@", httpMethod, contentMD5, contentType, dateValue, urlPath];
     NSData* signatureData = [self sha1DigestForString:stringToSign withKey:secretKey];
-    NSString *signature = [KSCBase64Utils encodeBase64WithData:signatureData];
+    NSString *signature = [SCMBase64Utils encodeBase64WithData:signatureData];
 	
 	// request header values
 	NSString* authorizationValue = [NSString stringWithFormat:@"KA %@:%@", accessKey, signature];

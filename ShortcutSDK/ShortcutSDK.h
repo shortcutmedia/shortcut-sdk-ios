@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 kooaba AG. All rights reserved.
 //
 
-#import "KSCSDKConfig.h"
+#import "SCMSDKConfig.h"
 
-#import "KSCCameraViewController.h"
-#import "KSCCameraViewControllerDelegate.h"
+#import "SCMCameraViewController.h"
+#import "SCMCameraViewControllerDelegate.h"
 
-#import "KSCRecognitionOperation.h"
-#import "KSCQueryResponse.h"
-#import "KSCQueryResult.h"
+#import "SCMRecognitionOperation.h"
+#import "SCMQueryResponse.h"
+#import "SCMQueryResult.h"
 
-#import "KSCItemViewController.h"
-#import "KSCQueryResultViewController.h"
+#import "SCMItemViewController.h"
+#import "SCMQueryResultViewController.h"
