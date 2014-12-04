@@ -382,7 +382,10 @@ typedef enum
 - (void)singleImageFailedRecognition
 {
     [self singleImageRecognitionFinished];
-    [self showCameraHelp];
+    
+    [self.cameraStatusView setStatusTitle:[SCMLocalization translationFor:@"LiveScannerItemNotRecognizedTitle" withDefaultValue:@"No results found"]
+                                 subtitle:nil];
+    [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
 }
 
 - (void)singleImageDidFailWithError:(NSError*)error
