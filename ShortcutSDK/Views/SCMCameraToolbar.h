@@ -11,6 +11,7 @@
 
 @interface SCMCameraToolbar : SCMCustomToolbar
 
+@property (nonatomic, strong, readonly) IBOutlet UIButton* doneButton;
 @property (nonatomic, strong, readonly) IBOutlet UIButton* cameraButton;
 @property (nonatomic, strong, readonly) IBOutlet UIButton* modeButton;
 

@@ -13,7 +13,6 @@
 
 @property (nonatomic, unsafe_unretained, readwrite) id<SCMCameraViewControllerDelegate> delegate;
 @property (nonatomic, strong, readwrite) CLLocation* location;
-@property (nonatomic, readwrite) BOOL scanQRCodes;
 @property (nonatomic, strong, readwrite) UIView* helpView;
 
 - (instancetype)init;

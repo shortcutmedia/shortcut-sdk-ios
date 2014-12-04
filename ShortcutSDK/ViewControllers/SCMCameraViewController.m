@@ -58,6 +58,8 @@ typedef enum
 @property (nonatomic, assign, readwrite) BOOL shouldResumeScanning;
 @property (nonatomic, strong, readwrite) NSData* previewImageData;
 @property (nonatomic, assign, readwrite) BOOL shouldShowNavigationBarWhenDisappearing;
+@property (nonatomic, assign, readwrite) BOOL scanQRCodes;
+@property (nonatomic, assign, readwrite) BOOL showDoneButton;
 
 - (IBAction)done:(id)sender;
 - (IBAction)takePicture:(id)sender;
@@ -113,6 +115,7 @@ typedef enum
 @synthesize previewImageData;
 @synthesize helpView;
 @synthesize shouldShowNavigationBarWhenDisappearing;
+@synthesize showDoneButton;
 
 #pragma mark - Live scanner configuration
 
@@ -287,6 +290,8 @@ typedef enum
 	[self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
     self.previewImageView.frame = self.previewView.bounds;
     
+    self.cameraToolbar.doneButton.hidden = !self.showDoneButton;
+    
     self.shouldShowNavigationBarWhenDisappearing = !self.navigationController.navigationBarHidden;
     self.navigationController.navigationBarHidden = YES;
 }
@@ -326,6 +331,21 @@ typedef enum
     
     self.navigationController.navigationBarHidden = !self.shouldShowNavigationBarWhenDisappearing;
 }
+
+#pragma mark - Delegate handling
+
+- (void)setDelegate:(id<SCMCameraViewControllerDelegate>)newDelegate
+{
+    delegate = newDelegate;
+    
+    // enable QR code scanning if delegate has related callback
+    self.scanQRCodes = [newDelegate respondsToSelector:@selector(cameraViewController:recognizedBarcode:atLocation:)];
+    
+    // show "Done" button if delegate has related callback
+    self.showDoneButton = [newDelegate respondsToSelector:@selector(cameraViewControllerDidFinish:)];
+}
+
+#pragma mark - UI
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -482,7 +502,9 @@ typedef enum
 - (IBAction)done:(id)sender
 {
 	self.shouldResumeScanning = NO;
-	[self.delegate cameraViewControllerDidFinish:self];
+    if ([self.delegate respondsToSelector:@selector(cameraViewControllerDidFinish:)]) {
+        [self.delegate cameraViewControllerDidFinish:self];
+    }
 }
 
 - (IBAction)takePicture:(id)sender
@@ -1033,7 +1055,9 @@ typedef enum
 
 - (void)liveScanner:(SCMLiveScanner*)scanner recognizedBarcode:(NSString*)text atLocation:(CLLocation*)location
 {
-    [self.delegate cameraViewController:self recognizedBarcode:text atLocation:location];
+    if ([self.delegate respondsToSelector:@selector(cameraViewController:recognizedBarcode:atLocation:)]) {
+        [self.delegate cameraViewController:self recognizedBarcode:text atLocation:location];
+    }
 }
 
 - (void)liveScanner:(SCMLiveScanner*)scanner capturedSingleImageWhileOffline:(NSData*)imageData atLocation:(CLLocation*)location
@@ -1041,12 +1065,16 @@ typedef enum
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self singleImageDidFailWithError:nil];
     }
-    [self.delegate cameraViewController:self capturedSingleImageWhileOffline:imageData atLocation:location];
+    if ([self.delegate respondsToSelector:@selector(cameraViewController:capturedSingleImageWhileOffline:atLocation:)]) {
+        [self.delegate cameraViewController:self capturedSingleImageWhileOffline:imageData atLocation:location];
+    }
 }
 
 - (void)liveScannerShouldClose:(SCMLiveScanner*)scanner
 {
-    [self.delegate cameraViewControllerDidFinish:self];
+    if ([self.delegate respondsToSelector:@selector(cameraViewControllerDidFinish:)]) {
+        [self.delegate cameraViewControllerDidFinish:self];
+    }
 }
 
 @end

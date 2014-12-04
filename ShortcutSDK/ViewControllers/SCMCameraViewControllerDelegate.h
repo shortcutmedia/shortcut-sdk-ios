@@ -14,7 +14,10 @@
 
 @protocol SCMCameraViewControllerDelegate <NSObject>
 
+@required
 - (void)cameraViewController:(SCMCameraViewController*)cameraViewController recognizedQuery:(SCMQueryResponse*)response atLocation:(CLLocation*)location fromImage:(NSData*)imageData;
+
+@optional
 - (void)cameraViewController:(SCMCameraViewController*)cameraViewController recognizedBarcode:(NSString*)text atLocation:(CLLocation*)location;
 - (void)cameraViewController:(SCMCameraViewController*)cameraViewController capturedSingleImageWhileOffline:(NSData*)imageData atLocation:(CLLocation*)location;
 
