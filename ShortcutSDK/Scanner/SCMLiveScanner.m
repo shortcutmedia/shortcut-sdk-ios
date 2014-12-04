@@ -454,10 +454,12 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
             if (!self.imageRecognized)
             {
                 self.imageRecognized = YES;
-                [self.delegate liveScanner:self
-                           recognizedImage:recognitionOperation.imageData
-                                atLocation:self.location
-                                withResponse:recognitionOperation.queryResponse];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate liveScanner:self
+                               recognizedImage:recognitionOperation.imageData
+                                    atLocation:self.location
+                                  withResponse:recognitionOperation.queryResponse];
+                });
 
                 // Cancel any other image operations
                 [self cancelAllOperations];
