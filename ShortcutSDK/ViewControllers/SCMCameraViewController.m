@@ -57,6 +57,7 @@ typedef enum
 @property (nonatomic, strong, readwrite) NSTimer* statusViewTimer;
 @property (nonatomic, assign, readwrite) BOOL shouldResumeScanning;
 @property (nonatomic, strong, readwrite) NSData* previewImageData;
+@property (nonatomic, assign, readwrite) BOOL shouldShowNavigationBarWhenDisappearing;
 
 - (IBAction)done:(id)sender;
 - (IBAction)takePicture:(id)sender;
@@ -111,6 +112,7 @@ typedef enum
 @synthesize shouldResumeScanning;
 @synthesize previewImageData;
 @synthesize helpView;
+@synthesize shouldShowNavigationBarWhenDisappearing;
 
 #pragma mark - Live scanner configuration
 
@@ -284,6 +286,9 @@ typedef enum
 	self.liveScanner.captureSessionController.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
 	[self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
     self.previewImageView.frame = self.previewView.bounds;
+    
+    self.shouldShowNavigationBarWhenDisappearing = !self.navigationController.navigationBarHidden;
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -318,6 +323,8 @@ typedef enum
 	[self.liveScanner removeObserver:self forKeyPath:@"currentImageIsUnrecognized"];
 	[self.liveScanner removeObserver:self forKeyPath:@"scanning"];
 	[self.liveScanner removeObserver:self forKeyPath:@"recognitionError"];
+    
+    self.navigationController.navigationBarHidden = !self.shouldShowNavigationBarWhenDisappearing;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -333,6 +340,11 @@ typedef enum
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
+{
+    return UIStatusBarAnimationNone;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
