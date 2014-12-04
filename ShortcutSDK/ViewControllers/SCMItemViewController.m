@@ -73,6 +73,7 @@
     [super viewDidLoad];
     
     self.webView.delegate = self;
+    self.webView.hidden = YES;
     if (self.initialRequest) {
         [self.webView loadRequest:self.initialRequest];
     }
@@ -105,6 +106,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)aWebView
 {
+    self.webView.hidden = NO;
     self.statusView.hidden = YES;
 }
 
