@@ -468,7 +468,7 @@ typedef enum
                 subtitle = [SCMLocalization translationFor:@"AuthenticationErrorBody" withDefaultValue:@"The image recognition service could not authenticate your request"];
             } else {
                 title = [SCMLocalization translationFor:@"RecognitionOperationFailedTitle" withDefaultValue:@"Recognition could not be completed"];
-                subtitle = [NSString stringWithFormat:@"Error code %d", error.code];
+                subtitle = [NSString stringWithFormat:@"Error code %ld", (long)error.code];
             }
             
             [self.cameraStatusView setStatusTitle:title subtitle:subtitle];
