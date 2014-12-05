@@ -29,7 +29,6 @@
 {
 	[super awakeFromNib];
 	
-	self.doneButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0, 0.0, 4.0);
 	[self.doneButton setTitle:[SCMLocalization translationFor:@"DoneButtonTitle" withDefaultValue:@"Done"]
                      forState:UIControlStateNormal];
 }

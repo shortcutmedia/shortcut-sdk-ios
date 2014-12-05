@@ -30,7 +30,6 @@
 {
 	[super awakeFromNib];
 	
-	self.cancelButton.titleEdgeInsets = UIEdgeInsetsMake(0.0, 4.0, 0.0, 4.0);
 	[self.cancelButton setTitle:[SCMLocalization translationFor:@"CancelButtonTitle" withDefaultValue:@"Cancel"] forState:UIControlStateNormal];
 	self.statusLabel.text = [SCMLocalization translationFor:@"ProcessingTitle" withDefaultValue:@"Processing…"];
 	self.activityIndicator.hidesWhenStopped = YES;

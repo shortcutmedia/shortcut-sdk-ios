@@ -349,6 +349,11 @@ typedef enum
     return NO;
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
@@ -357,11 +362,6 @@ typedef enum
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation
 {
     return UIStatusBarAnimationNone;
-}
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
 }
 
 #pragma mark - Single image handling
@@ -783,27 +783,21 @@ typedef enum
 {
 	[self.view insertSubview:self.previewImageView aboveSubview:self.previewView];
 	
-	self.progressToolbar.frame = self.cameraToolbar.frame;
-	if (animated)
-	{
+	if (animated) {
 		[UIView transitionFromView:self.cameraToolbar
-												toView:self.progressToolbar
-											duration:0.3
-											 options:UIViewAnimationOptionTransitionCrossDissolve
-										completion:^(BOOL finished) {
-										}];
-	}
-	else
-	{
-		[self.view insertSubview:self.progressToolbar aboveSubview:self.cameraToolbar];
-		[self.cameraToolbar removeFromSuperview];
+                            toView:self.progressToolbar
+                          duration:0.3
+                           options:UIViewAnimationOptionShowHideTransitionViews
+                        completion:nil];
+	} else {
+        self.cameraToolbar.hidden = YES;
+		self.progressToolbar.hidden = NO;
 	}
 	
 	self.infoButton.enabled = NO;
 	self.flashButton.enabled = NO;
 
-	if (animated)
-	{
+	if (animated) {
 		[UIView animateWithDuration:0.3
 										 animations:^{
                                              if (self.helpView) {
@@ -817,9 +811,7 @@ typedef enum
                                              }
 											 self.flashButton.hidden = YES;
 										 }];
-	}
-	else
-	{
+	} else {
         if (self.helpView) {
             self.infoButton.hidden = YES;
         }
@@ -830,16 +822,17 @@ typedef enum
 - (void)hideSingleImagePreview
 {
 	[self.previewImageView removeFromSuperview];
+    
 	[UIView transitionFromView:self.progressToolbar
-											toView:self.cameraToolbar
-										duration:0.3
-										 options:UIViewAnimationOptionTransitionCrossDissolve
-									completion:^(BOOL finished) {
-									}];
+                        toView:self.cameraToolbar
+                      duration:0.3
+                       options:UIViewAnimationOptionShowHideTransitionViews
+                    completion:nil];
 
 	self.infoButton.enabled = YES;
 	self.flashButton.enabled = YES;
-	[UIView animateWithDuration:0.3
+	
+    [UIView animateWithDuration:0.3
 									 animations:^{
                                          if (self.helpView) {
                                              self.infoButton.alpha = 1.0;
