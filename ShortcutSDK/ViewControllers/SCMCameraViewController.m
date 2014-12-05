@@ -44,10 +44,7 @@ typedef enum
 @property (nonatomic, strong, readwrite) IBOutlet SCMProgressToolbar* progressToolbar;
 @property (nonatomic, strong, readwrite) IBOutlet SCMCameraModeControl* cameraModeControl;
 @property (nonatomic, strong, readwrite) IBOutlet UIButton* infoButton;
-@property (nonatomic, strong, readwrite) IBOutlet UIImageView* infoButtonIcon;
 @property (nonatomic, strong, readwrite) IBOutlet UIButton* flashButton;
-@property (nonatomic, strong, readwrite) IBOutlet UIImageView* flashButtonIcon;
-@property (nonatomic, strong, readwrite) IBOutlet UIImageView* cameraButtonIcon;
 @property (nonatomic, strong, readwrite) IBOutlet UIImageView* previewImageView;
 @property (nonatomic, strong, readwrite) CALayer* scanLineView;
 @property (nonatomic, strong, readwrite) UITapGestureRecognizer* tapGestureRecognizer;
@@ -99,10 +96,7 @@ typedef enum
 @synthesize progressToolbar;
 @synthesize cameraModeControl;
 @synthesize infoButton;
-@synthesize infoButtonIcon;
 @synthesize flashButton;
-@synthesize flashButtonIcon;
-@synthesize cameraButtonIcon;
 @synthesize previewImageView;
 @synthesize scanLineView;
 @synthesize tapGestureRecognizer;
@@ -263,10 +257,7 @@ typedef enum
 	self.progressToolbar = nil;
 	self.cameraModeControl = nil;
 	self.infoButton = nil;
-	self.infoButtonIcon = nil;
 	self.flashButton = nil;
-	self.flashButtonIcon = nil;
-	self.cameraButtonIcon = nil;
 	self.previewImageView = nil;
 	self.scanLineView = nil;
 	self.tapGestureRecognizer = nil;
@@ -547,7 +538,6 @@ typedef enum
 	{
 		self.cameraModeControl.cameraMode = kCameraModeLiveScanning;
 		self.cameraToolbar.cameraButton.hidden = YES;
-		self.cameraButtonIcon.hidden = YES;
 		self.cameraZoomSlider.hidden = YES;
 		self.tapGestureRecognizer.enabled = NO;
 		self.pinchGestureRecognizer.enabled = NO;
@@ -556,7 +546,6 @@ typedef enum
 	{
 		self.cameraModeControl.cameraMode = kCameraModeSingleShot;
 		self.cameraToolbar.cameraButton.hidden = NO;
-		self.cameraButtonIcon.hidden = NO;
 		// Note: We don't need to unhide the camera zoom slider. It will show when the user actually zooms or taps.
 		self.tapGestureRecognizer.enabled = YES;
 		self.pinchGestureRecognizer.enabled = YES;
@@ -756,24 +745,22 @@ typedef enum
 	if ([self.liveScanner.captureSessionController hasFlashForCurrentMode])
 	{
 		self.flashButton.hidden = NO;
-		self.flashButtonIcon.hidden = NO;
 		if (self.liveScanner.captureSessionController.flashOn)
 		{
-			self.flashButtonIcon.image = [UIImage imageNamed:@"CameraFlashOnIcon"
-                                                    inBundle:[SCMSDKConfig SDKBundle]
-                               compatibleWithTraitCollection:nil];
+			self.flashButton.imageView.image = [UIImage imageNamed:@"CameraFlashOnIcon"
+                                                          inBundle:[SCMSDKConfig SDKBundle]
+                                     compatibleWithTraitCollection:nil];
 		}
 		else
 		{
-			self.flashButtonIcon.image = [UIImage imageNamed:@"CameraFlashOffIcon"
-                                                    inBundle:[SCMSDKConfig SDKBundle]
-                               compatibleWithTraitCollection:nil];
+			self.flashButton.imageView.image = [UIImage imageNamed:@"CameraFlashOffIcon"
+                                                          inBundle:[SCMSDKConfig SDKBundle]
+                                     compatibleWithTraitCollection:nil];
 		}
 	}
 	else
 	{
 		self.flashButton.hidden = YES;
-		self.flashButtonIcon.hidden = YES;
 	}
 }
 
@@ -781,11 +768,9 @@ typedef enum
 {
     if (self.helpView) {
         self.infoButton.hidden = NO;
-        self.infoButtonIcon.hidden = NO;
     }
     else {
         self.infoButton.hidden = YES;
-        self.infoButtonIcon.hidden = YES;
     }
 }
 
@@ -826,28 +811,22 @@ typedef enum
 										 animations:^{
                                              if (self.helpView) {
                                                  self.infoButton.alpha = 0.0;
-                                                 self.infoButtonIcon.alpha = 0.0;
                                              }
 											 self.flashButton.alpha = 0.0;
-											 self.flashButtonIcon.alpha = 0.0;
 										 }
 										 completion:^(BOOL finished) {
                                              if (self.helpView) {
                                                  self.infoButton.hidden = YES;
-                                                 self.infoButtonIcon.hidden = YES;
                                              }
 											 self.flashButton.hidden = YES;
-											 self.flashButtonIcon.hidden = YES;
 										 }];
 	}
 	else
 	{
         if (self.helpView) {
             self.infoButton.hidden = YES;
-            self.infoButtonIcon.hidden = YES;
         }
 		self.flashButton.hidden = YES;
-		self.flashButtonIcon.hidden = YES;
 	}
 }
 
@@ -867,18 +846,14 @@ typedef enum
 									 animations:^{
                                          if (self.helpView) {
                                              self.infoButton.alpha = 1.0;
-                                             self.infoButtonIcon.alpha = 1.0;
                                          }
 										 self.flashButton.alpha = 1.0;
-										 self.flashButtonIcon.alpha = 1.0;
 									 }
 									 completion:^(BOOL finished) {
                                          if (self.helpView) {
                                              self.infoButton.hidden = NO;
-                                             self.infoButtonIcon.hidden = NO;
                                          }
 										 self.flashButton.hidden = NO;
-										 self.flashButtonIcon.hidden = NO;
 									 }];
 }
 
@@ -1008,9 +983,9 @@ typedef enum
 	{
 		[UIView animateWithDuration:0.25
 										 animations:^{
-											 self.infoButtonIcon.transform = transform;
-											 self.flashButtonIcon.transform = transform;
-											 self.cameraButtonIcon.transform = transform;
+                                             self.infoButton.imageView.transform = transform;
+                                             self.flashButton.imageView.transform = transform;
+											 //self.cameraToolbar.cameraButton.imageView.transform = transform;
 											 self.cameraModeControl.singleShotIcon.transform = transform;
 											 self.cameraModeControl.liveScannerIcon.transform = transform;
 										 }];
