@@ -856,8 +856,7 @@ typedef enum
 
 - (void)startScanLineAnimation
 {
-	if (self.scanLineView.superlayer != nil)
-	{
+	if (self.scanLineView.superlayer != nil) {
 		// The scan line is already animating.
 		return;
 	}
@@ -865,31 +864,31 @@ typedef enum
 	UIViewAnimationOptions animationOptions = UIViewAnimationOptionCurveEaseInOut;
 	animationOptions = animationOptions | UIViewAnimationOptionAllowUserInteraction;
     
-    //double midX = CGRectGetMidX(self.previewView.bounds);
-    //double midY = CGRectGetMidY(self.previewView.bounds);
     double maxX = CGRectGetMaxX(self.previewView.bounds);
     double maxY = CGRectGetMaxY(self.previewView.bounds);
+    float lineWidth = 2;
     
 	self.scanLineView.frame = CGRectMake(-maxX, -maxY, maxX*2, maxY*2);
     CALayer *verticalLine = [CALayer layer];
-    CALayer *verticalLine2 = [CALayer layer];
-    verticalLine.frame = CGRectMake(0, maxY, maxX*2, 3);
+    verticalLine.frame = CGRectMake(0, maxY, maxX*2, lineWidth);
     CALayer *horizontalLine = [CALayer layer];
-    horizontalLine.frame = CGRectMake(maxX, 0, 3, maxY*2);
-    UIImage *color = [SCMImageUtils SDKBundleImageNamed:@"OrangeColor.png"];
-    verticalLine.contents = verticalLine2.contents = horizontalLine.contents = (id)(color.CGImage);
+    horizontalLine.frame = CGRectMake(maxX, 0, lineWidth, maxY*2);
+    
+    UIColor *color;
+    if ([self.view respondsToSelector:@selector(tintColor)]) {
+        color = self.view.tintColor;
+    } else {
+        color = [UIColor lightGrayColor];
+    }
+    verticalLine.backgroundColor = horizontalLine.backgroundColor = color.CGColor;
+    
     [self.scanLineView addSublayer:verticalLine];
-    [self.scanLineView addSublayer:verticalLine2];
     [self.scanLineView addSublayer:horizontalLine];
     
     UIBezierPath *movePath = [UIBezierPath bezierPath];
     [movePath moveToPoint:CGPointMake(maxX-1, maxY-1)];
     [movePath addLineToPoint:CGPointMake(1, 1)];
     [movePath addLineToPoint:CGPointMake(maxX-1, maxY-1)];
-    
-    /*[movePath addCurveToPoint:CGPointMake(maxX-40, maxY-40) controlPoint1:CGPointMake(midX+(midX/5.0), midY+(midY/3.0)) controlPoint2:CGPointMake(midX+(midX/3.0), midY+(midY/3.0*2))];
-    [movePath addCurveToPoint:CGPointMake(40, 40) controlPoint1:CGPointMake(maxX-(midX/2.0), midY) controlPoint2:CGPointMake(midX/2.0, midY/3.0)];
-    [movePath addCurveToPoint:CGPointMake(midX, midY) controlPoint1:CGPointMake(midX/5.0, midY/3.0) controlPoint2:CGPointMake(midX/3.0, midY/3.0*2)];*/
     
     CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     anim.path = movePath.CGPath;
@@ -903,8 +902,7 @@ typedef enum
 
 - (void)stopScanLineAnimation
 {
-	if (self.scanLineView.superlayer != nil)
-	{
+	if (self.scanLineView.superlayer != nil) {
 		[self.scanLineView removeAllAnimations];
 		[self.scanLineView removeFromSuperlayer];
 	}
