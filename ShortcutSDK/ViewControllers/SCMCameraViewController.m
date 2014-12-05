@@ -305,18 +305,24 @@ typedef enum
 	// While the camera is displayed, don't allow the device to go to sleep or dim the screen.
 	[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
-    if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning)
+    if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning) {
         [self startScanLineAnimation];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
+    
+    if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning) {
+        [self stopScanLineAnimation];
+    }
 
 	// Re-instate the idle timer.
 	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 	
 	[self.liveScanner stopScanning];
+    
 	[self.liveScanner removeObserver:self forKeyPath:@"currentImageIsUnrecognized"];
 	[self.liveScanner removeObserver:self forKeyPath:@"scanning"];
 	[self.liveScanner removeObserver:self forKeyPath:@"recognitionError"];
