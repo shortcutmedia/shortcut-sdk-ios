@@ -22,17 +22,12 @@
 	
 	if (sourceImage != NULL)
 	{
-//		DebugLog(@"source image %ld, %ld", CGImageGetWidth(sourceImage), CGImageGetHeight(sourceImage));
-//		NSDate* startScale = [NSDate date];
 		CGImageRef scaledImage = [self newScaledImageWithImage:sourceImage maxSize:maximumImageSize zoomFactor:zoomFactor];
-//		DebugLog(@"scaled image created %ld, %ld", CGImageGetWidth(scaledImage), CGImageGetHeight(scaledImage));
 		
-		// NSDate* startCompress = [NSDate date];
 		imageData = [[NSMutableData alloc] init];
 		CGImageDestinationRef imageDestination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)imageData, kUTTypeJPEG, 1, NULL);
 		if (imageDestination != NULL)
 		{
-//			DebugLog(@"compressing image with quality %f", compressionQuality);
 			NSMutableDictionary* imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
 			[imageProperties setObject:[NSNumber numberWithInteger:imageOrientation] forKey:(NSString*)kCGImagePropertyOrientation];
 			[imageProperties setObject:[NSNumber numberWithFloat:compressionQuality] forKey:(NSString*)kCGImageDestinationLossyCompressionQuality];
@@ -48,8 +43,6 @@
 		}
 		
 		CGImageRelease(scaledImage);
-		// NSDate* endScale = [NSDate date];
-		// DebugLog(@"scaledImageDataWithImage: %f (compress %f)", [endScale timeIntervalSinceDate:startScale], [endScale timeIntervalSinceDate:startCompress]);
 	}
 	
 	return imageData;
@@ -66,9 +59,7 @@
 		
 		if (sourceImage != NULL)
 		{
-//			DebugLog(@"source image created %ld, %ld", CGImageGetWidth(sourceImage), CGImageGetHeight(sourceImage));
 			CGImageRef scaledImage = [self newScaledImageWithImage:sourceImage maxSize:maximumImageSize zoomFactor:zoomFactor];
-//			DebugLog(@"scaled image created %ld, %ld", CGImageGetWidth(scaledImage), CGImageGetHeight(scaledImage));
 			
 			imageData = [NSMutableData data];
 			CGImageDestinationRef imageDestination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)imageData, kUTTypeJPEG, 1, NULL);
@@ -110,7 +101,6 @@
 	{
 		// The image does not need scaling, return the original with a +1 retain count so that this method
 		// always returns an object with a +1 retain count.
-//		DebugLog(@"image (%ld, %ld) does not need scaling (%f)", width, height, size);
 		return CGImageRetain(sourceImage);
 	}
 	
@@ -151,19 +141,16 @@
 	CGRect r = CGRectMake(x, y, width, height);
 	
 	// Create the context that's thumbnailSize x thumbnailSize.
-	
 	CGContextRef context = CGBitmapContextCreate(NULL, imageWidth, imageHeight, 8, 0, space, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
 	if (context != NULL)
 	{
 		// Make sure anything we don't cover comes out white. There's a possibility 
 		// that we're dealing with a transparent PNG.
-		
 		CGContextSetFillColorWithColor(context, white);
 		CGContextFillRect(context, CGRectMake(0.0f, 0.0f, imageWidth, imageHeight));
 		
 		// Draw the source image and get then create the thumbnail from the 
-		// context. 
-		
+		// context.
 		CGContextDrawImage(context, r, sourceImage);
 		
 		scaledImage = CGBitmapContextCreateImage(context);
@@ -189,7 +176,6 @@
 	// thumbnail.  That is, for a tall image, we scale it so that the 
 	// width matches thumbnailSize and the it's centered vertically.  
 	// Similarly for a wide image.
-	
 	CGFloat x = 0.0;
 	CGFloat y = 0.0;
 	CGFloat width = CGImageGetWidth(sourceImage);
@@ -212,20 +198,17 @@
 	CGRect r = CGRectMake(x, y, width, height);
 	
 	// Create the context that's thumbnailSize x thumbnailSize.
-	
 	CGContextRef context = CGBitmapContextCreate(NULL, thumbnailSize, thumbnailSize, 8, 0,
 																							 space, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
 	if (context != NULL)
 	{
 		// Make sure anything we don't cover comes out white. There's a possibility 
 		// that we're dealing with a transparent PNG.
-		
 		CGContextSetFillColorWithColor(context, white);
 		CGContextFillRect(context, CGRectMake(0.0f, 0.0f, thumbnailSize, thumbnailSize));
 		
 		// Draw the source image and get then create the thumbnail from the 
-		// context. 
-		
+		// context.
 		CGContextDrawImage(context, r, sourceImage);
 		
 		scaledImage = CGBitmapContextCreateImage(context);
@@ -254,7 +237,6 @@
 		if (cgImage != NULL)
 		{
 			image = [[UIImage alloc] initWithCGImage:cgImage scale:1.0 orientation:uiOrientation];
-//			DebugLog(@"imageWithCompressedData: %f, %f (%d)", image.size.width, image.size.height, image.imageOrientation);
 		}
 		
 		CGImageRelease(cgImage);
@@ -275,7 +257,6 @@
 		NSNumber* orientation = [(__bridge NSDictionary*)imageProperties objectForKey:(NSString*)kCGImagePropertyOrientation];
 		UIImageOrientation uiOrientation = [UIImage uiImageOrientationForCGImageOrientation:orientation];
 		CFRelease(imageProperties);
-//		DebugLog(@"image orientation in source (for thumbnail): %d", uiOrientation);
 		
 		CGImageRef cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
 		if (cgImage != NULL)
@@ -284,7 +265,6 @@
 			if (thumbnailImage != NULL)
 			{
 				thumbnail = [[UIImage alloc] initWithCGImage:thumbnailImage scale:1.0 orientation:uiOrientation];
-//				DebugLog(@"thumbnailWithCompressedData: %f, %f (%d)", thumbnail.size.width, thumbnail.size.height, thumbnail.imageOrientation);
 				CGImageRelease(thumbnailImage);
 			}
 			
@@ -301,46 +281,27 @@
 {
 	UIImage* image = nil;
 
-	if (CGImageSourceCreateWithURL == NULL)
-	{
-		NSData* imageData = [NSData dataWithContentsOfURL:imageURL];
-		if (imageData != nil)
-		{
-			image = [UIImage imageWithData:imageData];
-		}
-	}
-	else
-	{
-		CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)imageURL, NULL);
-		if (imageSource != NULL)
-		{
-			UIImageOrientation uiOrientation = UIImageOrientationUp;
-			CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
-			if (imageProperties != NULL)
-			{
-				NSNumber* orientation = [(__bridge NSDictionary*)imageProperties objectForKey:(NSString*)kCGImagePropertyOrientation];
-				uiOrientation = [UIImage uiImageOrientationForCGImageOrientation:orientation];
-//				DebugLog(@"imageFromURL:(%@)\n%@", imageURL, (NSDictionary*)imageProperties);
-				CFRelease(imageProperties);
-			}
-			
-			NSDictionary* imageSourceProps = [NSDictionary dictionaryWithObjectsAndKeys:(NSString*)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint, nil];
-			CGImageRef cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, (__bridge CFDictionaryRef)imageSourceProps);
-			if (cgImage != NULL)
-			{
-				//			DebugLog(@"imageFromURL orientation: %d", uiOrientation);
-				image = [UIImage imageWithCGImage:cgImage scale:1.0 orientation:uiOrientation];
-				//			DebugLog(@"imageFromURL (%f, %f) (%d)", image.size.width, image.size.height, image.imageOrientation);
-				CFRelease(cgImage);
-			}
-			CFRelease(imageSource);
-		}
-	}
-
-//	if (image != nil)
-//	{
-//		DebugLog(@"loaded image size %f, %f (%d)", image.size.width, image.size.height, image.imageOrientation);
-//	}
+    CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)imageURL, NULL);
+    if (imageSource != NULL)
+    {
+        UIImageOrientation uiOrientation = UIImageOrientationUp;
+        CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
+        if (imageProperties != NULL)
+        {
+            NSNumber* orientation = [(__bridge NSDictionary*)imageProperties objectForKey:(NSString*)kCGImagePropertyOrientation];
+            uiOrientation = [UIImage uiImageOrientationForCGImageOrientation:orientation];
+            CFRelease(imageProperties);
+        }
+        
+        NSDictionary* imageSourceProps = [NSDictionary dictionaryWithObjectsAndKeys:(NSString*)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint, nil];
+        CGImageRef cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, (__bridge CFDictionaryRef)imageSourceProps);
+        if (cgImage != NULL)
+        {
+            image = [UIImage imageWithCGImage:cgImage scale:1.0 orientation:uiOrientation];
+            CFRelease(cgImage);
+        }
+        CFRelease(imageSource);
+    }
 	
 	return image;
 }
@@ -349,55 +310,30 @@
 {
 	UIImage* image = nil;
 	
-	if (CGImageSourceCreateWithURL == NULL)
-	{
-		NSData* imageData = [NSData dataWithContentsOfURL:imageURL];
-		if (imageData != nil)
-		{
-			UIImage* fullImage = [UIImage imageWithData:imageData];
-			if (fullImage != nil)
-			{
-				CGImageRef thumbnailImage = [self newThumbnailFromImage:[fullImage CGImage] withSize:maxSize];
-				image = [UIImage imageWithCGImage:thumbnailImage];
-				CGImageRelease(thumbnailImage);
-			}
-		}
-	}
-	else
-	{
-		CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)imageURL, NULL);
-		if (imageSource != NULL)
-		{
-			UIImageOrientation uiOrientation = UIImageOrientationUp;
-			CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
-			if (imageProperties != NULL)
-			{
-				NSNumber* orientation = [(__bridge NSDictionary*)imageProperties objectForKey:(NSString*)kCGImagePropertyOrientation];
-				uiOrientation = [UIImage uiImageOrientationForCGImageOrientation:orientation];
-//				DebugLog(@"thumbnailFromURL:(%@)\n%@", imageURL, (NSDictionary*)imageProperties);
-				CFRelease(imageProperties);
-			}
-			
-			NSDictionary* imageSourceProps = [NSDictionary dictionaryWithObjectsAndKeys:(NSString*)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint, nil];
-			CGImageRef cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, (__bridge CFDictionaryRef)imageSourceProps);
-			if (cgImage != NULL)
-			{
-				CGImageRef thumbnailImage = [self newThumbnailFromImage:cgImage withSize:maxSize];
-				//			DebugLog(@"thumbnailFromURL orientation: %d", uiOrientation);
-				image = [UIImage imageWithCGImage:cgImage scale:1.0 orientation:uiOrientation];
-				//			DebugLog(@"thumbnailFromURL (%f, %f) (%d)", image.size.width, image.size.height, image.imageOrientation);
-				CFRelease(cgImage);
-				CGImageRelease(thumbnailImage);
-			}
-			CFRelease(imageSource);
-		}
-	}
-	
-//	if (image != nil)
-//	{
-//		DebugLog(@"loaded thumbnail size %f, %f (%d)", image.size.width, image.size.height, image.imageOrientation);
-//	}
-	
+    CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)imageURL, NULL);
+    if (imageSource != NULL)
+    {
+        UIImageOrientation uiOrientation = UIImageOrientationUp;
+        CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
+        if (imageProperties != NULL)
+        {
+            NSNumber* orientation = [(__bridge NSDictionary*)imageProperties objectForKey:(NSString*)kCGImagePropertyOrientation];
+            uiOrientation = [UIImage uiImageOrientationForCGImageOrientation:orientation];
+            CFRelease(imageProperties);
+        }
+        
+        NSDictionary* imageSourceProps = [NSDictionary dictionaryWithObjectsAndKeys:(NSString*)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint, nil];
+        CGImageRef cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, (__bridge CFDictionaryRef)imageSourceProps);
+        if (cgImage != NULL)
+        {
+            CGImageRef thumbnailImage = [self newThumbnailFromImage:cgImage withSize:maxSize];
+            image = [UIImage imageWithCGImage:cgImage scale:1.0 orientation:uiOrientation];
+            CFRelease(cgImage);
+            CGImageRelease(thumbnailImage);
+        }
+        CFRelease(imageSource);
+    }
+    
 	return image;
 }
 
@@ -461,15 +397,12 @@
     
     CGColorSpaceRelease(colorSpace);
     CVPixelBufferUnlockBaseAddress(imageBuffer,0);
-    /* CVBufferRelease(imageBuffer); */
     
     return newImage;
 }
 
 + (NSData*)compressedImageDataFromSampleBuffer:(CMSampleBufferRef)sampleBuffer size:(CGSize)size compression:(CGFloat)compression
 {
-	// NSDate* startCompressImage = [NSDate date];
-	
 	CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 	
 	// Lock the base address of the pixel buffer.
@@ -550,17 +483,12 @@
 	}
 	
 	CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
-	
-	// NSDate* endCompressImage = [NSDate date];
-	// DebugLog(@"compressedImageDataFromSampleBuffer: %f", [endCompressImage timeIntervalSinceDate:startCompressImage]);
 
 	return compressedImageData;
 }
 
 + (CGImageRef)newScaledImageFromSampleBuffer:(CMSampleBufferRef)sampleBuffer size:(CGSize)size
 {
-	// NSDate* startScaleImage = [NSDate date];
-	
 	CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 	
 	// Lock the base address of the pixel buffer.
@@ -630,16 +558,11 @@
 		
 	CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
 	
-	// NSDate* endScaleImage = [NSDate date];
-	// DebugLog(@"vScaledImageFromSampleBuffer: %f", [endScaleImage timeIntervalSinceDate:startScaleImage]);
-	
 	return imageRef;
 }
 
 + (NSData*)JPEGDataFromCGImage:(CGImageRef)sourceImage compression:(CGFloat)compression
 {
-	// NSDate* startCompressImage = [NSDate date];
-	
 	NSMutableData* compressedImageData = nil;
 	
 	if (sourceImage != NULL)
@@ -660,9 +583,6 @@
 			}
 			
 			CFRelease(imageDestination);
-			// NSDate* endCompressImage = [NSDate date];
-			
-			// DebugLog(@"JPEGDataFromCGImage: %f", [endCompressImage timeIntervalSinceDate:startCompressImage]);
 		}
 	}
 	
@@ -671,8 +591,6 @@
 
 + (NSData*)JPEGDataFromSampleBuffer:(CMSampleBufferRef)sampleBuffer compression:(CGFloat)compression
 {
-	// NSDate* startCompressImage = [NSDate date];
-	
 	NSMutableData* compressedImageData = nil;
 	
 	CGImageRef sourceImage = [self newImageFromSampleBuffer:sampleBuffer];
@@ -694,9 +612,6 @@
 			}
 			
 			CFRelease(imageDestination);
-			// NSDate* endCompressImage = [NSDate date];
-			
-			// DebugLog(@"JPEGDataFromSampleBuffer: %f", [endCompressImage timeIntervalSinceDate:startCompressImage]);
 		}
 	}
 	
@@ -707,8 +622,6 @@
 
 + (NSData*)scaledJPEGDataFromJPEGData:(NSData*)jpegData maxSize:(CGFloat)maxSize compression:(CGFloat)compression
 {
-	// NSDate* startScaleJPEGData = [NSDate date];
-	
 	NSMutableData* scaledImageData = [[NSMutableData alloc] init];
 	CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)jpegData, NULL);
 	if (imageSource != NULL)
@@ -739,16 +652,11 @@
 		CFRelease(imageSource);
 	}
 	
-	// NSDate* endScaleJPEGData = [NSDate date];
-	// DebugLog(@"scaledJPEGDataFromJPEGData: %f", [endScaleJPEGData timeIntervalSinceDate:startScaleJPEGData]);
-	
 	return scaledImageData;
 }
 
 + (NSData*)scaledImageFromSampleBuffer:(CMSampleBufferRef)sampleBuffer maxSize:(CGFloat)maxSize compression:(CGFloat)compressionQuality
 {
-	// NSDate* startCompressImage = [NSDate date];
-
 	CGImageRef sourceImage = [self newImageFromSampleBuffer:sampleBuffer];
 	DebugLog(@"source image width/height: %ld, %ld", CGImageGetWidth(sourceImage), CGImageGetHeight(sourceImage));
 
@@ -758,7 +666,6 @@
 	if (sourceImage != NULL)
 	{
 		imageData = [[NSMutableData alloc] init];
-		// NSDate* startImageDest = [NSDate date];
 		CGImageDestinationRef imageDestination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)imageData, kUTTypeJPEG, 1, NULL);
 		if (imageDestination != NULL)
 		{
@@ -773,7 +680,6 @@
 			}
 			
 			CFRelease(imageDestination);
-			// NSDate* endImageDest = [NSDate date];
 			
 			CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)imageData, NULL);
 			if (imageSource != NULL)
@@ -783,8 +689,6 @@
 																 [NSNumber numberWithFloat:maxSize], kCGImageSourceThumbnailMaxPixelSize,
 																 nil];
 				CGImageRef thumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, (__bridge CFDictionaryRef)options);
-				//			DebugLog(@"source: %ld,%ld thumbnail: %ld,%ld", CGImageGetWidth(sourceImage), CGImageGetHeight(sourceImage),
-				//							 CGImageGetWidth(thumbnail), CGImageGetHeight(thumbnail));
 				compressedImageData = [[NSMutableData alloc] init];
 				CGImageDestinationRef compressedImageDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)compressedImageData, kUTTypeJPEG, 1, NULL);
 				if (compressedImageDest != NULL)
@@ -802,10 +706,6 @@
 				CGImageRelease(thumbnail);
 				CFRelease(imageSource);
 			}
-			
-			// NSDate* endCompressImage = [NSDate date];
-			// DebugLog(@"scaledImageDataFromSampleBuffer: %f (dest %f)", [endCompressImage timeIntervalSinceDate:startCompressImage],
-							 // [endImageDest timeIntervalSinceDate:startImageDest]);
 		}
 	}
 	
