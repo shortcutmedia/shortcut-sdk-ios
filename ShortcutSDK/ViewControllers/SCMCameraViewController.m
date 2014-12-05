@@ -18,6 +18,7 @@
 #import "SCMLiveScannerDelegate.h"
 #import "SCMSDKConfig.h"
 #import "SCMLocalization.h"
+#import "SCMImageUtils.h"
 
 static NSString* kUnrecognizedChanged = @"unrecognized changed";
 static NSString* kScanningStatusChanged = @"scanning status changed";
@@ -747,15 +748,11 @@ typedef enum
 		self.flashButton.hidden = NO;
 		if (self.liveScanner.captureSessionController.flashOn)
 		{
-			self.flashButton.imageView.image = [UIImage imageNamed:@"CameraFlashOnIcon"
-                                                          inBundle:[SCMSDKConfig SDKBundle]
-                                     compatibleWithTraitCollection:nil];
+			self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOnIcon"];
 		}
 		else
 		{
-			self.flashButton.imageView.image = [UIImage imageNamed:@"CameraFlashOffIcon"
-                                                          inBundle:[SCMSDKConfig SDKBundle]
-                                     compatibleWithTraitCollection:nil];
+			self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOffIcon"];
 		}
 	}
 	else
@@ -879,9 +876,7 @@ typedef enum
     verticalLine.frame = CGRectMake(0, maxY, maxX*2, 3);
     CALayer *horizontalLine = [CALayer layer];
     horizontalLine.frame = CGRectMake(maxX, 0, 3, maxY*2);
-    UIImage *color = [UIImage imageNamed:@"OrangeColor.png"
-                                inBundle:[SCMSDKConfig SDKBundle]
-           compatibleWithTraitCollection:nil];
+    UIImage *color = [SCMImageUtils SDKBundleImageNamed:@"OrangeColor.png"];
     verticalLine.contents = verticalLine2.contents = horizontalLine.contents = (id)(color.CGImage);
     [self.scanLineView addSublayer:verticalLine];
     [self.scanLineView addSublayer:verticalLine2];

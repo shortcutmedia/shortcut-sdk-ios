@@ -7,7 +7,7 @@
 //
 
 #import "SCMCameraZoomSlider.h"
-#import "SCMSDKConfig.h"
+#import "SCMImageUtils.h"
 
 
 const CGFloat kTrackLeftMargin = 10.0;
@@ -90,24 +90,12 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 {
 	[super awakeFromNib];
 
-	self.trackMinImage = [UIImage imageNamed:@"PLCameraZoomTrackMin"
-                                    inBundle:[SCMSDKConfig SDKBundle]
-               compatibleWithTraitCollection:nil];
-	self.trackMaxImage = [UIImage imageNamed:@"PLCameraZoomTrackMax"
-                                    inBundle:[SCMSDKConfig SDKBundle]
-               compatibleWithTraitCollection:nil];
-	self.trackImage = [[UIImage imageNamed:@"PLCameraZoomTrack"
-                                  inBundle:[SCMSDKConfig SDKBundle]
-             compatibleWithTraitCollection:nil] stretchableImageWithLeftCapWidth:8.0 topCapHeight:0.0];
-	self.thumbImage = [UIImage imageNamed:@"PLCameraZoomThumb"
-                                 inBundle:[SCMSDKConfig SDKBundle]
-            compatibleWithTraitCollection:nil];
-	self.minusImage = [UIImage imageNamed:@"PLCameraZoomMin"
-                                 inBundle:[SCMSDKConfig SDKBundle]
-            compatibleWithTraitCollection:nil];
-	self.plusImage = [UIImage imageNamed:@"PLCameraZoomMax"
-                                inBundle:[SCMSDKConfig SDKBundle]
-           compatibleWithTraitCollection:nil];
+	self.trackMinImage = [SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomTrackMin"];
+	self.trackMaxImage = [SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomTrackMax"];
+	self.trackImage = [[SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomTrack"] stretchableImageWithLeftCapWidth:8.0 topCapHeight:0.0];
+	self.thumbImage = [SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomThumb"];
+	self.minusImage = [SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomMin"];
+	self.plusImage = [SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomMax"];
 	self.backgroundColor = [UIColor clearColor];
 	
 	// These are initialized without the accessors. If accessors are used, then maxScale must be set first, since

@@ -11,6 +11,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "SCMImageUtils.h"
 #import "UIImage+ImageOrientation.h"
+#import "SCMSDKConfig.h"
 
 
 @implementation SCMImageUtils
@@ -811,6 +812,16 @@
 	CGImageRelease(sourceImage);
 	
 	return compressedImageData;
+}
+
++ (UIImage*)SDKBundleImageNamed:(NSString *)fileName
+{
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
+        return [UIImage imageNamed:fileName inBundle:[SCMSDKConfig SDKBundle] compatibleWithTraitCollection:nil];
+    }
+#endif
+    return [UIImage imageNamed:[NSString stringWithFormat:@"ShortcutSDK.bundle/%@", fileName]];
 }
 
 @end

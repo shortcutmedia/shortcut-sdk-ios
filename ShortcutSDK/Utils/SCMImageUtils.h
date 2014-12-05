@@ -30,4 +30,6 @@
 
 + (CGImageRef)newImageForZXingFromSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 
++ (UIImage*)SDKBundleImageNamed:(NSString*)fileName;
+
 @end
