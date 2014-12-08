@@ -26,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7" userLabel="Preview View">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="SCMCameraToolbar">
@@ -187,6 +187,7 @@
                 <constraint firstItem="7" firstAttribute="top" secondItem="1" secondAttribute="top" id="ZHk-Rz-MyE"/>
                 <constraint firstAttribute="centerY" secondItem="68" secondAttribute="centerY" id="Zcm-aU-meI"/>
                 <constraint firstAttribute="trailing" secondItem="89" secondAttribute="trailing" id="bPt-dU-WvP"/>
+                <constraint firstItem="4" firstAttribute="top" secondItem="7" secondAttribute="bottom" id="fXk-T3-IVa"/>
                 <constraint firstItem="8" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="hKA-KP-L5c"/>
                 <constraint firstAttribute="centerX" secondItem="68" secondAttribute="centerX" id="hnc-Qm-LEh"/>
                 <constraint firstItem="89" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="mgN-4U-Z4n"/>
@@ -194,6 +195,11 @@
                 <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="20" symbolic="YES" id="rNo-ig-pHJ"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="3ld-sj-tql"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="140" y="154"/>
         </view>
         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="88" userLabel="Single Shot Image View">
