@@ -10,7 +10,6 @@
 
 
 static const NSInteger kLiveScanningCaptureSize = 1280;
-static NSString* kAdjustingFocusChanged = @"adjustingFocus changed";
 
 @interface SCMCaptureSessionController (/* Private */)
 
@@ -23,7 +22,6 @@ static NSString* kAdjustingFocusChanged = @"adjustingFocus changed";
 @property (nonatomic, strong, readwrite) AVCaptureConnection* liveVideoConnection;
 @property (nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer* previewLayer;
 @property (nonatomic, assign, readwrite) SCMCaptureSessionMode captureSessionMode;
-@property (nonatomic, assign, readwrite) BOOL hasAutofocused;
 @property (atomic, assign, readwrite) BOOL running;
 
 - (void)turnTorchOff;
@@ -44,7 +42,6 @@ static NSString* kAdjustingFocusChanged = @"adjustingFocus changed";
 @synthesize liveVideoConnection;
 @synthesize previewLayer;
 @synthesize captureSessionMode;
-@synthesize hasAutofocused;
 @synthesize running;
 
 - (id)init
@@ -161,9 +158,7 @@ static NSString* kAdjustingFocusChanged = @"adjustingFocus changed";
 {
 	if (self.running == NO)
 	{
-		self.hasAutofocused = NO;
 		self.running = YES;
-		[self.captureDevice addObserver:self forKeyPath:@"adjustingFocus" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:&kAdjustingFocusChanged];
 		[self.captureSession startRunning];
 	}
 	else
@@ -275,13 +270,6 @@ static NSString* kAdjustingFocusChanged = @"adjustingFocus changed";
 		{
 			self.liveVideoConnection.videoMinFrameDuration = minimumFrameDuration;
 		}
-		
-		// Disabling the video connection in iOS 5 allows the camera to perform an autofocus up to 3 seconds faster.
-		// Note: For iOS 4 and earlier, enabling the video connection later can take 1.5 seconds and causes the preview
-		//       to noticeably change while the connection is enabled.
-		//       The good news for iOS 4 is that it does not suffer the same autofocus problem upon startup.
-		//       Therefore, we only disable the video connection on iOS 5.
-		self.liveVideoConnection.enabled = NO;
 	}
 	else
 	{
@@ -293,7 +281,6 @@ static NSString* kAdjustingFocusChanged = @"adjustingFocus changed";
 	{
 		dispatch_queue_t frameQueue = dispatch_queue_create("VideoFrameQueue", NULL);
 		[self.videoCaptureOutput setSampleBufferDelegate:self.sampleBufferDelegate queue:frameQueue];
-		// dispatch_release(frameQueue);
 	}
 	else
 	{
@@ -311,41 +298,18 @@ static NSString* kAdjustingFocusChanged = @"adjustingFocus changed";
 	[self.captureSession commitConfiguration];
 	DebugLog(@"captureSession preset %@", self.captureSession.sessionPreset);
 
-	self.hasAutofocused = NO;
+	self.liveVideoConnection.enabled = YES;
 }
 
 - (void)stopSession
 {
 	if (self.running)
 	{
-		[self.captureDevice removeObserver:self forKeyPath:@"adjustingFocus"];
-
 		// Turn the torch off if it was on. Better not to leave it in an on state.
 		[self turnTorchOff];
+        
 		[self.captureSession stopRunning];
 		self.running = NO;
-	}
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	if (context == &kAdjustingFocusChanged)
-	{
-		DebugLog(@"autofocusing: %@", [change objectForKey:NSKeyValueChangeNewKey]);
-		if (self.hasAutofocused == NO)
-		{
-			NSNumber* oldValue = [change objectForKey:NSKeyValueChangeOldKey];
-			NSNumber* newValue = [change objectForKey:NSKeyValueChangeNewKey];
-			if ([oldValue boolValue] && [newValue boolValue] == NO)
-			{
-				// The camera just stopped autofocusing for the first time. Enable the video connection so that we start receiving frames.
-				if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode)
-				{
-					self.liveVideoConnection.enabled = YES;
-				}
-				self.hasAutofocused = YES;
-			}
-		}
 	}
 }
 
