@@ -219,9 +219,7 @@ typedef enum
 
 	self.cameraStatusView.hidden = YES;
 	self.cameraStatusView.alpha = 0.0;
-	
-	self.scanLineView = [CALayer layer];
-		
+			
 	[self updateModeStatus];
 	[self updateFlashStatus];
     [self updateInfoStatus];
@@ -855,7 +853,7 @@ typedef enum
 
 - (void)startScanLineAnimation
 {
-	if (self.scanLineView.superlayer != nil) {
+	if (self.scanLineView != nil) {
 		// The scan line is already animating.
 		return;
 	}
@@ -865,13 +863,16 @@ typedef enum
     
     double maxX = CGRectGetMaxX(self.previewView.bounds);
     double maxY = CGRectGetMaxY(self.previewView.bounds);
-    float lineWidth = 2;
+    double lineLength = MAX(maxX, maxY) * 2;
+    double lineWidth = 2;
     
+    self.scanLineView = [CALayer layer];
 	self.scanLineView.frame = CGRectMake(-maxX, -maxY, maxX*2, maxY*2);
+    
     CALayer *verticalLine = [CALayer layer];
-    verticalLine.frame = CGRectMake(0, maxY, maxX*2, lineWidth);
+    verticalLine.frame = CGRectMake(0, maxY, lineLength, lineWidth);
     CALayer *horizontalLine = [CALayer layer];
-    horizontalLine.frame = CGRectMake(maxX, 0, lineWidth, maxY*2);
+    horizontalLine.frame = CGRectMake(maxX, 0, lineWidth, lineLength);
     
     UIColor *color;
     if ([self.view respondsToSelector:@selector(tintColor)]) {
@@ -901,10 +902,8 @@ typedef enum
 
 - (void)stopScanLineAnimation
 {
-	if (self.scanLineView.superlayer != nil) {
-		[self.scanLineView removeAllAnimations];
-		[self.scanLineView removeFromSuperlayer];
-	}
+    [self.scanLineView removeFromSuperlayer];
+    self.scanLineView = nil;
 }
 
 - (void)updateImageNotRecognizedStatus
@@ -936,31 +935,30 @@ typedef enum
 
 - (void)updateIconOrientation
 {
-	UIDevice* device = [UIDevice currentDevice];
-	
-	BOOL rotate = NO;
+    // if the interface does rotate then do not rotate the icons
+    if (self.interfaceOrientation != UIInterfaceOrientationPortrait) {
+        return;
+    }
+    
 	CGAffineTransform transform = CGAffineTransformIdentity;
 	
-	switch (device.orientation)
+	switch ([UIDevice currentDevice].orientation)
 	{
 		case UIDeviceOrientationPortrait:
 		{
 			transform = CGAffineTransformIdentity;
-			rotate = YES;
 		}
 			break;
 			
 		case UIDeviceOrientationLandscapeLeft:
 		{
 			transform = CGAffineTransformMakeRotation(M_PI_2);
-			rotate = YES;
 		}
 			break;
 			
 		case UIDeviceOrientationLandscapeRight:
 		{
 			transform = CGAffineTransformMakeRotation(-M_PI_2);
-			rotate = YES;
 		}
 			break;
 			
@@ -970,23 +968,37 @@ typedef enum
 		case UIDeviceOrientationFaceDown:
 			break;
 	}
-	
-	if (rotate)
-	{
-		[UIView animateWithDuration:0.25
-										 animations:^{
-                                             self.infoButton.imageView.transform = transform;
-                                             self.flashButton.imageView.transform = transform;
-											 //self.cameraToolbar.cameraButton.imageView.transform = transform;
-											 self.cameraModeControl.singleShotIcon.transform = transform;
-											 self.cameraModeControl.liveScannerIcon.transform = transform;
-										 }];
-	}
-}
 
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         self.infoButton.imageView.transform = transform;
+                         self.flashButton.imageView.transform = transform;
+                         //self.cameraToolbar.cameraButton.imageView.transform = transform;
+                         self.cameraModeControl.singleShotIcon.transform = transform;
+                         self.cameraModeControl.liveScannerIcon.transform = transform;
+                     }];
+}
 - (void)deviceOrientationDidChange:(NSNotification*)notification
 {
-	[self updateIconOrientation];
+    [self updateIconOrientation];
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
+        [self stopScanLineAnimation];
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    
+    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
+        [self startScanLineAnimation];
+    }
 }
 
 #pragma mark - UINavigationControllerDelegate
