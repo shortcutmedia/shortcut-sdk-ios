@@ -60,6 +60,13 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
 	[self stopSession];
 }
 
+- (CMTime)minimumLiveScanningFrameDuration
+{
+    // Note: This needs to stay at 15fps. Otherwise, the display looks really slow. iOS will automatically throttle our
+    //       frame rate if we take longer than 1/15s to process an image.
+    return CMTimeMake(1, 15);
+}
+
 + (BOOL)authorizedForVideoCapture
 {
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
@@ -260,23 +267,11 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
 		}
 	}
 	
-	// Note: This needs to stay at 15fps. Otherwise, the display looks really slow. iOS will automatically throttle our
-	//       frame rate if we take longer than 1/15s to process an image.
-	CMTime minimumFrameDuration = CMTimeMake(1, 15);
-	if ([AVCaptureConnection instancesRespondToSelector:@selector(isVideoMinFrameDurationSupported)])
-	{
-		// iOS 5 and higher
-		if ([self.liveVideoConnection isVideoMinFrameDurationSupported])
-		{
-			self.liveVideoConnection.videoMinFrameDuration = minimumFrameDuration;
-		}
-	}
-	else
-	{
-		// iOS 4 and earlier
-		//self.videoCaptureOutput.minFrameDuration = minimumFrameDuration;
-	}
-	
+	if ([self.liveVideoConnection isVideoMinFrameDurationSupported])
+    {
+        self.liveVideoConnection.videoMinFrameDuration = self.minimumLiveScanningFrameDuration;
+    }
+    
 	if (self.sampleBufferDelegate != nil)
 	{
 		dispatch_queue_t frameQueue = dispatch_queue_create("VideoFrameQueue", NULL);

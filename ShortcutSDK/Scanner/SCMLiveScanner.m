@@ -81,7 +81,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 	if (self != nil)
 	{
 		self.noMotionThreshold = kDefaultNoMotionThreshold;
-		
+
 		self.captureSessionController = [[SCMCaptureSessionController alloc] init];
 		self.motionDetector = [[SCMMotionDetector alloc] init];
 		self.histogramFilter = [[SCMHistogramFilter alloc] init];
@@ -91,10 +91,10 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 		self.outputImageWidth = kDefaultOutputImageWidth;
 		self.outputImageHeight = kDefaultOutputImageHeight;
 		self.outputCompressionLevel = kDefaultOutputCompressionLevel;
-		
+
 		self.recognitionQueue = [[NSOperationQueue alloc] init];
 	}
-	
+
 	return self;
 }
 
@@ -108,7 +108,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 - (void)setupForMode:(SCMLiveScannerMode)initialMode
 {
 	self.histogramFilter.histogramThreshold = 45000.0;
-	
+
 	SCMCaptureSessionMode captureMode = kSCMCaptureSessionLiveScanningMode;
 	if (initialMode == kSCMLiveScannerSingleShotMode)
 	{
@@ -181,7 +181,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 		self.outputImageWidth = 400;
 		self.outputImageHeight = 304;
 	}
-	
+
 	if (self.captureSessionController.captureSessionMode == kSCMCaptureSessionLiveScanningMode)
 	{
 		self.liveScannerMode = kSCMLiveScannerLiveScanningMode;
@@ -204,9 +204,9 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
                                                    otherButtonTitles:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"], nil];
             [alert show];
             [self.delegate liveScannerShouldClose:self];
-            
+
         }
-        
+
 		self.running = YES;
 		self.imageRecognized = NO;
 		self.numImagesSentForRecognition = 0;
@@ -266,9 +266,9 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
             CFDataRef imgData = (__bridge CFDataRef)jpegData;
             CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData (imgData);
             CGImageRef image = CGImageCreateWithJPEGDataProvider(imgDataProvider, NULL, true, kCGRenderingIntentDefault);
-            
+
             [self processImage:image];
-            
+
             CGImageRelease(image);
         }
 		else
@@ -281,7 +281,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 - (void)setPaused:(BOOL)value
 {
 	paused = value;
-	
+
 	if (value)
 	{
 		self.scanning = NO;
@@ -293,8 +293,10 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
+    CFAbsoluteTime startOfFrameHandling = CFAbsoluteTimeGetCurrent();
+
     BOOL similar = [self.histogramFilter isSampleBufferHistogramSimilar:sampleBuffer];
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         if (similar)
         {
@@ -312,7 +314,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
             {
                 self.currentImageIsUnrecognized = NO;
             }
-            
+
             if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode && self.paused == NO)
             {
                 self.scanning = YES;
@@ -323,11 +325,19 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
             }
         }
     });
-    
+
     if (similar == NO && ![self shouldSkipImage] && [self shouldSendImageForRecognition]) {
         CGImageRef sampleBufferImage = [SCMImageUtils newImageFromSampleBuffer:sampleBuffer];
         [self processImage:sampleBufferImage];
         CGImageRelease(sampleBufferImage);
+    }
+
+    CFAbsoluteTime endOfFrameHandling = CFAbsoluteTimeGetCurrent();
+
+    // Let other threads/the network thread work for a bit if this handler basically runs all the time...
+    if (endOfFrameHandling - startOfFrameHandling > CMTimeGetSeconds(self.captureSessionController.minimumLiveScanningFrameDuration)) {
+        DebugLog(@"sample buffer handler is too slow");
+        [NSThread sleepForTimeInterval:0.01];
     }
 }
 
@@ -338,15 +348,15 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     if (self.scanQRCodes == YES && self.imageRecognized == NO) {
         [self.barcodeScanner decodeImage:image];
     }
-    
+
     NSData *scaledImageData = [SCMImageUtils scaledImageDataWithImage:image
                                                           orientation:6
                                                               maxSize:MAX(self.outputImageWidth, self.outputImageHeight)
                                                           compression:self.outputCompressionLevel
                                                            zoomFactor:1.0];
-    
+
     [self.delegate liveScanner:self recognizingImage:scaledImageData];
-    
+
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(backgroundQueue, ^{
         [self sendImageDataForRecognition:scaledImageData];
@@ -360,21 +370,21 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
         // When paused, we don't do anything with the image. We just skip them until we are no longer paused.
         return YES;
     }
-    
+
     if (self.numImagesSentForRecognition == 0)
     {
         // We always send the first image regardless of motion or focusing.
         return NO;
     }
-    
+
     if (self.imageRecognized)
     {
         // No need to send an image if we have already recognized one
         return YES;
     }
-    
+
     BOOL skipImage = NO;
-    
+
     NSTimeInterval timeSinceLastMotion = [self.motionDetector timeIntervalSinceLastMotionDetected];
     if (timeSinceLastMotion < self.noMotionThreshold)
     {
@@ -385,21 +395,21 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     {
         skipImage = YES;
     }
-    
+
     //	DebugLog(@"still: %f, adjustingFocus: %@, adjustingExposure: %@, adjustingWhiteBalance: %@ (%@)",
     //					 timeSinceLastMotion,
     //					 self.captureSessionController.captureDevice.adjustingFocus ? @"YES" : @"NO",
     //					 self.captureSessionController.captureDevice.adjustingExposure ? @"YES" : @"NO",
     //					 self.captureSessionController.captureDevice.adjustingWhiteBalance ? @"YES" : @"NO",
     //					 skipImage ? @"YES" : @"NO");
-    
+
     return skipImage;
 }
 
 - (BOOL)shouldSendImageForRecognition
 {
     BOOL sendImageForRecognition = YES;
-    
+
     if (self.outstandingRecognitionOperations >= kMaxOutstandingImageRecognitionOperations)
     {
         // We already have the maximum number of images waiting for recognition.
@@ -411,7 +421,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
             sendImageForRecognition = NO;
         }
     }
-    
+
     return sendImageForRecognition;
 }
 
@@ -422,14 +432,14 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     SCMRecognitionOperation* operation = [[SCMRecognitionOperation alloc] initWithImageData:scaledImageData location:self.location];
     // TODO: readd timeout?
     //operation.responseTimeoutInterval = kMaximumServerResponseTime;
-    
+
     __weak SCMRecognitionOperation *completedOperation = operation;
     [operation setCompletionBlock:^{
         if ([completedOperation isCancelled] == NO) {
             [self recognitionOperationCompleted:completedOperation];
         }
     }];
-    
+
     self.recognitionError = nil;
     [self.recognitionQueue addOperation:operation];
     self.numImagesSentForRecognition += 1;
@@ -443,9 +453,9 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
         dispatch_async(dispatch_get_main_queue(), ^{
             [delegate liveScannerShouldClose:self];
         });
-    
+
 	BOOL imageNotRecognized = NO;
-    
+
     if (recognitionOperation.error == nil)
     {
         BOOL recognized = (recognitionOperation.queryResponse.results.count > 0);
@@ -498,7 +508,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
             }
         });
     }
-	
+
 	if (self.outstandingRecognitionOperations == 0 && imageNotRecognized)
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{

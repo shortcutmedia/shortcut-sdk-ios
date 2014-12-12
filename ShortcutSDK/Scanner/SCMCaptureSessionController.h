@@ -24,6 +24,7 @@ typedef enum
 @property (nonatomic, strong, readonly) AVCaptureVideoPreviewLayer* previewLayer;
 @property (nonatomic, assign, readonly) SCMCaptureSessionMode captureSessionMode;
 @property (nonatomic, assign, readonly) BOOL flashOn;
+@property (nonatomic, assign, readonly) CMTime minimumLiveScanningFrameDuration;
 
 + (BOOL)authorizedForVideoCapture;
 
