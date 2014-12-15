@@ -10,6 +10,8 @@
 
 @interface SCMQueryResultViewController ()
 
+@property (strong, nonatomic) SCMQueryResult *queryResult;
+
 @end
 
 @implementation SCMQueryResultViewController

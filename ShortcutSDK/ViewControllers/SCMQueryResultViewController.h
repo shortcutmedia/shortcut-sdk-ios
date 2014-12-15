@@ -9,10 +9,25 @@
 #import "SCMItemViewController.h"
 #import "SCMQueryResult.h"
 
+/**
+ *  The SCMQueryResultViewController implements a simple item view.
+ *
+ *  @discussion
+ *  The SCMItemViewController displays the result page for any given item recognized by the image
+ *  recognition service. You create a new view controller instance by passing an instance of an
+ *  SCMQueryResult which you can obtain from e.g. an SCMCameraViewController.
+ */
 @interface SCMQueryResultViewController : SCMItemViewController
 
-@property (strong, nonatomic) SCMQueryResult *queryResult;
+/// @name Creation
 
-- (instancetype)initWithQueryResult:(SCMQueryResult *)queryResult;
+/**
+ *  Returns a query result view controller instance for the given result.
+ *
+ *  @param queryResult The query result to display.
+ *
+ *  @return A new query result view controller instance.
+ */
+- (instancetype)initWithQueryResult:(SCMQueryResult *)queryResult NS_DESIGNATED_INITIALIZER;
 
 @end
