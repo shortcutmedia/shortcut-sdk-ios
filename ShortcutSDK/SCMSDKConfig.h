@@ -10,7 +10,7 @@
 
 /**
  *  An SCMSDKConfig object wraps some global configuration options of the Shortcut SDK.
- *  
+ *
  *  @discussion
  *  It is implemented as a singleton: Use the SCMSDKConfig +sharedConfig method to get the
  *  singleton instance.
@@ -71,7 +71,7 @@
  *
  *  @discussion
  *  This returns the correct address of the image recognition server by default.
- *  
+ *
  *  @warning You do not change this normally, it is just available for testing purposes.
  */
 @property (strong, nonatomic) NSString *queryServerAddress;

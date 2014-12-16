@@ -105,7 +105,7 @@
     if (data) {
         NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
         self.queryResponse = [[SCMQueryResponse alloc] initWithDictionary:responseDictionary];
-
+        
         // TODO: handle API version checking and reporting in a better way...
         bool isOutdated = false;
         bool hasNewer = false;

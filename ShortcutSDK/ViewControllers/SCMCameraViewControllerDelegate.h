@@ -72,7 +72,7 @@
  *  This method gives you the possibility to e.g. store an image taken in Snapshot mode for later handling.
  *  If you do handle this special case then you might as well want to dismiss the scanner view controller
  *  at this moment.
- *  
+ *
  *  @note Remember: this method is only invoked when there is no Internet connection and image recognition
  *  therefore impossible.
  *

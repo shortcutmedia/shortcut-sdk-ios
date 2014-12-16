@@ -14,8 +14,8 @@
 
 - (void)awakeFromNib
 {
-	[super awakeFromNib];
-
+    [super awakeFromNib];
+    
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) { // iOS 6.1 or earlier
         NSString *barButtonBackgroundPath = [[SCMSDKConfig SDKBundle] pathForResource:@"BarButtonBackground" ofType:@"png"];
         UIImage *barButtonBackground = [UIImage imageWithContentsOfFile:barButtonBackgroundPath];

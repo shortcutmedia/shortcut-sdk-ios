@@ -29,10 +29,10 @@ static const NSTimeInterval kStatusViewTemporarilyVisibleDuration = 5.0;
 
 typedef enum
 {
-	kStatusViewStateHidden = 0,
-	kStatusViewStateAnimatingVisible,
-	kStatusViewStateVisible,
-	kStatusViewStateAnimatingHidden
+    kStatusViewStateHidden = 0,
+    kStatusViewStateAnimatingVisible,
+    kStatusViewStateVisible,
+    kStatusViewStateAnimatingHidden
 } StatusViewState;
 
 @interface SCMCameraViewController (/* Private */) <SCMLiveScannerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
@@ -158,21 +158,21 @@ typedef enum
     [SCMProgressToolbar class];
     
     
-	self = [super initWithNibName:@"SCMCameraViewController" bundle:[SCMSDKConfig SDKBundle]];
-	
+    self = [super initWithNibName:@"SCMCameraViewController" bundle:[SCMSDKConfig SDKBundle]];
+    
     if (self)
-	{
-		[[NSNotificationCenter defaultCenter] addObserver:self
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(applicationDidBecomeActive:)
                                                      name:UIApplicationDidBecomeActiveNotification
                                                    object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self
+        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(applicationWillResignActive:)
                                                      name:UIApplicationWillResignActiveNotification
                                                    object:nil];
-	}
-	
-	return self;
+    }
+    
+    return self;
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -183,59 +183,59 @@ typedef enum
 
 - (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.liveScanner.delegate = nil;
 }
 
 - (void)viewDidLoad
 {
-	[super viewDidLoad];
-
-	// Do any additional setup after loading the view from its nib.
-	
-	// The default mode is live scanning mode.
-	SCMLiveScannerMode mode = kSCMLiveScannerLiveScanningMode;
-	BOOL startInSingleShotMode = [[NSUserDefaults standardUserDefaults] boolForKey:kUserPreferenceCameraStartsInSnapshotMode];
-	if (self.previewImageData != nil || startInSingleShotMode)
-	{
-		mode = kSCMLiveScannerSingleShotMode;
-	}
-	
-    /*if ((([[UIScreen mainScreen] bounds].size.height-568)?NO:YES))
-    {
-        CGRect frame = self.previewView.frame;
-        frame.size.height += 176;
-        [self.previewView setFrame:frame];
-    }*/
+    [super viewDidLoad];
     
-	[self.liveScanner setupForMode:mode];
-	
-	self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToZoom)];
-	[self.previewView addGestureRecognizer:self.tapGestureRecognizer];
-
-	self.pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self.cameraZoomSlider action:@selector(pinchToZoom:)];
-	[self.previewView addGestureRecognizer:self.pinchGestureRecognizer];
-	[self.cameraZoomSlider addTarget:self action:@selector(cameraZoomChanged) forControlEvents:UIControlEventValueChanged];
-
-	self.cameraStatusView.hidden = YES;
-	self.cameraStatusView.alpha = 0.0;
-			
-	[self updateModeStatus];
-	[self updateFlashStatus];
+    // Do any additional setup after loading the view from its nib.
+    
+    // The default mode is live scanning mode.
+    SCMLiveScannerMode mode = kSCMLiveScannerLiveScanningMode;
+    BOOL startInSingleShotMode = [[NSUserDefaults standardUserDefaults] boolForKey:kUserPreferenceCameraStartsInSnapshotMode];
+    if (self.previewImageData != nil || startInSingleShotMode)
+    {
+        mode = kSCMLiveScannerSingleShotMode;
+    }
+    
+    /*if ((([[UIScreen mainScreen] bounds].size.height-568)?NO:YES))
+     {
+     CGRect frame = self.previewView.frame;
+     frame.size.height += 176;
+     [self.previewView setFrame:frame];
+     }*/
+    
+    [self.liveScanner setupForMode:mode];
+    
+    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToZoom)];
+    [self.previewView addGestureRecognizer:self.tapGestureRecognizer];
+    
+    self.pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self.cameraZoomSlider action:@selector(pinchToZoom:)];
+    [self.previewView addGestureRecognizer:self.pinchGestureRecognizer];
+    [self.cameraZoomSlider addTarget:self action:@selector(cameraZoomChanged) forControlEvents:UIControlEventValueChanged];
+    
+    self.cameraStatusView.hidden = YES;
+    self.cameraStatusView.alpha = 0.0;
+    
+    [self updateModeStatus];
+    [self updateFlashStatus];
     [self updateInfoStatus];
-
-	if (self.previewImageData != nil)
-	{
-		self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
-		[self showSingleImagePreviewAnimated:NO];
-	}
-	else
-	{
-		// Only show the status view if we are not re-submitting a single shot image.
-		[self showStatusViewForModeStatusChange];
-	}
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self
+    
+    if (self.previewImageData != nil)
+    {
+        self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
+        [self showSingleImagePreviewAnimated:NO];
+    }
+    else
+    {
+        // Only show the status view if we are not re-submitting a single shot image.
+        [self showStatusViewForModeStatusChange];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
@@ -243,41 +243,41 @@ typedef enum
 
 - (void)viewDidUnload
 {
-	[super viewDidUnload];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-	
-	self.previewView = nil;
-	self.cameraStatusView = nil;
-	self.cameraZoomSlider = nil;
-	self.cameraToolbar = nil;
-	self.progressToolbar = nil;
-	self.cameraModeControl = nil;
-	self.infoButton = nil;
-	self.flashButton = nil;
-	self.previewImageView = nil;
-	self.scanLineView = nil;
-	self.tapGestureRecognizer = nil;
-	self.pinchGestureRecognizer = nil;
-	self.statusViewState = kStatusViewStateHidden;
-	
-	// This is a small cheat to reset the status of the help screen. We dump the supportedContentViewController above,
-	// so it is not possible (at this time) to restore the help screen in viewDidLoad properly. Therefore, just indicate
-	// that we are not showing the help and the user can tap "i" again to view the help.
-	self.showingCameraHelp = NO;
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    self.previewView = nil;
+    self.cameraStatusView = nil;
+    self.cameraZoomSlider = nil;
+    self.cameraToolbar = nil;
+    self.progressToolbar = nil;
+    self.cameraModeControl = nil;
+    self.infoButton = nil;
+    self.flashButton = nil;
+    self.previewImageView = nil;
+    self.scanLineView = nil;
+    self.tapGestureRecognizer = nil;
+    self.pinchGestureRecognizer = nil;
+    self.statusViewState = kStatusViewStateHidden;
+    
+    // This is a small cheat to reset the status of the help screen. We dump the supportedContentViewController above,
+    // so it is not possible (at this time) to restore the help screen in viewDidLoad properly. Therefore, just indicate
+    // that we are not showing the help and the user can tap "i" again to view the help.
+    self.showingCameraHelp = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
+    [super viewWillAppear:animated];
     
     [self updateInfoStatus];
     
     self.liveScanner.captureSessionController.previewLayer.frame = self.previewView.bounds;
-	self.liveScanner.captureSessionController.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-	[self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
+    self.liveScanner.captureSessionController.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    [self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
     self.previewImageView.frame = self.previewView.bounds;
     
     self.cameraToolbar.doneButton.hidden = !self.showDoneButton;
@@ -288,20 +288,20 @@ typedef enum
 
 - (void)viewDidAppear:(BOOL)animated
 {
-	[super viewDidAppear:animated];
+    [super viewDidAppear:animated];
     
-	if (self.previewImageData == nil)
-	{
-		[self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
-	}
-	[self.liveScanner addObserver:self forKeyPath:@"currentImageIsUnrecognized" options:0 context:&kUnrecognizedChanged];
-	[self.liveScanner addObserver:self forKeyPath:@"scanning" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:&kScanningStatusChanged];
-	[self.liveScanner addObserver:self forKeyPath:@"recognitionError" options:0 context:&kRecognitionErrorChanged];
-	[self.liveScanner startScanning];
-	self.shouldResumeScanning = YES;
-	
-	// While the camera is displayed, don't allow the device to go to sleep or dim the screen.
-	[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    if (self.previewImageData == nil)
+    {
+        [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
+    }
+    [self.liveScanner addObserver:self forKeyPath:@"currentImageIsUnrecognized" options:0 context:&kUnrecognizedChanged];
+    [self.liveScanner addObserver:self forKeyPath:@"scanning" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:&kScanningStatusChanged];
+    [self.liveScanner addObserver:self forKeyPath:@"recognitionError" options:0 context:&kRecognitionErrorChanged];
+    [self.liveScanner startScanning];
+    self.shouldResumeScanning = YES;
+    
+    // While the camera is displayed, don't allow the device to go to sleep or dim the screen.
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
     if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning) {
         [self startScanLineAnimation];
@@ -310,20 +310,20 @@ typedef enum
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	[super viewWillDisappear:animated];
+    [super viewWillDisappear:animated];
     
     if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning) {
         [self stopScanLineAnimation];
     }
-
-	// Re-instate the idle timer.
-	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-	
-	[self.liveScanner stopScanning];
     
-	[self.liveScanner removeObserver:self forKeyPath:@"currentImageIsUnrecognized"];
-	[self.liveScanner removeObserver:self forKeyPath:@"scanning"];
-	[self.liveScanner removeObserver:self forKeyPath:@"recognitionError"];
+    // Re-instate the idle timer.
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    
+    [self.liveScanner stopScanning];
+    
+    [self.liveScanner removeObserver:self forKeyPath:@"currentImageIsUnrecognized"];
+    [self.liveScanner removeObserver:self forKeyPath:@"scanning"];
+    [self.liveScanner removeObserver:self forKeyPath:@"recognitionError"];
     
     self.navigationController.navigationBarHidden = !self.shouldShowNavigationBarWhenDisappearing;
 }
@@ -345,7 +345,7 @@ typedef enum
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (BOOL)shouldAutorotate
@@ -376,7 +376,7 @@ typedef enum
     self.statusViewState = kStatusViewStateHidden;
     
     [self switchToMode:kSCMLiveScannerSingleShotMode];
-        
+    
     self.previewImageData = imageData;
     self.previewImageView.image = [UIImage imageWithData:previewImageData];
     
@@ -388,8 +388,8 @@ typedef enum
 
 - (void)singleImageSentForRecognition:(NSData *)imageData
 {
-	self.previewImageData = imageData;
-	self.previewImageView.image = [UIImage imageWithData:previewImageData];
+    self.previewImageData = imageData;
+    self.previewImageView.image = [UIImage imageWithData:previewImageData];
     
     [self singleImageRecognitionStarted];
 }
@@ -407,14 +407,14 @@ typedef enum
 - (void)singleImageDidFailWithError:(NSError *)error
 {
     [self singleImageRecognitionFinished];
-	NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
-	NSString *message = [error localizedDescription];
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+    NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
+    NSString *message = [error localizedDescription];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:nil
                                               cancelButtonTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
                                               otherButtonTitles:nil];
-	[alertView show];
+    [alertView show];
 }
 
 - (void)singleImageRecognitionStarted
@@ -437,28 +437,28 @@ typedef enum
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if (context == &kUnrecognizedChanged)
-	{
-		[self updateImageNotRecognizedStatus];
-	}
-	else if (context == &kScanningStatusChanged)
-	{
-		NSNumber *oldValue = [change objectForKey:NSKeyValueChangeOldKey];
-		NSNumber *newValue = [change objectForKey:NSKeyValueChangeNewKey];
-
-		if ([oldValue boolValue] == NO && [newValue boolValue])
-		{
-			[self startScanLineAnimation];
-		}
-		else if ([oldValue boolValue] && [newValue boolValue] == NO)
-		{
-			[self stopScanLineAnimation];
-		}
-	}
-	else if (context == &kRecognitionErrorChanged)
-	{
-		if (self.liveScanner.recognitionError != nil)
-		{
+    if (context == &kUnrecognizedChanged)
+    {
+        [self updateImageNotRecognizedStatus];
+    }
+    else if (context == &kScanningStatusChanged)
+    {
+        NSNumber *oldValue = [change objectForKey:NSKeyValueChangeOldKey];
+        NSNumber *newValue = [change objectForKey:NSKeyValueChangeNewKey];
+        
+        if ([oldValue boolValue] == NO && [newValue boolValue])
+        {
+            [self startScanLineAnimation];
+        }
+        else if ([oldValue boolValue] && [newValue boolValue] == NO)
+        {
+            [self stopScanLineAnimation];
+        }
+    }
+    else if (context == &kRecognitionErrorChanged)
+    {
+        if (self.liveScanner.recognitionError != nil)
+        {
             NSError *error = self.liveScanner.recognitionError;
             NSString *title = nil;
             NSString *subtitle = nil;
@@ -491,13 +491,13 @@ typedef enum
             [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
             
             [self singleImageRecognitionFinished];
-		}
-	}
+        }
+    }
 }
 
 - (IBAction)done:(id)sender
 {
-	self.shouldResumeScanning = NO;
+    self.shouldResumeScanning = NO;
     if ([self.delegate respondsToSelector:@selector(cameraViewControllerDidFinish:)]) {
         [self.delegate cameraViewControllerDidFinish:self];
     }
@@ -505,12 +505,12 @@ typedef enum
 
 - (IBAction)takePicture:(id)sender
 {
-	[self hideCameraHelp];
-
+    [self hideCameraHelp];
+    
 #if TARGET_IPHONE_SIMULATOR
-	[self choosePhotoFromLibrary];
+    [self choosePhotoFromLibrary];
 #else
-	[self.liveScanner takePictureWithZoomFactor:self.cameraZoomSlider.zoomScale];
+    [self.liveScanner takePictureWithZoomFactor:self.cameraZoomSlider.zoomScale];
 #endif
 }
 
@@ -534,168 +534,168 @@ typedef enum
 
 - (IBAction)cancelSingleImageRequest
 {
-	[self hideSingleImagePreview];
+    [self hideSingleImagePreview];
 }
 
 - (void)updateModeStatus
 {
-	if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
-	{
-		self.cameraModeControl.cameraMode = kCameraModeLiveScanning;
-		self.cameraToolbar.cameraButton.hidden = YES;
-		self.cameraZoomSlider.hidden = YES;
-		self.tapGestureRecognizer.enabled = NO;
-		self.pinchGestureRecognizer.enabled = NO;
-	}
-	else
-	{
-		self.cameraModeControl.cameraMode = kCameraModeSingleShot;
-		self.cameraToolbar.cameraButton.hidden = NO;
-		// Note: We don't need to unhide the camera zoom slider. It will show when the user actually zooms or taps.
-		self.tapGestureRecognizer.enabled = YES;
-		self.pinchGestureRecognizer.enabled = YES;
-	}
+    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
+    {
+        self.cameraModeControl.cameraMode = kCameraModeLiveScanning;
+        self.cameraToolbar.cameraButton.hidden = YES;
+        self.cameraZoomSlider.hidden = YES;
+        self.tapGestureRecognizer.enabled = NO;
+        self.pinchGestureRecognizer.enabled = NO;
+    }
+    else
+    {
+        self.cameraModeControl.cameraMode = kCameraModeSingleShot;
+        self.cameraToolbar.cameraButton.hidden = NO;
+        // Note: We don't need to unhide the camera zoom slider. It will show when the user actually zooms or taps.
+        self.tapGestureRecognizer.enabled = YES;
+        self.pinchGestureRecognizer.enabled = YES;
+    }
 }
 
 - (void)showStatusViewForModeStatusChange
 {
-	if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
-	{
+    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
+    {
         
-		[self.cameraStatusView setStatusTitle:[SCMLocalization translationFor:@"LiveScanningModeStatusTitle" withDefaultValue:@"Scanning mode"]
+        [self.cameraStatusView setStatusTitle:[SCMLocalization translationFor:@"LiveScanningModeStatusTitle" withDefaultValue:@"Scanning mode"]
                                      subtitle:[SCMLocalization translationFor:@"LiveScanningModeStatusBody" withDefaultValue:@"Make sure that the whole item is visible in the scanner"]];
-	}
-	else
-	{
+    }
+    else
+    {
         [self.cameraStatusView setStatusTitle:[SCMLocalization translationFor:@"SingleShotModeStatusTitle" withDefaultValue:@"Snapshot mode"]
                                      subtitle:[SCMLocalization translationFor:@"SingleShotModeStatusBody" withDefaultValue:@"Make sure to capture the whole item"]];
-	}
-	[self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
+    }
+    [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
 }
 
 - (void)showStatusViewAndHideAfterTimeInterval:(NSTimeInterval)timeInterval
 {
-	if (self.statusViewState == kStatusViewStateHidden ||
-			self.statusViewState == kStatusViewStateAnimatingHidden)
-	{
-		self.cameraStatusView.hidden = NO;
-		self.statusViewState = kStatusViewStateAnimatingVisible;
-		
-		[UIView animateWithDuration:0.25
-										 animations:^{
-											 
-											 self.cameraStatusView.alpha = 1.0;
-										 }
-										 completion:^(BOOL finished) {
-											 self.statusViewState = kStatusViewStateVisible;
-										 }];
-	}
-	
-	[self.statusViewTimer invalidate];
-	self.statusViewTimer = nil;
-	if (timeInterval > 0.0)
-	{
-		self.statusViewTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
+    if (self.statusViewState == kStatusViewStateHidden ||
+        self.statusViewState == kStatusViewStateAnimatingHidden)
+    {
+        self.cameraStatusView.hidden = NO;
+        self.statusViewState = kStatusViewStateAnimatingVisible;
+        
+        [UIView animateWithDuration:0.25
+                         animations:^{
+                             
+                             self.cameraStatusView.alpha = 1.0;
+                         }
+                         completion:^(BOOL finished) {
+                             self.statusViewState = kStatusViewStateVisible;
+                         }];
+    }
+    
+    [self.statusViewTimer invalidate];
+    self.statusViewTimer = nil;
+    if (timeInterval > 0.0)
+    {
+        self.statusViewTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
                                                                 target:self
                                                               selector:@selector(hideStatusView)
                                                               userInfo:nil
                                                                repeats:NO];
-	}
+    }
 }
 
 - (void)hideStatusView
 {
-	if (self.statusViewState == kStatusViewStateVisible)
-	{
-		self.statusViewState = kStatusViewStateAnimatingHidden;
-		[UIView animateWithDuration:0.3
-										 animations:^{
-											 
-											 self.cameraStatusView.alpha = 0.0;
-										 } 
-										 completion:^(BOOL finished) {
-											 
-											 if (self.statusViewState == kStatusViewStateAnimatingHidden)
-											 {
-												 self.cameraStatusView.hidden = YES;
-												 self.statusViewState = kStatusViewStateHidden;
-											 }
-										 }];
-	}
+    if (self.statusViewState == kStatusViewStateVisible)
+    {
+        self.statusViewState = kStatusViewStateAnimatingHidden;
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             
+                             self.cameraStatusView.alpha = 0.0;
+                         }
+                         completion:^(BOOL finished) {
+                             
+                             if (self.statusViewState == kStatusViewStateAnimatingHidden)
+                             {
+                                 self.cameraStatusView.hidden = YES;
+                                 self.statusViewState = kStatusViewStateHidden;
+                             }
+                         }];
+    }
 }
 
 - (void)switchToMode:(SCMLiveScannerMode)mode
 {
-	[self.liveScanner switchToMode:mode];
-	[self updateModeStatus];
+    [self.liveScanner switchToMode:mode];
+    [self updateModeStatus];
     [self updateFlashStatus];
     [self updateInfoStatus];
-
-	// Reset the zoom level when switching modes
-	self.cameraZoomSlider.zoomScale = 1.0;
-	[self cameraZoomChanged];
+    
+    // Reset the zoom level when switching modes
+    self.cameraZoomSlider.zoomScale = 1.0;
+    [self cameraZoomChanged];
 }
 
 - (IBAction)cameraModeChanged:(id)sender
 {
-	DebugLog(@"switching to mode: %@", self.liveScanner.liveScannerMode == kSCMCaptureSessionLiveScanningMode ? @"snapshot" : @"live");
-	[self hideCameraHelp];
-	
-	if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning && self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode)
-	{
-		[self switchToMode:kSCMLiveScannerLiveScanningMode];
-		[self showStatusViewForModeStatusChange];
-		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserPreferenceCameraStartsInSnapshotMode];
+    DebugLog(@"switching to mode: %@", self.liveScanner.liveScannerMode == kSCMCaptureSessionLiveScanningMode ? @"snapshot" : @"live");
+    [self hideCameraHelp];
+    
+    if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning && self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode)
+    {
+        [self switchToMode:kSCMLiveScannerLiveScanningMode];
+        [self showStatusViewForModeStatusChange];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserPreferenceCameraStartsInSnapshotMode];
         [self startScanLineAnimation];
-	}
-	else if (self.cameraModeControl.cameraMode == kCameraModeSingleShot && self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
-	{
-		[self switchToMode:kSCMLiveScannerSingleShotMode];
-		[self showStatusViewForModeStatusChange];
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserPreferenceCameraStartsInSnapshotMode];
+    }
+    else if (self.cameraModeControl.cameraMode == kCameraModeSingleShot && self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
+    {
+        [self switchToMode:kSCMLiveScannerSingleShotMode];
+        [self showStatusViewForModeStatusChange];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserPreferenceCameraStartsInSnapshotMode];
         [self stopScanLineAnimation];
-	}
-	
-	[[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)tapToZoom
 {
-	[self hideCameraHelp];
-	
-	if (self.tapGestureRecognizer.state == UIGestureRecognizerStateEnded)
-	{
-		[self.cameraZoomSlider showZoomControl];
-	}
+    [self hideCameraHelp];
+    
+    if (self.tapGestureRecognizer.state == UIGestureRecognizerStateEnded)
+    {
+        [self.cameraZoomSlider showZoomControl];
+    }
 }
 
 - (void)cameraZoomChanged
 {
-	[self hideCameraHelp];
-	
-	CGFloat scale = self.cameraZoomSlider.zoomScale;
-	CGAffineTransform t = CGAffineTransformIdentity;
-	self.previewView.transform = CGAffineTransformScale(t, scale, scale);
+    [self hideCameraHelp];
+    
+    CGFloat scale = self.cameraZoomSlider.zoomScale;
+    CGAffineTransform t = CGAffineTransformIdentity;
+    self.previewView.transform = CGAffineTransformScale(t, scale, scale);
 }
 
 - (IBAction)toggleHelp
 {
-	if (self.showingCameraHelp)
-	{
-		[self hideCameraHelp];
-	}
-	else
-	{
-		[self showCameraHelp];
-	}
+    if (self.showingCameraHelp)
+    {
+        [self hideCameraHelp];
+    }
+    else
+    {
+        [self showCameraHelp];
+    }
 }
 
 - (void)showCameraHelp
 {
     self.liveScanner.paused = YES;
-	[self hideStatusView];
-	[self.cameraZoomSlider hideZoomControl];
-	self.showingCameraHelp = YES;
+    [self hideStatusView];
+    [self.cameraZoomSlider hideZoomControl];
+    self.showingCameraHelp = YES;
     
     self.helpView.frame = CGRectMake(CGRectGetMidX(self.view.frame) - self.helpView.frame.size.width/2,
                                      CGRectGetMidY(self.view.frame) - self.helpView.frame.size.height/2,
@@ -708,9 +708,9 @@ typedef enum
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{self.helpView.alpha = 1.0;}
                     completion:NULL];
-	
-	// Reinstate the idle timer while the user views the info screen.
-	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    
+    // Reinstate the idle timer while the user views the info screen.
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void) hideHelpView
@@ -729,40 +729,40 @@ typedef enum
 
 - (void)hideCameraHelp
 {
-	if (self.showingCameraHelp == NO)
-	{
-		return;
-	}
+    if (self.showingCameraHelp == NO)
+    {
+        return;
+    }
     
     [self hideHelpView];
-	
-	self.liveScanner.paused = NO;
-	self.showingCameraHelp = NO;
-	
-	[self updateImageNotRecognizedStatus];
-
-	// Disable the idle timer since we are going back to the camera view.
-	[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
+    self.liveScanner.paused = NO;
+    self.showingCameraHelp = NO;
+    
+    [self updateImageNotRecognizedStatus];
+    
+    // Disable the idle timer since we are going back to the camera view.
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 - (void)updateFlashStatus
 {
-	if ([self.liveScanner.captureSessionController hasFlashForCurrentMode])
-	{
-		self.flashButton.hidden = NO;
-		if (self.liveScanner.captureSessionController.flashOn)
-		{
-			self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOnIcon"];
-		}
-		else
-		{
-			self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOffIcon"];
-		}
-	}
-	else
-	{
-		self.flashButton.hidden = YES;
-	}
+    if ([self.liveScanner.captureSessionController hasFlashForCurrentMode])
+    {
+        self.flashButton.hidden = NO;
+        if (self.liveScanner.captureSessionController.flashOn)
+        {
+            self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOnIcon"];
+        }
+        else
+        {
+            self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOffIcon"];
+        }
+    }
+    else
+    {
+        self.flashButton.hidden = YES;
+    }
 }
 
 - (void)updateInfoStatus
@@ -777,89 +777,89 @@ typedef enum
 
 - (IBAction)toggleFlashMode:(id)sender
 {
-	[self hideCameraHelp];
-	
-	[self.liveScanner.captureSessionController toggleFlashMode];
-	[self updateFlashStatus];
+    [self hideCameraHelp];
+    
+    [self.liveScanner.captureSessionController toggleFlashMode];
+    [self updateFlashStatus];
 }
 
 - (void)showSingleImagePreviewAnimated:(BOOL)animated
 {
-	[self.view insertSubview:self.previewImageView aboveSubview:self.previewView];
-	
-	if (animated) {
-		[UIView transitionFromView:self.cameraToolbar
+    [self.view insertSubview:self.previewImageView aboveSubview:self.previewView];
+    
+    if (animated) {
+        [UIView transitionFromView:self.cameraToolbar
                             toView:self.progressToolbar
                           duration:0.3
                            options:UIViewAnimationOptionShowHideTransitionViews
                         completion:nil];
-	} else {
+    } else {
         self.cameraToolbar.hidden = YES;
-		self.progressToolbar.hidden = NO;
-	}
-	
-	self.infoButton.enabled = NO;
-	self.flashButton.enabled = NO;
-
-	if (animated) {
-		[UIView animateWithDuration:0.3
-										 animations:^{
-                                             if (self.helpView) {
-                                                 self.infoButton.alpha = 0.0;
-                                             }
-											 self.flashButton.alpha = 0.0;
-										 }
-										 completion:^(BOOL finished) {
-                                             if (self.helpView) {
-                                                 self.infoButton.hidden = YES;
-                                             }
-											 self.flashButton.hidden = YES;
-										 }];
-	} else {
+        self.progressToolbar.hidden = NO;
+    }
+    
+    self.infoButton.enabled = NO;
+    self.flashButton.enabled = NO;
+    
+    if (animated) {
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             if (self.helpView) {
+                                 self.infoButton.alpha = 0.0;
+                             }
+                             self.flashButton.alpha = 0.0;
+                         }
+                         completion:^(BOOL finished) {
+                             if (self.helpView) {
+                                 self.infoButton.hidden = YES;
+                             }
+                             self.flashButton.hidden = YES;
+                         }];
+    } else {
         if (self.helpView) {
             self.infoButton.hidden = YES;
         }
-		self.flashButton.hidden = YES;
-	}
+        self.flashButton.hidden = YES;
+    }
 }
 
 - (void)hideSingleImagePreview
 {
-	[self.previewImageView removeFromSuperview];
+    [self.previewImageView removeFromSuperview];
     
-	[UIView transitionFromView:self.progressToolbar
+    [UIView transitionFromView:self.progressToolbar
                         toView:self.cameraToolbar
                       duration:0.3
                        options:UIViewAnimationOptionShowHideTransitionViews
                     completion:nil];
-
-	self.infoButton.enabled = YES;
-	self.flashButton.enabled = YES;
-	
+    
+    self.infoButton.enabled = YES;
+    self.flashButton.enabled = YES;
+    
     [UIView animateWithDuration:0.3
-									 animations:^{
-                                         if (self.helpView) {
-                                             self.infoButton.alpha = 1.0;
-                                         }
-										 self.flashButton.alpha = 1.0;
-									 }
-									 completion:^(BOOL finished) {
-                                         if (self.helpView) {
-                                             self.infoButton.hidden = NO;
-                                         }
-										 self.flashButton.hidden = NO;
-									 }];
+                     animations:^{
+                         if (self.helpView) {
+                             self.infoButton.alpha = 1.0;
+                         }
+                         self.flashButton.alpha = 1.0;
+                     }
+                     completion:^(BOOL finished) {
+                         if (self.helpView) {
+                             self.infoButton.hidden = NO;
+                         }
+                         self.flashButton.hidden = NO;
+                     }];
 }
 
 - (void)startScanLineAnimation
 {
-	if (self.scanLineView != nil) {
-		// The scan line is already animating.
-		return;
-	}
-	
-	UIViewAnimationOptions animationOptions = UIViewAnimationOptionCurveEaseInOut;
-	animationOptions = animationOptions | UIViewAnimationOptionAllowUserInteraction;
+    if (self.scanLineView != nil) {
+        // The scan line is already animating.
+        return;
+    }
+    
+    UIViewAnimationOptions animationOptions = UIViewAnimationOptionCurveEaseInOut;
+    animationOptions = animationOptions | UIViewAnimationOptionAllowUserInteraction;
     
     double maxX = CGRectGetMaxX(self.previewView.bounds);
     double maxY = CGRectGetMaxY(self.previewView.bounds);
@@ -867,7 +867,7 @@ typedef enum
     double lineWidth = 2;
     
     self.scanLineView = [CALayer layer];
-	self.scanLineView.frame = CGRectMake(-maxX, -maxY, maxX*2, maxY*2);
+    self.scanLineView.frame = CGRectMake(-maxX, -maxY, maxX*2, maxY*2);
     
     CALayer *verticalLine = [CALayer layer];
     verticalLine.frame = CGRectMake(0, maxY, lineLength, lineWidth);
@@ -908,29 +908,29 @@ typedef enum
 
 - (void)updateImageNotRecognizedStatus
 {
-	if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode && self.liveScanner.currentImageIsUnrecognized)
-	{
-		[self.cameraStatusView setStatusTitle:[SCMLocalization translationFor:@"LiveScannerItemNotRecognizedTitle" withDefaultValue:@"No results found"]
+    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode && self.liveScanner.currentImageIsUnrecognized)
+    {
+        [self.cameraStatusView setStatusTitle:[SCMLocalization translationFor:@"LiveScannerItemNotRecognizedTitle" withDefaultValue:@"No results found"]
                                      subtitle:nil];
-		[self showStatusViewAndHideAfterTimeInterval:0.0];
-	}
-	else
-	{
-		[self hideStatusView];
-	}
+        [self showStatusViewAndHideAfterTimeInterval:0.0];
+    }
+    else
+    {
+        [self hideStatusView];
+    }
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification
 {
-	if (self.shouldResumeScanning)
-	{
-		[self.liveScanner startScanning];
-	}
+    if (self.shouldResumeScanning)
+    {
+        [self.liveScanner startScanning];
+    }
 }
 
 - (void)applicationWillResignActive:(NSNotification *)notification
 {
-	[self.liveScanner stopScanning];
+    [self.liveScanner stopScanning];
 }
 
 - (void)updateIconOrientation
@@ -940,35 +940,35 @@ typedef enum
         return;
     }
     
-	CGAffineTransform transform = CGAffineTransformIdentity;
-	
-	switch ([UIDevice currentDevice].orientation)
-	{
-		case UIDeviceOrientationPortrait:
-		{
-			transform = CGAffineTransformIdentity;
-		}
-			break;
-			
-		case UIDeviceOrientationLandscapeLeft:
-		{
-			transform = CGAffineTransformMakeRotation(M_PI_2);
-		}
-			break;
-			
-		case UIDeviceOrientationLandscapeRight:
-		{
-			transform = CGAffineTransformMakeRotation(-M_PI_2);
-		}
-			break;
-			
-		case UIDeviceOrientationPortraitUpsideDown:
-		case UIDeviceOrientationUnknown:
-		case UIDeviceOrientationFaceUp:
-		case UIDeviceOrientationFaceDown:
-			break;
-	}
-
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    
+    switch ([UIDevice currentDevice].orientation)
+    {
+        case UIDeviceOrientationPortrait:
+        {
+            transform = CGAffineTransformIdentity;
+        }
+            break;
+            
+        case UIDeviceOrientationLandscapeLeft:
+        {
+            transform = CGAffineTransformMakeRotation(M_PI_2);
+        }
+            break;
+            
+        case UIDeviceOrientationLandscapeRight:
+        {
+            transform = CGAffineTransformMakeRotation(-M_PI_2);
+        }
+            break;
+            
+        case UIDeviceOrientationPortraitUpsideDown:
+        case UIDeviceOrientationUnknown:
+        case UIDeviceOrientationFaceUp:
+        case UIDeviceOrientationFaceDown:
+            break;
+    }
+    
     [UIView animateWithDuration:0.25
                      animations:^{
                          self.infoButton.imageView.transform = transform;
@@ -1005,7 +1005,7 @@ typedef enum
 
 - (void)navigationController:(UINavigationController *)navController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-	self.navigationController.navigationBarHidden = (viewController == self);
+    self.navigationController.navigationBarHidden = (viewController == self);
 }
 
 #pragma mark - SCMLiveScannerDelegate

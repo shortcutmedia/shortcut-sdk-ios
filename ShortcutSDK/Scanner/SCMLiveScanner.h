@@ -14,8 +14,8 @@
 
 typedef enum
 {
-	kSCMLiveScannerLiveScanningMode = 0,
-	kSCMLiveScannerSingleShotMode
+    kSCMLiveScannerLiveScanningMode = 0,
+    kSCMLiveScannerSingleShotMode
 } SCMLiveScannerMode;
 
 @class SCMCaptureSessionController;
@@ -46,5 +46,5 @@ extern NSString *kSCMLiveScannerErrorDomain;
 
 typedef enum
 {
-	kSCMLiveScannerErrorServerResponseTooSlow = -1
+    kSCMLiveScannerErrorServerResponseTooSlow = -1
 } SCMLiveScannerErrorCode;

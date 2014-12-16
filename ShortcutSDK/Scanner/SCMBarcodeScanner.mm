@@ -28,44 +28,44 @@
 
 - (id)init
 {
-	self = [super init];
-	if (self != nil)
-	{
-		self.decoder = [[[Decoder alloc] init] autorelease];
-		QRCodeReader *qrCodeReader = [[[QRCodeReader alloc] init] autorelease];
-		decoder.readers = [NSSet setWithObject:qrCodeReader];
-		decoder.delegate = self;
-	}
-	
-	return self;
+    self = [super init];
+    if (self != nil)
+    {
+        self.decoder = [[[Decoder alloc] init] autorelease];
+        QRCodeReader *qrCodeReader = [[[QRCodeReader alloc] init] autorelease];
+        decoder.readers = [NSSet setWithObject:qrCodeReader];
+        decoder.delegate = self;
+    }
+    
+    return self;
 }
 
 - (void)dealloc
 {
-	self.decoder.delegate = nil;
-	[decoder release];
-	[super dealloc];
+    self.decoder.delegate = nil;
+    [decoder release];
+    [super dealloc];
 }
 
 - (void)decodeImage:(CGImageRef)imageRef
 {
-	UIImage *image = [UIImage imageWithCGImage:imageRef];
-//	NSDate *startDecode = [NSDate date];
-	[self.decoder decodeImage:image];
-//	NSTimeInterval decodeTime = [[NSDate date] timeIntervalSinceDate:startDecode];
-//	DebugLog(@"decodeImage: %f", decodeTime);
+    UIImage *image = [UIImage imageWithCGImage:imageRef];
+    //	NSDate *startDecode = [NSDate date];
+    [self.decoder decodeImage:image];
+    //	NSTimeInterval decodeTime = [[NSDate date] timeIntervalSinceDate:startDecode];
+    //	DebugLog(@"decodeImage: %f", decodeTime);
 }
 
 #pragma mark - DecoderDelegate
 
 - (void)decoder:(Decoder *)decoder didDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset withResult:(TwoDDecoderResult *)result
 {
-	[self.delegate barcodeScanner:self didRecognize2DBarcode:result.text];
+    [self.delegate barcodeScanner:self didRecognize2DBarcode:result.text];
 }
 
 - (void)decoder:(Decoder *)decoder failedToDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset reason:(NSString *)reason
 {
-	DebugLog(@"decoder failedToDecodeImage: %@", reason);
+    DebugLog(@"decoder failedToDecodeImage: %@", reason);
     [self.delegate barcodeScanner:self didNotRecognize2DBarcode:reason];
 }
 
