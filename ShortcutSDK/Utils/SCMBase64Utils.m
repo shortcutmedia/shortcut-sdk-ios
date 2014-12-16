@@ -1,9 +1,9 @@
 //
 //  SCMBase64Utils.m
-//  Shortcut
+//  ShortcutSDK
 //
 //  Created by David Wisti on 3/14/12.
-//  Copyright (c) 2012 kooaba AG. All rights reserved.
+//  Copyright (c) 2012 Shortcut Media AG. All rights reserved.
 //
 
 #import "SCMBase64Utils.h"

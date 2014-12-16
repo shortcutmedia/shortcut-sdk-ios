@@ -1,9 +1,9 @@
 //
 //  SCMSDKConfig.m
-//  Shortcut
+//  ShortcutSDK
 //
 //  Created by Severin Schoepke on 17/11/14.
-//  Copyright (c) 2014 kooaba AG. All rights reserved.
+//  Copyright (c) 2014 Shortcut Media AG. All rights reserved.
 //
 
 #import "SCMSDKConfig.h"

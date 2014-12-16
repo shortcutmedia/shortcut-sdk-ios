@@ -1,6 +1,6 @@
 //
 //  SCMLocalization.m
-//  ShortcutSDK
+//  ShortcutSDKSDK
 //
 //  Created by Severin Schoepke on 02/12/14.
 //  Copyright (c) 2014 Shortcut Media AG. All rights reserved.

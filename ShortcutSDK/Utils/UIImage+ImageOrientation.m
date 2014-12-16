@@ -3,7 +3,7 @@
 //  DejaVu
 //
 //  Created by David Wisti on 5/3/11.
-//  Copyright 2011 kooaba AG. All rights reserved.
+//  Copyright 2011 Shortcut Media AG. All rights reserved.
 //
 
 #import "UIImage+ImageOrientation.h"

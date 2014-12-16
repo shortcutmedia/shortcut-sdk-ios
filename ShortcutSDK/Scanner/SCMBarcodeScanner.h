@@ -3,7 +3,7 @@
 //  LiveScanner
 //
 //  Created by David Wisti on 2/15/12.
-//  Copyright (c) 2012 kooaba AG. All rights reserved.
+//  Copyright (c) 2012 Shortcut Media AG. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

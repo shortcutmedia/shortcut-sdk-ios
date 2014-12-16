@@ -1,9 +1,9 @@
 //
 //  SCMCameraZoomSlider.m
-//  Shortcut
+//  ShortcutSDK
 //
 //  Created by David Wisti on 11/3/11.
-//  Copyright (c) 2011 kooaba AG. All rights reserved.
+//  Copyright (c) 2011 Shortcut Media AG. All rights reserved.
 //
 
 #import "SCMCameraZoomSlider.h"
