@@ -116,3 +116,5 @@ There is a global configuration object available to customize some aspects of th
 
 # License
 This project is released under the MIT license. See included LICENSE.txt file for details.
+
+This project bundles parts of the zxing library (https://github.com/zxing/zxing), which is available under an Apache-2.0 license. For details, see Frameworks/zxing-2.0/COPYING.
