@@ -403,10 +403,6 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 - (void)recognitionOperationCompleted:(SCMRecognitionOperation *)recognitionOperation
 {
     self.outstandingRecognitionOperations--;
-    if (recognitionOperation.closeCamera)
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [delegate liveScannerShouldClose:self];
-        });
     
     BOOL imageNotRecognized = NO;
     

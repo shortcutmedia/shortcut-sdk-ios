@@ -11,12 +11,15 @@
 #import "KWSImageRequest.h"
 #import "SCMLocalization.h"
 
+NSString *kSCMRecognitionOperationErrorDomain = @"SCMRecognitionOperationErrorDomain";
+int kSCMRecognitionOperationNoMatchingMetadata = -1;
+
+
 @interface SCMRecognitionOperation ()
 
 @property (nonatomic, strong, readwrite) CLLocation *location;
 @property (nonatomic, strong, readwrite) NSData *imageData;
 @property (nonatomic, strong, readwrite) NSMutableURLRequest *request;
-@property (nonatomic, readwrite) bool closeCamera;
 @property (nonatomic, strong, readwrite) SCMQueryResponse *queryResponse;
 @property (nonatomic, strong, readwrite) NSError *error;
 
@@ -36,7 +39,6 @@
     if (self != nil) {
         self.location = queryLocation;
         self.imageData = data;
-        self.closeCamera = false;
         
         NSString *queriesURLString = [NSString stringWithFormat:@"http://%@/v4/query", [[SCMSDKConfig sharedConfig] queryServerAddress]];
         NSURL *queriesURL = [NSURL URLWithString:queriesURLString];
@@ -100,41 +102,15 @@
 {
     if (data) {
         NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
-        self.queryResponse = [[SCMQueryResponse alloc] initWithDictionary:responseDictionary];
+        SCMQueryResponse *response = [[SCMQueryResponse alloc] initWithDictionary:responseDictionary];
         
-        // TODO: handle API version checking and reporting in a better way...
-        bool isOutdated = false;
-        bool hasNewer = false;
-        
-        for (SCMQueryResult *result in self.queryResponse.results) {
-            bool test = false;
-            bool newer = false;
-            
-            for (NSNumber *number in result.versions) {
-                if (number.intValue == CURRENT_API_VERSION)
-                    test = true;
-                else if (number.intValue > CURRENT_API_VERSION)
-                    newer = true;
-            }
-            if (newer) {
-                if (!test) {
-                    isOutdated = true;
-                } else {
-                    hasNewer = true;
-                }
-            }
+        if (response.hasCurrentMetadata) {
+            self.queryResponse = response;
+        } else {
+            self.error = [NSError errorWithDomain:kSCMRecognitionOperationErrorDomain
+                                             code:kSCMRecognitionOperationNoMatchingMetadata
+                                         userInfo:nil];
         }
-        
-        UIAlertView *alert;
-        
-        if (isOutdated) {
-            alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UpdateRequired", @"Displayed in alertview header for far outdated version") message:NSLocalizedString(@"UpdateRequiredBody", @"Displayed in alertview body for far outdated version") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            self.closeCamera = true;
-        } else if (hasNewer)
-            alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UpdateAvailable", @"Displayed in alertview header for outdated version") message:NSLocalizedString(@"UpdateAvailableBody", @"Displayed in alertview body for outdated version") delegate:NULL cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        if (alert)
-            dispatch_async(dispatch_get_main_queue(), ^{[alert show];});
     }
 }
 

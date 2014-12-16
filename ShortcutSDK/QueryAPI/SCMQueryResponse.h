@@ -40,6 +40,14 @@
 @property (strong, nonatomic, readonly) NSArray *results;
 
 /**
+ *  Returns true if the current SDK version understands the metadata provided in the response.
+ *
+ *  @discussion
+ *  This is for internal use only.
+ */
+@property (nonatomic, readonly) BOOL hasCurrentMetadata;
+
+/**
  *  Returns a new instance populated with data from the dictionary.
  *
  *  @param dictionary The raw data describing the query response.

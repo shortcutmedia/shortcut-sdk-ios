@@ -104,7 +104,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     return [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"thumbnail_url"];
 }
 
-- (NSArray *)versions
+- (NSArray *)metadataVersions
 {
     NSArray *array = [SCMDictionaryUtils arrayFromDictionary:self.resultDictionary atPath:@"metadata"];
     NSMutableArray *foundVersions = [NSMutableArray new];

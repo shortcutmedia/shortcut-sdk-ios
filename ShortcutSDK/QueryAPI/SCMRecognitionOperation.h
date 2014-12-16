@@ -49,13 +49,6 @@
 @property (nonatomic, strong, readonly) NSError *error;
 
 /**
- *  This is for internal use only.
- *
- *  TODO: remove from public API
- */
-@property (nonatomic, readonly) bool closeCamera;
-
-/**
  *  Returns a new query operation instance.
  *
  *  @param imageData The image to submit to the image recognition service.
@@ -64,5 +57,9 @@
  *  @return A new query operation instance.
  */
 - (id)initWithImageData:(NSData *)imageData location:(CLLocation *)location;
+
+
+extern NSString *kSCMRecognitionOperationErrorDomain;
+extern int kSCMRecognitionOperationNoMatchingMetadata;
 
 @end

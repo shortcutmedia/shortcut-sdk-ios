@@ -90,7 +90,7 @@
  *  @discussion
  *  This is for internal use only.
  */
-@property (strong, nonatomic, readonly) NSArray *versions;
+@property (strong, nonatomic, readonly) NSArray *metadataVersions;
 
 /**
  *  Returns a new instance populated with data from the dictionary.

@@ -44,12 +44,36 @@
     for (NSDictionary *resultDictionary in allResults) {
         SCMQueryResult *result = [[SCMQueryResult alloc] initWithDictionary:resultDictionary];
         if (result.imageSHA1) {
-            if ([result.versions indexOfObject:@(CURRENT_API_VERSION)] != NSNotFound) {
+            if ([result.metadataVersions indexOfObject:@(CURRENT_API_VERSION)] != NSNotFound) {
                 [usableResults addObject:result];
             }
         }
     }
     return usableResults;
+}
+
+- (BOOL)hasCurrentMetadata
+{
+    BOOL result = NO;
+    
+    NSArray *allResults = [SCMDictionaryUtils arrayFromDictionary:self.responseDictionary atPath:@"results"];
+    if (allResults.count > 0) {
+        SCMQueryResult *firstResult = [[SCMQueryResult alloc] initWithDictionary:[allResults firstObject]];
+        if (firstResult.metadataVersions.count > 0) {
+            for (NSNumber *number in firstResult.metadataVersions) {
+                if (number.intValue == CURRENT_API_VERSION) {
+                    result = YES;
+                    break;
+                }
+            }
+        } else {
+            result = YES;
+        }
+    } else {
+        result = YES;
+    }
+    
+    return result;
 }
 
 @end

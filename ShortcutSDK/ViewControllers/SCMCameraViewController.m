@@ -10,6 +10,7 @@
 #import "SCMCameraZoomSlider.h"
 #import "SCMCaptureSessionController.h"
 #import "SCMLiveScanner.h"
+#import "SCMRecognitionOperation.h"
 #import "SCMCameraToolbar.h"
 #import "SCMProgressToolbar.h"
 #import "SCMCustomToolbarButton.h"
@@ -450,26 +451,35 @@ typedef enum
             NSString *title = nil;
             NSString *subtitle = nil;
             
+            // no internet connection
             if ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorTimedOut ||
                                                                     error.code == NSURLErrorCannotFindHost ||
                                                                     error.code == NSURLErrorCannotConnectToHost ||
                                                                     error.code == NSURLErrorNetworkConnectionLost ||
                                                                     error.code == NSURLErrorDNSLookupFailed ||
                                                                     error.code == NSURLErrorNotConnectedToInternet)) {
-                // no internet connection
                 title = [SCMLocalization translationFor:@"NoInternetConnectionTitle" withDefaultValue:@"No Internet connection"];
-            } else if ([error.domain isEqualToString:kSCMLiveScannerErrorDomain] && error.code == kSCMLiveScannerErrorServerResponseTooSlow) {
-                // slow internet connection
+            }
+            // slow internet connection
+            else if ([error.domain isEqualToString:kSCMLiveScannerErrorDomain] && error.code == kSCMLiveScannerErrorServerResponseTooSlow) {
                 title = [SCMLocalization translationFor:@"SlowInternetConnectionTitle" withDefaultValue:@"No Internet connection"];
                 if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
                     subtitle = [SCMLocalization translationFor:@"SwitchingToSnapshotModeBody" withDefaultValue:@"Switching to Snapshot mode"];
                     [self switchToMode:kSCMLiveScannerSingleShotMode];
                 }
-            } else if ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorUserCancelledAuthentication)) {
-                // authentication error
+            }
+            // authentication error
+            else if ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorUserCancelledAuthentication)) {
                 title = [SCMLocalization translationFor:@"AuthenticationErrorTitle" withDefaultValue:@"Authentication error"];
                 subtitle = [SCMLocalization translationFor:@"AuthenticationErrorBody" withDefaultValue:@"The image recognition service could not authenticate your request"];
-            } else {
+            }
+            // outdated API version
+            else if ([error.domain isEqualToString:kSCMRecognitionOperationErrorDomain] && (error.code == kSCMRecognitionOperationNoMatchingMetadata)) {
+                title = [SCMLocalization translationFor:@"OutdatedAPIErrorTitle" withDefaultValue:@"App is outdated"];
+                subtitle = [SCMLocalization translationFor:@"OutdatedAPIErrorBody" withDefaultValue:@"The app cannot understand the image recognition service response.\nPlease update the app."];
+            }
+            // unknown error
+            else {
                 title = [SCMLocalization translationFor:@"RecognitionOperationFailedTitle" withDefaultValue:@"Recognition could not be completed"];
                 subtitle = [NSString stringWithFormat:@"Error code %ld", (long)error.code];
             }
