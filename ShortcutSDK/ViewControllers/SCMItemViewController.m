@@ -28,7 +28,7 @@
 - (NSURLRequest *)initialRequest
 {
     if (!_initialRequest && self.itemUUID) {
-        NSString* urlString = [NSString stringWithFormat:@"http://%@/app/#/results/%@", [SCMSDKConfig sharedConfig].itemServerAddress, self.itemUUID];
+        NSString *urlString = [NSString stringWithFormat:@"http://%@/app/#/results/%@", [SCMSDKConfig sharedConfig].itemServerAddress, self.itemUUID];
         if (self.imageSHA1) {
             urlString = [urlString stringByAppendingFormat:@"_%@", self.imageSHA1];
         }

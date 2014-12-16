@@ -15,10 +15,10 @@
 
 @interface KWSImageRequest (/* Private */)
 
-@property (nonatomic, strong, readwrite) NSURL* queryURL;
-@property (nonatomic, strong, readwrite) NSData* imageData;
-@property (nonatomic, strong, readwrite) NSMutableData* bodyData;
-@property (nonatomic, strong, readwrite) NSString* boundary;
+@property (nonatomic, strong, readwrite) NSURL *queryURL;
+@property (nonatomic, strong, readwrite) NSData *imageData;
+@property (nonatomic, strong, readwrite) NSMutableData *bodyData;
+@property (nonatomic, strong, readwrite) NSString *boundary;
 
 @end
 
@@ -32,7 +32,7 @@
 @synthesize bodyData;
 @synthesize boundary;
 
-- (id)initWithURL:(NSURL*)requestURL imageData:(NSData*)data
+- (id)initWithURL:(NSURL *)requestURL imageData:(NSData *)data
 {
 	self = [super init];
 	if (self != nil)
@@ -46,9 +46,9 @@
 	return self;
 }
 
-- (NSDateFormatter*)httpDateFormatter
+- (NSDateFormatter *)httpDateFormatter
 {
-	static NSDateFormatter* formatter = nil;
+	static NSDateFormatter *formatter = nil;
 	
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
@@ -64,7 +64,7 @@
 	return formatter;
 }
 
-- (NSData*)sha1DigestForString:(NSString*)string
+- (NSData *)sha1DigestForString:(NSString *)string
 {
 	NSData *inputData = [string dataUsingEncoding:NSUTF8StringEncoding];
 	uint8_t sha1DigestBytes[CC_SHA1_DIGEST_LENGTH];
@@ -73,7 +73,7 @@
 	return sha1RawDigest;
 }
 
-- (NSData*)sha1DigestForString:(NSString*)string withKey:(NSString*)key
+- (NSData *)sha1DigestForString:(NSString *)string withKey:(NSString *)key
 {
     const char *cKey  = [key cStringUsingEncoding:NSASCIIStringEncoding];
     const char *cData = [string cStringUsingEncoding:NSASCIIStringEncoding];
@@ -88,7 +88,7 @@
     return HMAC;
 }
 
-- (NSString*)md5DigestForData:(NSData*)data
+- (NSString *)md5DigestForData:(NSData *)data
 {
 	uint8_t md5result[CC_MD5_DIGEST_LENGTH];
 	CC_MD5([data bytes], (CC_LONG)[data length], md5result);
@@ -103,7 +103,7 @@
 
 - (void)appendTextValue:(NSString *)text forKey:(NSString *)key
 {
-	NSMutableString* textString = [NSMutableString string];
+	NSMutableString *textString = [NSMutableString string];
 	[textString appendFormat:@"--%@\r\n", self.boundary];
 	[textString appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n", key];
 	[textString appendString:@"Content-Type: text/plain; charset=utf-8\r\n"];
@@ -111,11 +111,11 @@
 	[self.bodyData appendData:[textString dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-- (void)appendJSONData:(NSData*)jsonData forKey:(NSString*)key
+- (void)appendJSONData:(NSData *)jsonData forKey:(NSString *)key
 {
 	if (jsonData != nil)
 	{
-		NSMutableString* textString = [NSMutableString string];
+		NSMutableString *textString = [NSMutableString string];
 		[textString appendFormat:@"--%@\r\n", self.boundary];
 		[textString appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n", key];
 		[textString appendString:@"Content-Type: application/json; charset=utf-8\r\n"];
@@ -126,9 +126,9 @@
 	}
 }
 
-- (void)appendFileData:(NSData*)fileData forKey:(NSString*)key contentType:(NSString*)contentType name:(NSString*)name filename:(NSString*)filename
+- (void)appendFileData:(NSData *)fileData forKey:(NSString *)key contentType:(NSString *)contentType name:(NSString *)name filename:(NSString *)filename
 {
-	NSMutableString* textString = [NSMutableString string];
+	NSMutableString *textString = [NSMutableString string];
 	[textString appendFormat:@"--%@\r\n", self.boundary];
 	[textString appendFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", name, filename];
 	[textString appendFormat:@"Content-Type: %@\r\n", contentType];
@@ -139,9 +139,9 @@
 	[self.bodyData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-- (NSURLRequest*)signedRequestWithAccessKey:(NSString*)accessKey secretKey:(NSString*)secretKey
+- (NSURLRequest *)signedRequestWithAccessKey:(NSString *)accessKey secretKey:(NSString *)secretKey
 {
-	NSString* imageContentType = @"image/jpeg";
+	NSString *imageContentType = @"image/jpeg";
 	[self appendTextValue:self.returnedMetadata forKey:@"returned-metadata"];
 	if (self.clientData != nil)
 	{
@@ -149,26 +149,26 @@
 	}
 	[self appendFileData:self.imageData forKey:@"image" contentType:imageContentType name:@"image" filename:@"query.jpeg"];
 	
-	NSString* closingBoundary = [NSString stringWithFormat:@"--%@--\r\n", self.boundary];
+	NSString *closingBoundary = [NSString stringWithFormat:@"--%@--\r\n", self.boundary];
 	[self.bodyData appendData:[closingBoundary dataUsingEncoding:NSUTF8StringEncoding]];
     
-    NSString* httpMethod = @"POST";
-    NSString* urlPath = [self.queryURL path];
-    NSString* contentType = @"multipart/form-data";
-    NSString* dateValue = [self.httpDateFormatter stringFromDate:[NSDate date]];
+    NSString *httpMethod = @"POST";
+    NSString *urlPath = [self.queryURL path];
+    NSString *contentType = @"multipart/form-data";
+    NSString *dateValue = [self.httpDateFormatter stringFromDate:[NSDate date]];
     
 	// calculate KWS authorization signature
     NSAssert(accessKey && secretKey, @"You must specify access key and secret key in the Shortcut SDK config");
-    NSString* contentMD5 = [self md5DigestForData:self.bodyData];
-    NSString* stringToSign = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@", httpMethod, contentMD5, contentType, dateValue, urlPath];
-    NSData* signatureData = [self sha1DigestForString:stringToSign withKey:secretKey];
+    NSString *contentMD5 = [self md5DigestForData:self.bodyData];
+    NSString *stringToSign = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@", httpMethod, contentMD5, contentType, dateValue, urlPath];
+    NSData *signatureData = [self sha1DigestForString:stringToSign withKey:secretKey];
     NSString *signature = [SCMBase64Utils encodeBase64WithData:signatureData];
 	
 	// request header values
-	NSString* authorizationValue = [NSString stringWithFormat:@"KA %@:%@", accessKey, signature];
-	NSString* contentTypeValue = [NSString stringWithFormat:@"%@; boundary=%@", contentType, self.boundary];
+	NSString *authorizationValue = [NSString stringWithFormat:@"KA %@:%@", accessKey, signature];
+	NSString *contentTypeValue = [NSString stringWithFormat:@"%@; boundary=%@", contentType, self.boundary];
 
-	NSMutableURLRequest* signedRequest = [NSMutableURLRequest requestWithURL:self.queryURL];
+	NSMutableURLRequest *signedRequest = [NSMutableURLRequest requestWithURL:self.queryURL];
 	[signedRequest setHTTPMethod:httpMethod];
 	[signedRequest setHTTPBody:self.bodyData];
 	[signedRequest setValue:contentTypeValue forHTTPHeaderField:@"Content-Type"];

@@ -11,6 +11,6 @@
 
 @interface SCMBase64Utils : NSObject
 
-+ (NSString*)encodeBase64WithData:(NSData*)objData;
++ (NSString *)encodeBase64WithData:(NSData *)objData;
 
 @end

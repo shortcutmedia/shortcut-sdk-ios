@@ -12,7 +12,7 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
 
 @implementation SCMBase64Utils
 
-+ (NSString*)encodeBase64WithData:(NSData*)objData
++ (NSString *)encodeBase64WithData:(NSData *)objData
 {
 	const unsigned char * objRawData = [objData bytes];
 	char * objPointer;
@@ -65,7 +65,7 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
 	*objPointer = '\0';
 	
 	// Return the results as an NSString object
-	NSString* base64result = [NSString stringWithCString:strResult encoding:NSUTF8StringEncoding];
+	NSString *base64result = [NSString stringWithCString:strResult encoding:NSUTF8StringEncoding];
 	free(strResult);
 	return base64result;
 }

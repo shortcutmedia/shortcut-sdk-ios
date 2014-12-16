@@ -18,10 +18,10 @@ static const double kDefaultHistogramThreshold = 3000.0;
 
 @interface SCMHistogramFilter (/* Private */)
 
-@property (nonatomic, strong, readwrite) NSMutableData* histogramDataA;
-@property (nonatomic, strong, readwrite) NSMutableData* histogramDataB;
-@property (nonatomic, assign, readwrite) NSMutableData* previousHistogramData;
-@property (nonatomic, assign, readwrite) NSMutableData* currentHistogramData;
+@property (nonatomic, strong, readwrite) NSMutableData *histogramDataA;
+@property (nonatomic, strong, readwrite) NSMutableData *histogramDataB;
+@property (nonatomic, assign, readwrite) NSMutableData *previousHistogramData;
+@property (nonatomic, assign, readwrite) NSMutableData *currentHistogramData;
 
 @property (nonatomic, assign, readwrite) NSTimeInterval timeIntervalToCalculateHistogram;
 @property (nonatomic, assign, readwrite) double distanceFromPreviousHistogram;
@@ -65,7 +65,7 @@ static const double kDefaultHistogramThreshold = 3000.0;
 
 - (BOOL)isSampleBufferHistogramSimilar:(CMSampleBufferRef)sampleBuffer
 {
-	NSDate* startHistogram = [NSDate date];
+	NSDate *startHistogram = [NSDate date];
 	
 	CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 	
@@ -79,19 +79,19 @@ static const double kDefaultHistogramThreshold = 3000.0;
 	size_t height = CVPixelBufferGetHeight(imageBuffer);
 	
 	// Get the base address of the pixel buffer.
-	void* baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+	void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
 	
 	// Ensure we clear out any old histogram data
 	bzero(self.currentHistogramData.mutableBytes, self.currentHistogramData.length);
 	
 	size_t maxIndex = (height * bytesPerRow);
-	uint32_t* lastAddress = baseAddress + maxIndex;
-	register uint32_t* histogram = self.currentHistogramData.mutableBytes;
+	uint32_t *lastAddress = baseAddress + maxIndex;
+	register uint32_t *histogram = self.currentHistogramData.mutableBytes;
 	register uint32_t channelIndex = 0;
 	register uint32_t value = 0;
 	
 	uint32_t increment = 4;
-	for (uint32_t* pixel = baseAddress; pixel < lastAddress; pixel += increment)
+	for (uint32_t *pixel = baseAddress; pixel < lastAddress; pixel += increment)
 	{
 		// Put the value of the pixel into a local variable designated to be in a register
 		// This provided a 2x performance improvement over the old code that used *pixel in
@@ -112,7 +112,7 @@ static const double kDefaultHistogramThreshold = 3000.0;
 
 	self.distanceFromPreviousHistogram = [self chiSquaredDistanceFromPreviousHistogram];
 	
-	NSDate* endHistogram = [NSDate date];
+	NSDate *endHistogram = [NSDate date];
 	self.timeIntervalToCalculateHistogram = [endHistogram timeIntervalSinceDate:startHistogram];
 	
 	BOOL similar = YES;
@@ -136,8 +136,8 @@ static const double kDefaultHistogramThreshold = 3000.0;
 		return CGFLOAT_MAX;
 	}
 	
-	const uint32_t* histogram = (const uint32_t*)self.currentHistogramData.bytes;
-	const uint32_t* previousHistogram = (const uint32_t*)previousHistogramData.bytes;
+	const uint32_t *histogram = (const uint32_t *)self.currentHistogramData.bytes;
+	const uint32_t *previousHistogram = (const uint32_t *)previousHistogramData.bytes;
 	
 	double distance = 0.0;
 	double previous = 0.0;

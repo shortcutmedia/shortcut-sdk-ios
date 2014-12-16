@@ -20,10 +20,10 @@
 #import "SCMLocalization.h"
 #import "SCMImageUtils.h"
 
-static NSString* kUnrecognizedChanged = @"unrecognized changed";
-static NSString* kScanningStatusChanged = @"scanning status changed";
-static NSString* kRecognitionErrorChanged = @"recognition error changed";
-NSString* const kUserPreferenceCameraStartsInSnapshotMode = @"CameraStartsInSnapshotMode";
+static NSString *kUnrecognizedChanged = @"unrecognized changed";
+static NSString *kScanningStatusChanged = @"scanning status changed";
+static NSString *kRecognitionErrorChanged = @"recognition error changed";
+NSString *const kUserPreferenceCameraStartsInSnapshotMode = @"CameraStartsInSnapshotMode";
 
 static const NSTimeInterval kStatusViewTemporarilyVisibleDuration = 5.0;
 
@@ -37,24 +37,24 @@ typedef enum
 
 @interface SCMCameraViewController (/* Private */) <SCMLiveScannerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
-@property (nonatomic, strong, readwrite) SCMLiveScanner* liveScanner;
-@property (nonatomic, strong, readwrite) IBOutlet UIView* previewView;
-@property (nonatomic, strong, readwrite) IBOutlet SCMStatusView* cameraStatusView;
-@property (nonatomic, strong, readwrite) IBOutlet SCMCameraZoomSlider* cameraZoomSlider;
-@property (nonatomic, strong, readwrite) IBOutlet SCMCameraToolbar* cameraToolbar;
-@property (nonatomic, strong, readwrite) IBOutlet SCMProgressToolbar* progressToolbar;
-@property (nonatomic, strong, readwrite) IBOutlet SCMCameraModeControl* cameraModeControl;
-@property (nonatomic, strong, readwrite) IBOutlet UIButton* infoButton;
-@property (nonatomic, strong, readwrite) IBOutlet UIButton* flashButton;
-@property (nonatomic, strong, readwrite) IBOutlet UIImageView* previewImageView;
-@property (nonatomic, strong, readwrite) CALayer* scanLineView;
-@property (nonatomic, strong, readwrite) UITapGestureRecognizer* tapGestureRecognizer;
-@property (nonatomic, strong, readwrite) UIPinchGestureRecognizer* pinchGestureRecognizer;
+@property (nonatomic, strong, readwrite) SCMLiveScanner *liveScanner;
+@property (nonatomic, strong, readwrite) IBOutlet UIView *previewView;
+@property (nonatomic, strong, readwrite) IBOutlet SCMStatusView *cameraStatusView;
+@property (nonatomic, strong, readwrite) IBOutlet SCMCameraZoomSlider *cameraZoomSlider;
+@property (nonatomic, strong, readwrite) IBOutlet SCMCameraToolbar *cameraToolbar;
+@property (nonatomic, strong, readwrite) IBOutlet SCMProgressToolbar *progressToolbar;
+@property (nonatomic, strong, readwrite) IBOutlet SCMCameraModeControl *cameraModeControl;
+@property (nonatomic, strong, readwrite) IBOutlet UIButton *infoButton;
+@property (nonatomic, strong, readwrite) IBOutlet UIButton *flashButton;
+@property (nonatomic, strong, readwrite) IBOutlet UIImageView *previewImageView;
+@property (nonatomic, strong, readwrite) CALayer *scanLineView;
+@property (nonatomic, strong, readwrite) UITapGestureRecognizer *tapGestureRecognizer;
+@property (nonatomic, strong, readwrite) UIPinchGestureRecognizer *pinchGestureRecognizer;
 @property (nonatomic, assign, readwrite) BOOL showingCameraHelp;
 @property (nonatomic, assign, readwrite) StatusViewState statusViewState;
-@property (nonatomic, strong, readwrite) NSTimer* statusViewTimer;
+@property (nonatomic, strong, readwrite) NSTimer *statusViewTimer;
 @property (nonatomic, assign, readwrite) BOOL shouldResumeScanning;
-@property (nonatomic, strong, readwrite) NSData* previewImageData;
+@property (nonatomic, strong, readwrite) NSData *previewImageData;
 @property (nonatomic, assign, readwrite) BOOL shouldShowNavigationBarWhenDisappearing;
 @property (nonatomic, assign, readwrite) BOOL scanQRCodes;
 @property (nonatomic, assign, readwrite) BOOL showDoneButton;
@@ -80,10 +80,10 @@ typedef enum
 - (void)showSingleImagePreviewAnimated:(BOOL)animated;
 - (void)hideSingleImagePreview;
 - (void)updateImageNotRecognizedStatus;
-- (void)applicationDidBecomeActive:(NSNotification*)notification;
-- (void)applicationWillResignActive:(NSNotification*)notification;
+- (void)applicationDidBecomeActive:(NSNotification *)notification;
+- (void)applicationWillResignActive:(NSNotification *)notification;
 - (void)updateIconOrientation;
-- (void)deviceOrientationDidChange:(NSNotification*)notification;
+- (void)deviceOrientationDidChange:(NSNotification *)notification;
 
 @end
 
@@ -123,7 +123,7 @@ typedef enum
     return liveScanner;
 }
 
-- (CLLocation*)location
+- (CLLocation *)location
 {
     return self.liveScanner.location;
 }
@@ -386,7 +386,7 @@ typedef enum
     [self singleImageRecognitionStarted];
 }
 
-- (void)singleImageSentForRecognition:(NSData*)imageData
+- (void)singleImageSentForRecognition:(NSData *)imageData
 {
 	self.previewImageData = imageData;
 	self.previewImageView.image = [UIImage imageWithData:previewImageData];
@@ -404,12 +404,12 @@ typedef enum
     [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
 }
 
-- (void)singleImageDidFailWithError:(NSError*)error
+- (void)singleImageDidFailWithError:(NSError *)error
 {
     [self singleImageRecognitionFinished];
-	NSString* title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
-	NSString* message = [error localizedDescription];
-	UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:title
+	NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
+	NSString *message = [error localizedDescription];
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:nil
                                               cancelButtonTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
@@ -443,8 +443,8 @@ typedef enum
 	}
 	else if (context == &kScanningStatusChanged)
 	{
-		NSNumber* oldValue = [change objectForKey:NSKeyValueChangeOldKey];
-		NSNumber* newValue = [change objectForKey:NSKeyValueChangeNewKey];
+		NSNumber *oldValue = [change objectForKey:NSKeyValueChangeOldKey];
+		NSNumber *newValue = [change objectForKey:NSKeyValueChangeNewKey];
 
 		if ([oldValue boolValue] == NO && [newValue boolValue])
 		{
@@ -517,7 +517,7 @@ typedef enum
 #if TARGET_IPHONE_SIMULATOR
 - (void)choosePhotoFromLibrary
 {
-    UIImagePickerController* imagePickerController = [[UIImagePickerController alloc] init];
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePickerController.delegate = self;
     [self presentViewController:imagePickerController animated:YES completion:nil];
@@ -526,7 +526,7 @@ typedef enum
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-    UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     // TODO: fix image rotation/orientation
     [self.liveScanner processImage:image.CGImage];
 }
@@ -920,7 +920,7 @@ typedef enum
 	}
 }
 
-- (void)applicationDidBecomeActive:(NSNotification*)notification
+- (void)applicationDidBecomeActive:(NSNotification *)notification
 {
 	if (self.shouldResumeScanning)
 	{
@@ -928,7 +928,7 @@ typedef enum
 	}
 }
 
-- (void)applicationWillResignActive:(NSNotification*)notification
+- (void)applicationWillResignActive:(NSNotification *)notification
 {
 	[self.liveScanner stopScanning];
 }
@@ -978,7 +978,7 @@ typedef enum
                          self.cameraModeControl.liveScannerIcon.transform = transform;
                      }];
 }
-- (void)deviceOrientationDidChange:(NSNotification*)notification
+- (void)deviceOrientationDidChange:(NSNotification *)notification
 {
     [self updateIconOrientation];
 }
@@ -1010,7 +1010,7 @@ typedef enum
 
 #pragma mark - SCMLiveScannerDelegate
 
-- (void)liveScanner:(SCMLiveScanner*)scanner recognizingImage:(NSData*)imageData
+- (void)liveScanner:(SCMLiveScanner *)scanner recognizingImage:(NSData *)imageData
 {
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self singleImageSentForRecognition:imageData];
@@ -1024,7 +1024,7 @@ typedef enum
     }
 }
 
-- (void)liveScanner:(SCMLiveScanner*)scanner recognizedImage:(NSData*)imageData atLocation:(CLLocation*)location withResponse:(SCMQueryResponse*)response
+- (void)liveScanner:(SCMLiveScanner *)scanner recognizedImage:(NSData *)imageData atLocation:(CLLocation *)location withResponse:(SCMQueryResponse *)response
 {
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self singleImageRecognitionFinished];
@@ -1032,14 +1032,14 @@ typedef enum
     [self.delegate cameraViewController:self recognizedQuery:response atLocation:location fromImage:imageData];
 }
 
-- (void)liveScanner:(SCMLiveScanner*)scanner recognizedBarcode:(NSString*)text atLocation:(CLLocation*)location
+- (void)liveScanner:(SCMLiveScanner *)scanner recognizedBarcode:(NSString *)text atLocation:(CLLocation *)location
 {
     if ([self.delegate respondsToSelector:@selector(cameraViewController:recognizedBarcode:atLocation:)]) {
         [self.delegate cameraViewController:self recognizedBarcode:text atLocation:location];
     }
 }
 
-- (void)liveScanner:(SCMLiveScanner*)scanner capturedSingleImageWhileOffline:(NSData*)imageData atLocation:(CLLocation*)location
+- (void)liveScanner:(SCMLiveScanner *)scanner capturedSingleImageWhileOffline:(NSData *)imageData atLocation:(CLLocation *)location
 {
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self singleImageDidFailWithError:nil];
@@ -1049,7 +1049,7 @@ typedef enum
     }
 }
 
-- (void)liveScannerShouldClose:(SCMLiveScanner*)scanner
+- (void)liveScannerShouldClose:(SCMLiveScanner *)scanner
 {
     if ([self.delegate respondsToSelector:@selector(cameraViewControllerDidFinish:)]) {
         [self.delegate cameraViewControllerDidFinish:self];

@@ -13,7 +13,7 @@
 
 @protocol SCMBarcodeScannerDelegate <NSObject>
 
-- (void)barcodeScanner:(SCMBarcodeScanner*)scanner didRecognize2DBarcode:(NSString*)text;
-- (void)barcodeScanner:(SCMBarcodeScanner *)scanner didNotRecognize2DBarcode:(NSString*)why;
+- (void)barcodeScanner:(SCMBarcodeScanner *)scanner didRecognize2DBarcode:(NSString *)text;
+- (void)barcodeScanner:(SCMBarcodeScanner *)scanner didNotRecognize2DBarcode:(NSString *)why;
 
 @end

@@ -18,7 +18,7 @@ typedef enum
 @interface SCMCameraModeControl : UIControl
 
 @property (nonatomic, assign, readwrite) SCMCameraMode cameraMode;
-@property (nonatomic, strong, readonly) UIImageView* singleShotIcon;
-@property (nonatomic, strong, readonly) UIImageView* liveScannerIcon;
+@property (nonatomic, strong, readonly) UIImageView *singleShotIcon;
+@property (nonatomic, strong, readonly) UIImageView *liveScannerIcon;
 
 @end

@@ -24,13 +24,13 @@ typedef enum
 
 @property (nonatomic, unsafe_unretained, readwrite) id<SCMLiveScannerDelegate> delegate;
 @property (nonatomic, assign, readwrite) NSTimeInterval noMotionThreshold;
-@property (nonatomic, strong, readonly) SCMCaptureSessionController* captureSessionController;
-@property (nonatomic, strong, readwrite) CLLocation* location;
+@property (nonatomic, strong, readonly) SCMCaptureSessionController *captureSessionController;
+@property (nonatomic, strong, readwrite) CLLocation *location;
 @property (nonatomic, assign, readwrite) BOOL scanQRCodes;
 @property (nonatomic, assign, readonly) SCMLiveScannerMode liveScannerMode;
 @property (nonatomic, assign, readonly) BOOL scanning;
 @property (nonatomic, assign, readonly) BOOL currentImageIsUnrecognized;
-@property (nonatomic, strong, readonly) NSError* recognitionError;
+@property (nonatomic, strong, readonly) NSError *recognitionError;
 @property (nonatomic, assign, readwrite) BOOL paused;
 
 - (void)setupForMode:(SCMLiveScannerMode)initialMode;
@@ -42,7 +42,7 @@ typedef enum
 
 @end
 
-extern NSString* kSCMLiveScannerErrorDomain;
+extern NSString *kSCMLiveScannerErrorDomain;
 
 typedef enum
 {

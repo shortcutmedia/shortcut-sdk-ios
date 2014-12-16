@@ -12,9 +12,9 @@
 
 @interface SCMCameraToolbar (/* Private */)
 
-@property (nonatomic, strong, readwrite) IBOutlet UIButton* doneButton;
-@property (nonatomic, strong, readwrite) IBOutlet UIButton* cameraButton;
-@property (nonatomic, strong, readwrite) IBOutlet UIButton* modeButton;
+@property (nonatomic, strong, readwrite) IBOutlet UIButton *doneButton;
+@property (nonatomic, strong, readwrite) IBOutlet UIButton *cameraButton;
+@property (nonatomic, strong, readwrite) IBOutlet UIButton *modeButton;
 
 @end
 
@@ -41,7 +41,7 @@
 	CGFloat buttonEdgeInset = 16.0;
 	CGFloat cancelButtonX = CGRectGetMinX(self.doneButton.frame);
 	CGFloat maxCancelButtonX = CGRectGetMinX(self.cameraButton.frame) - 8.0;
-	NSString* cancelButtonTitle = [self.doneButton titleForState:UIControlStateNormal];
+	NSString *cancelButtonTitle = [self.doneButton titleForState:UIControlStateNormal];
 	CGSize cancelTitleSize = [cancelButtonTitle sizeWithFont:self.doneButton.titleLabel.font
 																									forWidth:maxCancelButtonX - cancelButtonX - buttonEdgeInset
 																						 lineBreakMode:NSLineBreakByTruncatingTail];

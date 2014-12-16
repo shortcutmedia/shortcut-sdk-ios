@@ -39,7 +39,7 @@
  *  @param location             The location where the query was sent from.
  *  @param imageData            The (captured) image that was recognized.
  */
-- (void)cameraViewController:(SCMCameraViewController*)cameraViewController recognizedQuery:(SCMQueryResponse*)response atLocation:(CLLocation*)location fromImage:(NSData*)imageData;
+- (void)cameraViewController:(SCMCameraViewController *)cameraViewController recognizedQuery:(SCMQueryResponse *)response atLocation:(CLLocation *)location fromImage:(NSData *)imageData;
 
 @optional
 
@@ -62,7 +62,7 @@
  *  @param text                 The content of the barcode.
  *  @param location             The location where the barcode was decoded.
  */
-- (void)cameraViewController:(SCMCameraViewController*)cameraViewController recognizedBarcode:(NSString*)text atLocation:(CLLocation*)location;
+- (void)cameraViewController:(SCMCameraViewController *)cameraViewController recognizedBarcode:(NSString *)text atLocation:(CLLocation *)location;
 
 /**
  *  This method is called when the Snapshot mode of the scanner was used to capture an image but
@@ -80,7 +80,7 @@
  *  @param imageData            The image that was captured.
  *  @param location             The location where the image was captured.
  */
-- (void)cameraViewController:(SCMCameraViewController*)cameraViewController capturedSingleImageWhileOffline:(NSData*)imageData atLocation:(CLLocation*)location;
+- (void)cameraViewController:(SCMCameraViewController *)cameraViewController capturedSingleImageWhileOffline:(NSData *)imageData atLocation:(CLLocation *)location;
 
 /**
  *  This method is invoked when the user taps on the "Done" button.
@@ -89,6 +89,6 @@
  *
  *  @param controller The scanner view controller in which the user tapped the "Done" button.
  */
-- (void)cameraViewControllerDidFinish:(SCMCameraViewController*)controller;
+- (void)cameraViewControllerDidFinish:(SCMCameraViewController *)controller;
 
 @end

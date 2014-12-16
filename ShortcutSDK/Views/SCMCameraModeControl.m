@@ -17,10 +17,10 @@ static const CGFloat KSliderDragThreshold = 4.0;
 
 @interface SCMCameraModeControl (/* Private */)
 
-@property (nonatomic, strong, readwrite) UIImageView* sliderBackground;
-@property (nonatomic, strong, readwrite) UIImageView* singleShotIcon;
-@property (nonatomic, strong, readwrite) UIImageView* liveScannerIcon;
-@property (nonatomic, strong, readwrite) UIImageView* slider;
+@property (nonatomic, strong, readwrite) UIImageView *sliderBackground;
+@property (nonatomic, strong, readwrite) UIImageView *singleShotIcon;
+@property (nonatomic, strong, readwrite) UIImageView *liveScannerIcon;
+@property (nonatomic, strong, readwrite) UIImageView *slider;
 @property (nonatomic, assign, readwrite) CGFloat initialTouchX;
 @property (nonatomic, assign, readwrite) BOOL userDraggedSlider;
 
@@ -44,25 +44,25 @@ static const CGFloat KSliderDragThreshold = 4.0;
 {
 	[super awakeFromNib];
 	
-	NSString* sliderBackroundImagePath = [[SCMSDKConfig SDKBundle] pathForResource:@"CameraModeSliderBackground" ofType:@"png"];
-	UIImage* sliderBackgroundImage = [UIImage imageWithContentsOfFile:sliderBackroundImagePath];
+	NSString *sliderBackroundImagePath = [[SCMSDKConfig SDKBundle] pathForResource:@"CameraModeSliderBackground" ofType:@"png"];
+	UIImage *sliderBackgroundImage = [UIImage imageWithContentsOfFile:sliderBackroundImagePath];
 	self.sliderBackground = [[UIImageView alloc] initWithImage:sliderBackgroundImage];
 	[self addSubview:self.sliderBackground];
 	
-	NSString* singleShotPath = [[SCMSDKConfig SDKBundle] pathForResource:@"CameraModeSingleShotIcon" ofType:@"png"];
-	UIImage* singleShotImage = [UIImage imageWithContentsOfFile:singleShotPath];
+	NSString *singleShotPath = [[SCMSDKConfig SDKBundle] pathForResource:@"CameraModeSingleShotIcon" ofType:@"png"];
+	UIImage *singleShotImage = [UIImage imageWithContentsOfFile:singleShotPath];
 	self.singleShotIcon = [[UIImageView alloc] initWithImage:singleShotImage];
 	self.singleShotIcon.contentMode = UIViewContentModeCenter;
 	[self addSubview:self.singleShotIcon];
 	
-	NSString* liveIconPath = [[SCMSDKConfig SDKBundle] pathForResource:@"CameraModeLiveScannerIcon" ofType:@"png"];
-	UIImage* liveIconImage = [UIImage imageWithContentsOfFile:liveIconPath];
+	NSString *liveIconPath = [[SCMSDKConfig SDKBundle] pathForResource:@"CameraModeLiveScannerIcon" ofType:@"png"];
+	UIImage *liveIconImage = [UIImage imageWithContentsOfFile:liveIconPath];
 	self.liveScannerIcon = [[UIImageView alloc] initWithImage:liveIconImage];
 	self.liveScannerIcon.contentMode = UIViewContentModeCenter;
 	[self addSubview:self.liveScannerIcon];
 	
-	NSString* sliderPath = [[SCMSDKConfig SDKBundle] pathForResource:@"CameraModeSlider" ofType:@"png"];
-	UIImage* sliderImage = [UIImage imageWithContentsOfFile:sliderPath];
+	NSString *sliderPath = [[SCMSDKConfig SDKBundle] pathForResource:@"CameraModeSlider" ofType:@"png"];
+	UIImage *sliderImage = [UIImage imageWithContentsOfFile:sliderPath];
 	self.slider = [[UIImageView alloc] initWithImage:sliderImage];
 	[self addSubview:self.slider];
 }
@@ -116,7 +116,7 @@ static const CGFloat KSliderDragThreshold = 4.0;
 	return YES;
 }
 
-- (void)updateSliderFrameWithTouch:(UITouch*)touch
+- (void)updateSliderFrameWithTouch:(UITouch *)touch
 {
 	CGPoint location = [touch locationInView:self];
 	CGFloat deltaX = location.x - self.initialTouchX;

@@ -11,7 +11,7 @@
 
 @implementation UIImage (ImageOrientation)
 
-+ (UIImageOrientation)uiImageOrientationForCGImageOrientation:(NSNumber*)cgOrientation
++ (UIImageOrientation)uiImageOrientationForCGImageOrientation:(NSNumber *)cgOrientation
 {
 	UIImageOrientation uiOrientation = UIImageOrientationUp;
 	switch ([cgOrientation integerValue])
@@ -36,7 +36,7 @@
 	return uiOrientation;
 }
 
-+ (NSNumber*)cgImageOrientationForUIImageOrientation:(UIImageOrientation)uiOrientation
++ (NSNumber *)cgImageOrientationForUIImageOrientation:(UIImageOrientation)uiOrientation
 {
 	NSInteger cgImageOrientation = 1;
 	
@@ -66,7 +66,7 @@
 	return [NSNumber numberWithInteger:cgImageOrientation];
 }
 
-+ (NSNumber*)cgImageOrientationForUIDeviceOrientation:(UIDeviceOrientation)deviceOrientation
++ (NSNumber *)cgImageOrientationForUIDeviceOrientation:(UIDeviceOrientation)deviceOrientation
 {
 	NSInteger cgImageOrientation = 1;
 	

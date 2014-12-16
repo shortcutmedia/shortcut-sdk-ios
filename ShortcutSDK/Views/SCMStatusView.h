@@ -11,7 +11,7 @@
 
 @interface SCMStatusView : UIView
 
-- (void)setStatusTitle:(NSString *)title subtitle:(NSString*)subtitle;
-- (void)setStatusTitle:(NSString *)title subtitle:(NSString*)subtitle showActivityIndicator:(BOOL)showActivityIndicator;
+- (void)setStatusTitle:(NSString *)title subtitle:(NSString *)subtitle;
+- (void)setStatusTitle:(NSString *)title subtitle:(NSString *)subtitle showActivityIndicator:(BOOL)showActivityIndicator;
 
 @end

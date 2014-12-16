@@ -25,12 +25,12 @@
 /**
  *  The image to submit to the image recognition service.
  */
-@property (nonatomic, strong, readonly) NSData* imageData;
+@property (nonatomic, strong, readonly) NSData *imageData;
 
 /**
  *  The location where the image was captured.
  */
-@property (nonatomic, strong, readonly) CLLocation* location;
+@property (nonatomic, strong, readonly) CLLocation *location;
 
 /**
  *  The response of the image recognition service.
@@ -38,7 +38,7 @@
  *  @discussion
  *  This is only populated after the operation finished successfully.
  */
-@property (nonatomic, strong, readonly) SCMQueryResponse* queryResponse;
+@property (nonatomic, strong, readonly) SCMQueryResponse *queryResponse;
 
 /**
  *  The (potential) error that occurred during the operation.
@@ -46,7 +46,7 @@
  *  @discussion
  *  This is only populated after to operation finished with a failure.
  */
-@property (nonatomic, strong, readonly) NSError* error;
+@property (nonatomic, strong, readonly) NSError *error;
 
 /**
  *  This is for internal use only.
@@ -63,6 +63,6 @@
  *
  *  @return A new query operation instance.
  */
-- (id)initWithImageData:(NSData*)imageData location:(CLLocation*)location;
+- (id)initWithImageData:(NSData *)imageData location:(CLLocation *)location;
 
 @end

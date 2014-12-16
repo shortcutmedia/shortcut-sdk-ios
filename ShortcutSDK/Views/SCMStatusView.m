@@ -15,9 +15,9 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
 
 @interface SCMStatusView (/* Private */)
 
-@property (nonatomic, strong, readwrite) UILabel* titleLabel;
-@property (nonatomic, strong, readwrite) UILabel* subtitleLabel;
-@property (nonatomic, strong, readwrite) UIActivityIndicatorView* activityIndicator;
+@property (nonatomic, strong, readwrite) UILabel *titleLabel;
+@property (nonatomic, strong, readwrite) UILabel *subtitleLabel;
+@property (nonatomic, strong, readwrite) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, assign, readwrite) BOOL showActivityIndicator;
 
 - (void)setupView;
@@ -146,12 +146,12 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
  }
  */
 
-- (void)setStatusTitle:(NSString *)title subtitle:(NSString*)subtitle
+- (void)setStatusTitle:(NSString *)title subtitle:(NSString *)subtitle
 {
 	[self setStatusTitle:title subtitle:subtitle showActivityIndicator:NO];
 }
 
-- (void)setStatusTitle:(NSString *)title subtitle:(NSString*)subtitle showActivityIndicator:(BOOL)showActivity
+- (void)setStatusTitle:(NSString *)title subtitle:(NSString *)subtitle showActivityIndicator:(BOOL)showActivity
 {
 	self.titleLabel.text = title;
 	self.subtitleLabel.text = subtitle;

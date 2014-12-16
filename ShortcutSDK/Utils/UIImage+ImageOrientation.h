@@ -11,8 +11,8 @@
 
 @interface UIImage (ImageOrientation)
     
-+ (UIImageOrientation)uiImageOrientationForCGImageOrientation:(NSNumber*)cgOrientation;
-+ (NSNumber*)cgImageOrientationForUIImageOrientation:(UIImageOrientation)uiOrientation;
-+ (NSNumber*)cgImageOrientationForUIDeviceOrientation:(UIDeviceOrientation)deviceOrientation;
++ (UIImageOrientation)uiImageOrientationForCGImageOrientation:(NSNumber *)cgOrientation;
++ (NSNumber *)cgImageOrientationForUIImageOrientation:(UIImageOrientation)uiOrientation;
++ (NSNumber *)cgImageOrientationForUIDeviceOrientation:(UIDeviceOrientation)deviceOrientation;
 
 @end

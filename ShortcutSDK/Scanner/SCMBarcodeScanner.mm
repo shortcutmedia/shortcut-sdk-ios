@@ -14,7 +14,7 @@
 
 @interface SCMBarcodeScanner (/* Private */)
 
-@property (nonatomic, retain, readwrite) Decoder* decoder;
+@property (nonatomic, retain, readwrite) Decoder *decoder;
 
 @end
 
@@ -32,7 +32,7 @@
 	if (self != nil)
 	{
 		self.decoder = [[[Decoder alloc] init] autorelease];
-		QRCodeReader* qrCodeReader = [[[QRCodeReader alloc] init] autorelease];
+		QRCodeReader *qrCodeReader = [[[QRCodeReader alloc] init] autorelease];
 		decoder.readers = [NSSet setWithObject:qrCodeReader];
 		decoder.delegate = self;
 	}
@@ -49,8 +49,8 @@
 
 - (void)decodeImage:(CGImageRef)imageRef
 {
-	UIImage* image = [UIImage imageWithCGImage:imageRef];
-//	NSDate* startDecode = [NSDate date];
+	UIImage *image = [UIImage imageWithCGImage:imageRef];
+//	NSDate *startDecode = [NSDate date];
 	[self.decoder decodeImage:image];
 //	NSTimeInterval decodeTime = [[NSDate date] timeIntervalSinceDate:startDecode];
 //	DebugLog(@"decodeImage: %f", decodeTime);

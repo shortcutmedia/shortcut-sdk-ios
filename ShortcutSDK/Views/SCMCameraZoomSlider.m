@@ -23,12 +23,12 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 
 @interface SCMCameraZoomSlider (/* Private */)
 
-@property (nonatomic, strong) UIImage* trackMinImage;
-@property (nonatomic, strong) UIImage* trackMaxImage;
-@property (nonatomic, strong) UIImage* trackImage;
-@property (nonatomic, strong) UIImage* thumbImage;
-@property (nonatomic, strong) UIImage* minusImage;
-@property (nonatomic, strong) UIImage* plusImage;
+@property (nonatomic, strong) UIImage *trackMinImage;
+@property (nonatomic, strong) UIImage *trackMaxImage;
+@property (nonatomic, strong) UIImage *trackImage;
+@property (nonatomic, strong) UIImage *thumbImage;
+@property (nonatomic, strong) UIImage *minusImage;
+@property (nonatomic, strong) UIImage *plusImage;
 @property (nonatomic, assign) CGRect trackRect;
 @property (nonatomic, assign) CGRect trackMinRect;
 @property (nonatomic, assign) CGRect trackMaxRect;
@@ -40,11 +40,11 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 @property (nonatomic, assign) CGRect thumbTouchRect;
 @property (nonatomic, assign) CGFloat touchOrigin;
 @property (nonatomic, assign) CGFloat thumbOrigin;
-@property (nonatomic, strong) NSNumber* initialDelta;
+@property (nonatomic, strong) NSNumber *initialDelta;
 @property (nonatomic, assign) BOOL draggingThumb;
 @property (nonatomic, assign) BOOL zoomingIn;
 @property (nonatomic, assign) BOOL zoomingOut;
-@property (nonatomic, strong) NSTimer* hideControlsTimer;
+@property (nonatomic, strong) NSTimer *hideControlsTimer;
 @property (nonatomic, assign, readwrite) CGFloat initialPinchZoomScale;
 
 - (void)updateThumbRects;
@@ -53,7 +53,7 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 - (void)continueZooming;
 - (void)updateZoomLevel;
 - (void)cancelHideZoomControlTimer;
-- (void)hideZoomControlTimerExpired:(NSTimer*)timer;
+- (void)hideZoomControlTimerExpired:(NSTimer *)timer;
 - (void)animateToHidden;
 
 @end
@@ -374,17 +374,17 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 									 }];
 }
 
-- (void)hideZoomControlTimerExpired:(NSTimer*)timer
+- (void)hideZoomControlTimerExpired:(NSTimer *)timer
 {
 	self.hideControlsTimer = nil;
 	[self animateToHidden];
 }
 
-- (void)pinchToZoom:(UIGestureRecognizer*)gestureRecognizer
+- (void)pinchToZoom:(UIGestureRecognizer *)gestureRecognizer
 {
 	NSAssert([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]], @"Requires a UIPinchGestureRecognizer");
 	
-	UIPinchGestureRecognizer* pinchGestureRecognizer = (UIPinchGestureRecognizer*)gestureRecognizer;
+	UIPinchGestureRecognizer *pinchGestureRecognizer = (UIPinchGestureRecognizer *)gestureRecognizer;
 	
 	if (pinchGestureRecognizer.state == UIGestureRecognizerStateBegan)
 	{

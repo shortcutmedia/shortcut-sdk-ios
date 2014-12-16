@@ -13,12 +13,12 @@
 
 @interface SCMRecognitionOperation ()
 
-@property (nonatomic, strong, readwrite) CLLocation* location;
-@property (nonatomic, strong, readwrite) NSData* imageData;
-@property (nonatomic, strong, readwrite) NSMutableURLRequest* request;
+@property (nonatomic, strong, readwrite) CLLocation *location;
+@property (nonatomic, strong, readwrite) NSData *imageData;
+@property (nonatomic, strong, readwrite) NSMutableURLRequest *request;
 @property (nonatomic, readwrite) bool closeCamera;
-@property (nonatomic, strong, readwrite) SCMQueryResponse* queryResponse;
-@property (nonatomic, strong, readwrite) NSError* error;
+@property (nonatomic, strong, readwrite) SCMQueryResponse *queryResponse;
+@property (nonatomic, strong, readwrite) NSError *error;
 
 @end
 
@@ -30,7 +30,7 @@
 @synthesize queryResponse;
 @synthesize error;
 
-- (id)initWithImageData:(NSData*)data location:(CLLocation*)queryLocation
+- (id)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation
 {
     self = [super init];
     if (self != nil)
@@ -39,14 +39,14 @@
         self.imageData = data;
         self.closeCamera = false;
         
-        NSString* queriesURLString = [NSString stringWithFormat:@"http://%@/v4/query", [[SCMSDKConfig sharedConfig] queryServerAddress]];
-        NSURL* queriesURL = [NSURL URLWithString:queriesURLString];
+        NSString *queriesURLString = [NSString stringWithFormat:@"http://%@/v4/query", [[SCMSDKConfig sharedConfig] queryServerAddress]];
+        NSURL *queriesURL = [NSURL URLWithString:queriesURLString];
         
-        KWSImageRequest* imageRequest = [[KWSImageRequest alloc] initWithURL:queriesURL imageData:data];
+        KWSImageRequest *imageRequest = [[KWSImageRequest alloc] initWithURL:queriesURL imageData:data];
         imageRequest.returnedMetadata = @"details";
         
-        NSMutableDictionary* clientData = [NSMutableDictionary dictionaryWithCapacity:4];
-        NSString* deviceUUID = [[SCMSDKConfig sharedConfig] clientID];
+        NSMutableDictionary *clientData = [NSMutableDictionary dictionaryWithCapacity:4];
+        NSString *deviceUUID = [[SCMSDKConfig sharedConfig] clientID];
         if (deviceUUID != nil)
         {
             [clientData setObject:deviceUUID forKey:@"device_id"];
@@ -58,20 +58,20 @@
             [clientData setObject:[NSNumber numberWithDouble:queryLocation.coordinate.longitude] forKey:@"longitude"];
         }
         
-        NSString* bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-        NSString* bundleShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-        NSString* bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-        NSString* appVersion = [NSString stringWithFormat:@"%@-%@/%@", bundleName, bundleShortVersion, bundleVersion];
+        NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+        NSString *bundleShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+        NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+        NSString *appVersion = [NSString stringWithFormat:@"%@-%@/%@", bundleName, bundleShortVersion, bundleVersion];
         [clientData setObject:appVersion forKey:@"application_id"];
         
         if (clientData.count > 0)
         {
             DebugLog(@"clientData: %@", clientData);
-            NSData* jsonData = [NSJSONSerialization dataWithJSONObject:clientData options:NSJSONWritingPrettyPrinted error:NULL];
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:clientData options:NSJSONWritingPrettyPrinted error:NULL];
             imageRequest.clientData = jsonData;
         }
         
-        NSMutableURLRequest* signedRequest = [imageRequest signedRequestWithAccessKey:[[SCMSDKConfig sharedConfig] accessKey]
+        NSMutableURLRequest *signedRequest = [imageRequest signedRequestWithAccessKey:[[SCMSDKConfig sharedConfig] accessKey]
                                                                             secretKey:[[SCMSDKConfig sharedConfig] secretKey]];
         [signedRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
         
@@ -110,7 +110,7 @@
         bool isOutdated = false;
         bool hasNewer = false;
         
-        for (SCMQueryResult* result in self.queryResponse.results)
+        for (SCMQueryResult *result in self.queryResponse.results)
         {
             bool test = false;
             bool newer = false;
@@ -148,9 +148,9 @@
 
 #pragma mark - Helpers
 
-- (void)addAcceptLanguageHeaderToRequest:(NSMutableURLRequest*)mutableRequest
+- (void)addAcceptLanguageHeaderToRequest:(NSMutableURLRequest *)mutableRequest
 {
-    NSString* language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
     if (!language) {
         language = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
     }

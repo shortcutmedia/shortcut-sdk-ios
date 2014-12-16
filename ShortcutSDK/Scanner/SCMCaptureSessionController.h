@@ -19,9 +19,9 @@ typedef enum
 @interface SCMCaptureSessionController : NSObject
 
 @property (nonatomic, unsafe_unretained, readwrite) id<AVCaptureVideoDataOutputSampleBufferDelegate> sampleBufferDelegate;
-@property (nonatomic, strong, readonly) NSString* captureSessionPreset;
-@property (nonatomic, strong, readonly) AVCaptureDevice* captureDevice;
-@property (nonatomic, strong, readonly) AVCaptureVideoPreviewLayer* previewLayer;
+@property (nonatomic, strong, readonly) NSString *captureSessionPreset;
+@property (nonatomic, strong, readonly) AVCaptureDevice *captureDevice;
+@property (nonatomic, strong, readonly) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, assign, readonly) SCMCaptureSessionMode captureSessionMode;
 @property (nonatomic, assign, readonly) BOOL flashOn;
 @property (nonatomic, assign, readonly) CMTime minimumLiveScanningFrameDuration;

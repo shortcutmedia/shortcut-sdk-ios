@@ -29,7 +29,7 @@
 
 - (NSString *)queryUUID
 {
-    NSString* uuid = [SCMDictionaryUtils stringFromDictionary:self.responseDictionary atPath:@"query_id"];
+    NSString *uuid = [SCMDictionaryUtils stringFromDictionary:self.responseDictionary atPath:@"query_id"];
     if (uuid) {
         uuid = [SCMUUIDUtils normalizeUUID:uuid];
     }

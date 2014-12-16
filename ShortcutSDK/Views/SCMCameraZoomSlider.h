@@ -17,6 +17,6 @@
 - (void)showZoomControl;
 - (void)resetHideZoomControlTimer;
 - (void)hideZoomControl;
-- (void)pinchToZoom:(UIGestureRecognizer*)gestureRecognizer;
+- (void)pinchToZoom:(UIGestureRecognizer *)gestureRecognizer;
 
 @end

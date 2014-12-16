@@ -12,9 +12,9 @@
 
 @interface SCMProgressToolbar (/* Private */)
 
-@property (nonatomic, strong, readwrite) IBOutlet UIButton* cancelButton;
-@property (nonatomic, strong, readwrite) IBOutlet UILabel* statusLabel;
-@property (nonatomic, strong, readwrite) IBOutlet UIActivityIndicatorView* activityIndicator;
+@property (nonatomic, strong, readwrite) IBOutlet UIButton *cancelButton;
+@property (nonatomic, strong, readwrite) IBOutlet UILabel *statusLabel;
+@property (nonatomic, strong, readwrite) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -59,7 +59,7 @@
 	CGFloat buttonEdgeInset = 16.0;
 	CGFloat cancelButtonX = CGRectGetMinX(self.cancelButton.frame);
 	CGFloat maxCancelButtonX = CGRectGetMinX(self.activityIndicator.frame) - 8.0;
-	NSString* cancelButtonTitle = [self.cancelButton titleForState:UIControlStateNormal];
+	NSString *cancelButtonTitle = [self.cancelButton titleForState:UIControlStateNormal];
 	CGSize cancelTitleSize = [cancelButtonTitle sizeWithFont:self.cancelButton.titleLabel.font
 																									forWidth:maxCancelButtonX - cancelButtonX - buttonEdgeInset
 																						 lineBreakMode:NSLineBreakByTruncatingTail];

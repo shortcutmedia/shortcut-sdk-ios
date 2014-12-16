@@ -16,9 +16,9 @@
 
 @implementation SCMImageUtils
 
-+ (NSData*)scaledImageDataWithImage:(CGImageRef)sourceImage orientation:(NSInteger)imageOrientation maxSize:(CGFloat)maximumImageSize compression:(CGFloat)compressionQuality zoomFactor:(CGFloat)zoomFactor
++ (NSData *)scaledImageDataWithImage:(CGImageRef)sourceImage orientation:(NSInteger)imageOrientation maxSize:(CGFloat)maximumImageSize compression:(CGFloat)compressionQuality zoomFactor:(CGFloat)zoomFactor
 {
-	NSMutableData* imageData = nil;
+	NSMutableData *imageData = nil;
 	
 	if (sourceImage != NULL)
 	{
@@ -28,9 +28,9 @@
 		CGImageDestinationRef imageDestination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)imageData, kUTTypeJPEG, 1, NULL);
 		if (imageDestination != NULL)
 		{
-			NSMutableDictionary* imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
-			[imageProperties setObject:[NSNumber numberWithInteger:imageOrientation] forKey:(NSString*)kCGImagePropertyOrientation];
-			[imageProperties setObject:[NSNumber numberWithFloat:compressionQuality] forKey:(NSString*)kCGImageDestinationLossyCompressionQuality];
+			NSMutableDictionary *imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
+			[imageProperties setObject:[NSNumber numberWithInteger:imageOrientation] forKey:(NSString *)kCGImagePropertyOrientation];
+			[imageProperties setObject:[NSNumber numberWithFloat:compressionQuality] forKey:(NSString *)kCGImageDestinationLossyCompressionQuality];
 			
 			CGImageDestinationAddImage(imageDestination, scaledImage, (__bridge CFDictionaryRef)imageProperties);
 			BOOL succeeded = CGImageDestinationFinalize(imageDestination);
@@ -48,9 +48,9 @@
 	return imageData;
 }
 
-+ (NSData*)scaledImageDataWithJPEGData:(NSData*)jpegData orientation:(NSInteger)imageOrientation maxSize:(CGFloat)maximumImageSize compression:(CGFloat)compressionQuality zoomFactor:(CGFloat)zoomFactor
++ (NSData *)scaledImageDataWithJPEGData:(NSData *)jpegData orientation:(NSInteger)imageOrientation maxSize:(CGFloat)maximumImageSize compression:(CGFloat)compressionQuality zoomFactor:(CGFloat)zoomFactor
 {
-	NSMutableData* imageData = nil;
+	NSMutableData *imageData = nil;
 	
 	CGDataProviderRef jpegDataProvider = CGDataProviderCreateWithCFData((__bridge CFDataRef)jpegData);
 	if (jpegDataProvider != NULL)
@@ -66,9 +66,9 @@
 			if (imageDestination != NULL)
 			{
 				DebugLog(@"compressing image with quality %f, orientation %ld", compressionQuality, (long)imageOrientation);
-				NSMutableDictionary* imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
-				[imageProperties setObject:[NSNumber numberWithInteger:imageOrientation] forKey:(NSString*)kCGImagePropertyOrientation];
-				[imageProperties setObject:[NSNumber numberWithFloat:compressionQuality] forKey:(NSString*)kCGImageDestinationLossyCompressionQuality];
+				NSMutableDictionary *imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
+				[imageProperties setObject:[NSNumber numberWithInteger:imageOrientation] forKey:(NSString *)kCGImagePropertyOrientation];
+				[imageProperties setObject:[NSNumber numberWithFloat:compressionQuality] forKey:(NSString *)kCGImageDestinationLossyCompressionQuality];
 				
 				CGImageDestinationAddImage(imageDestination, scaledImage, (__bridge CFDictionaryRef)imageProperties);
 				BOOL succeeded = CGImageDestinationFinalize(imageDestination);
@@ -222,14 +222,14 @@
 	return scaledImage;
 }
 
-+ (UIImage*)imageWithCompressedData:(NSData*)compressedData
++ (UIImage *)imageWithCompressedData:(NSData *)compressedData
 {
-	UIImage* image = nil;
+	UIImage *image = nil;
 	CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)compressedData, NULL);
 	if (imageSource != NULL)
 	{
 		CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
-		NSNumber* orientation = [(__bridge NSDictionary*)imageProperties objectForKey:(NSString*)kCGImagePropertyOrientation];
+		NSNumber *orientation = [(__bridge NSDictionary *)imageProperties objectForKey:(NSString *)kCGImagePropertyOrientation];
 		UIImageOrientation uiOrientation = [UIImage uiImageOrientationForCGImageOrientation:orientation];
 		CFRelease(imageProperties);
 
@@ -246,15 +246,15 @@
 	return image;
 }
 
-+ (UIImage*)thumbnailWithCompressedData:(NSData*)compressedData thumbnailSize:(CGFloat)size
++ (UIImage *)thumbnailWithCompressedData:(NSData *)compressedData thumbnailSize:(CGFloat)size
 {
-	UIImage* thumbnail = nil;
+	UIImage *thumbnail = nil;
 	
 	CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)compressedData, NULL);
 	if (imageSource != NULL)
 	{
 		CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
-		NSNumber* orientation = [(__bridge NSDictionary*)imageProperties objectForKey:(NSString*)kCGImagePropertyOrientation];
+		NSNumber *orientation = [(__bridge NSDictionary *)imageProperties objectForKey:(NSString *)kCGImagePropertyOrientation];
 		UIImageOrientation uiOrientation = [UIImage uiImageOrientationForCGImageOrientation:orientation];
 		CFRelease(imageProperties);
 		
@@ -277,9 +277,9 @@
 	return thumbnail;
 }
 
-+ (UIImage*)imageFromURL:(NSURL*)imageURL
++ (UIImage *)imageFromURL:(NSURL *)imageURL
 {
-	UIImage* image = nil;
+	UIImage *image = nil;
 
     CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)imageURL, NULL);
     if (imageSource != NULL)
@@ -288,12 +288,12 @@
         CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
         if (imageProperties != NULL)
         {
-            NSNumber* orientation = [(__bridge NSDictionary*)imageProperties objectForKey:(NSString*)kCGImagePropertyOrientation];
+            NSNumber *orientation = [(__bridge NSDictionary *)imageProperties objectForKey:(NSString *)kCGImagePropertyOrientation];
             uiOrientation = [UIImage uiImageOrientationForCGImageOrientation:orientation];
             CFRelease(imageProperties);
         }
         
-        NSDictionary* imageSourceProps = [NSDictionary dictionaryWithObjectsAndKeys:(NSString*)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint, nil];
+        NSDictionary *imageSourceProps = [NSDictionary dictionaryWithObjectsAndKeys:(NSString *)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint, nil];
         CGImageRef cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, (__bridge CFDictionaryRef)imageSourceProps);
         if (cgImage != NULL)
         {
@@ -306,9 +306,9 @@
 	return image;
 }
 
-+ (UIImage*)thumbnailFromURL:(NSURL*)imageURL maxSize:(CGFloat)maxSize
++ (UIImage *)thumbnailFromURL:(NSURL *)imageURL maxSize:(CGFloat)maxSize
 {
-	UIImage* image = nil;
+	UIImage *image = nil;
 	
     CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)imageURL, NULL);
     if (imageSource != NULL)
@@ -317,12 +317,12 @@
         CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
         if (imageProperties != NULL)
         {
-            NSNumber* orientation = [(__bridge NSDictionary*)imageProperties objectForKey:(NSString*)kCGImagePropertyOrientation];
+            NSNumber *orientation = [(__bridge NSDictionary *)imageProperties objectForKey:(NSString *)kCGImagePropertyOrientation];
             uiOrientation = [UIImage uiImageOrientationForCGImageOrientation:orientation];
             CFRelease(imageProperties);
         }
         
-        NSDictionary* imageSourceProps = [NSDictionary dictionaryWithObjectsAndKeys:(NSString*)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint, nil];
+        NSDictionary *imageSourceProps = [NSDictionary dictionaryWithObjectsAndKeys:(NSString *)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint, nil];
         CGImageRef cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, (__bridge CFDictionaryRef)imageSourceProps);
         if (cgImage != NULL)
         {
@@ -401,7 +401,7 @@
     return newImage;
 }
 
-+ (NSData*)compressedImageDataFromSampleBuffer:(CMSampleBufferRef)sampleBuffer size:(CGSize)size compression:(CGFloat)compression
++ (NSData *)compressedImageDataFromSampleBuffer:(CMSampleBufferRef)sampleBuffer size:(CGSize)size compression:(CGFloat)compression
 {
 	CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 	
@@ -425,7 +425,7 @@
 	sourceImageBuffer.rowBytes = bytesPerRow;
 	
 	size_t scaledImageSize = size.height * (size.width * sizeof(uint32_t));
-	NSMutableData* scaledImageData = [[NSMutableData alloc] initWithLength:scaledImageSize];
+	NSMutableData *scaledImageData = [[NSMutableData alloc] initWithLength:scaledImageSize];
 
 	if (vImageScale_ARGB8888 != NULL && (width != size.width || height != size.height))
 	{
@@ -470,7 +470,7 @@
 		CGDataProviderRelease(dataProvider);
 	}
 	
-	NSData* compressedImageData = nil;
+	NSData *compressedImageData = nil;
 	
 	if (imageRef != NULL)
 	{
@@ -511,7 +511,7 @@
 	sourceImageBuffer.rowBytes = bytesPerRow;
 	
 	size_t scaledImageSize = size.height * (size.width * sizeof(uint32_t));
-	NSMutableData* scaledImageData = [[NSMutableData alloc] initWithLength:scaledImageSize];
+	NSMutableData *scaledImageData = [[NSMutableData alloc] initWithLength:scaledImageSize];
 	
 	if (vImageScale_ARGB8888 != NULL && (width != size.width || height != size.height))
 	{
@@ -561,9 +561,9 @@
 	return imageRef;
 }
 
-+ (NSData*)JPEGDataFromCGImage:(CGImageRef)sourceImage compression:(CGFloat)compression
++ (NSData *)JPEGDataFromCGImage:(CGImageRef)sourceImage compression:(CGFloat)compression
 {
-	NSMutableData* compressedImageData = nil;
+	NSMutableData *compressedImageData = nil;
 	
 	if (sourceImage != NULL)
 	{
@@ -572,8 +572,8 @@
 		CGImageDestinationRef imageDestination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)compressedImageData, kUTTypeJPEG, 1, NULL);
 		if (imageDestination != NULL)
 		{
-			NSMutableDictionary* imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
-			[imageProperties setObject:[NSNumber numberWithFloat:compression] forKey:(NSString*)kCGImageDestinationLossyCompressionQuality];
+			NSMutableDictionary *imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
+			[imageProperties setObject:[NSNumber numberWithFloat:compression] forKey:(NSString *)kCGImageDestinationLossyCompressionQuality];
 			
 			CGImageDestinationAddImage(imageDestination, sourceImage, (__bridge CFDictionaryRef)imageProperties);
 			BOOL succeeded = CGImageDestinationFinalize(imageDestination);
@@ -589,9 +589,9 @@
 	return compressedImageData;
 }
 
-+ (NSData*)JPEGDataFromSampleBuffer:(CMSampleBufferRef)sampleBuffer compression:(CGFloat)compression
++ (NSData *)JPEGDataFromSampleBuffer:(CMSampleBufferRef)sampleBuffer compression:(CGFloat)compression
 {
-	NSMutableData* compressedImageData = nil;
+	NSMutableData *compressedImageData = nil;
 	
 	CGImageRef sourceImage = [self newImageFromSampleBuffer:sampleBuffer];
 	if (sourceImage != NULL)
@@ -601,8 +601,8 @@
 		CGImageDestinationRef imageDestination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)compressedImageData, kUTTypeJPEG, 1, NULL);
 		if (imageDestination != NULL)
 		{
-			NSMutableDictionary* imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
-			[imageProperties setObject:[NSNumber numberWithFloat:compression] forKey:(NSString*)kCGImageDestinationLossyCompressionQuality];
+			NSMutableDictionary *imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
+			[imageProperties setObject:[NSNumber numberWithFloat:compression] forKey:(NSString *)kCGImageDestinationLossyCompressionQuality];
 			
 			CGImageDestinationAddImage(imageDestination, sourceImage, (__bridge CFDictionaryRef)imageProperties);
 			BOOL succeeded = CGImageDestinationFinalize(imageDestination);
@@ -620,20 +620,20 @@
 	return compressedImageData;
 }
 
-+ (NSData*)scaledJPEGDataFromJPEGData:(NSData*)jpegData maxSize:(CGFloat)maxSize compression:(CGFloat)compression
++ (NSData *)scaledJPEGDataFromJPEGData:(NSData *)jpegData maxSize:(CGFloat)maxSize compression:(CGFloat)compression
 {
-	NSMutableData* scaledImageData = [[NSMutableData alloc] init];
+	NSMutableData *scaledImageData = [[NSMutableData alloc] init];
 	CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)jpegData, NULL);
 	if (imageSource != NULL)
 	{
-		NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:(id)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint,
+		NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:(id)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint,
 														 [NSNumber numberWithBool:YES], kCGImageSourceCreateThumbnailFromImageAlways,
 														 [NSNumber numberWithFloat:maxSize], kCGImageSourceThumbnailMaxPixelSize,
 														 nil];
 		CGImageRef thumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, (__bridge CFDictionaryRef)options);
 
-		NSMutableDictionary* imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
-		[imageProperties setObject:[NSNumber numberWithFloat:compression] forKey:(NSString*)kCGImageDestinationLossyCompressionQuality];
+		NSMutableDictionary *imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
+		[imageProperties setObject:[NSNumber numberWithFloat:compression] forKey:(NSString *)kCGImageDestinationLossyCompressionQuality];
 
 		CGImageDestinationRef scaledImageDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)scaledImageData, kUTTypeJPEG, 1, NULL);
 		if (scaledImageDest != NULL)
@@ -655,13 +655,13 @@
 	return scaledImageData;
 }
 
-+ (NSData*)scaledImageFromSampleBuffer:(CMSampleBufferRef)sampleBuffer maxSize:(CGFloat)maxSize compression:(CGFloat)compressionQuality
++ (NSData *)scaledImageFromSampleBuffer:(CMSampleBufferRef)sampleBuffer maxSize:(CGFloat)maxSize compression:(CGFloat)compressionQuality
 {
 	CGImageRef sourceImage = [self newImageFromSampleBuffer:sampleBuffer];
 	DebugLog(@"source image width/height: %ld, %ld", CGImageGetWidth(sourceImage), CGImageGetHeight(sourceImage));
 
-	NSMutableData* imageData = nil;
-	NSMutableData* compressedImageData = nil;
+	NSMutableData *imageData = nil;
+	NSMutableData *compressedImageData = nil;
 
 	if (sourceImage != NULL)
 	{
@@ -669,8 +669,8 @@
 		CGImageDestinationRef imageDestination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)imageData, kUTTypeJPEG, 1, NULL);
 		if (imageDestination != NULL)
 		{
-			NSMutableDictionary* imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
-			[imageProperties setObject:[NSNumber numberWithFloat:compressionQuality] forKey:(NSString*)kCGImageDestinationLossyCompressionQuality];
+			NSMutableDictionary *imageProperties = [NSMutableDictionary dictionaryWithCapacity:2];
+			[imageProperties setObject:[NSNumber numberWithFloat:compressionQuality] forKey:(NSString *)kCGImageDestinationLossyCompressionQuality];
 			
 			CGImageDestinationAddImage(imageDestination, sourceImage, (__bridge CFDictionaryRef)imageProperties);
 			BOOL succeeded = CGImageDestinationFinalize(imageDestination);
@@ -684,7 +684,7 @@
 			CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)imageData, NULL);
 			if (imageSource != NULL)
 			{
-				NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:(id)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint,
+				NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:(id)kUTTypeJPEG, kCGImageSourceTypeIdentifierHint,
 																 [NSNumber numberWithBool:YES], kCGImageSourceCreateThumbnailFromImageAlways,
 																 [NSNumber numberWithFloat:maxSize], kCGImageSourceThumbnailMaxPixelSize,
 																 nil];
@@ -714,7 +714,7 @@
 	return compressedImageData;
 }
 
-+ (UIImage*)SDKBundleImageNamed:(NSString *)fileName
++ (UIImage *)SDKBundleImageNamed:(NSString *)fileName
 {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {

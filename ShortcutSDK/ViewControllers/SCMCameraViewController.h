@@ -47,7 +47,7 @@
  *  If you know the current location of the user/device you can set this property to it. The location,
  *  if available, is sent to the image recognition server and stored with the query.
  */
-@property (nonatomic, strong, readwrite) CLLocation* location;
+@property (nonatomic, strong, readwrite) CLLocation *location;
 
 
 /// @name Help view
@@ -60,7 +60,7 @@
  *  the property is set a help button is displayed in the scanner view which displays the view when
  *  tapped.
  */
-@property (nonatomic, strong, readwrite) UIView* helpView;
+@property (nonatomic, strong, readwrite) UIView *helpView;
 
 /**
  *  This method toggles the help view display if a help view is set.
@@ -85,6 +85,6 @@
  *
  *  @param imageData The image to process.
  */
-- (void)processImage:(NSData*)imageData;
+- (void)processImage:(NSData *)imageData;
 
 @end

@@ -13,14 +13,14 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
 
 @interface SCMCaptureSessionController (/* Private */)
 
-@property (nonatomic, strong, readwrite) AVCaptureDevice* captureDevice;
-@property (nonatomic, strong, readwrite) AVCaptureSession* captureSession;
-@property (nonatomic, strong, readwrite) AVCaptureInput* captureInput;
-@property (nonatomic, strong, readwrite) AVCaptureVideoDataOutput* videoCaptureOutput;
-@property (nonatomic, strong, readwrite) AVCaptureStillImageOutput* stillImageOutput;
-@property (nonatomic, strong, readwrite) AVCaptureConnection* stillImageVideoConnection;
-@property (nonatomic, strong, readwrite) AVCaptureConnection* liveVideoConnection;
-@property (nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer* previewLayer;
+@property (nonatomic, strong, readwrite) AVCaptureDevice *captureDevice;
+@property (nonatomic, strong, readwrite) AVCaptureSession *captureSession;
+@property (nonatomic, strong, readwrite) AVCaptureInput *captureInput;
+@property (nonatomic, strong, readwrite) AVCaptureVideoDataOutput *videoCaptureOutput;
+@property (nonatomic, strong, readwrite) AVCaptureStillImageOutput *stillImageOutput;
+@property (nonatomic, strong, readwrite) AVCaptureConnection *stillImageVideoConnection;
+@property (nonatomic, strong, readwrite) AVCaptureConnection *liveVideoConnection;
+@property (nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, assign, readwrite) SCMCaptureSessionMode captureSessionMode;
 @property (atomic, assign, readwrite) BOOL running;
 
@@ -77,17 +77,17 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
     }
 }
 
-- (NSString*)captureSessionPreset
+- (NSString *)captureSessionPreset
 {
 	return self.captureSession.sessionPreset;
 }
 
-- (NSString*)captureSessionPresetForMode:(SCMCaptureSessionMode)mode
+- (NSString *)captureSessionPresetForMode:(SCMCaptureSessionMode)mode
 {
 	NSInteger captureSize = kLiveScanningCaptureSize;
 	
 	// Defaults in the rare case that the device doesn't support any of the following presets.
-	NSString* sessionPreset = AVCaptureSessionPresetHigh;
+	NSString *sessionPreset = AVCaptureSessionPresetHigh;
 	
 	if (captureSize == 480)
 	{
@@ -143,7 +143,7 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
 		
 	self.captureSession.sessionPreset = [self captureSessionPresetForMode:initialMode];
     
-	NSError* error = nil;
+	NSError *error = nil;
 	self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
 	if (error == nil)
 	{
@@ -208,7 +208,7 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
 	}
 	
 	self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-	NSDictionary* outputSettings = [NSDictionary dictionaryWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
+	NSDictionary *outputSettings = [NSDictionary dictionaryWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
 	[self.stillImageOutput setOutputSettings:outputSettings];
 	[self.captureSession addOutput:self.stillImageOutput];
 	
@@ -255,9 +255,9 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
 	
 	[self.captureSession addOutput:self.videoCaptureOutput];
 	
-	for (AVCaptureConnection* connection in self.videoCaptureOutput.connections)
+	for (AVCaptureConnection *connection in self.videoCaptureOutput.connections)
 	{
-		for (AVCaptureInputPort* port in connection.inputPorts)
+		for (AVCaptureInputPort *port in connection.inputPorts)
 		{
 			if ([port.mediaType isEqualToString:AVMediaTypeVideo])
 			{

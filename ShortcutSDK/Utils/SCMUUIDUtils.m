@@ -18,13 +18,13 @@
 + (NSString *)normalizeUUID:(NSString *)uuid
 {
     // lowercase
-    NSString* normalizedUUID = [uuid lowercaseString];
+    NSString *normalizedUUID = [uuid lowercaseString];
     
     //with dashes
     if (normalizedUUID.length == 32)
     {
         // UUID contains no dashes. Add them back in.
-        NSMutableString* canonicalUUID = [NSMutableString stringWithString:normalizedUUID];
+        NSMutableString *canonicalUUID = [NSMutableString stringWithString:normalizedUUID];
         [canonicalUUID insertString:@"-" atIndex:8];
         [canonicalUUID insertString:@"-" atIndex:13];
         [canonicalUUID insertString:@"-" atIndex:18];

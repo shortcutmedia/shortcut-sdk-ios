@@ -17,9 +17,9 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 @interface SCMMotionDetector (/* Private */)
 
 @property (nonatomic, assign, readwrite) BOOL moving;
-@property (nonatomic, strong, readwrite) CMMotionManager* deviceMotionManager;
-@property (nonatomic, strong, readwrite) NSOperationQueue* deviceMotionQueue;
-@property (nonatomic, strong, readwrite) NSDate* lastStillTimestamp;
+@property (nonatomic, strong, readwrite) CMMotionManager *deviceMotionManager;
+@property (nonatomic, strong, readwrite) NSOperationQueue *deviceMotionQueue;
+@property (nonatomic, strong, readwrite) NSDate *lastStillTimestamp;
 @property (nonatomic, assign, readwrite) double accelerationX;
 @property (nonatomic, assign, readwrite) double accelerationY;
 @property (nonatomic, assign, readwrite) double accelerationZ;
@@ -30,8 +30,8 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 
 - (BOOL)isAccelerating;
 - (BOOL)isRotating:(CMRotationRate)rotation;
-- (void)processDeviceMotionUpdate:(CMDeviceMotion*)motion;
-- (void)processDeviceAccelerationUpdate:(CMAccelerometerData*)accelerometerData;
+- (void)processDeviceMotionUpdate:(CMDeviceMotion *)motion;
+- (void)processDeviceAccelerationUpdate:(CMAccelerometerData *)accelerometerData;
 
 @end
 
@@ -166,9 +166,9 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 	return rotating;
 }
 
-- (void)processDeviceMotionUpdate:(CMDeviceMotion*)motion
+- (void)processDeviceMotionUpdate:(CMDeviceMotion *)motion
 {
-	NSDate* now = [NSDate date];
+	NSDate *now = [NSDate date];
 	BOOL rotating = [self isRotating:motion.rotationRate];
 	
 	self.accelerationX = motion.userAcceleration.x;
@@ -195,9 +195,9 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 //	DebugLog(@"moving: %@ (%f)", self.moving ? @"YES" : @"NO", [self timeIntervalSinceLastMotionDetected]);
 }
 
-- (void)processDeviceAccelerationUpdate:(CMAccelerometerData*)accelerometerData
+- (void)processDeviceAccelerationUpdate:(CMAccelerometerData *)accelerometerData
 {
-	NSDate* now = [NSDate date];
+	NSDate *now = [NSDate date];
 
 //	DebugLog(@"before: %+1.1f, %+1.1f, %+1.1f (%+1.1f, %+1.1f, %+1.1f)", self.accelerationX, self.accelerationY, self.accelerationZ,
 //					 accelerometerData.acceleration.x, accelerometerData.acceleration.y, accelerometerData.acceleration.z);

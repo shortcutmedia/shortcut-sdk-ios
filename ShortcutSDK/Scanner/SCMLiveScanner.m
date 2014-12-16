@@ -16,7 +16,7 @@
 #import "SCMLocalization.h"
 
 
-NSString* kSCMLiveScannerErrorDomain = @"SCMLiveScannerErrorDomain";
+NSString *kSCMLiveScannerErrorDomain = @"SCMLiveScannerErrorDomain";
 
 static const NSInteger kMaxOutstandingImageRecognitionOperations = 2;
 static const NSTimeInterval kDefaultNoMotionThreshold = 0.1;
@@ -27,11 +27,11 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 @interface SCMLiveScanner (/* Private */)
 
-@property (nonatomic, strong, readwrite) SCMCaptureSessionController* captureSessionController;
-@property (nonatomic, strong, readwrite) SCMMotionDetector* motionDetector;
-@property (nonatomic, strong, readwrite) SCMHistogramFilter* histogramFilter;
-@property (nonatomic, strong, readwrite) SCMBarcodeScanner* barcodeScanner;
-@property (nonatomic, strong, readwrite) NSOperationQueue* recognitionQueue;
+@property (nonatomic, strong, readwrite) SCMCaptureSessionController *captureSessionController;
+@property (nonatomic, strong, readwrite) SCMMotionDetector *motionDetector;
+@property (nonatomic, strong, readwrite) SCMHistogramFilter *histogramFilter;
+@property (nonatomic, strong, readwrite) SCMBarcodeScanner *barcodeScanner;
+@property (nonatomic, strong, readwrite) NSOperationQueue *recognitionQueue;
 @property (nonatomic, assign, readwrite) NSInteger numImagesSentForRecognition;
 @property (   atomic, assign, readwrite) NSInteger outstandingRecognitionOperations;
 @property (nonatomic, assign, readwrite) CGFloat outputImageWidth;
@@ -42,7 +42,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 @property (nonatomic, assign, readwrite) BOOL running;
 @property (nonatomic, assign, readwrite) BOOL lastImageUnrecognized;
 @property (nonatomic, assign, readwrite) BOOL currentImageIsUnrecognized;
-@property (nonatomic, strong, readwrite) NSError* recognitionError;
+@property (nonatomic, strong, readwrite) NSError *recognitionError;
 @property (atomic, assign, readwrite) BOOL imageRecognized;
 
 - (BOOL)shouldSkipImage;
@@ -120,7 +120,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 	// Optimize the output size based on the capture preset.
 	NSInteger outputSize = 640;
-	NSString* sessionPreset = self.captureSessionController.captureSessionPreset;
+	NSString *sessionPreset = self.captureSessionController.captureSessionPreset;
 	if (sessionPreset == AVCaptureSessionPreset1280x720)
 	{
 		if (outputSize == 1280)
@@ -425,11 +425,11 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     return sendImageForRecognition;
 }
 
-- (void)sendImageDataForRecognition:(NSData*)scaledImageData
+- (void)sendImageDataForRecognition:(NSData *)scaledImageData
 {
     // We need to start this operation on a different thread since this thread may not stick around.
     // For now, we'll use the main thread.
-    SCMRecognitionOperation* operation = [[SCMRecognitionOperation alloc] initWithImageData:scaledImageData location:self.location];
+    SCMRecognitionOperation *operation = [[SCMRecognitionOperation alloc] initWithImageData:scaledImageData location:self.location];
     // TODO: readd timeout?
     //operation.responseTimeoutInterval = kMaximumServerResponseTime;
 
@@ -446,7 +446,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     self.outstandingRecognitionOperations++;
 }
 
-- (void)recognitionOperationCompleted:(SCMRecognitionOperation*)recognitionOperation
+- (void)recognitionOperationCompleted:(SCMRecognitionOperation *)recognitionOperation
 {
 	self.outstandingRecognitionOperations--;
     if (recognitionOperation.closeCamera)
@@ -519,7 +519,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 #pragma mark - SCMBarcodeScannerDelegate
 
-- (void)barcodeScanner:(SCMBarcodeScanner*)scanner didRecognize2DBarcode:(NSString*)text
+- (void)barcodeScanner:(SCMBarcodeScanner *)scanner didRecognize2DBarcode:(NSString *)text
 {
     self.imageRecognized = YES;
 	[self.delegate liveScanner:self recognizedBarcode:text atLocation:self.location];

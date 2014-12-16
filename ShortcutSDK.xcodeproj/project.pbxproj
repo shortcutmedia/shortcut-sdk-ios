@@ -35,7 +35,6 @@
 		86197B0D1A2C66A700BD726B /* NavigationBarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0B1A2C66A700BD726B /* NavigationBarBackground@2x.png */; };
 		86197B101A2C671F00BD726B /* BarButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0E1A2C671F00BD726B /* BarButtonBackground.png */; };
 		86197B111A2C671F00BD726B /* BarButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */; };
-		864218971A4040430044B744 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 864218961A4040430044B744 /* README.md */; };
 		86AB02DA1A2872E600586049 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AB02D91A2872E600586049 /* Foundation.framework */; };
 		86AB02DC1A2872F000586049 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AB02DB1A2872F000586049 /* UIKit.framework */; };
 		86BD713A1A2DE5E500EA8633 /* PLCameraZoomMax.png in Resources */ = {isa = PBXBuildFile; fileRef = 86BD712E1A2DE5E500EA8633 /* PLCameraZoomMax.png */; };
@@ -314,12 +313,12 @@
 		86ED34CB1A2772F700D9F3B0 /* Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
 		86ED34CC1A2772F700D9F3B0 /* BitArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitArray.cpp; sourceTree = "<group>"; };
 		86ED34CD1A2772F700D9F3B0 /* BitArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitArray.h; sourceTree = "<group>"; };
-		86ED34CE1A2772F700D9F3B0 /* BitMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitMatrix.cpp; sourceTree = "<group>"; };
-		86ED34CF1A2772F700D9F3B0 /* BitMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitMatrix.h; sourceTree = "<group>"; };
+		86ED34CE1A2772F700D9F3B0 /* BitMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = BitMatrix.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		86ED34CF1A2772F700D9F3B0 /* BitMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BitMatrix.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86ED34D01A2772F700D9F3B0 /* BitSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitSource.cpp; sourceTree = "<group>"; };
 		86ED34D11A2772F700D9F3B0 /* BitSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitSource.h; sourceTree = "<group>"; };
-		86ED34D21A2772F700D9F3B0 /* CharacterSetECI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterSetECI.cpp; sourceTree = "<group>"; };
-		86ED34D31A2772F700D9F3B0 /* CharacterSetECI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterSetECI.h; sourceTree = "<group>"; };
+		86ED34D21A2772F700D9F3B0 /* CharacterSetECI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = CharacterSetECI.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		86ED34D31A2772F700D9F3B0 /* CharacterSetECI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CharacterSetECI.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86ED34D41A2772F700D9F3B0 /* Counted.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Counted.cpp; sourceTree = "<group>"; };
 		86ED34D51A2772F700D9F3B0 /* Counted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counted.h; sourceTree = "<group>"; };
 		86ED34D61A2772F700D9F3B0 /* DecoderResult.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DecoderResult.cpp; sourceTree = "<group>"; };
@@ -405,10 +404,10 @@
 		86ED352E1A2772F700D9F3B0 /* MultiFormatReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiFormatReader.h; sourceTree = "<group>"; };
 		86ED352F1A2772F700D9F3B0 /* NotFoundException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotFoundException.cpp; sourceTree = "<group>"; };
 		86ED35301A2772F700D9F3B0 /* NotFoundException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotFoundException.h; sourceTree = "<group>"; };
-		86ED35321A2772F700D9F3B0 /* Code128Reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Code128Reader.cpp; sourceTree = "<group>"; };
-		86ED35331A2772F700D9F3B0 /* Code128Reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Code128Reader.h; sourceTree = "<group>"; };
-		86ED35341A2772F700D9F3B0 /* Code39Reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Code39Reader.cpp; sourceTree = "<group>"; };
-		86ED35351A2772F700D9F3B0 /* Code39Reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Code39Reader.h; sourceTree = "<group>"; };
+		86ED35321A2772F700D9F3B0 /* Code128Reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Code128Reader.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		86ED35331A2772F700D9F3B0 /* Code128Reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Code128Reader.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		86ED35341A2772F700D9F3B0 /* Code39Reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Code39Reader.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		86ED35351A2772F700D9F3B0 /* Code39Reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Code39Reader.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86ED35361A2772F700D9F3B0 /* EAN13Reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EAN13Reader.cpp; sourceTree = "<group>"; };
 		86ED35371A2772F700D9F3B0 /* EAN13Reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAN13Reader.h; sourceTree = "<group>"; };
 		86ED35381A2772F700D9F3B0 /* EAN8Reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EAN8Reader.cpp; sourceTree = "<group>"; };
@@ -485,15 +484,15 @@
 		86ED35851A2772F700D9F3B0 /* SCMSDKConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMSDKConfig.h; sourceTree = "<group>"; };
 		86ED35861A2772F700D9F3B0 /* SCMSDKConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMSDKConfig.m; sourceTree = "<group>"; };
 		86ED35881A2772F700D9F3B0 /* SCMQueryResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMQueryResponse.h; sourceTree = "<group>"; };
-		86ED35891A2772F700D9F3B0 /* SCMQueryResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMQueryResponse.m; sourceTree = "<group>"; };
+		86ED35891A2772F700D9F3B0 /* SCMQueryResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMQueryResponse.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED358A1A2772F700D9F3B0 /* SCMQueryResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMQueryResult.h; sourceTree = "<group>"; };
-		86ED358B1A2772F700D9F3B0 /* SCMQueryResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMQueryResult.m; sourceTree = "<group>"; };
-		86ED358C1A2772F700D9F3B0 /* SCMRecognitionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMRecognitionOperation.h; sourceTree = "<group>"; };
-		86ED358D1A2772F700D9F3B0 /* SCMRecognitionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMRecognitionOperation.m; sourceTree = "<group>"; };
-		86ED358E1A2772F700D9F3B0 /* KWSImageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KWSImageRequest.h; sourceTree = "<group>"; };
-		86ED358F1A2772F700D9F3B0 /* KWSImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWSImageRequest.m; sourceTree = "<group>"; };
-		86ED35941A2772F700D9F3B0 /* SCMCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCaptureSessionController.h; sourceTree = "<group>"; };
-		86ED35951A2772F700D9F3B0 /* SCMCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCaptureSessionController.m; sourceTree = "<group>"; };
+		86ED358B1A2772F700D9F3B0 /* SCMQueryResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMQueryResult.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		86ED358C1A2772F700D9F3B0 /* SCMRecognitionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMRecognitionOperation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		86ED358D1A2772F700D9F3B0 /* SCMRecognitionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMRecognitionOperation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		86ED358E1A2772F700D9F3B0 /* KWSImageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KWSImageRequest.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		86ED358F1A2772F700D9F3B0 /* KWSImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = KWSImageRequest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		86ED35941A2772F700D9F3B0 /* SCMCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMCaptureSessionController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		86ED35951A2772F700D9F3B0 /* SCMCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMCaptureSessionController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35961A2772F700D9F3B0 /* SCMHistogramFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMHistogramFilter.h; sourceTree = "<group>"; };
 		86ED35971A2772F700D9F3B0 /* SCMHistogramFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMHistogramFilter.m; sourceTree = "<group>"; };
 		86ED35981A2772F700D9F3B0 /* SCMLiveScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMLiveScanner.h; sourceTree = "<group>"; };
@@ -502,29 +501,29 @@
 		86ED359C1A2772F700D9F3B0 /* SCMMotionDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMMotionDetector.m; sourceTree = "<group>"; };
 		86ED359D1A2772F700D9F3B0 /* ShortcutSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortcutSDK.h; sourceTree = "<group>"; };
 		86ED359F1A2772F700D9F3B0 /* SCMBase64Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBase64Utils.h; sourceTree = "<group>"; };
-		86ED35A01A2772F700D9F3B0 /* SCMBase64Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMBase64Utils.m; sourceTree = "<group>"; };
+		86ED35A01A2772F700D9F3B0 /* SCMBase64Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMBase64Utils.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35A11A2772F700D9F3B0 /* SCMDictionaryUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMDictionaryUtils.h; sourceTree = "<group>"; };
-		86ED35A21A2772F700D9F3B0 /* SCMDictionaryUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMDictionaryUtils.m; sourceTree = "<group>"; };
+		86ED35A21A2772F700D9F3B0 /* SCMDictionaryUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMDictionaryUtils.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35A31A2772F700D9F3B0 /* SCMImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMImageUtils.h; sourceTree = "<group>"; };
-		86ED35A41A2772F700D9F3B0 /* SCMImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMImageUtils.m; sourceTree = "<group>"; };
+		86ED35A41A2772F700D9F3B0 /* SCMImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMImageUtils.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35A51A2772F700D9F3B0 /* SCMUUIDUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMUUIDUtils.h; sourceTree = "<group>"; };
 		86ED35A61A2772F700D9F3B0 /* SCMUUIDUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMUUIDUtils.m; sourceTree = "<group>"; };
 		86ED35A71A2772F700D9F3B0 /* UIImage+ImageOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageOrientation.h"; sourceTree = "<group>"; };
 		86ED35A81A2772F700D9F3B0 /* UIImage+ImageOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageOrientation.m"; sourceTree = "<group>"; };
-		86ED35AA1A2772F700D9F3B0 /* SCMCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCameraViewController.h; sourceTree = "<group>"; };
-		86ED35AB1A2772F700D9F3B0 /* SCMCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCameraViewController.m; sourceTree = "<group>"; };
+		86ED35AA1A2772F700D9F3B0 /* SCMCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMCameraViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		86ED35AB1A2772F700D9F3B0 /* SCMCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMCameraViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35AC1A2772F700D9F3B0 /* SCMCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCMCameraViewController.xib; sourceTree = "<group>"; };
 		86ED35AE1A2772F700D9F3B0 /* SCMItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMItemViewController.h; sourceTree = "<group>"; };
 		86ED35AF1A2772F700D9F3B0 /* SCMItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMItemViewController.m; sourceTree = "<group>"; };
 		86ED35B01A2772F700D9F3B0 /* SCMItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCMItemViewController.xib; sourceTree = "<group>"; };
 		86ED35B11A2772F700D9F3B0 /* SCMQueryResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMQueryResultViewController.h; sourceTree = "<group>"; };
 		86ED35B21A2772F700D9F3B0 /* SCMQueryResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMQueryResultViewController.m; sourceTree = "<group>"; };
-		86ED35B41A2772F700D9F3B0 /* SCMCameraModeControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCameraModeControl.h; sourceTree = "<group>"; };
-		86ED35B51A2772F700D9F3B0 /* SCMCameraModeControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCameraModeControl.m; sourceTree = "<group>"; };
-		86ED35B61A2772F700D9F3B0 /* SCMCameraToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCameraToolbar.h; sourceTree = "<group>"; };
-		86ED35B71A2772F700D9F3B0 /* SCMCameraToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCameraToolbar.m; sourceTree = "<group>"; };
+		86ED35B41A2772F700D9F3B0 /* SCMCameraModeControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMCameraModeControl.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		86ED35B51A2772F700D9F3B0 /* SCMCameraModeControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMCameraModeControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		86ED35B61A2772F700D9F3B0 /* SCMCameraToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMCameraToolbar.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		86ED35B71A2772F700D9F3B0 /* SCMCameraToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMCameraToolbar.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35B81A2772F700D9F3B0 /* SCMCameraZoomSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCameraZoomSlider.h; sourceTree = "<group>"; };
-		86ED35B91A2772F700D9F3B0 /* SCMCameraZoomSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCameraZoomSlider.m; sourceTree = "<group>"; };
+		86ED35B91A2772F700D9F3B0 /* SCMCameraZoomSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMCameraZoomSlider.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35BA1A2772F700D9F3B0 /* SCMCustomToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCustomToolbar.h; sourceTree = "<group>"; };
 		86ED35BB1A2772F700D9F3B0 /* SCMCustomToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCustomToolbar.m; sourceTree = "<group>"; };
 		86ED35BC1A2772F700D9F3B0 /* SCMCustomToolbarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCustomToolbarButton.h; sourceTree = "<group>"; };
@@ -535,7 +534,7 @@
 		86ED35C11A2772F700D9F3B0 /* SCMStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMStatusView.m; sourceTree = "<group>"; };
 		86ED36341A2775CF00D9F3B0 /* ShortcutSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShortcutSDK-Prefix.pch"; sourceTree = "<group>"; };
 		86EEC7531A2F1D7C007C6FA9 /* SCMBarcodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBarcodeScanner.h; sourceTree = "<group>"; };
-		86EEC7541A2F1D7C007C6FA9 /* SCMBarcodeScanner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCMBarcodeScanner.mm; sourceTree = "<group>"; };
+		86EEC7541A2F1D7C007C6FA9 /* SCMBarcodeScanner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = SCMBarcodeScanner.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86EEC7551A2F1D7C007C6FA9 /* SCMBarcodeScannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBarcodeScannerDelegate.h; sourceTree = "<group>"; };
 		86EEC7591A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMLiveScannerDelegate.h; sourceTree = "<group>"; };
 		86EEC75B1A2F1E86007C6FA9 /* SCMCameraViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCameraViewControllerDelegate.h; sourceTree = "<group>"; };
@@ -1455,7 +1454,6 @@
 				86ED36141A2772F700D9F3B0 /* ResultPoint.cpp in Sources */,
 				86ED360A1A2772F700D9F3B0 /* FinderPatternFinder.cpp in Sources */,
 				86ED36061A2772F700D9F3B0 /* AlignmentPattern.cpp in Sources */,
-				864218971A4040430044B744 /* README.md in Sources */,
 				86ED35DB1A2772F700D9F3B0 /* ReedSolomonException.cpp in Sources */,
 				86ED35F21A2772F700D9F3B0 /* MultiFormatReader.cpp in Sources */,
 				86ED361D1A2772F700D9F3B0 /* SCMRecognitionOperation.m in Sources */,
