@@ -34,8 +34,7 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self)
-    {
+    if (self) {
         [self setupView];
     }
     
@@ -92,8 +91,7 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
     [self.activityIndicator sizeToFit];
     
     CGFloat activityIndicatorWidth = 0.0;
-    if (self.showActivityIndicator)
-    {
+    if (self.showActivityIndicator) {
         activityIndicatorWidth = CGRectGetWidth(self.activityIndicator.frame) + kActivityIndicatorMargin;
     }
     
@@ -102,15 +100,13 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
     CGSize titleSize = CGSizeMake(0.0, self.titleLabel.font.lineHeight);
     CGSize subtitleSize = CGSizeZero;
     
-    if (self.titleLabel.text.length > 0)
-    {
+    if (self.titleLabel.text.length > 0) {
         titleSize = [self.titleLabel.text sizeWithFont:self.titleLabel.font
                                      constrainedToSize:CGSizeMake(maxTextWidth, CGFLOAT_MAX)
                                          lineBreakMode:NSLineBreakByWordWrapping];
     }
     
-    if (self.subtitleLabel.text.length > 0)
-    {
+    if (self.subtitleLabel.text.length > 0) {
         subtitleSize = [self.subtitleLabel.text sizeWithFont:self.subtitleLabel.font
                                            constrainedToSize:CGSizeMake(maxTextWidth, CGFLOAT_MAX)
                                                lineBreakMode:NSLineBreakByWordWrapping];
@@ -156,12 +152,9 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
     self.titleLabel.text = title;
     self.subtitleLabel.text = subtitle;
     self.showActivityIndicator = showActivity;
-    if (self.showActivityIndicator)
-    {
+    if (self.showActivityIndicator) {
         [self.activityIndicator startAnimating];
-    }
-    else
-    {
+    } else {
         [self.activityIndicator stopAnimating];
     }
     

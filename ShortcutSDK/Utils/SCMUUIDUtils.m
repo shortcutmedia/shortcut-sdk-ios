@@ -21,8 +21,7 @@
     NSString *normalizedUUID = [uuid lowercaseString];
     
     //with dashes
-    if (normalizedUUID.length == 32)
-    {
+    if (normalizedUUID.length == 32) {
         // UUID contains no dashes. Add them back in.
         NSMutableString *canonicalUUID = [NSMutableString stringWithString:normalizedUUID];
         [canonicalUUID insertString:@"-" atIndex:8];

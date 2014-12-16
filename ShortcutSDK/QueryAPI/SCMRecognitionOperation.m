@@ -33,8 +33,7 @@
 - (id)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation
 {
     self = [super init];
-    if (self != nil)
-    {
+    if (self != nil) {
         self.location = queryLocation;
         self.imageData = data;
         self.closeCamera = false;
@@ -47,13 +46,11 @@
         
         NSMutableDictionary *clientData = [NSMutableDictionary dictionaryWithCapacity:4];
         NSString *deviceUUID = [[SCMSDKConfig sharedConfig] clientID];
-        if (deviceUUID != nil)
-        {
+        if (deviceUUID != nil) {
             [clientData setObject:deviceUUID forKey:@"device_id"];
         }
         
-        if (queryLocation != nil)
-        {
+        if (queryLocation != nil) {
             [clientData setObject:[NSNumber numberWithDouble:queryLocation.coordinate.latitude] forKey:@"latitude"];
             [clientData setObject:[NSNumber numberWithDouble:queryLocation.coordinate.longitude] forKey:@"longitude"];
         }
@@ -64,8 +61,7 @@
         NSString *appVersion = [NSString stringWithFormat:@"%@-%@/%@", bundleName, bundleShortVersion, bundleVersion];
         [clientData setObject:appVersion forKey:@"application_id"];
         
-        if (clientData.count > 0)
-        {
+        if (clientData.count > 0) {
             DebugLog(@"clientData: %@", clientData);
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:clientData options:NSJSONWritingPrettyPrinted error:NULL];
             imageRequest.clientData = jsonData;
@@ -110,13 +106,11 @@
         bool isOutdated = false;
         bool hasNewer = false;
         
-        for (SCMQueryResult *result in self.queryResponse.results)
-        {
+        for (SCMQueryResult *result in self.queryResponse.results) {
             bool test = false;
             bool newer = false;
             
-            for (NSNumber *number in result.versions)
-            {
+            for (NSNumber *number in result.versions) {
                 if (number.intValue == CURRENT_API_VERSION)
                     test = true;
                 else if (number.intValue > CURRENT_API_VERSION)
@@ -133,12 +127,10 @@
         
         UIAlertView *alert;
         
-        if (isOutdated)
-        {
+        if (isOutdated) {
             alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UpdateRequired", @"Displayed in alertview header for far outdated version") message:NSLocalizedString(@"UpdateRequiredBody", @"Displayed in alertview body for far outdated version") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             self.closeCamera = true;
-        }
-        else if (hasNewer)
+        } else if (hasNewer)
             alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UpdateAvailable", @"Displayed in alertview header for outdated version") message:NSLocalizedString(@"UpdateAvailableBody", @"Displayed in alertview body for outdated version") delegate:NULL cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         if (alert)

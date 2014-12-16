@@ -156,11 +156,9 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 - (void)setZoomScale:(CGFloat)scale
 {
     // Constrain the zoomScale to 1.0 to maxScale.
-    if (scale < 1.0)
-    {
+    if (scale < 1.0) {
         scale = 1.0;
-    }
-    else if (scale > self.maxScale)
+    } else if (scale > self.maxScale)
     {
         scale = self.maxScale;
     }
@@ -182,11 +180,9 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
     CGFloat touchRectWidth = self.thumbImage.size.width + (2 * kThumbTouchRectMargin);
     CGFloat touchRectX = thumbX - kThumbTouchRectMargin;
     CGFloat touchRectMaxX = thumbX + self.thumbImage.size.width + kThumbTouchRectMargin;
-    if (touchRectX < trackMinX)
-    {
+    if (touchRectX < trackMinX) {
         touchRectX = trackMinX;
-    }
-    else if (touchRectMaxX > trackMaxX)
+    } else if (touchRectMaxX > trackMaxX)
     {
         touchRectX = trackMaxX - touchRectWidth;
     }
@@ -202,17 +198,14 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 - (void)updateZoomLevel
 {
     CGFloat delta = 0.0;
-    if (self.zoomingIn)
-    {
+    if (self.zoomingIn) {
         delta = kPlusMinusUpdateDelta;
-    }
-    else if (self.zoomingOut)
+    } else if (self.zoomingOut)
     {
         delta = -kPlusMinusUpdateDelta;
     }
     
-    if (delta != 0.0)
-    {
+    if (delta != 0.0) {
         CGFloat relativeScale = (self.zoomScale - 1.0) / (self.maxScale - 1.0);
         CGFloat updatedRelativeScale = relativeScale + delta;
         updatedRelativeScale = MAX(0.0, updatedRelativeScale);
@@ -228,11 +221,9 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 {
     CGFloat thumbMinX = CGRectGetMinX(self.trackRect) + kThumbMargin;
     CGFloat thumbMaxX = CGRectGetMaxX(self.trackRect) - self.thumbImage.size.width - kThumbMargin;
-    if (x < thumbMinX)
-    {
+    if (x < thumbMinX) {
         x = thumbMinX;
-    }
-    else if (x > thumbMaxX)
+    } else if (x > thumbMaxX)
     {
         x = thumbMaxX;
     }
@@ -259,17 +250,14 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
     CGPoint location = [touch locationInView:self];
     //	NSLog(@"beginTracking at %@", NSStringFromCGPoint(location));
     
-    if (CGRectContainsPoint(self.minusTouchRect, location))
-    {
+    if (CGRectContainsPoint(self.minusTouchRect, location)) {
         self.zoomingOut = YES;
         [self continueZooming];
-    }
-    else if (CGRectContainsPoint(self.plusTouchRect, location))
+    } else if (CGRectContainsPoint(self.plusTouchRect, location))
     {
         self.zoomingIn = YES;
         [self continueZooming];
-    }
-    else if (CGRectContainsPoint(self.thumbTouchRect, location))
+    } else if (CGRectContainsPoint(self.thumbTouchRect, location))
     {
         self.thumbOrigin = CGRectGetMinX(self.thumbImageRect);
         self.touchOrigin = location.x;
@@ -283,18 +271,15 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if (self.draggingThumb == NO && self.zoomingIn == NO && self.zoomingOut == NO)
-    {
+    if (self.draggingThumb == NO && self.zoomingIn == NO && self.zoomingOut == NO) {
         return YES;
     }
     
-    if (self.draggingThumb)
-    {
+    if (self.draggingThumb) {
         CGPoint location = [touch locationInView:self];
         CGFloat delta = location.x - self.touchOrigin;
         
-        if (self.initialDelta == nil)
-        {
+        if (self.initialDelta == nil) {
             self.initialDelta = [NSNumber numberWithFloat:delta];
         }
         
@@ -342,8 +327,7 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 
 - (void)cancelHideZoomControlTimer
 {
-    if (self.hideControlsTimer != nil)
-    {
+    if (self.hideControlsTimer != nil) {
         [self.hideControlsTimer invalidate];
         self.hideControlsTimer = nil;
     }
@@ -386,15 +370,13 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
     
     UIPinchGestureRecognizer *pinchGestureRecognizer = (UIPinchGestureRecognizer *)gestureRecognizer;
     
-    if (pinchGestureRecognizer.state == UIGestureRecognizerStateBegan)
-    {
+    if (pinchGestureRecognizer.state == UIGestureRecognizerStateBegan) {
         self.initialPinchZoomScale = self.zoomScale;
     }
     
     if (pinchGestureRecognizer.state == UIGestureRecognizerStateBegan ||
         pinchGestureRecognizer.state == UIGestureRecognizerStateChanged ||
-        pinchGestureRecognizer.state == UIGestureRecognizerStateEnded)
-    {
+        pinchGestureRecognizer.state == UIGestureRecognizerStateEnded) {
         CGFloat scale = self.initialPinchZoomScale * pinchGestureRecognizer.scale;
         self.zoomScale = scale;
         [self sendActionsForControlEvents:UIControlEventValueChanged];

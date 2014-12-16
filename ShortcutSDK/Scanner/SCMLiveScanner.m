@@ -78,8 +78,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 - (id)init
 {
     self = [super init];
-    if (self != nil)
-    {
+    if (self != nil) {
         self.noMotionThreshold = kDefaultNoMotionThreshold;
         
         self.captureSessionController = [[SCMCaptureSessionController alloc] init];
@@ -110,8 +109,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     self.histogramFilter.histogramThreshold = 45000.0;
     
     SCMCaptureSessionMode captureMode = kSCMCaptureSessionLiveScanningMode;
-    if (initialMode == kSCMLiveScannerSingleShotMode)
-    {
+    if (initialMode == kSCMLiveScannerSingleShotMode) {
         captureMode = kSCMCaptureSessionSingleShotMode;
     }
     
@@ -121,81 +119,61 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     // Optimize the output size based on the capture preset.
     NSInteger outputSize = 640;
     NSString *sessionPreset = self.captureSessionController.captureSessionPreset;
-    if (sessionPreset == AVCaptureSessionPreset1280x720)
-    {
-        if (outputSize == 1280)
-        {
+    if (sessionPreset == AVCaptureSessionPreset1280x720) {
+        if (outputSize == 1280) {
             self.outputImageWidth = 1280;
             self.outputImageHeight = 720;
-        }
-        else if (outputSize == 640)
+        } else if (outputSize == 640)
         {
             self.outputImageWidth = 640;
             self.outputImageHeight = 360;
-        }
-        else if (outputSize == 480)
+        } else if (outputSize == 480)
         {
             self.outputImageWidth = 480;
             self.outputImageHeight = 360;
-        }
-        else
-        {
+        } else {
             self.outputImageWidth = 320;
             self.outputImageHeight = 240;
         }
-    }
-    else if (sessionPreset == AVCaptureSessionPreset640x480)
+    } else if (sessionPreset == AVCaptureSessionPreset640x480)
     {
-        if (outputSize == 1280 || outputSize == 640)
-        {
+        if (outputSize == 1280 || outputSize == 640) {
             self.outputImageWidth = 640;
             self.outputImageHeight = 480;
-        }
-        else if (outputSize == 480)
+        } else if (outputSize == 480)
         {
             self.outputImageWidth = 480;
             self.outputImageHeight = 360;
-        }
-        else
-        {
+        } else {
             self.outputImageWidth = 320;
             self.outputImageHeight = 240;
         }
-    }
-    else if (sessionPreset == AVCaptureSessionPresetMedium)
+    } else if (sessionPreset == AVCaptureSessionPresetMedium)
     {
-        if (outputSize == 1280 || outputSize == 640 || outputSize == 480)
-        {
+        if (outputSize == 1280 || outputSize == 640 || outputSize == 480) {
             self.outputImageWidth = 480;
             self.outputImageHeight = 360;
-        }
-        else
-        {
+        } else {
             self.outputImageWidth = 320;
             self.outputImageHeight = 240;
         }
-    }
-    else if (sessionPreset == AVCaptureSessionPresetHigh)
+    } else if (sessionPreset == AVCaptureSessionPresetHigh)
     {
         // Must be the 3G
         self.outputImageWidth = 400;
         self.outputImageHeight = 304;
     }
     
-    if (self.captureSessionController.captureSessionMode == kSCMCaptureSessionLiveScanningMode)
-    {
+    if (self.captureSessionController.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
         self.liveScannerMode = kSCMLiveScannerLiveScanningMode;
-    }
-    else
-    {
+    } else {
         self.liveScannerMode = kSCMLiveScannerSingleShotMode;
     }
 }
 
 - (void)startScanning
 {
-    if (self.running == NO)
-    {
+    if (self.running == NO) {
         if (![SCMCaptureSessionController authorizedForVideoCapture]) {
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:[SCMLocalization translationFor:@"CameraAccessRequiredTitle" withDefaultValue:@"Camera access required"]
                                                              message:[SCMLocalization translationFor:@"CameraAccessRequiredBody" withDefaultValue:@"The app needs access to the camera to scan things.\nPlease allow usage of the camera by enabling it in the privacy settings."]
@@ -211,8 +189,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
         self.imageRecognized = NO;
         self.numImagesSentForRecognition = 0;
         [self.captureSessionController startSession];
-        if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode)
-        {
+        if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
             [self.motionDetector startDetectingMotion];
         }
     }
@@ -220,8 +197,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 - (void)stopScanning
 {
-    if (self.running)
-    {
+    if (self.running) {
         self.running = NO;
         self.scanning = NO;
         [self cancelAllOperations];
@@ -237,17 +213,14 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 - (void)switchToMode:(SCMLiveScannerMode)mode
 {
-    if (mode == kSCMLiveScannerLiveScanningMode)
-    {
+    if (mode == kSCMLiveScannerLiveScanningMode) {
         self.liveScannerMode = kSCMLiveScannerLiveScanningMode;
         self.recognitionError = nil;
         self.numImagesSentForRecognition = 0;
         [self.motionDetector startDetectingMotion];
         [self.captureSessionController switchToMode:kSCMCaptureSessionLiveScanningMode];
         [self.histogramFilter reset];
-    }
-    else
-    {
+    } else {
         self.liveScannerMode = kSCMLiveScannerSingleShotMode;
         self.scanning = NO;
         [self cancelAllOperations];
@@ -260,8 +233,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 {
     [self.captureSessionController takePictureAsynchronouslyWithCompletionHandler:^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
         
-        if (imageSampleBuffer != NULL)
-        {
+        if (imageSampleBuffer != NULL) {
             NSData *jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
             CFDataRef imgData = (__bridge CFDataRef)jpegData;
             CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData (imgData);
@@ -270,9 +242,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
             [self processImage:image];
             
             CGImageRelease(image);
-        }
-        else
-        {
+        } else {
             DebugLog(@"could not take picture because: %@", [error localizedDescription]);
         }
     }];
@@ -282,8 +252,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 {
     paused = value;
     
-    if (value)
-    {
+    if (value) {
         self.scanning = NO;
         [self cancelAllOperations];
     }
@@ -298,29 +267,21 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     BOOL similar = [self.histogramFilter isSampleBufferHistogramSimilar:sampleBuffer];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (similar)
-        {
+        if (similar) {
             // The image was the same as the last one sent to the server.
-            if (self.lastImageUnrecognized && self.currentImageIsUnrecognized == NO)
-            {
+            if (self.lastImageUnrecognized && self.currentImageIsUnrecognized == NO) {
                 self.currentImageIsUnrecognized = YES;
                 self.scanning = NO;
             }
-        }
-        else
-        {
+        } else {
             self.lastImageUnrecognized = NO;
-            if (self.currentImageIsUnrecognized)
-            {
+            if (self.currentImageIsUnrecognized) {
                 self.currentImageIsUnrecognized = NO;
             }
             
-            if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode && self.paused == NO)
-            {
+            if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode && self.paused == NO) {
                 self.scanning = YES;
-            }
-            else
-            {
+            } else {
                 self.scanning = NO;
             }
         }
@@ -365,20 +326,17 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 - (BOOL)shouldSkipImage
 {
-    if (self.paused)
-    {
+    if (self.paused) {
         // When paused, we don't do anything with the image. We just skip them until we are no longer paused.
         return YES;
     }
     
-    if (self.numImagesSentForRecognition == 0)
-    {
+    if (self.numImagesSentForRecognition == 0) {
         // We always send the first image regardless of motion or focusing.
         return NO;
     }
     
-    if (self.imageRecognized)
-    {
+    if (self.imageRecognized) {
         // No need to send an image if we have already recognized one
         return YES;
     }
@@ -386,12 +344,10 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     BOOL skipImage = NO;
     
     NSTimeInterval timeSinceLastMotion = [self.motionDetector timeIntervalSinceLastMotionDetected];
-    if (timeSinceLastMotion < self.noMotionThreshold)
-    {
+    if (timeSinceLastMotion < self.noMotionThreshold) {
         // The device hasn't been still long enough to use this image.
         skipImage = YES;
-    }
-    else if (self.captureSessionController.captureDevice.adjustingFocus)
+    } else if (self.captureSessionController.captureDevice.adjustingFocus)
     {
         skipImage = YES;
     }
@@ -410,14 +366,12 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 {
     BOOL sendImageForRecognition = YES;
     
-    if (self.outstandingRecognitionOperations >= kMaxOutstandingImageRecognitionOperations)
-    {
+    if (self.outstandingRecognitionOperations >= kMaxOutstandingImageRecognitionOperations) {
         // We already have the maximum number of images waiting for recognition.
         // If we have already sent the first set of images (including the very first image), then skip this image.
         // This way, we send a few more images right away while the user is adjusting the framing and this
         // helps improved the overall response time.
-        if (self.numImagesSentForRecognition > kMaxOutstandingImageRecognitionOperations)
-        {
+        if (self.numImagesSentForRecognition > kMaxOutstandingImageRecognitionOperations) {
             sendImageForRecognition = NO;
         }
     }
@@ -456,13 +410,10 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     
     BOOL imageNotRecognized = NO;
     
-    if (recognitionOperation.error == nil)
-    {
+    if (recognitionOperation.error == nil) {
         BOOL recognized = (recognitionOperation.queryResponse.results.count > 0);
-        if (recognized)
-        {
-            if (!self.imageRecognized)
-            {
+        if (recognized) {
+            if (!self.imageRecognized) {
                 self.imageRecognized = YES;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.delegate liveScanner:self
@@ -474,28 +425,22 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
                 // Cancel any other image operations
                 [self cancelAllOperations];
             }
-        }
-        else
-        {
+        } else {
             imageNotRecognized = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate liveScanner:self didNotRecognizeImage:recognitionOperation.imageData];
             });
         }
-    }
-    else
-    {
+    } else {
         DebugLog(@"RecognitionOperation failed: %@", [recognitionOperation.error localizedDescription]);
         dispatch_async(dispatch_get_main_queue(), ^{
-            if ([recognitionOperation.error.domain isEqualToString:NSURLErrorDomain])
-            {
+            if ([recognitionOperation.error.domain isEqualToString:NSURLErrorDomain]) {
                 if (recognitionOperation.error.code == NSURLErrorTimedOut ||
                     recognitionOperation.error.code == NSURLErrorCannotFindHost ||
                     recognitionOperation.error.code == NSURLErrorCannotConnectToHost ||
                     recognitionOperation.error.code == NSURLErrorNetworkConnectionLost ||
                     recognitionOperation.error.code == NSURLErrorDNSLookupFailed ||
-                    recognitionOperation.error.code == NSURLErrorNotConnectedToInternet)
-                {
+                    recognitionOperation.error.code == NSURLErrorNotConnectedToInternet) {
                     if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
                         self.recognitionError = [NSError errorWithDomain:kSCMLiveScannerErrorDomain code:kSCMLiveScannerErrorServerResponseTooSlow userInfo:nil];
                     } else if (self.liveScannerMode == kSCMLiveScannerSingleShotMode) {
@@ -509,8 +454,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
         });
     }
     
-    if (self.outstandingRecognitionOperations == 0 && imageNotRecognized)
-    {
+    if (self.outstandingRecognitionOperations == 0 && imageNotRecognized) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.lastImageUnrecognized = YES;
         });

@@ -120,8 +120,7 @@ static const CGFloat KSliderDragThreshold = 4.0;
 {
     CGPoint location = [touch locationInView:self];
     CGFloat deltaX = location.x - self.initialTouchX;
-    if (fabsf(deltaX) > KSliderDragThreshold)
-    {
+    if (fabsf(deltaX) > KSliderDragThreshold) {
         self.userDraggedSlider = YES;
     }
     
@@ -147,36 +146,26 @@ static const CGFloat KSliderDragThreshold = 4.0;
 {
     [self updateSliderFrameWithTouch:touch];
     
-    if (self.userDraggedSlider == NO)
-    {
+    if (self.userDraggedSlider == NO) {
         [self switchModes];
-    }
-    else
-    {
+    } else {
         BOOL shouldSwitchModes = NO;
         CGFloat backgroundCenterX = CGRectGetMidX(self.sliderBackground.frame);
         CGFloat sliderCenterX = CGRectGetMidX(self.slider.frame);
-        if (sliderCenterX < backgroundCenterX)
-        {
-            if (self.cameraMode == kCameraModeLiveScanning)
-            {
+        if (sliderCenterX < backgroundCenterX) {
+            if (self.cameraMode == kCameraModeLiveScanning) {
                 shouldSwitchModes = YES;
             }
-        }
-        else if (sliderCenterX >= backgroundCenterX)
+        } else if (sliderCenterX >= backgroundCenterX)
         {
-            if (self.cameraMode == kCameraModeSingleShot)
-            {
+            if (self.cameraMode == kCameraModeSingleShot) {
                 shouldSwitchModes = YES;
             }
         }
         
-        if (shouldSwitchModes)
-        {
+        if (shouldSwitchModes) {
             [self switchModes];
-        }
-        else
-        {
+        } else {
             // Animate the slider back to its original position
             [UIView animateWithDuration:0.15
                              animations:^{
@@ -199,8 +188,7 @@ static const CGFloat KSliderDragThreshold = 4.0;
 - (CGRect)sliderRectForMode:(SCMCameraMode)mode
 {
     CGFloat sliderX = CGRectGetMinX(self.sliderBackground.frame) + kSliderHorizontalMargin;
-    if (self.cameraMode == kCameraModeLiveScanning)
-    {
+    if (self.cameraMode == kCameraModeLiveScanning) {
         sliderX = CGRectGetMaxX(self.sliderBackground.frame) - CGRectGetWidth(self.slider.frame) - kSliderHorizontalMargin;
     }
     CGFloat sliderWidth = CGRectGetWidth(self.slider.frame);

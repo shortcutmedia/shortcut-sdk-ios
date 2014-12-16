@@ -12,37 +12,31 @@
 
 + (id)objectFromDictionary:(NSDictionary *)dictionary withClass:(Class)class atPath:(NSString *)path
 {
-    if (class == nil || [dictionary isKindOfClass:[NSDictionary class]] == NO || path.length == 0)
-    {
+    if (class == nil || [dictionary isKindOfClass:[NSDictionary class]] == NO || path.length == 0) {
         return nil;
     }
     
     NSArray *components = [path componentsSeparatedByString:@"/"];
     NSMutableArray *remainingComponents = [NSMutableArray arrayWithArray:components];
     
-    while (remainingComponents.count > 1)
-    {
+    while (remainingComponents.count > 1) {
         NSString *key = [remainingComponents objectAtIndex:0];
         dictionary = [dictionary objectForKey:key];
-        if ([dictionary isKindOfClass:[NSArray class]])
-        {
+        if ([dictionary isKindOfClass:[NSArray class]]) {
             dictionary = [((NSArray *)dictionary) objectAtIndex:0];
         }
-        if ([dictionary isKindOfClass:[NSDictionary class]] == NO)
-        {
+        if ([dictionary isKindOfClass:[NSDictionary class]] == NO) {
             return nil;
         }
         [remainingComponents removeObjectAtIndex:0];
     }
     
     id result = nil;
-    if (remainingComponents.count == 1)
-    {
+    if (remainingComponents.count == 1) {
         id object = [dictionary objectForKey:[remainingComponents objectAtIndex:0]];
         if (class == NSNumber.class && [object isKindOfClass:NSString.class])
             object = [NSNumber numberWithInt:((NSString *)object).intValue];
-        if ([object isKindOfClass:class])
-        {
+        if ([object isKindOfClass:class]) {
             result = object;
         }
     }

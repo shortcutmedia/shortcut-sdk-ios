@@ -160,8 +160,7 @@ typedef enum
     
     self = [super initWithNibName:@"SCMCameraViewController" bundle:[SCMSDKConfig SDKBundle]];
     
-    if (self)
-    {
+    if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(applicationDidBecomeActive:)
                                                      name:UIApplicationDidBecomeActiveNotification
@@ -196,8 +195,7 @@ typedef enum
     // The default mode is live scanning mode.
     SCMLiveScannerMode mode = kSCMLiveScannerLiveScanningMode;
     BOOL startInSingleShotMode = [[NSUserDefaults standardUserDefaults] boolForKey:kUserPreferenceCameraStartsInSnapshotMode];
-    if (self.previewImageData != nil || startInSingleShotMode)
-    {
+    if (self.previewImageData != nil || startInSingleShotMode) {
         mode = kSCMLiveScannerSingleShotMode;
     }
     
@@ -224,13 +222,10 @@ typedef enum
     [self updateFlashStatus];
     [self updateInfoStatus];
     
-    if (self.previewImageData != nil)
-    {
+    if (self.previewImageData != nil) {
         self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
         [self showSingleImagePreviewAnimated:NO];
-    }
-    else
-    {
+    } else {
         // Only show the status view if we are not re-submitting a single shot image.
         [self showStatusViewForModeStatusChange];
     }
@@ -290,8 +285,7 @@ typedef enum
 {
     [super viewDidAppear:animated];
     
-    if (self.previewImageData == nil)
-    {
+    if (self.previewImageData == nil) {
         [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
     }
     [self.liveScanner addObserver:self forKeyPath:@"currentImageIsUnrecognized" options:0 context:&kUnrecognizedChanged];
@@ -419,8 +413,7 @@ typedef enum
 
 - (void)singleImageRecognitionStarted
 {
-    if ([self isViewLoaded])
-    {
+    if ([self isViewLoaded]) {
         [self showSingleImagePreviewAnimated:YES];
         self.progressToolbar.animating = YES;
     }
@@ -437,28 +430,22 @@ typedef enum
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (context == &kUnrecognizedChanged)
-    {
+    if (context == &kUnrecognizedChanged) {
         [self updateImageNotRecognizedStatus];
-    }
-    else if (context == &kScanningStatusChanged)
+    } else if (context == &kScanningStatusChanged)
     {
         NSNumber *oldValue = [change objectForKey:NSKeyValueChangeOldKey];
         NSNumber *newValue = [change objectForKey:NSKeyValueChangeNewKey];
         
-        if ([oldValue boolValue] == NO && [newValue boolValue])
-        {
+        if ([oldValue boolValue] == NO && [newValue boolValue]) {
             [self startScanLineAnimation];
-        }
-        else if ([oldValue boolValue] && [newValue boolValue] == NO)
+        } else if ([oldValue boolValue] && [newValue boolValue] == NO)
         {
             [self stopScanLineAnimation];
         }
-    }
-    else if (context == &kRecognitionErrorChanged)
+    } else if (context == &kRecognitionErrorChanged)
     {
-        if (self.liveScanner.recognitionError != nil)
-        {
+        if (self.liveScanner.recognitionError != nil) {
             NSError *error = self.liveScanner.recognitionError;
             NSString *title = nil;
             NSString *subtitle = nil;
@@ -539,16 +526,13 @@ typedef enum
 
 - (void)updateModeStatus
 {
-    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
-    {
+    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
         self.cameraModeControl.cameraMode = kCameraModeLiveScanning;
         self.cameraToolbar.cameraButton.hidden = YES;
         self.cameraZoomSlider.hidden = YES;
         self.tapGestureRecognizer.enabled = NO;
         self.pinchGestureRecognizer.enabled = NO;
-    }
-    else
-    {
+    } else {
         self.cameraModeControl.cameraMode = kCameraModeSingleShot;
         self.cameraToolbar.cameraButton.hidden = NO;
         // Note: We don't need to unhide the camera zoom slider. It will show when the user actually zooms or taps.
@@ -559,14 +543,11 @@ typedef enum
 
 - (void)showStatusViewForModeStatusChange
 {
-    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
-    {
+    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
         
         [self.cameraStatusView setStatusTitle:[SCMLocalization translationFor:@"LiveScanningModeStatusTitle" withDefaultValue:@"Scanning mode"]
                                      subtitle:[SCMLocalization translationFor:@"LiveScanningModeStatusBody" withDefaultValue:@"Make sure that the whole item is visible in the scanner"]];
-    }
-    else
-    {
+    } else {
         [self.cameraStatusView setStatusTitle:[SCMLocalization translationFor:@"SingleShotModeStatusTitle" withDefaultValue:@"Snapshot mode"]
                                      subtitle:[SCMLocalization translationFor:@"SingleShotModeStatusBody" withDefaultValue:@"Make sure to capture the whole item"]];
     }
@@ -576,8 +557,7 @@ typedef enum
 - (void)showStatusViewAndHideAfterTimeInterval:(NSTimeInterval)timeInterval
 {
     if (self.statusViewState == kStatusViewStateHidden ||
-        self.statusViewState == kStatusViewStateAnimatingHidden)
-    {
+        self.statusViewState == kStatusViewStateAnimatingHidden) {
         self.cameraStatusView.hidden = NO;
         self.statusViewState = kStatusViewStateAnimatingVisible;
         
@@ -593,8 +573,7 @@ typedef enum
     
     [self.statusViewTimer invalidate];
     self.statusViewTimer = nil;
-    if (timeInterval > 0.0)
-    {
+    if (timeInterval > 0.0) {
         self.statusViewTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
                                                                 target:self
                                                               selector:@selector(hideStatusView)
@@ -605,8 +584,7 @@ typedef enum
 
 - (void)hideStatusView
 {
-    if (self.statusViewState == kStatusViewStateVisible)
-    {
+    if (self.statusViewState == kStatusViewStateVisible) {
         self.statusViewState = kStatusViewStateAnimatingHidden;
         [UIView animateWithDuration:0.3
                          animations:^{
@@ -615,8 +593,7 @@ typedef enum
                          }
                          completion:^(BOOL finished) {
                              
-                             if (self.statusViewState == kStatusViewStateAnimatingHidden)
-                             {
+                             if (self.statusViewState == kStatusViewStateAnimatingHidden) {
                                  self.cameraStatusView.hidden = YES;
                                  self.statusViewState = kStatusViewStateHidden;
                              }
@@ -641,14 +618,12 @@ typedef enum
     DebugLog(@"switching to mode: %@", self.liveScanner.liveScannerMode == kSCMCaptureSessionLiveScanningMode ? @"snapshot" : @"live");
     [self hideCameraHelp];
     
-    if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning && self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode)
-    {
+    if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning && self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self switchToMode:kSCMLiveScannerLiveScanningMode];
         [self showStatusViewForModeStatusChange];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserPreferenceCameraStartsInSnapshotMode];
         [self startScanLineAnimation];
-    }
-    else if (self.cameraModeControl.cameraMode == kCameraModeSingleShot && self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
+    } else if (self.cameraModeControl.cameraMode == kCameraModeSingleShot && self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
     {
         [self switchToMode:kSCMLiveScannerSingleShotMode];
         [self showStatusViewForModeStatusChange];
@@ -663,8 +638,7 @@ typedef enum
 {
     [self hideCameraHelp];
     
-    if (self.tapGestureRecognizer.state == UIGestureRecognizerStateEnded)
-    {
+    if (self.tapGestureRecognizer.state == UIGestureRecognizerStateEnded) {
         [self.cameraZoomSlider showZoomControl];
     }
 }
@@ -680,12 +654,9 @@ typedef enum
 
 - (IBAction)toggleHelp
 {
-    if (self.showingCameraHelp)
-    {
+    if (self.showingCameraHelp) {
         [self hideCameraHelp];
-    }
-    else
-    {
+    } else {
         [self showCameraHelp];
     }
 }
@@ -729,8 +700,7 @@ typedef enum
 
 - (void)hideCameraHelp
 {
-    if (self.showingCameraHelp == NO)
-    {
+    if (self.showingCameraHelp == NO) {
         return;
     }
     
@@ -747,20 +717,14 @@ typedef enum
 
 - (void)updateFlashStatus
 {
-    if ([self.liveScanner.captureSessionController hasFlashForCurrentMode])
-    {
+    if ([self.liveScanner.captureSessionController hasFlashForCurrentMode]) {
         self.flashButton.hidden = NO;
-        if (self.liveScanner.captureSessionController.flashOn)
-        {
+        if (self.liveScanner.captureSessionController.flashOn) {
             self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOnIcon"];
-        }
-        else
-        {
+        } else {
             self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOffIcon"];
         }
-    }
-    else
-    {
+    } else {
         self.flashButton.hidden = YES;
     }
 }
@@ -769,8 +733,7 @@ typedef enum
 {
     if (self.helpView) {
         self.infoButton.hidden = NO;
-    }
-    else {
+    } else {
         self.infoButton.hidden = YES;
     }
 }
@@ -908,22 +871,18 @@ typedef enum
 
 - (void)updateImageNotRecognizedStatus
 {
-    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode && self.liveScanner.currentImageIsUnrecognized)
-    {
+    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode && self.liveScanner.currentImageIsUnrecognized) {
         [self.cameraStatusView setStatusTitle:[SCMLocalization translationFor:@"LiveScannerItemNotRecognizedTitle" withDefaultValue:@"No results found"]
                                      subtitle:nil];
         [self showStatusViewAndHideAfterTimeInterval:0.0];
-    }
-    else
-    {
+    } else {
         [self hideStatusView];
     }
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification
 {
-    if (self.shouldResumeScanning)
-    {
+    if (self.shouldResumeScanning) {
         [self.liveScanner startScanning];
     }
 }

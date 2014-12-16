@@ -35,8 +35,7 @@
 - (id)initWithURL:(NSURL *)requestURL imageData:(NSData *)data
 {
     self = [super init];
-    if (self != nil)
-    {
+    if (self != nil) {
         self.queryURL = requestURL;
         self.imageData = data;
         self.bodyData = [NSMutableData data];
@@ -93,8 +92,7 @@
     uint8_t md5result[CC_MD5_DIGEST_LENGTH];
     CC_MD5([data bytes], (CC_LONG)[data length], md5result);
     NSMutableString *hexDigest = [NSMutableString string];
-    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-    {
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
         [hexDigest appendFormat:@"%02x", md5result[i]];
     }
     
@@ -113,8 +111,7 @@
 
 - (void)appendJSONData:(NSData *)jsonData forKey:(NSString *)key
 {
-    if (jsonData != nil)
-    {
+    if (jsonData != nil) {
         NSMutableString *textString = [NSMutableString string];
         [textString appendFormat:@"--%@\r\n", self.boundary];
         [textString appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n", key];
@@ -143,8 +140,7 @@
 {
     NSString *imageContentType = @"image/jpeg";
     [self appendTextValue:self.returnedMetadata forKey:@"returned-metadata"];
-    if (self.clientData != nil)
-    {
+    if (self.clientData != nil) {
         [self appendJSONData:self.clientData forKey:@"user_data"];
     }
     [self appendFileData:self.imageData forKey:@"image" contentType:imageContentType name:@"image" filename:@"query.jpeg"];

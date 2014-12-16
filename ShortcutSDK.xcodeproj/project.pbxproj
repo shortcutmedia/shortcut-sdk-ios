@@ -434,7 +434,7 @@
 		86ED354F1A2772F700D9F3B0 /* DataBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBlock.h; sourceTree = "<group>"; };
 		86ED35501A2772F700D9F3B0 /* DataMask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataMask.cpp; sourceTree = "<group>"; };
 		86ED35511A2772F700D9F3B0 /* DataMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataMask.h; sourceTree = "<group>"; };
-		86ED35521A2772F700D9F3B0 /* DecodedBitStreamParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DecodedBitStreamParser.cpp; sourceTree = "<group>"; };
+		86ED35521A2772F700D9F3B0 /* DecodedBitStreamParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = DecodedBitStreamParser.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		86ED35531A2772F700D9F3B0 /* DecodedBitStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecodedBitStreamParser.h; sourceTree = "<group>"; };
 		86ED35541A2772F700D9F3B0 /* Decoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Decoder.cpp; sourceTree = "<group>"; };
 		86ED35551A2772F700D9F3B0 /* Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Decoder.h; sourceTree = "<group>"; };
@@ -494,11 +494,11 @@
 		86ED35941A2772F700D9F3B0 /* SCMCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMCaptureSessionController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86ED35951A2772F700D9F3B0 /* SCMCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMCaptureSessionController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35961A2772F700D9F3B0 /* SCMHistogramFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMHistogramFilter.h; sourceTree = "<group>"; };
-		86ED35971A2772F700D9F3B0 /* SCMHistogramFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMHistogramFilter.m; sourceTree = "<group>"; };
+		86ED35971A2772F700D9F3B0 /* SCMHistogramFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMHistogramFilter.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35981A2772F700D9F3B0 /* SCMLiveScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMLiveScanner.h; sourceTree = "<group>"; };
-		86ED35991A2772F700D9F3B0 /* SCMLiveScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMLiveScanner.m; sourceTree = "<group>"; };
+		86ED35991A2772F700D9F3B0 /* SCMLiveScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMLiveScanner.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED359B1A2772F700D9F3B0 /* SCMMotionDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMMotionDetector.h; sourceTree = "<group>"; };
-		86ED359C1A2772F700D9F3B0 /* SCMMotionDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMMotionDetector.m; sourceTree = "<group>"; };
+		86ED359C1A2772F700D9F3B0 /* SCMMotionDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMMotionDetector.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED359D1A2772F700D9F3B0 /* ShortcutSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortcutSDK.h; sourceTree = "<group>"; };
 		86ED359F1A2772F700D9F3B0 /* SCMBase64Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBase64Utils.h; sourceTree = "<group>"; };
 		86ED35A01A2772F700D9F3B0 /* SCMBase64Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMBase64Utils.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -507,7 +507,7 @@
 		86ED35A31A2772F700D9F3B0 /* SCMImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMImageUtils.h; sourceTree = "<group>"; };
 		86ED35A41A2772F700D9F3B0 /* SCMImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMImageUtils.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35A51A2772F700D9F3B0 /* SCMUUIDUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMUUIDUtils.h; sourceTree = "<group>"; };
-		86ED35A61A2772F700D9F3B0 /* SCMUUIDUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMUUIDUtils.m; sourceTree = "<group>"; };
+		86ED35A61A2772F700D9F3B0 /* SCMUUIDUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMUUIDUtils.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35A71A2772F700D9F3B0 /* UIImage+ImageOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageOrientation.h"; sourceTree = "<group>"; };
 		86ED35A81A2772F700D9F3B0 /* UIImage+ImageOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageOrientation.m"; sourceTree = "<group>"; };
 		86ED35AA1A2772F700D9F3B0 /* SCMCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMCameraViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -529,9 +529,9 @@
 		86ED35BC1A2772F700D9F3B0 /* SCMCustomToolbarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCustomToolbarButton.h; sourceTree = "<group>"; };
 		86ED35BD1A2772F700D9F3B0 /* SCMCustomToolbarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCustomToolbarButton.m; sourceTree = "<group>"; };
 		86ED35BE1A2772F700D9F3B0 /* SCMProgressToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMProgressToolbar.h; sourceTree = "<group>"; };
-		86ED35BF1A2772F700D9F3B0 /* SCMProgressToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMProgressToolbar.m; sourceTree = "<group>"; };
+		86ED35BF1A2772F700D9F3B0 /* SCMProgressToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMProgressToolbar.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35C01A2772F700D9F3B0 /* SCMStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMStatusView.h; sourceTree = "<group>"; };
-		86ED35C11A2772F700D9F3B0 /* SCMStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMStatusView.m; sourceTree = "<group>"; };
+		86ED35C11A2772F700D9F3B0 /* SCMStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMStatusView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED36341A2775CF00D9F3B0 /* ShortcutSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShortcutSDK-Prefix.pch"; sourceTree = "<group>"; };
 		86EEC7531A2F1D7C007C6FA9 /* SCMBarcodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBarcodeScanner.h; sourceTree = "<group>"; };
 		86EEC7541A2F1D7C007C6FA9 /* SCMBarcodeScanner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = SCMBarcodeScanner.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };

@@ -39,13 +39,10 @@
 {
     animating = value;
     
-    if (animating)
-    {
+    if (animating) {
         self.statusLabel.hidden = NO;
         [self.activityIndicator startAnimating];
-    }
-    else
-    {
+    } else {
         self.statusLabel.hidden = YES;
         [self.activityIndicator stopAnimating];
     }

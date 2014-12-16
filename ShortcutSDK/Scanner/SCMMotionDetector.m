@@ -55,8 +55,7 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 - (id)init
 {
     self = [super init];
-    if (self != nil)
-    {
+    if (self != nil) {
         self.deviceMotionManager = [[CMMotionManager alloc] init];
         self.deviceMotionQueue = [[NSOperationQueue alloc] init];
         
@@ -78,26 +77,20 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     
     DebugLog(@"deviceMotionAvailable %@", self.deviceMotionManager.deviceMotionAvailable ? @"YES" : @"NO");
     
-    if (self.deviceMotionManager.deviceMotionAvailable)
-    {
+    if (self.deviceMotionManager.deviceMotionAvailable) {
         self.deviceMotionManager.deviceMotionUpdateInterval = 0.025;
         [self.deviceMotionManager startDeviceMotionUpdatesToQueue:self.deviceMotionQueue withHandler:^(CMDeviceMotion *motion, NSError *error) {
             
-            if (error == nil)
-            {
+            if (error == nil) {
                 [self processDeviceMotionUpdate:motion];
-            }
-            else
-            {
+            } else {
                 // From the documentation: "If an error occurs, you should stop gyroscope updates and inform the user of the problem."
                 // Weird.
                 [self stopDetectingMotion];
             }
             
         }];
-    }
-    else
-    {
+    } else {
         // This needs work. It is too sensitive to gravity and cannot properly detect motion with just an accelerometer.
         self.moving = NO;
         self.accelerationX = 0.0;
@@ -113,12 +106,9 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
         self.highPassAlpha = rc / (dt + rc);
         [self.deviceMotionManager startAccelerometerUpdatesToQueue:self.deviceMotionQueue withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
             
-            if (error == nil)
-            {
+            if (error == nil) {
                 [self processDeviceAccelerationUpdate:accelerometerData];
-            }
-            else
-            {
+            } else {
                 // From the documentation: If an error occurs, you should stop accelerometer updates and inform the user of the problem.
                 [self stopDetectingMotion];
             }
@@ -128,12 +118,9 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 
 - (void)stopDetectingMotion
 {
-    if (self.deviceMotionManager.deviceMotionAvailable)
-    {
+    if (self.deviceMotionManager.deviceMotionAvailable) {
         [self.deviceMotionManager stopDeviceMotionUpdates];
-    }
-    else
-    {
+    } else {
         [self.deviceMotionManager stopAccelerometerUpdates];
     }
 }
@@ -143,8 +130,7 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     double totalAcceleration = sqrt((self.accelerationX * self.accelerationX) + (self.accelerationY * self.accelerationY) + (self.accelerationZ * self.accelerationZ));
     
     BOOL accelerating = NO;
-    if (totalAcceleration > self.accelerationThreshold)
-    {
+    if (totalAcceleration > self.accelerationThreshold) {
         accelerating = YES;
     }
     //	DebugLog(@"acceleration: %+1.2f, %+1.2f, %+1.2f (%+1.2f) %@", self.accelerationX, self.accelerationY, self.accelerationZ, totalAcceleration, accelerating ? @"YES" : @"NO");
@@ -157,8 +143,7 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     double totalRotation = sqrt((rotation.x * rotation.x) + (rotation.y * rotation.y) + (rotation.z * rotation.z));
     
     BOOL rotating = NO;
-    if (totalRotation > self.rotationThreshold)
-    {
+    if (totalRotation > self.rotationThreshold) {
         rotating = YES;
     }
     //	DebugLog(@"rotating: %f, %f, %f (%f) %@", rotation.x, rotation.y, rotation.z, totalRotation, rotating ? @"YES" : @"NO");
@@ -177,17 +162,14 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     
     BOOL accelerating = [self isAccelerating];
     BOOL currentlyMoving = (rotating | accelerating);
-    if (currentlyMoving != self.moving)
-    {
+    if (currentlyMoving != self.moving) {
         // Only set this when the value changes so that observers aren't bombarded with updates.
         self.moving = currentlyMoving;
     }
     
-    if (currentlyMoving)
-    {
+    if (currentlyMoving) {
         self.lastStillTimestamp = nil;
-    }
-    else if (self.lastStillTimestamp == nil)
+    } else if (self.lastStillTimestamp == nil)
     {
         self.lastStillTimestamp = now;
     }
@@ -213,17 +195,14 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     //	DebugLog(@" after: %+1.1f, %+1.1f, %+1.1f", self.accelerationX, self.accelerationY, self.accelerationZ);
     
     BOOL currentlyMoving = [self isAccelerating];
-    if (currentlyMoving != self.moving)
-    {
+    if (currentlyMoving != self.moving) {
         // Only set this when the value changes so that observers aren't bombarded with updates.
         self.moving = currentlyMoving;
     }
     
-    if (currentlyMoving)
-    {
+    if (currentlyMoving) {
         self.lastStillTimestamp = nil;
-    }
-    else if (self.lastStillTimestamp == nil)
+    } else if (self.lastStillTimestamp == nil)
     {
         self.lastStillTimestamp = now;
     }
@@ -231,8 +210,7 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 
 - (NSTimeInterval)timeIntervalSinceLastMotionDetected
 {
-    if (self.lastStillTimestamp == nil)
-    {
+    if (self.lastStillTimestamp == nil) {
         return 0.0;
     }
     

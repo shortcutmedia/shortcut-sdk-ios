@@ -20,8 +20,7 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
     
     // Get the Raw Data length and ensure we actually have data
     NSUInteger intLength = [objData length];
-    if (intLength == 0)
-    {
+    if (intLength == 0) {
         return nil;
     }
     
@@ -30,8 +29,7 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
     objPointer = strResult;
     
     // Iterate through everything
-    while (intLength > 2)
-    {
+    while (intLength > 2) {
         // keep going until we have less than 24 bits
         *objPointer++ = _base64EncodingTable[objRawData[0] >> 2];
         *objPointer++ = _base64EncodingTable[((objRawData[0] & 0x03) << 4) + (objRawData[1] >> 4)];
@@ -44,17 +42,13 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
     }
     
     // now deal with the tail end of things
-    if (intLength != 0)
-    {
+    if (intLength != 0) {
         *objPointer++ = _base64EncodingTable[objRawData[0] >> 2];
-        if (intLength > 1)
-        {
+        if (intLength > 1) {
             *objPointer++ = _base64EncodingTable[((objRawData[0] & 0x03) << 4) + (objRawData[1] >> 4)];
             *objPointer++ = _base64EncodingTable[(objRawData[1] & 0x0f) << 2];
             *objPointer++ = '=';
-        }
-        else
-        {
+        } else {
             *objPointer++ = _base64EncodingTable[(objRawData[0] & 0x03) << 4];
             *objPointer++ = '=';
             *objPointer++ = '=';

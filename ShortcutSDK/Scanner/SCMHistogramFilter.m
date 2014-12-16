@@ -45,8 +45,7 @@ static const double kDefaultHistogramThreshold = 3000.0;
 - (id)init
 {
     self = [super init];
-    if (self != nil)
-    {
+    if (self != nil) {
         self.histogramDataA = [[NSMutableData alloc] initWithLength:kHistogramBufferSize];
         self.histogramDataB = [[NSMutableData alloc] initWithLength:kHistogramBufferSize];
         self.currentHistogramData = self.histogramDataA;
@@ -91,8 +90,7 @@ static const double kDefaultHistogramThreshold = 3000.0;
     register uint32_t value = 0;
     
     uint32_t increment = 4;
-    for (uint32_t *pixel = baseAddress; pixel < lastAddress; pixel += increment)
-    {
+    for (uint32_t *pixel = baseAddress; pixel < lastAddress; pixel += increment) {
         // Put the value of the pixel into a local variable designated to be in a register
         // This provided a 2x performance improvement over the old code that used *pixel in
         // each of the index calculations.
@@ -116,8 +114,7 @@ static const double kDefaultHistogramThreshold = 3000.0;
     self.timeIntervalToCalculateHistogram = [endHistogram timeIntervalSinceDate:startHistogram];
     
     BOOL similar = YES;
-    if (self.distanceFromPreviousHistogram > self.histogramThreshold)
-    {
+    if (self.distanceFromPreviousHistogram > self.histogramThreshold) {
         // This image is sufficiently different than the last image
         similar = NO;
         
@@ -131,8 +128,7 @@ static const double kDefaultHistogramThreshold = 3000.0;
 
 - (double)chiSquaredDistanceFromPreviousHistogram
 {
-    if (self.previousHistogramData == nil)
-    {
+    if (self.previousHistogramData == nil) {
         return CGFLOAT_MAX;
     }
     
@@ -152,8 +148,7 @@ static const double kDefaultHistogramThreshold = 3000.0;
         current = (double)histogram[i];
         total = previous + current;
         difference = previous - current;
-        if (total > 0.0)
-        {
+        if (total > 0.0) {
             distance += (difference * difference) / total;
         }
     }
@@ -163,13 +158,10 @@ static const double kDefaultHistogramThreshold = 3000.0;
 
 - (void)swapHistogramData
 {
-    if (self.currentHistogramData == self.histogramDataA)
-    {
+    if (self.currentHistogramData == self.histogramDataA) {
         self.currentHistogramData = self.histogramDataB;
         self.previousHistogramData = self.histogramDataA;
-    }
-    else
-    {
+    } else {
         self.currentHistogramData = self.histogramDataA;
         self.previousHistogramData = self.histogramDataB;
     }

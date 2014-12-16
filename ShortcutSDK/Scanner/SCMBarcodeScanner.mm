@@ -29,8 +29,7 @@
 - (id)init
 {
     self = [super init];
-    if (self != nil)
-    {
+    if (self != nil) {
         self.decoder = [[[Decoder alloc] init] autorelease];
         QRCodeReader *qrCodeReader = [[[QRCodeReader alloc] init] autorelease];
         decoder.readers = [NSSet setWithObject:qrCodeReader];
