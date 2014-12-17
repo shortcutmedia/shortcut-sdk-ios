@@ -98,6 +98,19 @@
 
 #pragma mark - UIWebViewDelegate
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if ([request.URL.scheme isEqualToString:@"http"] || [request.URL.scheme isEqualToString:@"https"]) {
+        return YES;
+    } else if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
+        [[UIApplication sharedApplication] openURL:request.URL];
+        return NO;
+    } else {
+        DebugLog(@"webView cannot load request with url %@", request.URL.absoluteString);
+        return NO;
+    }
+}
+
 - (void)webViewDidStartLoad:(UIWebView *)aWebView
 {
     [self.statusView setStatusTitle:[SCMLocalization translationFor:@"LoadingTitle" withDefaultValue:@"Loading…"] subtitle:nil showActivityIndicator:YES];

@@ -58,29 +58,30 @@
 /// @name UIWebView delegate implementation
 
 /**
- *  This method is called when the web view starts loading a request.
+ *  You can override this method in a subclass to customize loading behavior.
+ *
+ *  @see UIWebViewDelegate -webView:shouldStartLoadWithRequest:navigationType:
+ */
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+
+/**
+ *  You can override this method in a subclass to customize loading behavior.
  *
  *  @see UIWebViewDelegate -webViewDidStartLoad:
- *
- *  @param webView The web view instance that started loading.
  */
 - (void)webViewDidStartLoad:(UIWebView *)webView;
 
 /**
- *  This method is called when the web view finishes loading a request.
+ *  You can override this method in a subclass to customize loading behavior.
  *
  *  @see UIWebViewDelegate -webViewDidFinishLoad:
- *
- *  @param webView The web view instance that finished loading.
  */
 - (void)webViewDidFinishLoad:(UIWebView *)webView;
 
 /**
- *  This method is called when the web view failed to load a request.
+ *  You can override this method in a subclass to customize loading behavior.
  *
  *  @see UIWebViewDelegate -webView:didFailLoadWithError:
- *
- *  @param webView The web view instance that failed to load.
  */
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error;
 
