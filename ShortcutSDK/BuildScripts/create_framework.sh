@@ -32,9 +32,3 @@ cp "${BUILT_PRODUCTS_DIR}/lib${PROJECT_NAME}.a.fat" "${FRAMEWORK}/Versions/A/${P
 ln -s "A" "${FRAMEWORK}/Versions/Current"
 ln -s "Versions/Current/Headers" "${FRAMEWORK}/Headers"
 ln -s "Versions/Current/${PROJECT_NAME}" "${FRAMEWORK}/${PROJECT_NAME}"
-
-# Copy .framework and .bundle to project dir
-rm -rf "${PROJECT_DIR}/build"
-mkdir -p "${PROJECT_DIR}/build"
-cp -R "${FRAMEWORK}" "${PROJECT_DIR}/build/"
-cp -R "${BUNDLE}" "${PROJECT_DIR}/build/"

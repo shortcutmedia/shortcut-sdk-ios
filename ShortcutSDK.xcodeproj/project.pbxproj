@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 86ED36581A277EA500D9F3B0 /* Build configuration list for PBXAggregateTarget "Framework" */;
 			buildPhases = (
-				86ED365D1A277EC300D9F3B0 /* Run Script (Build all archs) */,
+				86ED365D1A277EC300D9F3B0 /* Run Script */,
 			);
 			dependencies = (
 				86ED365C1A277EB400D9F3B0 /* PBXTargetDependency */,
@@ -264,7 +264,9 @@
 		86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BarButtonBackground@2x.png"; path = "Resources/BarButtonBackground@2x.png"; sourceTree = "<group>"; };
 		864218961A4040430044B744 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		864218981A4040F10044B744 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		867F038E1A2CC12F00204F52 /* create_framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = create_framework.sh; sourceTree = "<group>"; };
+		86775FB51A417EEB00D136A5 /* create_framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = create_framework.sh; sourceTree = "<group>"; };
+		86775FB61A417EEB00D136A5 /* finish_build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = finish_build.sh; sourceTree = "<group>"; };
+		86775FB71A417EEB00D136A5 /* render_docs.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = render_docs.sh; sourceTree = "<group>"; };
 		86AB02D91A2872E600586049 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		86AB02DB1A2872F000586049 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		86BD712E1A2DE5E500EA8633 /* PLCameraZoomMax.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PLCameraZoomMax.png; path = Resources/PLCameraZoomMax.png; sourceTree = "<group>"; };
@@ -568,6 +570,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		86775FB41A417EEB00D136A5 /* BuildScripts */ = {
+			isa = PBXGroup;
+			children = (
+				86775FB51A417EEB00D136A5 /* create_framework.sh */,
+				86775FB71A417EEB00D136A5 /* render_docs.sh */,
+				86775FB61A417EEB00D136A5 /* finish_build.sh */,
+			);
+			path = BuildScripts;
+			sourceTree = "<group>";
+		};
 		86AB02DD1A2872FE00586049 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1145,7 +1157,7 @@
 			isa = PBXGroup;
 			children = (
 				86ED36341A2775CF00D9F3B0 /* ShortcutSDK-Prefix.pch */,
-				867F038E1A2CC12F00204F52 /* create_framework.sh */,
+				86775FB41A417EEB00D136A5 /* BuildScripts */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1349,19 +1361,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		86ED365D1A277EC300D9F3B0 /* Run Script (Build all archs) */ = {
+		86ED365D1A277EC300D9F3B0 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script (Build all archs)";
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = $SRCROOT/ShortcutSDK/create_framework.sh;
+			shellScript = "$SRCROOT/ShortcutSDK/BuildScripts/create_framework.sh\n$SRCROOT/ShortcutSDK/BuildScripts/render_docs.sh\n$SRCROOT/ShortcutSDK/BuildScripts/finish_build.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
