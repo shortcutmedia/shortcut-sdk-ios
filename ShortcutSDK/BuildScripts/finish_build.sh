@@ -13,4 +13,7 @@ cp -R "${FRAMEWORK}" "${PROJECT_DIR}/build/"
 cp -R "${BUNDLE}" "${PROJECT_DIR}/build/"
 cp -R "${DOCS}" "${PROJECT_DIR}/build/"
 
+cp "${PROJECT_DIR}/README.md" "${PROJECT_DIR}/build/"
+cp "${PROJECT_DIR}/LICENSE.txt" "${PROJECT_DIR}/build/"
+
 open "${PROJECT_DIR}/build"
