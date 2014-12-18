@@ -8,6 +8,80 @@ You can easily combine these two components by using the Scanner view to get an 
 
 In addition to these two components the SDK also provides a lower-level interface to submit image recognition queries without using the scanner view.
 
+The SDK works with iOS versions 6 to 8.
+
+
+# Installation
+
+The SDK consists of two parts: the code (packaged in a .framework file) and some resources (packaged in a .bundle file). To use it within your project follow these steps:
+
+1. Add the *ShortcutSDK.framework* and *ShortcutSDK.bundle* files to your project, e.g. by dragging them into your project in Xcode.
+2. Within your project's **Build settings** add the `-ObjC` to **Other linker flags**.
+3. Within your project's **Build phases** make sure that all following libraries are added in the **Link binary with libraries** section:
+  - ShortcutSDK.framework
+  - libiconv.dylib
+  - libc++.dylib
+4. Within your project's **Build phases** make sure that *ShortcutSDK.bundle* is added in the **Copy bundle resources** section.
+
+
+# Getting started
+
+To get a feeling for the different parts of the SDK this section walks you through the process of building a very simple app that displays the Scanner view on start up. When an item is recognized, the app dismisses the Scanner view and displays the recognized item in an Item view.
+
+First, we have to create a new project in Xcode. Select the most basic of the available templates (In Xcode 6 this would be the *Single view application* template ) and follow the steps in the Installation section above.
+You also need access keys, at the moment you have to request them by sending a mail to support@shortcutmedia.com.
+
+We want to display a Scanner view as soon as the app starts; so let's go to the *AppDelegate.m* file and make the following changes:
+
+**Step 1:** Import the ShortcutSDK framework at the top of the file:
+
+```objective-c
+#import <ShortcutSDK/ShortcutSDK.h>
+```
+
+**Step 2:** Change the implementation of the `application:didFinishLaunchingWithOptions:` method to the following:
+
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [SCMSDKConfig sharedConfig].accessKey = @"YOUR_ACCESS_KEY";
+    [SCMSDKConfig sharedConfig].secretKey = @"YOUR_SECRET_KEY";
+
+    SCMCameraViewController *cameraViewController = [[SCMCameraViewController alloc] init];
+    cameraViewController.delegate = self;
+
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = cameraViewController;
+    [self.window makeKeyAndVisible];
+
+    return YES;
+}
+```
+
+Within this bit of code you set up your access keys and a Scanner view. You then add the Scanner view to the main window and display it.
+You get a warning in Xcode and if you run the app and point the scanner at an item that it recognizes then it crashes; so let's fix that.
+
+**Step 3:** The Scanner view "communicates" with you via its delegate. In the code above we set the Scanner view delegate to the AppDelegate instance itself. For this to work correctly, the AppDelegate class must implement the `SCMCameraViewControllerDelegate` protocol. Change the interface of the AppDelegate class to the following:
+
+```objective-c
+@interface AppDelegate () <SCMCameraViewControllerDelegate>
+```
+
+You also have to add the following method to the class:
+
+```objective-c
+- (void)cameraViewController:(SCMCameraViewController *)cameraViewController recognizedQuery:(SCMQueryResponse *)response atLocation:(CLLocation *)location fromImage:(NSData *)imageData
+{
+    SCMQueryResult *result = [response.results firstObject];
+    SCMItemViewController *itemViewController = [[SCMQueryResultViewController alloc] initWithQueryResult:result];
+
+    self.window.rootViewController = itemViewController;
+}
+```
+
+This method is called by the Scanner view whenever it recognized an item. In it, we grab the first result from the query response, instantiate an Item view with it and display the Item view in the app's main window.
+If you run the app now and point the Scanner at an item it recognizes, then it should display this item.
+
+
 # Scanner view
 
 The Scanner view is implemented as a UIKit view controller. You just have to instantiate it and present it somehow. It communicates back to you via a delegate.
