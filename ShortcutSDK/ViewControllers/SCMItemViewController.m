@@ -14,6 +14,12 @@
 @interface SCMItemViewController () <UIWebViewDelegate>
 
 @property (strong, nonatomic) IBOutlet SCMStatusView *statusView;
+@property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *toolbarBackButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *toolbarForwardButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *toolbarOpenInSafariButton;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *webViewBottomConstraint;
+
 @property (strong, nonatomic) NSString *itemUUID;
 @property (strong, nonatomic) NSString *imageSHA1;
 @property (strong, nonatomic, readonly) NSURLRequest *initialRequest;
@@ -96,6 +102,46 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
+#pragma mark - Toolbar and Status
+
+- (IBAction)toolbarButtonClicked:(UIBarButtonItem *)sender
+{
+    if ([sender isEqual:self.toolbarBackButton]) {
+        [self.webView goBack];
+    } else if ([sender isEqual:self.toolbarForwardButton]) {
+        [self.webView goForward];
+    } else if ([sender isEqual:self.toolbarOpenInSafariButton]) {
+        [[UIApplication sharedApplication] openURL:self.webView.request.URL];
+    }
+}
+
+- (void)updateToolbar
+{
+    // If the web view is not empty or displaying an internal page, then show the toolbar
+    // and adjust the web view height.
+    if (!self.webView.request ||
+        [self.webView.request.URL.absoluteString isEqualToString:@""] ||
+        [self.webView.request.URL.host isEqualToString:[SCMSDKConfig sharedConfig].itemServerAddress]) {
+        self.toolbar.hidden = YES;
+        self.webViewBottomConstraint.constant = 0;
+    } else {
+        self.toolbar.hidden = NO;
+        self.webViewBottomConstraint.constant = self.toolbar.frame.size.height;
+    }
+        
+    self.toolbarBackButton.enabled = [self.webView canGoBack];
+    self.toolbarForwardButton.enabled = [self.webView canGoForward];
+}
+
+- (void)updateStatusView
+{
+    [self.statusView setStatusTitle:[SCMLocalization translationFor:@"LoadingTitle" withDefaultValue:@"Loading…"]
+                           subtitle:nil
+              showActivityIndicator:YES];
+    
+    self.statusView.hidden = ![self.webView isLoading];
+}
+
 #pragma mark - UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -113,14 +159,16 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)aWebView
 {
-    [self.statusView setStatusTitle:[SCMLocalization translationFor:@"LoadingTitle" withDefaultValue:@"Loading…"] subtitle:nil showActivityIndicator:YES];
-    self.statusView.hidden = NO;
+    [self updateStatusView];
+    [self updateToolbar];
+    
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)aWebView
 {
     self.webView.hidden = NO;
-    self.statusView.hidden = YES;
+    [self updateStatusView];
+    [self updateToolbar];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error

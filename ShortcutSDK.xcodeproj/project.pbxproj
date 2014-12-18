@@ -211,6 +211,10 @@
 		86EEC7581A2F1D7C007C6FA9 /* SCMBarcodeScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7551A2F1D7C007C6FA9 /* SCMBarcodeScannerDelegate.h */; };
 		86EEC75A1A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7591A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h */; };
 		86EEC75C1A2F1E86007C6FA9 /* SCMCameraViewControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC75B1A2F1E86007C6FA9 /* SCMCameraViewControllerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		86F682D01A41D69400738E2F /* ToolbarNavigationBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CC1A41D69400738E2F /* ToolbarNavigationBack.png */; };
+		86F682D11A41D69400738E2F /* ToolbarNavigationBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CD1A41D69400738E2F /* ToolbarNavigationBack@2x.png */; };
+		86F682D21A41D69400738E2F /* ToolbarNavigationForward.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CE1A41D69400738E2F /* ToolbarNavigationForward.png */; };
+		86F682D31A41D69400738E2F /* ToolbarNavigationForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CF1A41D69400738E2F /* ToolbarNavigationForward@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -540,6 +544,10 @@
 		86EEC7551A2F1D7C007C6FA9 /* SCMBarcodeScannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBarcodeScannerDelegate.h; sourceTree = "<group>"; };
 		86EEC7591A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMLiveScannerDelegate.h; sourceTree = "<group>"; };
 		86EEC75B1A2F1E86007C6FA9 /* SCMCameraViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCameraViewControllerDelegate.h; sourceTree = "<group>"; };
+		86F682CC1A41D69400738E2F /* ToolbarNavigationBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarNavigationBack.png; path = Resources/ToolbarNavigationBack.png; sourceTree = "<group>"; };
+		86F682CD1A41D69400738E2F /* ToolbarNavigationBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ToolbarNavigationBack@2x.png"; path = "Resources/ToolbarNavigationBack@2x.png"; sourceTree = "<group>"; };
+		86F682CE1A41D69400738E2F /* ToolbarNavigationForward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarNavigationForward.png; path = Resources/ToolbarNavigationForward.png; sourceTree = "<group>"; };
+		86F682CF1A41D69400738E2F /* ToolbarNavigationForward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ToolbarNavigationForward@2x.png"; path = "Resources/ToolbarNavigationForward@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -646,6 +654,10 @@
 				86BD71371A2DE5E500EA8633 /* PLCameraZoomTrackMax@2x.png */,
 				86BD71381A2DE5E500EA8633 /* PLCameraZoomTrackMin.png */,
 				86BD71391A2DE5E500EA8633 /* PLCameraZoomTrackMin@2x.png */,
+				86F682CC1A41D69400738E2F /* ToolbarNavigationBack.png */,
+				86F682CD1A41D69400738E2F /* ToolbarNavigationBack@2x.png */,
+				86F682CE1A41D69400738E2F /* ToolbarNavigationForward.png */,
+				86F682CF1A41D69400738E2F /* ToolbarNavigationForward@2x.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1312,18 +1324,22 @@
 				86BD713D1A2DE5E500EA8633 /* PLCameraZoomMin@2x.png in Resources */,
 				86D085821A28BB7B005CECD3 /* CameraInfoIcon.png in Resources */,
 				86D0857A1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted.png in Resources */,
+				86F682D31A41D69400738E2F /* ToolbarNavigationForward@2x.png in Resources */,
 				86D085831A28BB7B005CECD3 /* CameraInfoIcon@2x.png in Resources */,
 				86D085801A28BB7B005CECD3 /* CameraFlashOnIcon.png in Resources */,
 				86D085781A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png in Resources */,
+				86F682D21A41D69400738E2F /* ToolbarNavigationForward.png in Resources */,
 				86BD71421A2DE5E500EA8633 /* PLCameraZoomTrackMax.png in Resources */,
 				86197B0C1A2C66A700BD726B /* NavigationBarBackground.png in Resources */,
 				86D085491A2889EC005CECD3 /* SCMCameraViewController.xib in Resources */,
 				86BD713F1A2DE5E500EA8633 /* PLCameraZoomThumb@2x.png in Resources */,
+				86F682D01A41D69400738E2F /* ToolbarNavigationBack.png in Resources */,
 				86197B051A2C663700BD726B /* CameraModeSingleShotIcon@2x.png in Resources */,
 				86BD71401A2DE5E500EA8633 /* PLCameraZoomTrack.png in Resources */,
 				86D0857B1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted@2x.png in Resources */,
 				86D0857E1A28BB7B005CECD3 /* CameraFlashOffIcon.png in Resources */,
 				86BD71431A2DE5E500EA8633 /* PLCameraZoomTrackMax@2x.png in Resources */,
+				86F682D11A41D69400738E2F /* ToolbarNavigationBack@2x.png in Resources */,
 				86197B081A2C663700BD726B /* CameraModeSliderBackground.png in Resources */,
 				86D085851A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png in Resources */,
 				86BD71411A2DE5E500EA8633 /* PLCameraZoomTrack@2x.png in Resources */,
