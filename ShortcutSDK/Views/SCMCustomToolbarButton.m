@@ -21,6 +21,7 @@
         UIImage *barButtonBackground = [UIImage imageWithContentsOfFile:barButtonBackgroundPath];
         UIImage *stretchableBarButtonBackground = [barButtonBackground stretchableImageWithLeftCapWidth:6 topCapHeight:0];
         [self setBackgroundImage:stretchableBarButtonBackground forState:UIControlStateNormal];
+        [self setContentEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 8)];
     }
 }
 
