@@ -21,4 +21,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 This product bundles parts of the zxing library, which is available under an
-Apache-2.0 license. For details, see Frameworks/zxing-2.0/COPYING
+Apache-2.0 license. For details, see http://www.apache.org/licenses/LICENSE-2.0
