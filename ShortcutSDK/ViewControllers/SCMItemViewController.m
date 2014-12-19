@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toolbarBackButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toolbarForwardButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toolbarOpenInSafariButton;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *webViewTopConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *webViewBottomConstraint;
 
 @property (strong, nonatomic) NSString *itemUUID;
@@ -80,8 +81,22 @@
     
     self.webView.delegate = self;
     self.webView.hidden = YES;
+    
     if (self.initialRequest) {
         [self.webView loadRequest:self.initialRequest];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // Position the web view below the status bar on iOS7 when not displayed in a
+    // navigation controller
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
+        if (!self.navigationController) {
+            self.webViewTopConstraint.constant = 20;
+        }
     }
 }
 
