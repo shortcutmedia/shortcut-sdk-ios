@@ -7,11 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <DecoderDelegate.h>
 #import "SCMQRCodeScannerDelegate.h"
 
 
-@interface SCMQRCodeScanner : NSObject <DecoderDelegate>
+@interface SCMQRCodeScanner : NSObject
 
 @property (nonatomic, assign, readwrite) id<SCMQRCodeScannerDelegate> delegate;
 

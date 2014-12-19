@@ -10,9 +10,10 @@
 #import <QRCodeReader.h>
 #import <TwoDDecoderResult.h>
 #import <Decoder.h>
+#import <DecoderDelegate.h>
 
 
-@interface SCMQRCodeScanner ()
+@interface SCMQRCodeScanner () <DecoderDelegate>
 
 @property (nonatomic, retain, readwrite) Decoder *decoder;
 

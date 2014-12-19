@@ -12,6 +12,7 @@
 #import "SCMCaptureSessionController.h"
 #import "SCMRecognitionOperation.h"
 #import "SCMQRCodeScanner.h"
+#import "SCMQRCodeScannerDelegate.h"
 #import "SCMImageUtils.h"
 #import "SCMLocalization.h"
 
@@ -25,7 +26,7 @@ static const CGFloat kDefaultOutputImageHeight = 360.0;
 static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
-@interface SCMLiveScanner ()
+@interface SCMLiveScanner () <AVCaptureVideoDataOutputSampleBufferDelegate, SCMQRCodeScannerDelegate>
 
 @property (nonatomic, strong, readwrite) SCMCaptureSessionController *captureSessionController;
 @property (nonatomic, strong, readwrite) SCMMotionDetector *motionDetector;
