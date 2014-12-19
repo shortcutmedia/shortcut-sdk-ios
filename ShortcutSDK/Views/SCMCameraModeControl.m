@@ -29,14 +29,6 @@ static const CGFloat KSliderDragThreshold = 4.0;
 
 @implementation SCMCameraModeControl
 
-@synthesize cameraMode;
-@synthesize sliderBackground;
-@synthesize singleShotIcon;
-@synthesize liveScannerIcon;
-@synthesize slider;
-@synthesize initialTouchX;
-@synthesize userDraggedSlider;
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -101,7 +93,7 @@ static const CGFloat KSliderDragThreshold = 4.0;
 
 - (void)setCameraMode:(SCMCameraMode)mode
 {
-    cameraMode = mode;
+    _cameraMode = mode;
     [self setNeedsLayout];
 }
 

@@ -27,12 +27,6 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 
 @implementation SCMRecognitionOperation
 
-@synthesize location;
-@synthesize imageData;
-@synthesize request;
-@synthesize queryResponse;
-@synthesize error;
-
 - (id)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation
 {
     self = [super init];

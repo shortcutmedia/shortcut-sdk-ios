@@ -21,10 +21,6 @@
 
 @implementation SCMCameraToolbar
 
-@synthesize doneButton;
-@synthesize cameraButton;
-@synthesize modeButton;
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];

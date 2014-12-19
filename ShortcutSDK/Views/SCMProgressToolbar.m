@@ -21,11 +21,6 @@
 
 @implementation SCMProgressToolbar
 
-@synthesize animating;
-@synthesize cancelButton;
-@synthesize statusLabel;
-@synthesize activityIndicator;
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -37,9 +32,9 @@
 
 - (void)setAnimating:(BOOL)value
 {
-    animating = value;
+    _animating = value;
     
-    if (animating) {
+    if (_animating) {
         self.statusLabel.hidden = NO;
         [self.activityIndicator startAnimating];
     } else {

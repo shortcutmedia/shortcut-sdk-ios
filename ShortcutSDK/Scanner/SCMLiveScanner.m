@@ -50,29 +50,6 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 @implementation SCMLiveScanner
 
-@synthesize delegate;
-@synthesize noMotionThreshold;
-@synthesize captureSessionController;
-@synthesize location;
-@synthesize scanQRCodes;
-@synthesize motionDetector;
-@synthesize histogramFilter;
-@synthesize qrCodeScanner;
-@synthesize recognitionQueue;
-@synthesize numImagesSentForRecognition;
-@synthesize outstandingRecognitionOperations;
-@synthesize outputImageWidth;
-@synthesize outputImageHeight;
-@synthesize outputCompressionLevel;
-@synthesize liveScannerMode;
-@synthesize scanning;
-@synthesize running;
-@synthesize lastImageUnrecognized;
-@synthesize currentImageIsUnrecognized;
-@synthesize recognitionError;
-@synthesize imageRecognized;
-@synthesize paused;
-
 - (id)init
 {
     self = [super init];
@@ -248,7 +225,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 - (void)setPaused:(BOOL)value
 {
-    paused = value;
+    _paused = value;
     
     if (value) {
         self.scanning = NO;

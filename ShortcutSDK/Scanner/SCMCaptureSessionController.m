@@ -28,18 +28,6 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
 
 @implementation SCMCaptureSessionController
 
-@synthesize sampleBufferDelegate;
-@synthesize captureDevice;
-@synthesize captureSession;
-@synthesize captureInput;
-@synthesize videoCaptureOutput;
-@synthesize stillImageOutput;
-@synthesize stillImageVideoConnection;
-@synthesize liveVideoConnection;
-@synthesize previewLayer;
-@synthesize captureSessionMode;
-@synthesize running;
-
 - (id)init
 {
     self = [super init];

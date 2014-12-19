@@ -25,13 +25,6 @@
 
 @implementation KWSImageRequest
 
-@synthesize returnedMetadata;
-@synthesize clientData;
-@synthesize queryURL;
-@synthesize imageData;
-@synthesize bodyData;
-@synthesize boundary;
-
 - (id)initWithURL:(NSURL *)requestURL imageData:(NSData *)data
 {
     self = [super init];

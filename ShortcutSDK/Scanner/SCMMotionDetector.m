@@ -33,20 +33,6 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 
 @implementation SCMMotionDetector
 
-@synthesize rotationThreshold;
-@synthesize accelerationThreshold;
-@synthesize moving;
-@synthesize deviceMotionManager;
-@synthesize deviceMotionQueue;
-@synthesize lastStillTimestamp;
-@synthesize accelerationX;
-@synthesize accelerationY;
-@synthesize accelerationZ;
-@synthesize lastAccelerationX;
-@synthesize lastAccelerationY;
-@synthesize lastAccelerationZ;
-@synthesize highPassAlpha;
-
 - (id)init
 {
     self = [super init];

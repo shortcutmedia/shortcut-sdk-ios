@@ -30,15 +30,6 @@ static const double kDefaultHistogramThreshold = 3000.0;
 
 @implementation SCMHistogramFilter
 
-@synthesize histogramThreshold;
-@synthesize timeIntervalToCalculateHistogram;
-@synthesize distanceFromPreviousHistogram;
-
-@synthesize histogramDataA;
-@synthesize histogramDataB;
-@synthesize previousHistogramData;
-@synthesize currentHistogramData;
-
 - (id)init
 {
     self = [super init];
@@ -130,7 +121,7 @@ static const double kDefaultHistogramThreshold = 3000.0;
     }
     
     const uint32_t *histogram = (const uint32_t *)self.currentHistogramData.bytes;
-    const uint32_t *previousHistogram = (const uint32_t *)previousHistogramData.bytes;
+    const uint32_t *previousHistogram = (const uint32_t *)self.previousHistogramData.bytes;
     
     double distance = 0.0;
     double previous = 0.0;

@@ -51,32 +51,6 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 
 @implementation SCMCameraZoomSlider
 
-@synthesize zoomScale;
-@synthesize maxScale;
-@synthesize trackMinImage;
-@synthesize trackMaxImage;
-@synthesize trackImage;
-@synthesize thumbImage;
-@synthesize minusImage;
-@synthesize plusImage;
-@synthesize trackRect;
-@synthesize trackMinRect;
-@synthesize trackMaxRect;
-@synthesize thumbImageRect;
-@synthesize minusImageRect;
-@synthesize plusImageRect;
-@synthesize minusTouchRect;
-@synthesize plusTouchRect;
-@synthesize thumbTouchRect;
-@synthesize touchOrigin;
-@synthesize thumbOrigin;
-@synthesize draggingThumb;
-@synthesize zoomingIn;
-@synthesize zoomingOut;
-@synthesize initialDelta;
-@synthesize hideControlsTimer;
-@synthesize initialPinchZoomScale;
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -91,8 +65,8 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
     
     // These are initialized without the accessors. If accessors are used, then maxScale must be set first, since
     // zoomScale uses maxScale to constrain the value of zoomScale.
-    maxScale = 3.0;
-    zoomScale = 1.0;
+    self.maxScale = 3.0;
+    self.zoomScale = 1.0;
 }
 
 - (void)layoutSubviews
@@ -153,7 +127,7 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
     {
         scale = self.maxScale;
     }
-    zoomScale = scale;
+    _zoomScale = scale;
     [self updateThumbRects];
     [self setNeedsDisplay];
 }

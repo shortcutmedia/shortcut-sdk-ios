@@ -22,9 +22,6 @@
 
 @implementation SCMQRCodeScanner
 
-@synthesize delegate;
-@synthesize decoder;
-
 #pragma mark - ZXing
 
 - (id)init
@@ -33,8 +30,8 @@
     if (self != nil) {
         self.decoder = [[[Decoder alloc] init] autorelease];
         QRCodeReader *qrCodeReader = [[[QRCodeReader alloc] init] autorelease];
-        decoder.readers = [NSSet setWithObject:qrCodeReader];
-        decoder.delegate = self;
+        self.decoder.readers = [NSSet setWithObject:qrCodeReader];
+        self.decoder.delegate = self;
     }
     
     return self;
@@ -43,7 +40,7 @@
 - (void)dealloc
 {
     self.decoder.delegate = nil;
-    [decoder release];
+    [self.decoder release];
     [super dealloc];
 }
 

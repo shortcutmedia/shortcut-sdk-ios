@@ -64,38 +64,15 @@ typedef enum
 
 @implementation SCMScannerViewController
 
-@synthesize delegate;
-@synthesize cameraStatusView;
-@synthesize previewView;
-@synthesize cameraZoomSlider;
-@synthesize cameraToolbar;
-@synthesize progressToolbar;
-@synthesize cameraModeControl;
-@synthesize infoButton;
-@synthesize flashButton;
-@synthesize previewImageView;
-@synthesize scanLineView;
-@synthesize tapGestureRecognizer;
-@synthesize pinchGestureRecognizer;
-@synthesize liveScanner;
-@synthesize showingCameraHelp;
-@synthesize statusViewState;
-@synthesize statusViewTimer;
-@synthesize shouldResumeScanning;
-@synthesize previewImageData;
-@synthesize helpView;
-@synthesize shouldShowNavigationBarWhenDisappearing;
-@synthesize showDoneButton;
-
 #pragma mark - Live scanner configuration
 
 - (SCMLiveScanner *)liveScanner
 {
-    if (!liveScanner) {
-        liveScanner = [[SCMLiveScanner alloc] init];
-        liveScanner.delegate = self;
+    if (!_liveScanner) {
+        _liveScanner = [[SCMLiveScanner alloc] init];
+        _liveScanner.delegate = self;
     }
-    return liveScanner;
+    return _liveScanner;
 }
 
 - (CLLocation *)location
@@ -301,7 +278,7 @@ typedef enum
 
 - (void)setDelegate:(id<SCMScannerViewControllerDelegate>)newDelegate
 {
-    delegate = newDelegate;
+    _delegate = newDelegate;
     
     // enable QR code scanning if delegate has related callback
     self.scanQRCodes = [newDelegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:)];
@@ -347,7 +324,7 @@ typedef enum
     [self switchToMode:kSCMLiveScannerSingleShotMode];
     
     self.previewImageData = imageData;
-    self.previewImageView.image = [UIImage imageWithData:previewImageData];
+    self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
     
     CGImageRef image = [UIImage imageWithData:imageData].CGImage;
     [self.liveScanner processImage:image];
@@ -358,7 +335,7 @@ typedef enum
 - (void)singleImageSentForRecognition:(NSData *)imageData
 {
     self.previewImageData = imageData;
-    self.previewImageView.image = [UIImage imageWithData:previewImageData];
+    self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
     
     [self singleImageRecognitionStarted];
 }

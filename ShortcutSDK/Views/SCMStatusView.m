@@ -24,11 +24,6 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
 
 @implementation SCMStatusView
 
-@synthesize titleLabel;
-@synthesize subtitleLabel;
-@synthesize activityIndicator;
-@synthesize showActivityIndicator;
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
