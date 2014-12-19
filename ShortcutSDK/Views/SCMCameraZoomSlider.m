@@ -99,8 +99,6 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
     [self updateThumbRects];
 }
 
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
@@ -213,7 +211,6 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
     CGPoint location = [touch locationInView:self];
-    //	NSLog(@"beginTracking at %@", NSStringFromCGPoint(location));
     
     if (CGRectContainsPoint(self.minusTouchRect, location)) {
         self.zoomingOut = YES;

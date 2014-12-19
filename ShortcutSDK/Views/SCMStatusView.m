@@ -126,15 +126,6 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
     self.activityIndicator.frame = CGRectMake(kHorizontalTextMargin, activityY, CGRectGetWidth(self.activityIndicator.frame), activityHeight);
 }
 
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
-
 - (void)setStatusTitle:(NSString *)title subtitle:(NSString *)subtitle
 {
     [self setStatusTitle:title subtitle:subtitle showActivityIndicator:NO];

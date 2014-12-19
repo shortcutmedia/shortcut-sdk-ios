@@ -326,14 +326,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     {
         skipImage = YES;
     }
-    
-    //	DebugLog(@"still: %f, adjustingFocus: %@, adjustingExposure: %@, adjustingWhiteBalance: %@ (%@)",
-    //					 timeSinceLastMotion,
-    //					 self.captureSessionController.captureDevice.adjustingFocus ? @"YES" : @"NO",
-    //					 self.captureSessionController.captureDevice.adjustingExposure ? @"YES" : @"NO",
-    //					 self.captureSessionController.captureDevice.adjustingWhiteBalance ? @"YES" : @"NO",
-    //					 skipImage ? @"YES" : @"NO");
-    
+
     return skipImage;
 }
 

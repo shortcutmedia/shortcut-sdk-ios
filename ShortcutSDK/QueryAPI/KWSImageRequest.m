@@ -76,7 +76,6 @@
     
     NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC length:sizeof(cHMAC)];
     
-    //NSString *hash = [HMAC base64Encoding];
     return HMAC;
 }
 

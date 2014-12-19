@@ -10,7 +10,6 @@
 #import <CoreMotion/CoreMotion.h>
 
 
-// static const double kFilteringFactor = 0.1;
 static const double kAccelerometerUpdateFrequency = 30.0;		// n times per second
 static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from AccelerometerGraph demo code
 
@@ -114,7 +113,6 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     if (totalAcceleration > self.accelerationThreshold) {
         accelerating = YES;
     }
-    //	DebugLog(@"acceleration: %+1.2f, %+1.2f, %+1.2f (%+1.2f) %@", self.accelerationX, self.accelerationY, self.accelerationZ, totalAcceleration, accelerating ? @"YES" : @"NO");
     
     return accelerating;
 }
@@ -127,7 +125,6 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     if (totalRotation > self.rotationThreshold) {
         rotating = YES;
     }
-    //	DebugLog(@"rotating: %f, %f, %f (%f) %@", rotation.x, rotation.y, rotation.z, totalRotation, rotating ? @"YES" : @"NO");
     
     return rotating;
 }
@@ -154,17 +151,12 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     {
         self.lastStillTimestamp = now;
     }
-    
-    //	DebugLog(@"moving: %@ (%f)", self.moving ? @"YES" : @"NO", [self timeIntervalSinceLastMotionDetected]);
 }
 
 - (void)processDeviceAccelerationUpdate:(CMAccelerometerData *)accelerometerData
 {
     NSDate *now = [NSDate date];
-    
-    //	DebugLog(@"before: %+1.1f, %+1.1f, %+1.1f (%+1.1f, %+1.1f, %+1.1f)", self.accelerationX, self.accelerationY, self.accelerationZ,
-    //					 accelerometerData.acceleration.x, accelerometerData.acceleration.y, accelerometerData.acceleration.z);
-    
+
     double alpha = self.highPassAlpha;
     self.accelerationX = alpha * (self.accelerationX + accelerometerData.acceleration.x - self.lastAccelerationX);
     self.accelerationY = alpha * (self.accelerationY + accelerometerData.acceleration.y - self.lastAccelerationY);
@@ -172,9 +164,7 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     self.lastAccelerationX = accelerometerData.acceleration.x;
     self.lastAccelerationY = accelerometerData.acceleration.y;
     self.lastAccelerationZ = accelerometerData.acceleration.z;
-    
-    //	DebugLog(@" after: %+1.1f, %+1.1f, %+1.1f", self.accelerationX, self.accelerationY, self.accelerationZ);
-    
+        
     BOOL currentlyMoving = [self isAccelerating];
     if (currentlyMoving != self.moving) {
         // Only set this when the value changes so that observers aren't bombarded with updates.

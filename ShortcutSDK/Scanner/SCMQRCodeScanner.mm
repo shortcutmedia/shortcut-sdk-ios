@@ -47,10 +47,7 @@
 - (void)decodeImage:(CGImageRef)imageRef
 {
     UIImage *image = [UIImage imageWithCGImage:imageRef];
-    //	NSDate *startDecode = [NSDate date];
     [self.decoder decodeImage:image];
-    //	NSTimeInterval decodeTime = [[NSDate date] timeIntervalSinceDate:startDecode];
-    //	DebugLog(@"decodeImage: %f", decodeTime);
 }
 
 #pragma mark - DecoderDelegate

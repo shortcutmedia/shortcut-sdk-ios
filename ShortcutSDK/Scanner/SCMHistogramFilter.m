@@ -12,7 +12,6 @@
 static const size_t kNumHistogramChannels = 3;
 static const size_t kNumHistogramBins = 64;
 static const size_t kNumHistogramEntries = kNumHistogramChannels * kNumHistogramBins;
-// static const size_t kHistogramChannelSize = kNumHistogramBins * sizeof(uint32_t);	// number of bytes per channel
 static const size_t kHistogramBufferSize = kNumHistogramEntries * sizeof(uint32_t);
 static const double kDefaultHistogramThreshold = 3000.0;
 

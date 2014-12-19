@@ -191,9 +191,7 @@ typedef enum
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     
     self.previewView = nil;
@@ -209,10 +207,6 @@ typedef enum
     self.tapGestureRecognizer = nil;
     self.pinchGestureRecognizer = nil;
     self.statusViewState = kStatusViewStateHidden;
-    
-    // This is a small cheat to reset the status of the help screen. We dump the supportedContentViewController above,
-    // so it is not possible (at this time) to restore the help screen in viewDidLoad properly. Therefore, just indicate
-    // that we are not showing the help and the user can tap "i" again to view the help.
     self.showingCameraHelp = NO;
 }
 
