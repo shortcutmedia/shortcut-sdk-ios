@@ -51,7 +51,7 @@
 		86BD71451A2DE5E500EA8633 /* PLCameraZoomTrackMin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86BD71391A2DE5E500EA8633 /* PLCameraZoomTrackMin@2x.png */; };
 		86CCF7DC1A2E0BDE004FA85C /* SCMLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = 86CCF7DA1A2E0BDE004FA85C /* SCMLocalization.h */; };
 		86CCF7DD1A2E0BDE004FA85C /* SCMLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CCF7DB1A2E0BDE004FA85C /* SCMLocalization.m */; };
-		86D085491A2889EC005CECD3 /* SCMCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86ED35AC1A2772F700D9F3B0 /* SCMCameraViewController.xib */; };
+		86D085491A2889EC005CECD3 /* SCMScannerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86ED35AC1A2772F700D9F3B0 /* SCMScannerViewController.xib */; };
 		86D0854A1A2889F2005CECD3 /* SCMItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86ED35B01A2772F700D9F3B0 /* SCMItemViewController.xib */; };
 		86D085781A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D0856A1A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png */; };
 		86D085791A28BB7B005CECD3 /* CameraButtonBackgroundDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D0856B1A28BB7B005CECD3 /* CameraButtonBackgroundDefault@2x.png */; };
@@ -170,7 +170,7 @@
 		86ED36261A2772F700D9F3B0 /* SCMImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35A41A2772F700D9F3B0 /* SCMImageUtils.m */; };
 		86ED36271A2772F700D9F3B0 /* SCMUUIDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35A61A2772F700D9F3B0 /* SCMUUIDUtils.m */; };
 		86ED36281A2772F700D9F3B0 /* UIImage+ImageOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35A81A2772F700D9F3B0 /* UIImage+ImageOrientation.m */; };
-		86ED36291A2772F700D9F3B0 /* SCMCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35AB1A2772F700D9F3B0 /* SCMCameraViewController.m */; };
+		86ED36291A2772F700D9F3B0 /* SCMScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35AB1A2772F700D9F3B0 /* SCMScannerViewController.m */; };
 		86ED362A1A2772F700D9F3B0 /* SCMItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35AF1A2772F700D9F3B0 /* SCMItemViewController.m */; };
 		86ED362B1A2772F700D9F3B0 /* SCMQueryResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35B21A2772F700D9F3B0 /* SCMQueryResultViewController.m */; };
 		86ED362C1A2772F700D9F3B0 /* SCMCameraModeControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35B51A2772F700D9F3B0 /* SCMCameraModeControl.m */; };
@@ -185,7 +185,7 @@
 		86ED363A1A2777B200D9F3B0 /* SCMQueryResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35881A2772F700D9F3B0 /* SCMQueryResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86ED363B1A2777B200D9F3B0 /* SCMQueryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED358A1A2772F700D9F3B0 /* SCMQueryResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86ED363C1A2777B200D9F3B0 /* SCMRecognitionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED358C1A2772F700D9F3B0 /* SCMRecognitionOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		86ED363D1A2777B200D9F3B0 /* SCMCameraViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35AA1A2772F700D9F3B0 /* SCMCameraViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		86ED363D1A2777B200D9F3B0 /* SCMScannerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35AA1A2772F700D9F3B0 /* SCMScannerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86ED363F1A2777B200D9F3B0 /* SCMItemViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35AE1A2772F700D9F3B0 /* SCMItemViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86ED36401A2777B200D9F3B0 /* SCMQueryResultViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35B11A2772F700D9F3B0 /* SCMQueryResultViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86ED36411A27781A00D9F3B0 /* KWSImageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED358E1A2772F700D9F3B0 /* KWSImageRequest.h */; };
@@ -210,7 +210,7 @@
 		86EEC7571A2F1D7C007C6FA9 /* SCMBarcodeScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86EEC7541A2F1D7C007C6FA9 /* SCMBarcodeScanner.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		86EEC7581A2F1D7C007C6FA9 /* SCMBarcodeScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7551A2F1D7C007C6FA9 /* SCMBarcodeScannerDelegate.h */; };
 		86EEC75A1A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7591A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h */; };
-		86EEC75C1A2F1E86007C6FA9 /* SCMCameraViewControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC75B1A2F1E86007C6FA9 /* SCMCameraViewControllerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		86EEC75C1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC75B1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86F682D01A41D69400738E2F /* ToolbarNavigationBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CC1A41D69400738E2F /* ToolbarNavigationBack.png */; };
 		86F682D11A41D69400738E2F /* ToolbarNavigationBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CD1A41D69400738E2F /* ToolbarNavigationBack@2x.png */; };
 		86F682D21A41D69400738E2F /* ToolbarNavigationForward.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CE1A41D69400738E2F /* ToolbarNavigationForward.png */; };
@@ -516,9 +516,9 @@
 		86ED35A61A2772F700D9F3B0 /* SCMUUIDUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMUUIDUtils.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35A71A2772F700D9F3B0 /* UIImage+ImageOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageOrientation.h"; sourceTree = "<group>"; };
 		86ED35A81A2772F700D9F3B0 /* UIImage+ImageOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageOrientation.m"; sourceTree = "<group>"; };
-		86ED35AA1A2772F700D9F3B0 /* SCMCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMCameraViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		86ED35AB1A2772F700D9F3B0 /* SCMCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMCameraViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		86ED35AC1A2772F700D9F3B0 /* SCMCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCMCameraViewController.xib; sourceTree = "<group>"; };
+		86ED35AA1A2772F700D9F3B0 /* SCMScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMScannerViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		86ED35AB1A2772F700D9F3B0 /* SCMScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMScannerViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		86ED35AC1A2772F700D9F3B0 /* SCMScannerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCMScannerViewController.xib; sourceTree = "<group>"; };
 		86ED35AE1A2772F700D9F3B0 /* SCMItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMItemViewController.h; sourceTree = "<group>"; };
 		86ED35AF1A2772F700D9F3B0 /* SCMItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMItemViewController.m; sourceTree = "<group>"; };
 		86ED35B01A2772F700D9F3B0 /* SCMItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCMItemViewController.xib; sourceTree = "<group>"; };
@@ -543,7 +543,7 @@
 		86EEC7541A2F1D7C007C6FA9 /* SCMBarcodeScanner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = SCMBarcodeScanner.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86EEC7551A2F1D7C007C6FA9 /* SCMBarcodeScannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBarcodeScannerDelegate.h; sourceTree = "<group>"; };
 		86EEC7591A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMLiveScannerDelegate.h; sourceTree = "<group>"; };
-		86EEC75B1A2F1E86007C6FA9 /* SCMCameraViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCameraViewControllerDelegate.h; sourceTree = "<group>"; };
+		86EEC75B1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMScannerViewControllerDelegate.h; sourceTree = "<group>"; };
 		86F682CC1A41D69400738E2F /* ToolbarNavigationBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarNavigationBack.png; path = Resources/ToolbarNavigationBack.png; sourceTree = "<group>"; };
 		86F682CD1A41D69400738E2F /* ToolbarNavigationBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ToolbarNavigationBack@2x.png"; path = "Resources/ToolbarNavigationBack@2x.png"; sourceTree = "<group>"; };
 		86F682CE1A41D69400738E2F /* ToolbarNavigationForward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarNavigationForward.png; path = Resources/ToolbarNavigationForward.png; sourceTree = "<group>"; };
@@ -1131,10 +1131,10 @@
 		86ED35A91A2772F700D9F3B0 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				86ED35AA1A2772F700D9F3B0 /* SCMCameraViewController.h */,
-				86ED35AB1A2772F700D9F3B0 /* SCMCameraViewController.m */,
-				86ED35AC1A2772F700D9F3B0 /* SCMCameraViewController.xib */,
-				86EEC75B1A2F1E86007C6FA9 /* SCMCameraViewControllerDelegate.h */,
+				86ED35AA1A2772F700D9F3B0 /* SCMScannerViewController.h */,
+				86ED35AB1A2772F700D9F3B0 /* SCMScannerViewController.m */,
+				86ED35AC1A2772F700D9F3B0 /* SCMScannerViewController.xib */,
+				86EEC75B1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h */,
 				86ED35AE1A2772F700D9F3B0 /* SCMItemViewController.h */,
 				86ED35AF1A2772F700D9F3B0 /* SCMItemViewController.m */,
 				86ED35B01A2772F700D9F3B0 /* SCMItemViewController.xib */,
@@ -1186,7 +1186,7 @@
 				86ED363A1A2777B200D9F3B0 /* SCMQueryResponse.h in Headers */,
 				86ED363B1A2777B200D9F3B0 /* SCMQueryResult.h in Headers */,
 				86ED363C1A2777B200D9F3B0 /* SCMRecognitionOperation.h in Headers */,
-				86ED363D1A2777B200D9F3B0 /* SCMCameraViewController.h in Headers */,
+				86ED363D1A2777B200D9F3B0 /* SCMScannerViewController.h in Headers */,
 				86EEC75A1A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h in Headers */,
 				86ED363F1A2777B200D9F3B0 /* SCMItemViewController.h in Headers */,
 				86ED36401A2777B200D9F3B0 /* SCMQueryResultViewController.h in Headers */,
@@ -1203,7 +1203,7 @@
 				86ED36501A27787A00D9F3B0 /* SCMBase64Utils.h in Headers */,
 				86ED36461A27784100D9F3B0 /* SCMLiveScanner.h in Headers */,
 				86ED364B1A27786600D9F3B0 /* SCMCameraZoomSlider.h in Headers */,
-				86EEC75C1A2F1E86007C6FA9 /* SCMCameraViewControllerDelegate.h in Headers */,
+				86EEC75C1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h in Headers */,
 				86ED36551A27789100D9F3B0 /* ShortcutSDK-Prefix.pch in Headers */,
 				86ED36481A27784700D9F3B0 /* SCMMotionDetector.h in Headers */,
 				86ED36441A27783800D9F3B0 /* SCMCaptureSessionController.h in Headers */,
@@ -1331,7 +1331,7 @@
 				86F682D21A41D69400738E2F /* ToolbarNavigationForward.png in Resources */,
 				86BD71421A2DE5E500EA8633 /* PLCameraZoomTrackMax.png in Resources */,
 				86197B0C1A2C66A700BD726B /* NavigationBarBackground.png in Resources */,
-				86D085491A2889EC005CECD3 /* SCMCameraViewController.xib in Resources */,
+				86D085491A2889EC005CECD3 /* SCMScannerViewController.xib in Resources */,
 				86BD713F1A2DE5E500EA8633 /* PLCameraZoomThumb@2x.png in Resources */,
 				86F682D01A41D69400738E2F /* ToolbarNavigationBack.png in Resources */,
 				86197B051A2C663700BD726B /* CameraModeSingleShotIcon@2x.png in Resources */,
@@ -1418,7 +1418,7 @@
 				86ED35E81A2772F700D9F3B0 /* DecodeHints.cpp in Sources */,
 				86CCF7DD1A2E0BDE004FA85C /* SCMLocalization.m in Sources */,
 				86ED36191A2772F700D9F3B0 /* TwoDDecoderResult.m in Sources */,
-				86ED36291A2772F700D9F3B0 /* SCMCameraViewController.m in Sources */,
+				86ED36291A2772F700D9F3B0 /* SCMScannerViewController.m in Sources */,
 				86ED35EC1A2772F700D9F3B0 /* ByQuadrantReader.cpp in Sources */,
 				86ED36151A2772F700D9F3B0 /* ResultPointCallback.cpp in Sources */,
 				86ED35D11A2772F700D9F3B0 /* GlobalHistogramBinarizer.cpp in Sources */,

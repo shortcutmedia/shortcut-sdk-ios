@@ -1,5 +1,5 @@
 //
-//  SCMCameraViewControllerDelegate.h
+//  SCMScannerViewControllerDelegate.h
 //  ShortcutSDK
 //
 //  Created by David Wisti on 3/26/12.
@@ -10,15 +10,15 @@
 #import <CoreLocation/CoreLocation.h>
 #import "SCMQueryResponse.h"
 
-@class SCMCameraViewController;
+@class SCMScannerViewController;
 
 /**
- *  The SCMCameraViewControllerDelegate describes a protocol that allows reacting to events
- *  within an SCMCameraViewController instance.
+ *  The SCMScannerViewControllerDelegate describes a protocol that allows reacting to events
+ *  within an SCMScannerViewController instance.
  *
- *  @see SCMCameraViewController
+ *  @see SCMScannerViewController
  */
-@protocol SCMCameraViewControllerDelegate <NSObject>
+@protocol SCMScannerViewControllerDelegate <NSObject>
 
 @required
 
@@ -34,12 +34,12 @@
  *  Typical actions that you should implement/trigger in this method is the dismissal of the scanner
  *  view controller and then the display of the matched item(s).
  *
- *  @param cameraViewController The scanner view controller instance that recognized an item.
+ *  @param scannerViewController The scanner view controller instance that recognized an item.
  *  @param response             The response from the image recognition service describing the recognized item(s).
  *  @param location             The location where the query was sent from.
  *  @param imageData            The (captured) image that was recognized.
  */
-- (void)cameraViewController:(SCMCameraViewController *)cameraViewController recognizedQuery:(SCMQueryResponse *)response atLocation:(CLLocation *)location fromImage:(NSData *)imageData;
+- (void)scannerViewController:(SCMScannerViewController *)scannerViewController recognizedQuery:(SCMQueryResponse *)response atLocation:(CLLocation *)location fromImage:(NSData *)imageData;
 
 @optional
 
@@ -58,11 +58,11 @@
  *  you do not want the scanner to recognize barcodes, then simply do not implement this method in your
  *  delegate.
  *
- *  @param cameraViewController The scanner view controller that recognized a barcode.
+ *  @param scannerViewController The scanner view controller that recognized a barcode.
  *  @param text                 The content of the barcode.
  *  @param location             The location where the barcode was decoded.
  */
-- (void)cameraViewController:(SCMCameraViewController *)cameraViewController recognizedBarcode:(NSString *)text atLocation:(CLLocation *)location;
+- (void)scannerViewController:(SCMScannerViewController *)scannerViewController recognizedBarcode:(NSString *)text atLocation:(CLLocation *)location;
 
 /**
  *  This method is called when the Snapshot mode of the scanner was used to capture an image but
@@ -76,11 +76,11 @@
  *  @note Remember: this method is only invoked when there is no Internet connection and image recognition
  *  therefore impossible.
  *
- *  @param cameraViewController The scanner view controller that was used to capture the image.
+ *  @param scannerViewController The scanner view controller that was used to capture the image.
  *  @param imageData            The image that was captured.
  *  @param location             The location where the image was captured.
  */
-- (void)cameraViewController:(SCMCameraViewController *)cameraViewController capturedSingleImageWhileOffline:(NSData *)imageData atLocation:(CLLocation *)location;
+- (void)scannerViewController:(SCMScannerViewController *)scannerViewController capturedSingleImageWhileOffline:(NSData *)imageData atLocation:(CLLocation *)location;
 
 /**
  *  This method is invoked when the user taps on the "Done" button.
@@ -89,6 +89,6 @@
  *
  *  @param controller The scanner view controller in which the user tapped the "Done" button.
  */
-- (void)cameraViewControllerDidFinish:(SCMCameraViewController *)controller;
+- (void)scannerViewControllerDidFinish:(SCMScannerViewController *)controller;
 
 @end

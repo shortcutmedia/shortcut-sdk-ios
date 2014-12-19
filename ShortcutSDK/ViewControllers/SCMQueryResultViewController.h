@@ -15,7 +15,7 @@
  *  @discussion
  *  The SCMItemViewController displays the result page for any given item recognized by the image
  *  recognition service. You create a new view controller instance by passing an instance of an
- *  SCMQueryResult which you can obtain from e.g. an SCMCameraViewController.
+ *  SCMQueryResult which you can obtain from e.g. an SCMScannerViewController.
  */
 @interface SCMQueryResultViewController : SCMItemViewController
 

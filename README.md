@@ -46,11 +46,11 @@ We want to display a Scanner view as soon as the app starts; so let's go to the 
     [SCMSDKConfig sharedConfig].accessKey = @"YOUR_ACCESS_KEY";
     [SCMSDKConfig sharedConfig].secretKey = @"YOUR_SECRET_KEY";
 
-    SCMCameraViewController *cameraViewController = [[SCMCameraViewController alloc] init];
-    cameraViewController.delegate = self;
+    SCMScannerViewController *scannerViewController = [[SCMScannerViewController alloc] init];
+    scannerViewController.delegate = self;
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = cameraViewController;
+    self.window.rootViewController = scannerViewController;
     [self.window makeKeyAndVisible];
 
     return YES;
@@ -60,16 +60,16 @@ We want to display a Scanner view as soon as the app starts; so let's go to the 
 Within this bit of code you set up your access keys and a Scanner view. You then add the Scanner view to the main window and display it.
 You get a warning in Xcode and if you run the app and point the scanner at an item that it recognizes then it crashes; so let's fix that.
 
-**Step 3:** The Scanner view "communicates" with you via its delegate. In the code above we set the Scanner view delegate to the AppDelegate instance itself. For this to work correctly, the AppDelegate class must implement the `SCMCameraViewControllerDelegate` protocol. Change the interface of the AppDelegate class to the following:
+**Step 3:** The Scanner view "communicates" with you via its delegate. In the code above we set the Scanner view delegate to the AppDelegate instance itself. For this to work correctly, the AppDelegate class must implement the `SCMScannerViewControllerDelegate` protocol. Change the interface of the AppDelegate class to the following:
 
 ```objective-c
-@interface AppDelegate () <SCMCameraViewControllerDelegate>
+@interface AppDelegate () <SCMScannerViewControllerDelegate>
 ```
 
 You also have to add the following method to the class:
 
 ```objective-c
-- (void)cameraViewController:(SCMCameraViewController *)cameraViewController recognizedQuery:(SCMQueryResponse *)response atLocation:(CLLocation *)location fromImage:(NSData *)imageData
+- (void)scannerViewController:(SCMScannerViewController *)scannerViewController recognizedQuery:(SCMQueryResponse *)response atLocation:(CLLocation *)location fromImage:(NSData *)imageData
 {
     SCMQueryResult *result = [response.results firstObject];
     SCMItemViewController *itemViewController = [[SCMQueryResultViewController alloc] initWithQueryResult:result];
@@ -89,12 +89,12 @@ The Scanner view is implemented as a UIKit view controller. You just have to ins
 #### Instantiating and presenting a Scanner view:
 
 ```objective-c
-SCMCameraViewController *cameraViewController = [[SCMCameraViewController alloc] init];
-cameraViewController.delegate = self;
-[self.navigationController presentViewController:self.cameraViewController animated:YES completion:nil];
+SCMScannerViewController *scannerViewController = [[SCMScannerViewController alloc] init];
+scannerViewController.delegate = self;
+[self.navigationController presentViewController:self.scannerViewController animated:YES completion:nil];
 
 // additional configuration options
-cameraViewController.helpView = someUIViewInstance; // displayed when the help button in the scanner is tapped
+scannerViewController.helpView = someUIViewInstance; // displayed when the help button in the scanner is tapped
 ```
 
 
@@ -103,16 +103,16 @@ As soon as the Scanner view is visible it starts scanning and it reports importa
 #### Delegate interface:
 
 ```objective-c
-@protocol SCMCameraViewControllerDelegate <NSObject>
+@protocol SCMScannerViewControllerDelegate <NSObject>
 
 @required
-- (void)cameraViewController:(SCMCameraViewController*)cameraViewController recognizedQuery:(SCMQueryResponse*)response atLocation:(CLLocation*)location fromImage:(NSData*)imageData;
+- (void)scannerViewController:(SCMScannerViewController*)scannerViewController recognizedQuery:(SCMQueryResponse*)response atLocation:(CLLocation*)location fromImage:(NSData*)imageData;
 
 @optional
-- (void)cameraViewController:(SCMCameraViewController*)cameraViewController recognizedBarcode:(NSString*)text atLocation:(CLLocation*)location;
-- (void)cameraViewController:(SCMCameraViewController*)cameraViewController capturedSingleImageWhileOffline:(NSData*)imageData atLocation:(CLLocation*)location;
+- (void)scannerViewController:(SCMScannerViewController*)scannerViewController recognizedBarcode:(NSString*)text atLocation:(CLLocation*)location;
+- (void)scannerViewController:(SCMScannerViewController*)scannerViewController capturedSingleImageWhileOffline:(NSData*)imageData atLocation:(CLLocation*)location;
 
-- (void)cameraViewControllerDidFinish:(SCMCameraViewController*)controller;
+- (void)scannerViewControllerDidFinish:(SCMScannerViewController*)controller;
 
 @end
 ```
@@ -124,7 +124,7 @@ You can also use the Scanner view to perform recognition of arbitrary image data
 
 ```objective-c
 NSData *imageData = ... // get image data from somewhere
-[cameraViewController processImage:imageData];
+[scannerViewController processImage:imageData];
 ```
 
 

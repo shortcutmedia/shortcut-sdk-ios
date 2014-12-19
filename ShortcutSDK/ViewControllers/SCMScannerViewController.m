@@ -1,12 +1,12 @@
 //
-//  SCMCameraViewController.m
+//  SCMScannerViewController.m
 //  ShortcutSDK
 //
 //  Created by David Wisti on 3/13/12.
 //  Copyright (c) 2012 Shortcut Media AG. All rights reserved.
 //
 
-#import "SCMCameraViewController.h"
+#import "SCMScannerViewController.h"
 #import "SCMCameraZoomSlider.h"
 #import "SCMCaptureSessionController.h"
 #import "SCMLiveScanner.h"
@@ -36,7 +36,7 @@ typedef enum
     kStatusViewStateAnimatingHidden
 } StatusViewState;
 
-@interface SCMCameraViewController (/* Private */) <SCMLiveScannerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface SCMScannerViewController (/* Private */) <SCMLiveScannerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong, readwrite) SCMLiveScanner *liveScanner;
 @property (nonatomic, strong, readwrite) IBOutlet UIView *previewView;
@@ -88,7 +88,7 @@ typedef enum
 
 @end
 
-@implementation SCMCameraViewController
+@implementation SCMScannerViewController
 
 @synthesize delegate;
 @synthesize cameraStatusView;
@@ -159,7 +159,7 @@ typedef enum
     [SCMProgressToolbar class];
     
     
-    self = [super initWithNibName:@"SCMCameraViewController" bundle:[SCMSDKConfig SDKBundle]];
+    self = [super initWithNibName:@"SCMScannerViewController" bundle:[SCMSDKConfig SDKBundle]];
     
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -177,7 +177,7 @@ typedef enum
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    NSLog(@"SCMCameraViewController: custom nib ignored. Use init to instantiate an instance");
+    NSLog(@"SCMScannerViewController: custom nib ignored. Use init to instantiate an instance");
     return [self init];
 }
 
@@ -325,15 +325,15 @@ typedef enum
 
 #pragma mark - Delegate handling
 
-- (void)setDelegate:(id<SCMCameraViewControllerDelegate>)newDelegate
+- (void)setDelegate:(id<SCMScannerViewControllerDelegate>)newDelegate
 {
     delegate = newDelegate;
     
     // enable QR code scanning if delegate has related callback
-    self.scanQRCodes = [newDelegate respondsToSelector:@selector(cameraViewController:recognizedBarcode:atLocation:)];
+    self.scanQRCodes = [newDelegate respondsToSelector:@selector(scannerViewController:recognizedBarcode:atLocation:)];
     
     // show "Done" button if delegate has related callback
-    self.showDoneButton = [newDelegate respondsToSelector:@selector(cameraViewControllerDidFinish:)];
+    self.showDoneButton = [newDelegate respondsToSelector:@selector(scannerViewControllerDidFinish:)];
 }
 
 #pragma mark - UI
@@ -495,8 +495,8 @@ typedef enum
 - (IBAction)done:(id)sender
 {
     self.shouldResumeScanning = NO;
-    if ([self.delegate respondsToSelector:@selector(cameraViewControllerDidFinish:)]) {
-        [self.delegate cameraViewControllerDidFinish:self];
+    if ([self.delegate respondsToSelector:@selector(scannerViewControllerDidFinish:)]) {
+        [self.delegate scannerViewControllerDidFinish:self];
     }
 }
 
@@ -998,13 +998,13 @@ typedef enum
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self singleImageRecognitionFinished];
     }
-    [self.delegate cameraViewController:self recognizedQuery:response atLocation:location fromImage:imageData];
+    [self.delegate scannerViewController:self recognizedQuery:response atLocation:location fromImage:imageData];
 }
 
 - (void)liveScanner:(SCMLiveScanner *)scanner recognizedBarcode:(NSString *)text atLocation:(CLLocation *)location
 {
-    if ([self.delegate respondsToSelector:@selector(cameraViewController:recognizedBarcode:atLocation:)]) {
-        [self.delegate cameraViewController:self recognizedBarcode:text atLocation:location];
+    if ([self.delegate respondsToSelector:@selector(scannerViewController:recognizedBarcode:atLocation:)]) {
+        [self.delegate scannerViewController:self recognizedBarcode:text atLocation:location];
     }
 }
 
@@ -1013,15 +1013,15 @@ typedef enum
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self singleImageDidFailWithError:nil];
     }
-    if ([self.delegate respondsToSelector:@selector(cameraViewController:capturedSingleImageWhileOffline:atLocation:)]) {
-        [self.delegate cameraViewController:self capturedSingleImageWhileOffline:imageData atLocation:location];
+    if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImageWhileOffline:atLocation:)]) {
+        [self.delegate scannerViewController:self capturedSingleImageWhileOffline:imageData atLocation:location];
     }
 }
 
 - (void)liveScannerShouldClose:(SCMLiveScanner *)scanner
 {
-    if ([self.delegate respondsToSelector:@selector(cameraViewControllerDidFinish:)]) {
-        [self.delegate cameraViewControllerDidFinish:self];
+    if ([self.delegate respondsToSelector:@selector(scannerViewControllerDidFinish:)]) {
+        [self.delegate scannerViewControllerDidFinish:self];
     }
 }
 

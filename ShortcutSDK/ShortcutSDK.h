@@ -8,8 +8,8 @@
 
 #import "SCMSDKConfig.h"
 
-#import "SCMCameraViewController.h"
-#import "SCMCameraViewControllerDelegate.h"
+#import "SCMScannerViewController.h"
+#import "SCMScannerViewControllerDelegate.h"
 
 #import "SCMRecognitionOperation.h"
 #import "SCMQueryResponse.h"

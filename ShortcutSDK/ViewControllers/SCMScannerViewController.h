@@ -1,5 +1,5 @@
 //
-//  SCMCameraViewController.h
+//  SCMScannerViewController.h
 //  ShortcutSDK
 //
 //  Created by David Wisti on 3/13/12.
@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SCMCameraViewControllerDelegate.h"
+#import "SCMScannerViewControllerDelegate.h"
 
 /**
- *  The SCMCameraViewController implements a complete scanner view.
+ *  The SCMScannerViewController implements a complete scanner view.
  *
  *  @discussion
- *  The SCMCameraViewController displays the scanner and performs image recognition queries.
+ *  The SCMScannerViewController displays the scanner and performs image recognition queries.
  *
  *  Important events that happen within the scanner (e.g. image detected) are communicated to
  *  the view controller's delegate. This delegate is the main means of interaction with the
@@ -26,9 +26,9 @@
  *  UINavigationController or UITabBarController) then make sure that this view controller does
  *  not autorotate when presenting the scanner.
  *
- *  @see SCMCameraViewControllerDelegate
+ *  @see SCMScannerViewControllerDelegate
  */
-@interface SCMCameraViewController : UIViewController
+@interface SCMScannerViewController : UIViewController
 
 /**
  *  The delegate of the scanner view controller.
@@ -36,9 +36,9 @@
  *  @discussion
  *  The delegate gets notified on important events within the scanner (e.g. image recognized).
  *
- *  @see SCMCameraViewControllerDelegate
+ *  @see SCMScannerViewControllerDelegate
  */
-@property (nonatomic, unsafe_unretained, readwrite) id<SCMCameraViewControllerDelegate> delegate;
+@property (nonatomic, unsafe_unretained, readwrite) id<SCMScannerViewControllerDelegate> delegate;
 
 /**
  *  The current location of the user/device.
