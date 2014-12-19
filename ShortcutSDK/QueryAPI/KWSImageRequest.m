@@ -13,7 +13,7 @@
 #import "SCMUUIDUtils.h"
 
 
-@interface KWSImageRequest (/* Private */)
+@interface KWSImageRequest ()
 
 @property (nonatomic, strong, readwrite) NSURL *queryURL;
 @property (nonatomic, strong, readwrite) NSData *imageData;

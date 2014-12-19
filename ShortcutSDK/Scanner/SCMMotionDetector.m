@@ -14,7 +14,7 @@
 static const double kAccelerometerUpdateFrequency = 30.0;		// n times per second
 static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from AccelerometerGraph demo code
 
-@interface SCMMotionDetector (/* Private */)
+@interface SCMMotionDetector ()
 
 @property (nonatomic, assign, readwrite) BOOL moving;
 @property (nonatomic, strong, readwrite) CMMotionManager *deviceMotionManager;
@@ -27,11 +27,6 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 @property (nonatomic, assign, readwrite) double lastAccelerationY;
 @property (nonatomic, assign, readwrite) double lastAccelerationZ;
 @property (nonatomic, assign, readwrite) double highPassAlpha;
-
-- (BOOL)isAccelerating;
-- (BOOL)isRotating:(CMRotationRate)rotation;
-- (void)processDeviceMotionUpdate:(CMDeviceMotion *)motion;
-- (void)processDeviceAccelerationUpdate:(CMAccelerometerData *)accelerometerData;
 
 @end
 

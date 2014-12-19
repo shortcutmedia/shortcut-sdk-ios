@@ -11,7 +11,7 @@
 
 static const NSInteger kLiveScanningCaptureSize = 1280;
 
-@interface SCMCaptureSessionController (/* Private */)
+@interface SCMCaptureSessionController ()
 
 @property (nonatomic, strong, readwrite) AVCaptureDevice *captureDevice;
 @property (nonatomic, strong, readwrite) AVCaptureSession *captureSession;
@@ -23,10 +23,6 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
 @property (nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, assign, readwrite) SCMCaptureSessionMode captureSessionMode;
 @property (atomic, assign, readwrite) BOOL running;
-
-- (void)turnTorchOff;
-- (void)switchToSingleShotMode;
-- (void)switchToLiveScanningMode;
 
 @end
 

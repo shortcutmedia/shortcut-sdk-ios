@@ -10,11 +10,6 @@
 #import "SCMSDKConfig.h"
 
 
-@interface SCMCustomToolbar (/* Private */)
-
-@end
-
-
 @implementation SCMCustomToolbar
 
 - (void)awakeFromNib

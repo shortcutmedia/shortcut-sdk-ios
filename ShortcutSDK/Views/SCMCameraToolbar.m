@@ -10,7 +10,7 @@
 #import "SCMLocalization.h"
 
 
-@interface SCMCameraToolbar (/* Private */)
+@interface SCMCameraToolbar ()
 
 @property (nonatomic, strong, readwrite) IBOutlet UIButton *doneButton;
 @property (nonatomic, strong, readwrite) IBOutlet UIButton *cameraButton;

@@ -12,7 +12,7 @@
 #import <Decoder.h>
 
 
-@interface SCMQRCodeScanner (/* Private */)
+@interface SCMQRCodeScanner ()
 
 @property (nonatomic, retain, readwrite) Decoder *decoder;
 

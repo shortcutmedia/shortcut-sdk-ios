@@ -36,7 +36,7 @@ typedef enum
     kStatusViewStateAnimatingHidden
 } StatusViewState;
 
-@interface SCMScannerViewController (/* Private */) <SCMLiveScannerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface SCMScannerViewController () <SCMLiveScannerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong, readwrite) SCMLiveScanner *liveScanner;
 @property (nonatomic, strong, readwrite) IBOutlet UIView *previewView;
@@ -59,32 +59,6 @@ typedef enum
 @property (nonatomic, assign, readwrite) BOOL shouldShowNavigationBarWhenDisappearing;
 @property (nonatomic, assign, readwrite) BOOL scanQRCodes;
 @property (nonatomic, assign, readwrite) BOOL showDoneButton;
-
-- (IBAction)done:(id)sender;
-- (IBAction)takePicture:(id)sender;
-- (IBAction)cancelSingleImageRequest;
-- (IBAction)cameraModeChanged:(id)sender;
-- (void)tapToZoom;
-- (void)cameraZoomChanged;
-- (void)updateModeStatus;
-- (void)showStatusViewForModeStatusChange;
-- (void)showStatusViewAndHideAfterTimeInterval:(NSTimeInterval)timeInterval;
-- (void)hideStatusView;
-- (void)switchToMode:(SCMLiveScannerMode)mode;
-- (void)showCameraHelp;
-- (void)hideCameraHelp;
-- (void)updateFlashStatus;
-- (void)updateInfoStatus;
-- (IBAction)toggleFlashMode:(id)sender;
-- (void)startScanLineAnimation;
-- (void)stopScanLineAnimation;
-- (void)showSingleImagePreviewAnimated:(BOOL)animated;
-- (void)hideSingleImagePreview;
-- (void)updateImageNotRecognizedStatus;
-- (void)applicationDidBecomeActive:(NSNotification *)notification;
-- (void)applicationWillResignActive:(NSNotification *)notification;
-- (void)updateIconOrientation;
-- (void)deviceOrientationDidChange:(NSNotification *)notification;
 
 @end
 

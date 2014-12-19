@@ -21,7 +21,7 @@ const NSTimeInterval kHideZoomControlDelay = 5.0;
 const CGFloat kMinCameraZoomScale = 1.0;	// This MUST always be 1.0, otherwise the preview image will not fill the screen.
 const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom level. Increase this too much and it becomes unusable.
 
-@interface SCMCameraZoomSlider (/* Private */)
+@interface SCMCameraZoomSlider ()
 
 @property (nonatomic, strong) UIImage *trackMinImage;
 @property (nonatomic, strong) UIImage *trackMaxImage;
@@ -46,15 +46,6 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
 @property (nonatomic, assign) BOOL zoomingOut;
 @property (nonatomic, strong) NSTimer *hideControlsTimer;
 @property (nonatomic, assign, readwrite) CGFloat initialPinchZoomScale;
-
-- (void)updateThumbRects;
-- (CGFloat)scaleForX:(CGFloat)x;
-- (CGFloat)XForScale:(CGFloat)scale;
-- (void)continueZooming;
-- (void)updateZoomLevel;
-- (void)cancelHideZoomControlTimer;
-- (void)hideZoomControlTimerExpired:(NSTimer *)timer;
-- (void)animateToHidden;
 
 @end
 

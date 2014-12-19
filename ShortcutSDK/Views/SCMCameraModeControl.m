@@ -15,7 +15,7 @@ static const CGFloat KModeIconVerticalMargin = 3.0;
 static const CGFloat kSliderHorizontalMargin = 1.0;
 static const CGFloat KSliderDragThreshold = 4.0;
 
-@interface SCMCameraModeControl (/* Private */)
+@interface SCMCameraModeControl ()
 
 @property (nonatomic, strong, readwrite) UIImageView *sliderBackground;
 @property (nonatomic, strong, readwrite) UIImageView *singleShotIcon;
@@ -23,9 +23,6 @@ static const CGFloat KSliderDragThreshold = 4.0;
 @property (nonatomic, strong, readwrite) UIImageView *slider;
 @property (nonatomic, assign, readwrite) CGFloat initialTouchX;
 @property (nonatomic, assign, readwrite) BOOL userDraggedSlider;
-
-- (CGRect)sliderRectForMode:(SCMCameraMode)mode;
-- (void)switchModes;
 
 @end
 

@@ -10,7 +10,7 @@
 #import "SCMLocalization.h"
 
 
-@interface SCMProgressToolbar (/* Private */)
+@interface SCMProgressToolbar ()
 
 @property (nonatomic, strong, readwrite) IBOutlet UIButton *cancelButton;
 @property (nonatomic, strong, readwrite) IBOutlet UILabel *statusLabel;

@@ -13,14 +13,12 @@ static const CGFloat kVerticalTextMargin = 6.0;
 static const CGFloat kHorizontalTextMargin = 12.0;
 static const CGFloat kActivityIndicatorMargin = 6.0;
 
-@interface SCMStatusView (/* Private */)
+@interface SCMStatusView ()
 
 @property (nonatomic, strong, readwrite) UILabel *titleLabel;
 @property (nonatomic, strong, readwrite) UILabel *subtitleLabel;
 @property (nonatomic, strong, readwrite) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, assign, readwrite) BOOL showActivityIndicator;
-
-- (void)setupView;
 
 @end
 

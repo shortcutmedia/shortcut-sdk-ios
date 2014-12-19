@@ -8,7 +8,6 @@
 
 #import "UIImage+ImageOrientation.h"
 
-
 @implementation UIImage (ImageOrientation)
 
 + (UIImageOrientation)uiImageOrientationForCGImageOrientation:(NSNumber *)cgOrientation

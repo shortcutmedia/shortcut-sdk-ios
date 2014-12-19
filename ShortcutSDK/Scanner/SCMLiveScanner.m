@@ -25,7 +25,7 @@ static const CGFloat kDefaultOutputImageHeight = 360.0;
 static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
-@interface SCMLiveScanner (/* Private */)
+@interface SCMLiveScanner ()
 
 @property (nonatomic, strong, readwrite) SCMCaptureSessionController *captureSessionController;
 @property (nonatomic, strong, readwrite) SCMMotionDetector *motionDetector;
@@ -44,9 +44,6 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 @property (nonatomic, assign, readwrite) BOOL currentImageIsUnrecognized;
 @property (nonatomic, strong, readwrite) NSError *recognitionError;
 @property (atomic, assign, readwrite) BOOL imageRecognized;
-
-- (BOOL)shouldSkipImage;
-- (void)cancelAllOperations;
 
 @end
 

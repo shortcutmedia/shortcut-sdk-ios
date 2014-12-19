@@ -16,7 +16,7 @@ static const size_t kNumHistogramEntries = kNumHistogramChannels * kNumHistogram
 static const size_t kHistogramBufferSize = kNumHistogramEntries * sizeof(uint32_t);
 static const double kDefaultHistogramThreshold = 3000.0;
 
-@interface SCMHistogramFilter (/* Private */)
+@interface SCMHistogramFilter ()
 
 @property (nonatomic, strong, readwrite) NSMutableData *histogramDataA;
 @property (nonatomic, strong, readwrite) NSMutableData *histogramDataB;
@@ -25,9 +25,6 @@ static const double kDefaultHistogramThreshold = 3000.0;
 
 @property (nonatomic, assign, readwrite) NSTimeInterval timeIntervalToCalculateHistogram;
 @property (nonatomic, assign, readwrite) double distanceFromPreviousHistogram;
-
-- (double)chiSquaredDistanceFromPreviousHistogram;
-- (void)swapHistogramData;
 
 @end
 
