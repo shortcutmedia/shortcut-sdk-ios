@@ -9,7 +9,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "SCMLiveScannerDelegate.h"
-#import "SCMBarcodeScannerDelegate.h"
+#import "SCMQRCodeScannerDelegate.h"
 
 
 typedef enum
@@ -20,7 +20,7 @@ typedef enum
 
 @class SCMCaptureSessionController;
 
-@interface SCMLiveScanner : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate, SCMBarcodeScannerDelegate>
+@interface SCMLiveScanner : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate, SCMQRCodeScannerDelegate>
 
 @property (nonatomic, unsafe_unretained, readwrite) id<SCMLiveScannerDelegate> delegate;
 @property (nonatomic, assign, readwrite) NSTimeInterval noMotionThreshold;

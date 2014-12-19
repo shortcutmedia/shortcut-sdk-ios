@@ -1,5 +1,5 @@
 //
-//  SCMBarcodeScanner.h
+//  SCMQRCodeScanner.h
 //  LiveScanner
 //
 //  Created by David Wisti on 2/15/12.
@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <DecoderDelegate.h>
-#import "SCMBarcodeScannerDelegate.h"
+#import "SCMQRCodeScannerDelegate.h"
 
 
-@interface SCMBarcodeScanner : NSObject <DecoderDelegate>
+@interface SCMQRCodeScanner : NSObject <DecoderDelegate>
 
-@property (nonatomic, assign, readwrite) id<SCMBarcodeScannerDelegate> delegate;
+@property (nonatomic, assign, readwrite) id<SCMQRCodeScannerDelegate> delegate;
 
 - (void)decodeImage:(CGImageRef)imageRef;
 

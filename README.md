@@ -109,7 +109,7 @@ As soon as the Scanner view is visible it starts scanning and it reports importa
 - (void)scannerViewController:(SCMScannerViewController*)scannerViewController recognizedQuery:(SCMQueryResponse*)response atLocation:(CLLocation*)location fromImage:(NSData*)imageData;
 
 @optional
-- (void)scannerViewController:(SCMScannerViewController*)scannerViewController recognizedBarcode:(NSString*)text atLocation:(CLLocation*)location;
+- (void)scannerViewController:(SCMScannerViewController*)scannerViewController recognizedQRCode:(NSString*)text atLocation:(CLLocation*)location;
 - (void)scannerViewController:(SCMScannerViewController*)scannerViewController capturedSingleImageWhileOffline:(NSData*)imageData atLocation:(CLLocation*)location;
 
 - (void)scannerViewControllerDidFinish:(SCMScannerViewController*)controller;

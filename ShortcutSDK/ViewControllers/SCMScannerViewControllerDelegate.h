@@ -44,25 +44,25 @@
 @optional
 
 /**
- *  This method is called whenever a scanner view successfully recognizes a barcode.
+ *  This method is called whenever a scanner view successfully recognizes a QR code.
  *
  *  @discussion
- *  This is basically another "success handler" of a scanner view controller. It is called when a barcode
+ *  This is basically another "success handler" of a scanner view controller. It is called when a QR code
  *  (actually only QR codes are supported currently) is detected in an image.
  *
  *  Typical actions that you should implement/trigger in this method is the dismissal of the scanner
  *  view controller and then the display of the encoded data.
  *
  *  @note
- *  If you do not implement this method in your delegate then no barcode scanning will be performed. So if
- *  you do not want the scanner to recognize barcodes, then simply do not implement this method in your
+ *  If you do not implement this method in your delegate then no QR code scanning will be performed. So if
+ *  you do not want the scanner to recognize QR codes, then simply do not implement this method in your
  *  delegate.
  *
- *  @param scannerViewController The scanner view controller that recognized a barcode.
- *  @param text                 The content of the barcode.
- *  @param location             The location where the barcode was decoded.
+ *  @param scannerViewController The scanner view controller that recognized a QR code.
+ *  @param text                 The content of the QR code.
+ *  @param location             The location where the QR code was decoded.
  */
-- (void)scannerViewController:(SCMScannerViewController *)scannerViewController recognizedBarcode:(NSString *)text atLocation:(CLLocation *)location;
+- (void)scannerViewController:(SCMScannerViewController *)scannerViewController recognizedQRCode:(NSString *)text atLocation:(CLLocation *)location;
 
 /**
  *  This method is called when the Snapshot mode of the scanner was used to capture an image but

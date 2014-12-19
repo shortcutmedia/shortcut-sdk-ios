@@ -18,7 +18,7 @@
 - (void)liveScanner:(SCMLiveScanner *)scanner didNotRecognizeImage:(NSData *)imageData;
 
 - (void)liveScanner:(SCMLiveScanner *)scanner recognizedImage:(NSData *)imageData atLocation:(CLLocation *)location withResponse:(SCMQueryResponse *)response;
-- (void)liveScanner:(SCMLiveScanner *)scanner recognizedBarcode:(NSString *)text atLocation:(CLLocation *)location;
+- (void)liveScanner:(SCMLiveScanner *)scanner recognizedQRCode:(NSString *)text atLocation:(CLLocation *)location;
 - (void)liveScanner:(SCMLiveScanner *)scanner capturedSingleImageWhileOffline:(NSData *)imageData atLocation:(CLLocation *)location;
 
 - (void)liveScannerShouldClose:(SCMLiveScanner *)scanner;

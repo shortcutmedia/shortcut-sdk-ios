@@ -1,25 +1,25 @@
 //
-//  SCMBarcodeScanner.m
+//  SCMQRCodeScanner.m
 //  LiveScanner
 //
 //  Created by David Wisti on 2/15/12.
 //  Copyright (c) 2012 Shortcut Media AG. All rights reserved.
 //
 
-#import "SCMBarcodeScanner.h"
+#import "SCMQRCodeScanner.h"
 #import <QRCodeReader.h>
 #import <TwoDDecoderResult.h>
 #import <Decoder.h>
 
 
-@interface SCMBarcodeScanner (/* Private */)
+@interface SCMQRCodeScanner (/* Private */)
 
 @property (nonatomic, retain, readwrite) Decoder *decoder;
 
 @end
 
 
-@implementation SCMBarcodeScanner
+@implementation SCMQRCodeScanner
 
 @synthesize delegate;
 @synthesize decoder;
@@ -59,13 +59,13 @@
 
 - (void)decoder:(Decoder *)decoder didDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset withResult:(TwoDDecoderResult *)result
 {
-    [self.delegate barcodeScanner:self didRecognize2DBarcode:result.text];
+    [self.delegate qrcodeScanner:self didRecognizeQRCode:result.text];
 }
 
 - (void)decoder:(Decoder *)decoder failedToDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset reason:(NSString *)reason
 {
     DebugLog(@"decoder failedToDecodeImage: %@", reason);
-    [self.delegate barcodeScanner:self didNotRecognize2DBarcode:reason];
+    [self.delegate qrcodeScanner:self didNotRecognizeQRCode:reason];
 }
 
 @end

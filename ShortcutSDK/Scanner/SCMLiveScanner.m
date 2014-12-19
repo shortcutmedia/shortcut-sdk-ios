@@ -11,7 +11,7 @@
 #import "SCMHistogramFilter.h"
 #import "SCMCaptureSessionController.h"
 #import "SCMRecognitionOperation.h"
-#import "SCMBarcodeScanner.h"
+#import "SCMQRCodeScanner.h"
 #import "SCMImageUtils.h"
 #import "SCMLocalization.h"
 
@@ -30,7 +30,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 @property (nonatomic, strong, readwrite) SCMCaptureSessionController *captureSessionController;
 @property (nonatomic, strong, readwrite) SCMMotionDetector *motionDetector;
 @property (nonatomic, strong, readwrite) SCMHistogramFilter *histogramFilter;
-@property (nonatomic, strong, readwrite) SCMBarcodeScanner *barcodeScanner;
+@property (nonatomic, strong, readwrite) SCMQRCodeScanner *qrCodeScanner;
 @property (nonatomic, strong, readwrite) NSOperationQueue *recognitionQueue;
 @property (nonatomic, assign, readwrite) NSInteger numImagesSentForRecognition;
 @property (   atomic, assign, readwrite) NSInteger outstandingRecognitionOperations;
@@ -59,7 +59,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 @synthesize scanQRCodes;
 @synthesize motionDetector;
 @synthesize histogramFilter;
-@synthesize barcodeScanner;
+@synthesize qrCodeScanner;
 @synthesize recognitionQueue;
 @synthesize numImagesSentForRecognition;
 @synthesize outstandingRecognitionOperations;
@@ -84,8 +84,8 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
         self.captureSessionController = [[SCMCaptureSessionController alloc] init];
         self.motionDetector = [[SCMMotionDetector alloc] init];
         self.histogramFilter = [[SCMHistogramFilter alloc] init];
-        self.barcodeScanner = [[SCMBarcodeScanner alloc] init];
-        self.barcodeScanner.delegate = self;
+        self.qrCodeScanner = [[SCMQRCodeScanner alloc] init];
+        self.qrCodeScanner.delegate = self;
         
         self.outputImageWidth = kDefaultOutputImageWidth;
         self.outputImageHeight = kDefaultOutputImageHeight;
@@ -307,7 +307,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 - (void)processImage:(CGImageRef)image
 {
     if (self.scanQRCodes == YES && self.imageRecognized == NO) {
-        [self.barcodeScanner decodeImage:image];
+        [self.qrCodeScanner decodeImage:image];
     }
     
     NSData *scaledImageData = [SCMImageUtils scaledImageDataWithImage:image
@@ -457,15 +457,15 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     }
 }
 
-#pragma mark - SCMBarcodeScannerDelegate
+#pragma mark - SCMQRCodeScannerDelegate
 
-- (void)barcodeScanner:(SCMBarcodeScanner *)scanner didRecognize2DBarcode:(NSString *)text
+- (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didRecognizeQRCode:(NSString *)text
 {
     self.imageRecognized = YES;
-    [self.delegate liveScanner:self recognizedBarcode:text atLocation:self.location];
+    [self.delegate liveScanner:self recognizedQRCode:text atLocation:self.location];
 }
 
-- (void)barcodeScanner:(SCMBarcodeScanner *)scanner didNotRecognize2DBarcode:(NSString *)why
+- (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didNotRecognizeQRCode:(NSString *)why
 {
     //empty
 }

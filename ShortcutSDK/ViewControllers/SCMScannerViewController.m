@@ -330,7 +330,7 @@ typedef enum
     delegate = newDelegate;
     
     // enable QR code scanning if delegate has related callback
-    self.scanQRCodes = [newDelegate respondsToSelector:@selector(scannerViewController:recognizedBarcode:atLocation:)];
+    self.scanQRCodes = [newDelegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:)];
     
     // show "Done" button if delegate has related callback
     self.showDoneButton = [newDelegate respondsToSelector:@selector(scannerViewControllerDidFinish:)];
@@ -1001,10 +1001,10 @@ typedef enum
     [self.delegate scannerViewController:self recognizedQuery:response atLocation:location fromImage:imageData];
 }
 
-- (void)liveScanner:(SCMLiveScanner *)scanner recognizedBarcode:(NSString *)text atLocation:(CLLocation *)location
+- (void)liveScanner:(SCMLiveScanner *)scanner recognizedQRCode:(NSString *)text atLocation:(CLLocation *)location
 {
-    if ([self.delegate respondsToSelector:@selector(scannerViewController:recognizedBarcode:atLocation:)]) {
-        [self.delegate scannerViewController:self recognizedBarcode:text atLocation:location];
+    if ([self.delegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:)]) {
+        [self.delegate scannerViewController:self recognizedQRCode:text atLocation:location];
     }
 }
 
