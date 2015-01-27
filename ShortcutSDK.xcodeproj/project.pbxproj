@@ -23,6 +23,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */; };
 		86197B021A2C663700BD726B /* CameraModeLiveScannerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */; };
 		86197B031A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */; };
 		86197B041A2C663700BD726B /* CameraModeSingleShotIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFC1A2C663700BD726B /* CameraModeSingleShotIcon.png */; };
@@ -67,6 +68,7 @@
 		86D085831A28BB7B005CECD3 /* CameraInfoIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085751A28BB7B005CECD3 /* CameraInfoIcon@2x.png */; };
 		86D085841A28BB7B005CECD3 /* CameraOverlayButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085761A28BB7B005CECD3 /* CameraOverlayButtonBackground.png */; };
 		86D085851A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085771A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png */; };
+		86E5F3591A77D1170039C7A3 /* SCMQueryResultTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */; };
 		86ED34AC1A27726E00D9F3B0 /* libShortcutSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86ED34A01A27726E00D9F3B0 /* libShortcutSDK.a */; };
 		86ED35C21A2772F700D9F3B0 /* BarcodeFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ED34C31A2772F700D9F3B0 /* BarcodeFormat.cpp */; };
 		86ED35C31A2772F700D9F3B0 /* Binarizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ED34C51A2772F700D9F3B0 /* Binarizer.cpp */; };
@@ -254,6 +256,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResponseTest.m; path = QueryAPI/SCMQueryResponseTest.m; sourceTree = "<group>"; };
 		86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraModeLiveScannerIcon.png; path = Resources/CameraModeLiveScannerIcon.png; sourceTree = "<group>"; };
 		86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraModeLiveScannerIcon@2x.png"; path = "Resources/CameraModeLiveScannerIcon@2x.png"; sourceTree = "<group>"; };
 		86197AFC1A2C663700BD726B /* CameraModeSingleShotIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraModeSingleShotIcon.png; path = Resources/CameraModeSingleShotIcon.png; sourceTree = "<group>"; };
@@ -303,6 +306,7 @@
 		86D085751A28BB7B005CECD3 /* CameraInfoIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraInfoIcon@2x.png"; path = "Resources/CameraInfoIcon@2x.png"; sourceTree = "<group>"; };
 		86D085761A28BB7B005CECD3 /* CameraOverlayButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraOverlayButtonBackground.png; path = Resources/CameraOverlayButtonBackground.png; sourceTree = "<group>"; };
 		86D085771A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraOverlayButtonBackground@2x.png"; path = "Resources/CameraOverlayButtonBackground@2x.png"; sourceTree = "<group>"; };
+		86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResultTest.m; path = QueryAPI/SCMQueryResultTest.m; sourceTree = "<group>"; };
 		86ED34A01A27726E00D9F3B0 /* libShortcutSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libShortcutSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		86ED34AB1A27726E00D9F3B0 /* ShortcutSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortcutSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		86ED34B11A27726E00D9F3B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -578,6 +582,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		86037A911A769744002010FF /* QueryAPI */ = {
+			isa = PBXGroup;
+			children = (
+				86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */,
+				86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */,
+			);
+			name = QueryAPI;
+			sourceTree = "<group>";
+		};
 		86775FB41A417EEB00D136A5 /* BuildScripts */ = {
 			isa = PBXGroup;
 			children = (
@@ -668,8 +681,8 @@
 				864218961A4040430044B744 /* README.md */,
 				864218981A4040F10044B744 /* LICENSE.txt */,
 				86ED34A21A27726E00D9F3B0 /* ShortcutSDK */,
-				86ED34AF1A27726E00D9F3B0 /* ShortcutSDKTests */,
 				86D085411A2888B5005CECD3 /* ShortcutSDKResources */,
+				86ED34AF1A27726E00D9F3B0 /* ShortcutSDKTests */,
 				86ED34A11A27726E00D9F3B0 /* Products */,
 				86AB02DD1A2872FE00586049 /* Frameworks */,
 			);
@@ -706,6 +719,7 @@
 		86ED34AF1A27726E00D9F3B0 /* ShortcutSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				86037A911A769744002010FF /* QueryAPI */,
 				86ED34B01A27726E00D9F3B0 /* Supporting Files */,
 			);
 			path = ShortcutSDKTests;
@@ -1526,6 +1540,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */,
+				86E5F3591A77D1170039C7A3 /* SCMQueryResultTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1724,6 +1740,8 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ShortcutSDK/ShortcutSDK-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1742,6 +1760,8 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ShortcutSDK/ShortcutSDK-Prefix.pch";
 				INFOPLIST_FILE = ShortcutSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
