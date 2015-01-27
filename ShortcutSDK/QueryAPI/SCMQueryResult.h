@@ -32,7 +32,7 @@
  *  The likelihood of a match between the item and the submitted image.
  *
  *  @discussion
- *  The match score is represented as a floating point number ranging from 0.0 to 1.0.
+ *  The match score is represented as a floating point number. Higher numbers represent better matches.
  */
 @property (strong, nonatomic, readonly) NSNumber *score;
 
