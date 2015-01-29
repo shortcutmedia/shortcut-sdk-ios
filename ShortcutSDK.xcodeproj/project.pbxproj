@@ -69,6 +69,10 @@
 		86D085841A28BB7B005CECD3 /* CameraOverlayButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085761A28BB7B005CECD3 /* CameraOverlayButtonBackground.png */; };
 		86D085851A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085771A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png */; };
 		86E5F3591A77D1170039C7A3 /* SCMQueryResultTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */; };
+		86E5F35E1A77E9F40039C7A3 /* SCMTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F35D1A77E9F40039C7A3 /* SCMTestCase.m */; };
+		86E5F3601A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F35F1A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m */; };
+		86E5F3681A77ED690039C7A3 /* recognizable_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 86E5F3661A77ED690039C7A3 /* recognizable_image.jpg */; };
+		86E5F3691A77ED690039C7A3 /* unrecognizable_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 86E5F3671A77ED690039C7A3 /* unrecognizable_image.jpg */; };
 		86ED34AC1A27726E00D9F3B0 /* libShortcutSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86ED34A01A27726E00D9F3B0 /* libShortcutSDK.a */; };
 		86ED35C21A2772F700D9F3B0 /* BarcodeFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ED34C31A2772F700D9F3B0 /* BarcodeFormat.cpp */; };
 		86ED35C31A2772F700D9F3B0 /* Binarizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ED34C51A2772F700D9F3B0 /* Binarizer.cpp */; };
@@ -307,6 +311,11 @@
 		86D085761A28BB7B005CECD3 /* CameraOverlayButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraOverlayButtonBackground.png; path = Resources/CameraOverlayButtonBackground.png; sourceTree = "<group>"; };
 		86D085771A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraOverlayButtonBackground@2x.png"; path = "Resources/CameraOverlayButtonBackground@2x.png"; sourceTree = "<group>"; };
 		86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResultTest.m; path = QueryAPI/SCMQueryResultTest.m; sourceTree = "<group>"; };
+		86E5F35C1A77E9F40039C7A3 /* SCMTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMTestCase.h; sourceTree = "<group>"; };
+		86E5F35D1A77E9F40039C7A3 /* SCMTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMTestCase.m; sourceTree = "<group>"; };
+		86E5F35F1A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMRecognitionOperationTest.m; path = QueryAPI/SCMRecognitionOperationTest.m; sourceTree = "<group>"; };
+		86E5F3661A77ED690039C7A3 /* recognizable_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = recognizable_image.jpg; path = Resources/recognizable_image.jpg; sourceTree = "<group>"; };
+		86E5F3671A77ED690039C7A3 /* unrecognizable_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = unrecognizable_image.jpg; path = Resources/unrecognizable_image.jpg; sourceTree = "<group>"; };
 		86ED34A01A27726E00D9F3B0 /* libShortcutSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libShortcutSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		86ED34AB1A27726E00D9F3B0 /* ShortcutSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortcutSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		86ED34B11A27726E00D9F3B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -587,6 +596,7 @@
 			children = (
 				86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */,
 				86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */,
+				86E5F35F1A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m */,
 			);
 			name = QueryAPI;
 			sourceTree = "<group>";
@@ -675,6 +685,15 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		86E5F3611A77EBA20039C7A3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				86E5F3661A77ED690039C7A3 /* recognizable_image.jpg */,
+				86E5F3671A77ED690039C7A3 /* unrecognizable_image.jpg */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		86ED34971A27726E00D9F3B0 = {
 			isa = PBXGroup;
 			children = (
@@ -719,8 +738,11 @@
 		86ED34AF1A27726E00D9F3B0 /* ShortcutSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				86E5F35C1A77E9F40039C7A3 /* SCMTestCase.h */,
+				86E5F35D1A77E9F40039C7A3 /* SCMTestCase.m */,
 				86037A911A769744002010FF /* QueryAPI */,
 				86ED34B01A27726E00D9F3B0 /* Supporting Files */,
+				86E5F3611A77EBA20039C7A3 /* Resources */,
 			);
 			path = ShortcutSDKTests;
 			sourceTree = "<group>";
@@ -1385,6 +1407,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86E5F3691A77ED690039C7A3 /* unrecognizable_image.jpg in Resources */,
+				86E5F3681A77ED690039C7A3 /* recognizable_image.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1541,7 +1565,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */,
+				86E5F3601A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m in Sources */,
 				86E5F3591A77D1170039C7A3 /* SCMQueryResultTest.m in Sources */,
+				86E5F35E1A77E9F40039C7A3 /* SCMTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

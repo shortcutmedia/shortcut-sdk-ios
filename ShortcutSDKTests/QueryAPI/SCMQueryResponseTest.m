@@ -6,12 +6,11 @@
 //  Copyright (c) 2015 Shortcut Media AG. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
+#import "SCMTestCase.h"
 
 #import <ShortcutSDK/SCMQueryResponse.h>
 
-@interface SCMQueryResponseTest : XCTestCase
+@interface SCMQueryResponseTest : SCMTestCase
 
 @property (nonatomic, strong) NSDictionary *responseDictionary;
 
