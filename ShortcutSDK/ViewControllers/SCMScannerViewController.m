@@ -216,10 +216,8 @@ typedef enum
     
     [self updateInfoStatus];
     
-    self.liveScanner.captureSessionController.previewLayer.frame = self.previewView.bounds;
     self.liveScanner.captureSessionController.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
-    self.previewImageView.frame = self.previewView.bounds;
     
     self.cameraToolbar.doneButton.hidden = !self.showDoneButton;
     
@@ -246,6 +244,12 @@ typedef enum
     if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning) {
         [self startScanLineAnimation];
     }
+}
+
+- (void)viewDidLayoutSubviews
+{
+    self.liveScanner.captureSessionController.previewLayer.frame = self.previewView.bounds;
+    self.previewImageView.frame = self.previewView.bounds;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
