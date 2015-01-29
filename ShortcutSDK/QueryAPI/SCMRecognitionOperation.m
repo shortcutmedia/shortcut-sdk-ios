@@ -19,7 +19,8 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 
 @property (nonatomic, strong, readwrite) CLLocation *location;
 @property (nonatomic, strong, readwrite) NSData *imageData;
-@property (nonatomic, strong, readwrite) NSMutableURLRequest *request;
+@property (nonatomic, strong, readonly) NSDictionary *clientData;
+@property (nonatomic, strong, readonly) NSURLRequest *request;
 @property (nonatomic, strong, readwrite) SCMQueryResponse *queryResponse;
 @property (nonatomic, strong, readwrite) NSError *error;
 
@@ -27,49 +28,72 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 
 @implementation SCMRecognitionOperation
 
-- (id)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation
+#pragma mark - Properties
+
+@synthesize clientData = _clientData;
+
+- (NSDictionary *)clientData
 {
-    self = [super init];
-    if (self != nil) {
-        self.location = queryLocation;
-        self.imageData = data;
+    if (!_clientData) {
+        NSMutableDictionary *data = [NSMutableDictionary dictionaryWithCapacity:4];
         
-        NSString *queriesURLString = [NSString stringWithFormat:@"http://%@/v4/query", [[SCMSDKConfig sharedConfig] queryServerAddress]];
-        NSURL *queriesURL = [NSURL URLWithString:queriesURLString];
-        
-        KWSImageRequest *imageRequest = [[KWSImageRequest alloc] initWithURL:queriesURL imageData:data];
-        imageRequest.returnedMetadata = @"details";
-        
-        NSMutableDictionary *clientData = [NSMutableDictionary dictionaryWithCapacity:4];
         NSString *deviceUUID = [[SCMSDKConfig sharedConfig] clientID];
-        if (deviceUUID != nil) {
-            [clientData setObject:deviceUUID forKey:@"device_id"];
+        if (deviceUUID) {
+            [data setObject:deviceUUID forKey:@"device_id"];
         }
         
-        if (queryLocation != nil) {
-            [clientData setObject:[NSNumber numberWithDouble:queryLocation.coordinate.latitude] forKey:@"latitude"];
-            [clientData setObject:[NSNumber numberWithDouble:queryLocation.coordinate.longitude] forKey:@"longitude"];
+        if (self.location) {
+            [data setObject:[NSNumber numberWithDouble:self.location.coordinate.latitude] forKey:@"latitude"];
+            [data setObject:[NSNumber numberWithDouble:self.location.coordinate.longitude] forKey:@"longitude"];
         }
         
         NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
         NSString *bundleShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-        NSString *appVersion = [NSString stringWithFormat:@"%@-%@/%@", bundleName, bundleShortVersion, bundleVersion];
-        [clientData setObject:appVersion forKey:@"application_id"];
+        if (bundleName && bundleShortVersion && bundleVersion) {
+            NSString *appVersion = [NSString stringWithFormat:@"%@-%@/%@", bundleName, bundleShortVersion, bundleVersion];
+            [data setObject:appVersion forKey:@"application_id"];
+        }
         
-        if (clientData.count > 0) {
-            DebugLog(@"clientData: %@", clientData);
-            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:clientData options:NSJSONWritingPrettyPrinted error:NULL];
+        _clientData = data;
+    }
+    
+    return _clientData;
+}
+
+@synthesize request = _request;
+
+- (NSURLRequest *)request
+{
+    if (!_request) {
+        KWSImageRequest *imageRequest = [[KWSImageRequest alloc] initWithURL:self.queriesURL imageData:self.imageData];
+        imageRequest.returnedMetadata = @"details";
+        
+        if (self.clientData.count > 0) {
+            DebugLog(@"clientData: %@", self.clientData);
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self.clientData options:NSJSONWritingPrettyPrinted error:NULL];
             imageRequest.clientData = jsonData;
         }
         
         NSMutableURLRequest *signedRequest = [imageRequest signedRequestWithAccessKey:[[SCMSDKConfig sharedConfig] accessKey]
                                                                             secretKey:[[SCMSDKConfig sharedConfig] secretKey]];
         [signedRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
+        if (self.requestLanguage) {
+            [signedRequest setValue:self.requestLanguage forHTTPHeaderField:@"Accept-Language"];
+        }
         
-        [self addAcceptLanguageHeaderToRequest:signedRequest];
-        
-        self.request = signedRequest;
+        _request = signedRequest;
+    }
+    
+    return _request;
+}
+
+- (id)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation
+{
+    self = [super init];
+    if (self != nil) {
+        self.location = queryLocation;
+        self.imageData = data;
     }
     
     return self;
@@ -110,16 +134,20 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 
 #pragma mark - Helpers
 
-- (void)addAcceptLanguageHeaderToRequest:(NSMutableURLRequest *)mutableRequest
+- (NSURL *)queriesURL
+{
+    NSString *queriesURLString = [NSString stringWithFormat:@"http://%@/v4/query", [[SCMSDKConfig sharedConfig] queryServerAddress]];
+    return [NSURL URLWithString:queriesURLString];
+}
+
+- (NSString *)requestLanguage
 {
     NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
     if (!language) {
         language = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
     }
     
-    if (language.length > 0) {
-        [mutableRequest setValue:language forHTTPHeaderField:@"Accept-Language"];
-    }
+    return language;
 }
 
 @end
