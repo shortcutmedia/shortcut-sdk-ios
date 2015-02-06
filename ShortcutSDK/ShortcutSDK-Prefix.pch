@@ -5,9 +5,13 @@
 #import <Availability.h>
 
 #ifdef __OBJC__
+
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+
+#define SDK_BUILD_NUMBER 1
 #define CURRENT_API_VERSION 1
+
 #endif
 
 #ifdef DEBUG

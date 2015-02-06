@@ -36,6 +36,8 @@
 		86197B0D1A2C66A700BD726B /* NavigationBarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0B1A2C66A700BD726B /* NavigationBarBackground@2x.png */; };
 		86197B101A2C671F00BD726B /* BarButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0E1A2C671F00BD726B /* BarButtonBackground.png */; };
 		86197B111A2C671F00BD726B /* BarButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */; };
+		869DFCFA1A83C178007B8C31 /* SCMCustomUserAgentProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */; };
+		869DFCFB1A83C178007B8C31 /* SCMCustomUserAgentProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */; };
 		86AB02DA1A2872E600586049 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AB02D91A2872E600586049 /* Foundation.framework */; };
 		86AB02DC1A2872F000586049 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AB02DB1A2872F000586049 /* UIKit.framework */; };
 		86BD713A1A2DE5E500EA8633 /* PLCameraZoomMax.png in Resources */ = {isa = PBXBuildFile; fileRef = 86BD712E1A2DE5E500EA8633 /* PLCameraZoomMax.png */; };
@@ -278,6 +280,8 @@
 		86775FB51A417EEB00D136A5 /* create_framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = create_framework.sh; sourceTree = "<group>"; };
 		86775FB61A417EEB00D136A5 /* finish_build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = finish_build.sh; sourceTree = "<group>"; };
 		86775FB71A417EEB00D136A5 /* render_docs.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = render_docs.sh; sourceTree = "<group>"; };
+		869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCustomUserAgentProtocol.h; sourceTree = "<group>"; };
+		869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCustomUserAgentProtocol.m; sourceTree = "<group>"; };
 		86AB02D91A2872E600586049 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		86AB02DB1A2872F000586049 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		86BD712E1A2DE5E500EA8633 /* PLCameraZoomMax.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PLCameraZoomMax.png; path = Resources/PLCameraZoomMax.png; sourceTree = "<group>"; };
@@ -1160,6 +1164,8 @@
 				86ED35A61A2772F700D9F3B0 /* SCMUUIDUtils.m */,
 				86ED35A71A2772F700D9F3B0 /* UIImage+ImageOrientation.h */,
 				86ED35A81A2772F700D9F3B0 /* UIImage+ImageOrientation.m */,
+				869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */,
+				869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1233,6 +1239,7 @@
 				86ED36531A27788400D9F3B0 /* SCMUUIDUtils.h in Headers */,
 				86ED364F1A27787400D9F3B0 /* SCMStatusView.h in Headers */,
 				86ED36511A27787D00D9F3B0 /* SCMDictionaryUtils.h in Headers */,
+				869DFCFA1A83C178007B8C31 /* SCMCustomUserAgentProtocol.h in Headers */,
 				86ED36491A27785F00D9F3B0 /* SCMCameraModeControl.h in Headers */,
 				86ED36541A27788800D9F3B0 /* UIImage+ImageOrientation.h in Headers */,
 				86ED36521A27788100D9F3B0 /* SCMImageUtils.h in Headers */,
@@ -1519,6 +1526,7 @@
 				86ED36181A2772F700D9F3B0 /* QRCodeReader.mm in Sources */,
 				86ED36141A2772F700D9F3B0 /* ResultPoint.cpp in Sources */,
 				86ED360A1A2772F700D9F3B0 /* FinderPatternFinder.cpp in Sources */,
+				869DFCFB1A83C178007B8C31 /* SCMCustomUserAgentProtocol.m in Sources */,
 				86ED36061A2772F700D9F3B0 /* AlignmentPattern.cpp in Sources */,
 				86ED35DB1A2772F700D9F3B0 /* ReedSolomonException.cpp in Sources */,
 				86ED35F21A2772F700D9F3B0 /* MultiFormatReader.cpp in Sources */,

@@ -10,6 +10,7 @@
 #import "SCMSDKConfig.h"
 #import "SCMStatusView.h"
 #import "SCMLocalization.h"
+#import "SCMCustomUserAgentProtocol.h"
 
 @interface SCMItemViewController () <UIWebViewDelegate>
 
@@ -81,6 +82,8 @@
     
     self.webView.delegate = self;
     self.webView.hidden = YES;
+    
+    [self registerUserAgentCustomization];
     
     if (self.initialRequest) {
         [self.webView loadRequest:self.initialRequest];
@@ -192,5 +195,14 @@
     DebugLog(@"webView didFailLoadWithError: %@", [error localizedDescription]);
 }
 
+#pragma mark - Helper
+
+- (void)registerUserAgentCustomization
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [NSURLProtocol registerClass: [SCMCustomUserAgentProtocol class]];
+    });
+}
 
 @end
