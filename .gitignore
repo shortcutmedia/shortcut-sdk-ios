@@ -1,0 +1,6 @@
+.DS_Store
+
+ShortcutSDK.xcodeproj/xcuserdata
+ShortcutSDK.xcodeproj/project.xcworkspace/xcuserdata
+
+build/*
