@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 
 #define SDK_BUILD_NUMBER 1
-#define CURRENT_API_VERSION 1
+#define QUERY_API_METADATA_VERSION 1
 
 #endif
 

@@ -44,7 +44,7 @@
     for (NSDictionary *resultDictionary in allResults) {
         SCMQueryResult *result = [[SCMQueryResult alloc] initWithDictionary:resultDictionary];
         if (result.imageSHA1) {
-            if ([result.metadataVersions indexOfObject:@(CURRENT_API_VERSION)] != NSNotFound) {
+            if ([result.metadataVersions indexOfObject:@(QUERY_API_METADATA_VERSION)] != NSNotFound) {
                 [usableResults addObject:result];
             }
         }
@@ -61,7 +61,7 @@
         SCMQueryResult *firstResult = [[SCMQueryResult alloc] initWithDictionary:[allResults firstObject]];
         if (firstResult.metadataVersions.count > 0) {
             for (NSNumber *number in firstResult.metadataVersions) {
-                if (number.intValue == CURRENT_API_VERSION) {
+                if (number.intValue == QUERY_API_METADATA_VERSION) {
                     result = YES;
                     break;
                 }

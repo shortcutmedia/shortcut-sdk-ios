@@ -29,29 +29,29 @@
                 @"title" : @"good result",
                 @"recognitions" : @{@"id" : @"image.sha1:819f5e319d538fb971f5b3344506976ee18d1967"},
                 @"metadata" : @[
-                    @{@"version" : [NSString stringWithFormat:@"%d", CURRENT_API_VERSION], @"title" : @"first metadata title"}
+                    @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION], @"title" : @"first metadata title"}
                 ]
             },
             @{
                 @"title" : @"second good result",
                 @"recognitions" : @{@"id" : @"image.sha1:7e994c8549e94c93b0316593be6804d8"},
                 @"metadata" : @[
-                    @{@"version" : [NSString stringWithFormat:@"%d", CURRENT_API_VERSION], @"title" : @"second metadata title 1"},
-                    @{@"version" : [NSString stringWithFormat:@"%d", CURRENT_API_VERSION+1], @"title" : @"second metadata title 2"}
+                    @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION], @"title" : @"second metadata title 1"},
+                    @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION+1], @"title" : @"second metadata title 2"}
                 ]
             },
             @{
                 @"title" : @"wrong version",
                 @"recognitions" : @{@"id" : @"image.sha1:393e109166fd4e2ba0eb28acdb9e98d8"},
                 @"metadata" : @[
-                    @{@"version" : [NSString stringWithFormat:@"%d", CURRENT_API_VERSION+1], @"title" : @"third metadata title"}
+                    @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION+1], @"title" : @"third metadata title"}
                 ]
             },
             @{
                 @"title" : @"no recognition",
                 @"recognitions" : @{@"id" : @""},
                 @"metadata" : @[
-                    @{@"version" : [NSString stringWithFormat:@"%d", CURRENT_API_VERSION], @"title" : @"fourth metadata title"}
+                    @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION], @"title" : @"fourth metadata title"}
                 ]
             }
         ]

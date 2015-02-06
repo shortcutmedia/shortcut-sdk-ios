@@ -25,7 +25,7 @@
     self.resultDictionary = @{
         @"metadata": @[
             @{
-                @"version": [NSString stringWithFormat:@"%d", CURRENT_API_VERSION],
+                @"version": [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION],
                 @"uuid": @"d7a11dfa-a061-11e3-a7a3-c86000bc391a",
                 @"title": @{
                     @"de": @"Test Item de",
@@ -108,7 +108,7 @@
     XCTAssertEqualObjects(@"en", [[NSLocale preferredLanguages] firstObject]);
     
     NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
-    [mutableResultDictionary setValue:@[@{@"version" : [NSString stringWithFormat:@"%d", CURRENT_API_VERSION]}] forKey:@"metadata"];
+    [mutableResultDictionary setValue:@[@{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION]}] forKey:@"metadata"];
     self.resultDictionary = mutableResultDictionary;
     
     XCTAssertNil(self.queryResult.subtitle);
@@ -135,7 +135,7 @@
 - (void)testResponseTarget_ReturnsNilIfNotDefined
 {
     NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
-    [mutableResultDictionary setValue:@[@{@"version" : [NSString stringWithFormat:@"%d", CURRENT_API_VERSION]}] forKey:@"metadata"];
+    [mutableResultDictionary setValue:@[@{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION]}] forKey:@"metadata"];
     self.resultDictionary = mutableResultDictionary;
     
     XCTAssertNil(self.queryResult.responseTarget);
@@ -150,7 +150,7 @@
 - (void)testResponseContent_ReturnsNilIfNotDefined
 {
     NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
-    [mutableResultDictionary setValue:@[@{@"version" : [NSString stringWithFormat:@"%d", CURRENT_API_VERSION]}] forKey:@"metadata"];
+    [mutableResultDictionary setValue:@[@{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION]}] forKey:@"metadata"];
     self.resultDictionary = mutableResultDictionary;
     
     XCTAssertNil(self.queryResult.responseContent);

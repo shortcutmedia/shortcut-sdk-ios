@@ -122,7 +122,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
 {
     NSArray *candidates = [SCMDictionaryUtils arrayFromDictionary:self.resultDictionary atPath:@"metadata"];
     for (NSDictionary *dict in candidates) {
-        if ([[SCMDictionaryUtils numberFromDictionary:dict atPath:@"version"] isEqual:@(CURRENT_API_VERSION)]) {
+        if ([[SCMDictionaryUtils numberFromDictionary:dict atPath:@"version"] isEqual:@(QUERY_API_METADATA_VERSION)]) {
             return dict;
         }
     }
