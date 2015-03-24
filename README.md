@@ -1,3 +1,5 @@
+
+
 # Overview
 
 This SDK provides basically two components that allow to interact with the Shortcut Image Recognition Service:
@@ -10,18 +12,21 @@ In addition to these two components the SDK also provides a lower-level interfac
 
 The SDK works with iOS versions 6 to 8.
 
+To see the SDK in action check out this [example app](https://github.com/shortcutmedia/shortcut-sdk-ios-example).
+
 
 # Installation
 
 The SDK consists of two parts: the code (packaged in a .framework file) and some resources (packaged in a .bundle file). To use it within your project follow these steps:
 
-1. Add the *ShortcutSDK.framework* and *ShortcutSDK.bundle* files to your project, e.g. by dragging them into your project in Xcode.
-2. Within your project's **Build settings** add the `-ObjC` to **Other linker flags**.
-3. Within your project's **Build phases** make sure that all following libraries are added in the **Link binary with libraries** section:
+1. Download the latest SDK from the [SDK repo](https://github.com/shortcutmedia/shortcut-sdk-ios) (just download the file *ShortcutSDK.zip*, you do not need the source code).
+2. Add the *ShortcutSDK.framework* and *ShortcutSDK.bundle* files to your project, e.g. by dragging them into your project in Xcode.
+3. Within your project's **Build settings** add the `-ObjC` to **Other linker flags**.
+4. Within your project's **Build phases** make sure that all following libraries are added in the **Link binary with libraries** section:
   - ShortcutSDK.framework
   - libiconv.dylib
   - libc++.dylib
-4. Within your project's **Build phases** make sure that *ShortcutSDK.bundle* is added in the **Copy bundle resources** section.
+5. Within your project's **Build phases** make sure that *ShortcutSDK.bundle* is added in the **Copy bundle resources** section.
 
 
 # Getting started
@@ -82,7 +87,9 @@ This method is called by the Scanner view whenever it recognized an item. In it,
 If you run the app now and point the Scanner at an item it recognizes, then it should display this item.
 
 
-# Scanner view
+# Reference
+
+## Scanner view
 
 The Scanner view is implemented as a UIKit view controller. You just have to instantiate it and present it somehow. It communicates back to you via a delegate.
 
@@ -128,7 +135,7 @@ NSData *imageData = ... // get image data from somewhere
 ```
 
 
-# Item view
+## Item view
 
 The Item view(s) are implemented as a UIKit view controller. You just have to instantiate it and present it somehow. You have two different ways to initialize it:
 - You can use a SCMQueryResult instance obtained from a Scanner view or a Recognition operation
@@ -145,7 +152,7 @@ SCMItemViewController *itemViewController = [[SCMItemViewController alloc] initW
 ```
 
 
-# Recognition operation
+## Recognition operation
 
 A NSOperation subclass that does handle requests to the image recognition service is also available. To use it you just have to instantiate it with the image data to submit, provide a completion handler and then schedule it in an NSOperationQueue instance or start it manually.
 
@@ -165,7 +172,7 @@ __weak SCMRecognitionOperation *finishedOperation = operation;
 ```
 
 
-# Configuration
+## Configuration
 
 There is a global configuration object available to customize some aspects of the SDK. However, it needs basically very little configuration.
 
