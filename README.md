@@ -19,7 +19,7 @@ To see the SDK in action check out this [example app](https://github.com/shortcu
 
 The SDK consists of two parts: the code (packaged in a .framework file) and some resources (packaged in a .bundle file). To use it within your project follow these steps:
 
-1. Download the latest SDK from the [SDK repo](https://github.com/shortcutmedia/shortcut-sdk-ios) (just download the file *ShortcutSDK.zip*, you do not need the source code).
+1. Download the latest SDK from the [releases page](https://github.com/shortcutmedia/shortcut-sdk-ios/releases) (just download the file *ShortcutSDK.zip*, you do not need the source code).
 2. Add the *ShortcutSDK.framework* and *ShortcutSDK.bundle* files to your project, e.g. by dragging them into your project in Xcode.
 3. Within your project's **Build settings** add the `-ObjC` to **Other linker flags**.
 4. Within your project's **Build phases** make sure that all following libraries are added in the **Link binary with libraries** section:
