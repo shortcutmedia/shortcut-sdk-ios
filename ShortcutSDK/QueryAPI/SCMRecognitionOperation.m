@@ -76,7 +76,7 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
         }
         
         NSMutableURLRequest *signedRequest = [imageRequest signedRequestWithAccessKey:[[SCMSDKConfig sharedConfig] accessKey]
-                                                                            secretKey:[[SCMSDKConfig sharedConfig] secretKey]];
+                                                                            secretToken:[[SCMSDKConfig sharedConfig] secretToken]];
         [signedRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
         if (self.requestLanguage) {
             [signedRequest setValue:self.requestLanguage forHTTPHeaderField:@"Accept-Language"];

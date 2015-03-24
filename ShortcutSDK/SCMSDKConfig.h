@@ -30,13 +30,13 @@
 @property (strong, nonatomic) NSString *accessKey;
 
 /**
- *  The secret key that the SDK uses to connect to the image recognition service.
+ *  The secret token that the SDK uses to connect to the image recognition service.
  *
  *  @discussion
  *  This is available from your account in the Shortcut Manager. You HAVE to specify
  *  this property, otherwise the image recognition will not work.
  */
-@property (strong, nonatomic) NSString *secretKey;
+@property (strong, nonatomic) NSString *secretToken;
 
 
 /// @name Localization setup

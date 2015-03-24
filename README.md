@@ -49,7 +49,7 @@ We want to display a Scanner view as soon as the app starts; so let's go to the 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [SCMSDKConfig sharedConfig].accessKey = @"YOUR_ACCESS_KEY";
-    [SCMSDKConfig sharedConfig].secretKey = @"YOUR_SECRET_KEY";
+    [SCMSDKConfig sharedConfig].secretToken = @"YOUR_SECRET_TOKEN";
 
     SCMScannerViewController *scannerViewController = [[SCMScannerViewController alloc] init];
     scannerViewController.delegate = self;
@@ -182,7 +182,7 @@ There is a global configuration object available to customize some aspects of th
 
 // required:
 [SCMSDKConfig sharedConfig].accessKey = @"YOUR_ACCESS_KEY";
-[SCMSDKConfig sharedConfig].secretKey = @"YOUR_SECRET_KEY";
+[SCMSDKConfig sharedConfig].secretToken = @"YOUR_SECRET_TOKEN";
 
 // optional:
 [SCMSDKConfig sharedConfig].clientID = @"some-unique-id-for-the-current-device";

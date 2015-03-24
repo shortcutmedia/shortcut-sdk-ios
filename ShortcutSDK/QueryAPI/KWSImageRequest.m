@@ -128,7 +128,7 @@
     [self.bodyData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-- (NSURLRequest *)signedRequestWithAccessKey:(NSString *)accessKey secretKey:(NSString *)secretKey
+- (NSURLRequest *)signedRequestWithAccessKey:(NSString *)accessKey secretToken:(NSString *)secretToken
 {
     NSString *imageContentType = @"image/jpeg";
     [self appendTextValue:self.returnedMetadata forKey:@"returned-metadata"];
@@ -146,10 +146,10 @@
     NSString *dateValue = [self.httpDateFormatter stringFromDate:[NSDate date]];
     
     // calculate KWS authorization signature
-    NSAssert(accessKey && secretKey, @"You must specify access key and secret key in the Shortcut SDK config");
+    NSAssert(accessKey && secretToken, @"You must specify access key and secret key in the Shortcut SDK config");
     NSString *contentMD5 = [self md5DigestForData:self.bodyData];
     NSString *stringToSign = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@", httpMethod, contentMD5, contentType, dateValue, urlPath];
-    NSData *signatureData = [self sha1DigestForString:stringToSign withKey:secretKey];
+    NSData *signatureData = [self sha1DigestForString:stringToSign withKey:secretToken];
     NSString *signature = [SCMBase64Utils encodeBase64WithData:signatureData];
     
     // request header values

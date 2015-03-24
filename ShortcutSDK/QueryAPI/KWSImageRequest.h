@@ -15,6 +15,6 @@
 @property (nonatomic, strong, readwrite) NSData *clientData;
 
 - (id)initWithURL:(NSURL *)requestURL imageData:(NSData *)data;
-- (NSMutableURLRequest *)signedRequestWithAccessKey:(NSString *)accessKey secretKey:(NSString *)secretKey;
+- (NSMutableURLRequest *)signedRequestWithAccessKey:(NSString *)accessKey secretToken:(NSString *)secretToken;
 
 @end
