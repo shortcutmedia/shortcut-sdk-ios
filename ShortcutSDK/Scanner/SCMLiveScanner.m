@@ -206,11 +206,14 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 - (void)takePictureWithZoomFactor:(CGFloat)zoomFactor
 {
-    [self.captureSessionController takePictureAsynchronouslyWithCompletionHandler:^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
+    [self.captureSessionController takePictureAsynchronouslyWithCompletionHandler:^(CMSampleBufferRef sampleBuffer, NSError *error) {
         
-        if (imageSampleBuffer != NULL) {
-            NSData *jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-            CFDataRef imgData = (__bridge CFDataRef)jpegData;
+        if (sampleBuffer != NULL) {
+            // The sample buffer contains no image buffer, but a block buffer containing jpeg data.
+            // Therefore we cannot convert it to a CGImageRef using +[SCMImageUtils newImageFromSampleBuffer:]
+            // so we have to use +[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:] and then
+            // CGImageCreateWithJPEGDataProvider() to get a CGImageRef...
+            CFDataRef imgData = (__bridge CFDataRef)[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:sampleBuffer];
             CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData (imgData);
             CGImageRef image = CGImageCreateWithJPEGDataProvider(imgDataProvider, NULL, true, kCGRenderingIntentDefault);
             
