@@ -21,8 +21,7 @@ NSString *kSCMLiveScannerErrorDomain = @"SCMLiveScannerErrorDomain";
 
 static const NSInteger kMaxOutstandingImageRecognitionOperations = 2;
 static const NSTimeInterval kDefaultNoMotionThreshold = 0.1;
-static const CGFloat kDefaultOutputImageWidth = 640.0;
-static const CGFloat kDefaultOutputImageHeight = 360.0;
+static const CGFloat kDefaultQueryImageSize = 640.0;
 static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
@@ -35,8 +34,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 @property (nonatomic, strong, readwrite) NSOperationQueue *recognitionQueue;
 @property (nonatomic, assign, readwrite) NSInteger numImagesSentForRecognition;
 @property (   atomic, assign, readwrite) NSInteger outstandingRecognitionOperations;
-@property (nonatomic, assign, readwrite) CGFloat outputImageWidth;
-@property (nonatomic, assign, readwrite) CGFloat outputImageHeight;
+@property (nonatomic, assign, readwrite) CGFloat queryImageSize;
 @property (nonatomic, assign, readwrite) CGFloat outputCompressionLevel;
 @property (nonatomic, assign, readwrite) SCMLiveScannerMode liveScannerMode;
 @property (nonatomic, assign, readwrite) BOOL scanning;
@@ -62,8 +60,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
         self.qrCodeScanner = [[SCMQRCodeScanner alloc] init];
         self.qrCodeScanner.delegate = self;
         
-        self.outputImageWidth = kDefaultOutputImageWidth;
-        self.outputImageHeight = kDefaultOutputImageHeight;
+        self.queryImageSize = kDefaultQueryImageSize;
         self.outputCompressionLevel = kDefaultOutputCompressionLevel;
         
         self.recognitionQueue = [[NSOperationQueue alloc] init];
@@ -91,52 +88,16 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
     self.captureSessionController.sampleBufferDelegate = self;
     [self.captureSessionController setupCaptureSessionForMode:captureMode];
     
-    // Optimize the output size based on the capture preset.
-    NSInteger outputSize = 640;
-    NSString *sessionPreset = self.captureSessionController.captureSessionPreset;
-    if (sessionPreset == AVCaptureSessionPreset1280x720) {
-        if (outputSize == 1280) {
-            self.outputImageWidth = 1280;
-            self.outputImageHeight = 720;
-        } else if (outputSize == 640)
-        {
-            self.outputImageWidth = 640;
-            self.outputImageHeight = 360;
-        } else if (outputSize == 480)
-        {
-            self.outputImageWidth = 480;
-            self.outputImageHeight = 360;
-        } else {
-            self.outputImageWidth = 320;
-            self.outputImageHeight = 240;
-        }
-    } else if (sessionPreset == AVCaptureSessionPreset640x480)
-    {
-        if (outputSize == 1280 || outputSize == 640) {
-            self.outputImageWidth = 640;
-            self.outputImageHeight = 480;
-        } else if (outputSize == 480)
-        {
-            self.outputImageWidth = 480;
-            self.outputImageHeight = 360;
-        } else {
-            self.outputImageWidth = 320;
-            self.outputImageHeight = 240;
-        }
-    } else if (sessionPreset == AVCaptureSessionPresetMedium)
-    {
-        if (outputSize == 1280 || outputSize == 640 || outputSize == 480) {
-            self.outputImageWidth = 480;
-            self.outputImageHeight = 360;
-        } else {
-            self.outputImageWidth = 320;
-            self.outputImageHeight = 240;
-        }
-    } else if (sessionPreset == AVCaptureSessionPresetHigh)
-    {
-        // Must be the 3G
-        self.outputImageWidth = 400;
-        self.outputImageHeight = 304;
+    // Optimize the output size based on the capture device
+    CMVideoDimensions deviceVideoDimensions = CMVideoFormatDescriptionGetDimensions(self.captureSessionController.captureDevice.activeFormat.formatDescription);
+    int deviceMaxSize = MAX(deviceVideoDimensions.width, deviceVideoDimensions.height);
+    
+    if (deviceMaxSize >= 1280) {
+        self.queryImageSize = 1280;
+    } else if (deviceMaxSize >= 640) {
+        self.queryImageSize = 640;
+    } else {
+        self.queryImageSize = 320;
     }
     
     if (self.captureSessionController.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
@@ -286,7 +247,7 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 {
     NSData *scaledImageData = [SCMImageUtils scaledImageDataWithImage:image
                                                           orientation:6
-                                                              maxSize:MAX(self.outputImageWidth, self.outputImageHeight)
+                                                              maxSize:self.queryImageSize
                                                           compression:self.outputCompressionLevel
                                                            zoomFactor:1.0];
     

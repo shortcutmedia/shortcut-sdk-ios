@@ -8,9 +8,6 @@
 
 #import "SCMCaptureSessionController.h"
 
-
-static const NSInteger kLiveScanningCaptureSize = 1280;
-
 @interface SCMCaptureSessionController ()
 
 @property (nonatomic, strong, readwrite) AVCaptureDevice *captureDevice;
@@ -60,44 +57,15 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
     }
 }
 
-- (NSString *)captureSessionPreset
+- (NSString *)findCaptureSessionPreset
 {
-    return self.captureSession.sessionPreset;
-}
-
-- (NSString *)captureSessionPresetForMode:(SCMCaptureSessionMode)mode
-{
-    NSInteger captureSize = kLiveScanningCaptureSize;
+    // use current/system-default session preset as default...
+    NSString *sessionPreset = self.captureSession.sessionPreset;
     
-    // Defaults in the rare case that the device doesn't support any of the following presets.
-    NSString *sessionPreset = AVCaptureSessionPresetHigh;
-    
-    if (captureSize == 480) {
-        // Test for the iPhone 3G
-        if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset640x480]) {
-            // The device supports 640x480, it's the 3GS or higher.
-            sessionPreset = AVCaptureSessionPresetMedium;
-        } else {
-            // The 3G won't support 640x480, so if the value ends up being High, we know it's the 3G.
-            sessionPreset = AVCaptureSessionPresetHigh;
-        }
-    } else if (captureSize == 640)
-    {
-        if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset640x480]) {
-            sessionPreset = AVCaptureSessionPreset640x480;
-        }
-    } else {
-        if (mode == kSCMCaptureSessionLiveScanningMode) {
-            if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset1280x720]) {
-                sessionPreset = AVCaptureSessionPreset1280x720;
-            } else if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset640x480])
-            {
-                sessionPreset = AVCaptureSessionPreset640x480;
-            }
-        } else if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPresetPhoto])
-        {
-            sessionPreset = AVCaptureSessionPresetPhoto;
-        }
+    if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset1280x720]) {
+        sessionPreset = AVCaptureSessionPreset1280x720;
+    } else if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset640x480]) {
+        sessionPreset = AVCaptureSessionPreset640x480;
     }
     
     return sessionPreset;
@@ -112,7 +80,7 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
     self.captureSession = [[AVCaptureSession alloc] init];
     self.captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     
-    self.captureSession.sessionPreset = [self captureSessionPresetForMode:initialMode];
+    self.captureSession.sessionPreset = [self findCaptureSessionPreset];
     
     NSError *error = nil;
     self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
@@ -149,6 +117,8 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
     } else {
         [self switchToSingleShotMode];
     }
+    
+    DebugLog(@"captureSession preset %@", self.captureSession.sessionPreset);
 }
 
 - (void)switchToSingleShotMode
@@ -184,10 +154,9 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
         }
     }
     
-    self.captureSession.sessionPreset = [self captureSessionPresetForMode:kSCMCaptureSessionSingleShotMode];
+    self.captureSession.sessionPreset = [self findCaptureSessionPreset];
     
     [self.captureSession commitConfiguration];
-    DebugLog(@"captureSession preset %@", self.captureSession.sessionPreset);
 }
 
 - (void)switchToLiveScanningMode
@@ -230,14 +199,13 @@ static const NSInteger kLiveScanningCaptureSize = 1280;
         NSAssert(self.sampleBufferDelegate != nil, @"Switching to scanning mode with no sampleBufferDelegate!");
     }
     
-    self.captureSession.sessionPreset = [self captureSessionPresetForMode:kSCMCaptureSessionLiveScanningMode];
+    self.captureSession.sessionPreset = [self findCaptureSessionPreset];
     
     if ([self.captureSession canAddOutput:self.videoCaptureOutput]) {
         [self.captureSession addOutput:self.videoCaptureOutput];
     }
     
     [self.captureSession commitConfiguration];
-    DebugLog(@"captureSession preset %@", self.captureSession.sessionPreset);
     
     self.liveVideoConnection.enabled = YES;
 }
