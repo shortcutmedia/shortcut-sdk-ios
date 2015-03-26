@@ -284,15 +284,16 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 - (void)processImage:(CGImageRef)image
 {
-    if (self.scanQRCodes == YES && self.imageRecognized == NO) {
-        [self.qrCodeScanner decodeImage:image];
-    }
-    
     NSData *scaledImageData = [SCMImageUtils scaledImageDataWithImage:image
                                                           orientation:6
                                                               maxSize:MAX(self.outputImageWidth, self.outputImageHeight)
                                                           compression:self.outputCompressionLevel
                                                            zoomFactor:1.0];
+    
+    if (self.scanQRCodes == YES && self.imageRecognized == NO) {
+        CGImageRef scaledImage = [UIImage imageWithData:scaledImageData].CGImage;
+        [self.qrCodeScanner decodeImage:scaledImage];
+    }
     
     [self.delegate liveScanner:self recognizingImage:scaledImageData];
     
