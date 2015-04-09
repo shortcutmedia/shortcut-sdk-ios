@@ -117,8 +117,6 @@
     } else {
         [self switchToSingleShotMode];
     }
-    
-    DebugLog(@"captureSession preset %@", self.captureSession.sessionPreset);
 }
 
 - (void)switchToSingleShotMode
