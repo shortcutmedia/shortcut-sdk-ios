@@ -12,6 +12,7 @@
 
 typedef enum
 {
+    kSCMCaptureSessionUnsetMode = -1,
     kSCMCaptureSessionLiveScanningMode = 0,
     kSCMCaptureSessionSingleShotMode
 } SCMCaptureSessionMode;

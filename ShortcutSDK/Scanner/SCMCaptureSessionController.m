@@ -18,26 +18,28 @@
 @property (nonatomic, strong, readwrite) AVCaptureConnection *stillImageVideoConnection;
 @property (nonatomic, strong, readwrite) AVCaptureConnection *liveVideoConnection;
 @property (nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer *previewLayer;
-@property (nonatomic, assign, readwrite) SCMCaptureSessionMode captureSessionMode;
 @property (atomic, assign, readwrite) BOOL running;
 
 @end
 
 @implementation SCMCaptureSessionController
 
-- (id)init
-{
-    self = [super init];
-    if (self != nil) {
-        self.captureSessionMode = kSCMCaptureSessionLiveScanningMode;
-    }
-    
-    return self;
-}
-
 - (void)dealloc
 {
     [self stopSession];
+}
+
+- (SCMCaptureSessionMode)captureSessionMode
+{
+    if (self.videoCaptureOutput && !self.stillImageOutput) {
+        return kSCMCaptureSessionLiveScanningMode;
+    } else if (self.stillImageOutput && !self.videoCaptureOutput) {
+        return kSCMCaptureSessionSingleShotMode;
+    } else {
+        NSAssert1(self.stillImageOutput == nil && self.videoCaptureOutput == nil,
+                  @"%@ cannot have a still image and live video output at the same time", self);
+        return kSCMCaptureSessionUnsetMode;
+    }
 }
 
 - (CMTime)minimumLiveScanningFrameDuration
@@ -121,8 +123,6 @@
 
 - (void)switchToSingleShotMode
 {
-    self.captureSessionMode = kSCMCaptureSessionSingleShotMode;
-    
     // Disable the torch since we don't use it in single shot mode.
     [self turnTorchOff];
     
@@ -157,8 +157,6 @@
 
 - (void)switchToLiveScanningMode
 {
-    self.captureSessionMode = kSCMCaptureSessionLiveScanningMode;
-    
     [self.captureSession beginConfiguration];
     
     if (self.stillImageOutput != nil) {
