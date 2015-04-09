@@ -77,15 +77,15 @@
         return;
     }
     
-    self.captureSession = [[AVCaptureSession alloc] init];
     self.captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    
-    self.captureSession.sessionPreset = [self findCaptureSessionPreset];
     
     NSError *error = nil;
     self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
     if (error == nil) {
+        self.captureSession = [[AVCaptureSession alloc] init];
+        self.captureSession.sessionPreset = [self findCaptureSessionPreset];
         [self.captureSession addInput:self.captureInput];
+        
         self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession];
     }
     
@@ -154,8 +154,6 @@
         }
     }
     
-    self.captureSession.sessionPreset = [self findCaptureSessionPreset];
-    
     [self.captureSession commitConfiguration];
 }
 
@@ -198,8 +196,6 @@
         // There's no point continuing because no one will be watching for the images!
         NSAssert(self.sampleBufferDelegate != nil, @"Switching to scanning mode with no sampleBufferDelegate!");
     }
-    
-    self.captureSession.sessionPreset = [self findCaptureSessionPreset];
     
     if ([self.captureSession canAddOutput:self.videoCaptureOutput]) {
         [self.captureSession addOutput:self.videoCaptureOutput];
