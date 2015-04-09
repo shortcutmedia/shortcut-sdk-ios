@@ -676,7 +676,7 @@ typedef enum
 
 - (void)updateFlashStatus
 {
-    if ([self.liveScanner.captureSessionController hasFlashForCurrentMode]) {
+    if ([self.liveScanner.captureSessionController hasFlash]) {
         self.flashButton.hidden = NO;
         if (self.liveScanner.captureSessionController.flashOn) {
             self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOnIcon"];

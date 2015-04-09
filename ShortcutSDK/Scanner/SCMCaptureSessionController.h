@@ -33,7 +33,7 @@ typedef enum
 - (void)switchToMode:(SCMCaptureSessionMode)mode;
 - (void)stopSession;
 - (void)takePictureAsynchronouslyWithCompletionHandler:(void (^)(CMSampleBufferRef imageDataSampleBuffer, NSError *error))handler;
-- (BOOL)hasFlashForCurrentMode;
+- (BOOL)hasFlash;
 - (void)toggleFlashMode;
 
 @end

@@ -222,7 +222,7 @@
 {
     BOOL on = NO;
     
-    if ([self hasFlashForCurrentMode]) {
+    if ([self hasFlash]) {
         if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
             on = (self.captureDevice.torchMode == AVCaptureTorchModeOn);
         } else {
@@ -233,7 +233,7 @@
     return on;
 }
 
-- (BOOL)hasFlashForCurrentMode
+- (BOOL)hasFlash
 {
     BOOL hasFlash = NO;
     
@@ -259,7 +259,7 @@
 
 - (void)toggleFlashMode
 {
-    if ([self hasFlashForCurrentMode]) {
+    if ([self hasFlash]) {
         if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
             if (self.captureDevice.torchMode == AVCaptureTorchModeOff) {
                 if ([self.captureDevice lockForConfiguration:NULL]) {
