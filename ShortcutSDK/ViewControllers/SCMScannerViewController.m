@@ -618,8 +618,6 @@ typedef enum
     } else {
         [self showCameraHelp];
     }
-    
-    [self updateInfoStatus];
 }
 
 - (void)showCameraHelp
@@ -640,6 +638,8 @@ typedef enum
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{self.helpView.alpha = 1.0;}
                     completion:NULL];
+    
+    [self updateInfoStatus];
     
     // Reinstate the idle timer while the user views the info screen.
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
@@ -666,6 +666,8 @@ typedef enum
     self.showingCameraHelp = NO;
     
     [self updateImageNotRecognizedStatus];
+    
+    [self updateInfoStatus];
     
     // Disable the idle timer since we are going back to the camera view.
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
@@ -700,7 +702,7 @@ typedef enum
 }
 
 - (IBAction)toggleFlashMode:(id)sender
-{    
+{
     [self.liveScanner.captureSessionController toggleFlashMode];
     [self updateFlashStatus];
 }
