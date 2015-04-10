@@ -677,12 +677,12 @@ typedef enum
 - (void)updateFlashStatus
 {
     if ([self.liveScanner.captureSessionController hasFlash]) {
-        self.flashButton.hidden = NO;
         if (self.liveScanner.captureSessionController.flashOn) {
-            self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOnIcon"];
+            [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOnIcon"] forState:UIControlStateNormal];
         } else {
-            self.flashButton.imageView.image = [SCMImageUtils SDKBundleImageNamed:@"CameraFlashOffIcon"];
+            [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOffIcon"] forState:UIControlStateNormal];
         }
+        self.flashButton.hidden = NO;
     } else {
         self.flashButton.hidden = YES;
     }
