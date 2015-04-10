@@ -618,6 +618,8 @@ typedef enum
     } else {
         [self showCameraHelp];
     }
+    
+    [self updateInfoStatus];
 }
 
 - (void)showCameraHelp
@@ -691,6 +693,11 @@ typedef enum
 - (void)updateInfoStatus
 {
     if (self.helpView) {
+        if (self.showingCameraHelp) {
+            [self.infoButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraInfoOnIcon"] forState:UIControlStateNormal];
+        } else {
+            [self.infoButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraInfoOffIcon"] forState:UIControlStateNormal];
+        }
         self.infoButton.hidden = NO;
     } else {
         self.infoButton.hidden = YES;
