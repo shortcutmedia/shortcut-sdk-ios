@@ -114,6 +114,10 @@
         return;
     }
     
+    // Since the different modes have different flash/torch modes, it is turned of by
+    // default when mode is changed
+    [self turnFlashOff];
+    
     if (mode == kSCMCaptureSessionLiveScanningMode) {
         [self switchToLiveScanningMode];
     } else {
@@ -123,9 +127,6 @@
 
 - (void)switchToSingleShotMode
 {
-    // Disable the torch since we don't use it in single shot mode.
-    [self turnTorchOff];
-    
     [self.captureSession beginConfiguration];
     
     if (self.videoCaptureOutput != nil) {
@@ -205,8 +206,7 @@
 - (void)stopSession
 {
     if (self.running) {
-        // Turn the torch off if it was on. Better not to leave it in an on state.
-        [self turnTorchOff];
+        [self turnFlashOff];
         
         [self.captureSession stopRunning];
         self.running = NO;
@@ -246,45 +246,58 @@
     return hasFlash;
 }
 
-- (void)turnTorchOff
+- (void)turnFlashOn
 {
-    if ([self.captureDevice hasTorch] && [self.captureDevice isTorchModeSupported:AVCaptureTorchModeOff] &&
-        self.captureDevice.torchMode != AVCaptureTorchModeOff) {
-        if ([self.captureDevice lockForConfiguration:NULL]) {
-            self.captureDevice.torchMode = AVCaptureTorchModeOff;
-            [self.captureDevice unlockForConfiguration];
+    if (!self.hasFlash) {
+        return;
+    }
+    
+    if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
+        if (self.captureDevice.torchMode != AVCaptureTorchModeOn) {
+            if ([self.captureDevice lockForConfiguration:NULL]) {
+                self.captureDevice.torchMode = AVCaptureTorchModeOn;
+                [self.captureDevice unlockForConfiguration];
+            }
+        }
+    } else {
+        if (self.captureDevice.flashMode != AVCaptureFlashModeOn) {
+            if ([self.captureDevice lockForConfiguration:NULL]) {
+                self.captureDevice.flashMode = AVCaptureFlashModeOn;
+                [self.captureDevice unlockForConfiguration];
+            }
+        }
+    }
+}
+
+- (void)turnFlashOff
+{
+    if (!self.hasFlash) {
+        return;
+    }
+    
+    if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
+        if (self.captureDevice.torchMode != AVCaptureTorchModeOff) {
+            if ([self.captureDevice lockForConfiguration:NULL]) {
+                self.captureDevice.torchMode = AVCaptureTorchModeOff;
+                [self.captureDevice unlockForConfiguration];
+            }
+        }
+    } else {
+        if (self.captureDevice.flashMode != AVCaptureFlashModeOff) {
+            if ([self.captureDevice lockForConfiguration:NULL]) {
+                self.captureDevice.flashMode = AVCaptureFlashModeOff;
+                [self.captureDevice unlockForConfiguration];
+            }
         }
     }
 }
 
 - (void)toggleFlashMode
 {
-    if ([self hasFlash]) {
-        if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
-            if (self.captureDevice.torchMode == AVCaptureTorchModeOff) {
-                if ([self.captureDevice lockForConfiguration:NULL]) {
-                    self.captureDevice.torchMode = AVCaptureTorchModeOn;
-                    [self.captureDevice unlockForConfiguration];
-                }
-            } else {
-                if ([self.captureDevice lockForConfiguration:NULL]) {
-                    self.captureDevice.torchMode = AVCaptureTorchModeOff;
-                    [self.captureDevice unlockForConfiguration];
-                }
-            }
-        } else {
-            if (self.captureDevice.flashMode == AVCaptureFlashModeOff) {
-                if ([self.captureDevice lockForConfiguration:NULL]) {
-                    self.captureDevice.flashMode = AVCaptureFlashModeOn;
-                    [self.captureDevice unlockForConfiguration];
-                }
-            } else {
-                if ([self.captureDevice lockForConfiguration:NULL]) {
-                    self.captureDevice.flashMode = AVCaptureFlashModeOff;
-                    [self.captureDevice unlockForConfiguration];
-                }
-            }
-        }
+    if (self.flashOn) {
+        [self turnFlashOff];
+    } else {
+        [self turnFlashOn];
     }
 }
 
