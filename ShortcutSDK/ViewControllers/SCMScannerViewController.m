@@ -645,8 +645,12 @@ typedef enum
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
-- (void) hideHelpView
+- (void)hideCameraHelp
 {
+    if (self.showingCameraHelp == NO) {
+        return;
+    }
+    
     if (self.helpView)
         [UIView transitionWithView:self.helpView
                           duration:0.3
@@ -657,15 +661,6 @@ typedef enum
                         completion:^(BOOL finished) {
                             [self.helpView removeFromSuperview];
                         }];
-}
-
-- (void)hideCameraHelp
-{
-    if (self.showingCameraHelp == NO) {
-        return;
-    }
-    
-    [self hideHelpView];
     
     self.liveScanner.paused = NO;
     self.showingCameraHelp = NO;
