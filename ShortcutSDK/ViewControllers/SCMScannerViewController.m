@@ -700,9 +700,7 @@ typedef enum
 }
 
 - (IBAction)toggleFlashMode:(id)sender
-{
-    [self hideCameraHelp];
-    
+{    
     [self.liveScanner.captureSessionController toggleFlashMode];
     [self updateFlashStatus];
 }
