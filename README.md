@@ -14,6 +14,8 @@ The SDK works with iOS versions 6 to 8.
 
 To see the SDK in action check out this [example app](https://github.com/shortcutmedia/shortcut-sdk-ios-example).
 
+There is also an [Android version of the Shortcut SDK](https://github.com/shortcutmedia/shortcut-sdk-android).
+
 
 # Installation
 
@@ -33,8 +35,9 @@ The SDK consists of two parts: the code (packaged in a .framework file) and some
 
 To get a feeling for the different parts of the SDK this section walks you through the process of building a very simple app that displays the Scanner view on start up. When an item is recognized, the app dismisses the Scanner view and displays the recognized item in an Item view.
 
-First, we have to create a new project in Xcode. Select the most basic of the available templates (In Xcode 6 this would be the *Single view application* template ) and follow the steps in the Installation section above.
-You also need access keys, at the moment you have to request them by sending a mail to support@shortcutmedia.com.
+**Prerequisites:** First, we have to create a new project in Xcode. Select the most basic of the available templates (In Xcode 6 this would be the *Single view application* template ) and follow the steps in the Installation section above.
+
+You also need access keys; at the moment you have to request them by sending a mail to support@shortcutmedia.com. For just trying out the SDK you could also copy the access key and secret token from the  [example app](https://github.com/shortcutmedia/shortcut-sdk-ios-example) which will allow you to scan the [Lenna test image](https://en.wikipedia.org/wiki/Lenna).
 
 We want to display a Scanner view as soon as the app starts; so let's go to the *AppDelegate.m* file and make the following changes:
 
