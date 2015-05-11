@@ -782,9 +782,6 @@ typedef enum
         return;
     }
     
-    UIViewAnimationOptions animationOptions = UIViewAnimationOptionCurveEaseInOut;
-    animationOptions = animationOptions | UIViewAnimationOptionAllowUserInteraction;
-    
     double maxX = CGRectGetMaxX(self.previewView.bounds);
     double maxY = CGRectGetMaxY(self.previewView.bounds);
     double lineLength = MAX(maxX, maxY) * 2;
