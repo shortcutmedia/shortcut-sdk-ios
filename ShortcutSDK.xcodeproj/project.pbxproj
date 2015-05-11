@@ -24,6 +24,9 @@
 
 /* Begin PBXBuildFile section */
 		86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */; };
+		86169CF81B00F03700900913 /* SCMBeaconScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 86169CF61B00F03700900913 /* SCMBeaconScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		86169CF91B00F03700900913 /* SCMBeaconScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 86169CF71B00F03700900913 /* SCMBeaconScanner.m */; };
+		86169CFB1B01010800900913 /* SCMBeaconScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86169CFA1B00F06100900913 /* SCMBeaconScannerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86197B021A2C663700BD726B /* CameraModeLiveScannerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */; };
 		86197B031A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */; };
 		86197B041A2C663700BD726B /* CameraModeSingleShotIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFC1A2C663700BD726B /* CameraModeSingleShotIcon.png */; };
@@ -265,6 +268,9 @@
 
 /* Begin PBXFileReference section */
 		86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResponseTest.m; path = QueryAPI/SCMQueryResponseTest.m; sourceTree = "<group>"; };
+		86169CF61B00F03700900913 /* SCMBeaconScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBeaconScanner.h; sourceTree = "<group>"; };
+		86169CF71B00F03700900913 /* SCMBeaconScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMBeaconScanner.m; sourceTree = "<group>"; };
+		86169CFA1B00F06100900913 /* SCMBeaconScannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCMBeaconScannerDelegate.h; sourceTree = "<group>"; };
 		86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraModeLiveScannerIcon.png; path = Resources/CameraModeLiveScannerIcon.png; sourceTree = "<group>"; };
 		86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraModeLiveScannerIcon@2x.png"; path = "Resources/CameraModeLiveScannerIcon@2x.png"; sourceTree = "<group>"; };
 		86197AFC1A2C663700BD726B /* CameraModeSingleShotIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraModeSingleShotIcon.png; path = Resources/CameraModeSingleShotIcon.png; sourceTree = "<group>"; };
@@ -1151,6 +1157,9 @@
 				86EEC7591A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h */,
 				86ED359B1A2772F700D9F3B0 /* SCMMotionDetector.h */,
 				86ED359C1A2772F700D9F3B0 /* SCMMotionDetector.m */,
+				86169CF61B00F03700900913 /* SCMBeaconScanner.h */,
+				86169CF71B00F03700900913 /* SCMBeaconScanner.m */,
+				86169CFA1B00F06100900913 /* SCMBeaconScannerDelegate.h */,
 			);
 			path = Scanner;
 			sourceTree = "<group>";
@@ -1241,6 +1250,8 @@
 				86ED364E1A27787100D9F3B0 /* SCMProgressToolbar.h in Headers */,
 				86ED364C1A27786A00D9F3B0 /* SCMCustomToolbar.h in Headers */,
 				86EEC7581A2F1D7C007C6FA9 /* SCMQRCodeScannerDelegate.h in Headers */,
+				86169CFB1B01010800900913 /* SCMBeaconScannerDelegate.h in Headers */,
+				86169CF81B00F03700900913 /* SCMBeaconScanner.h in Headers */,
 				86ED36411A27781A00D9F3B0 /* KWSImageRequest.h in Headers */,
 				86ED36531A27788400D9F3B0 /* SCMUUIDUtils.h in Headers */,
 				86ED364F1A27787400D9F3B0 /* SCMStatusView.h in Headers */,
@@ -1532,6 +1543,7 @@
 				86EEC7571A2F1D7C007C6FA9 /* SCMQRCodeScanner.mm in Sources */,
 				86ED35D61A2772F700D9F3B0 /* IllegalArgumentException.cpp in Sources */,
 				86ED36181A2772F700D9F3B0 /* QRCodeReader.mm in Sources */,
+				86169CF91B00F03700900913 /* SCMBeaconScanner.m in Sources */,
 				86ED36141A2772F700D9F3B0 /* ResultPoint.cpp in Sources */,
 				86ED360A1A2772F700D9F3B0 /* FinderPatternFinder.cpp in Sources */,
 				869DFCFB1A83C178007B8C31 /* SCMCustomUserAgentProtocol.m in Sources */,

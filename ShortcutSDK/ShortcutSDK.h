@@ -15,5 +15,8 @@
 #import "SCMQueryResponse.h"
 #import "SCMQueryResult.h"
 
+#import "SCMBeaconScanner.h"
+#import "SCMBeaconScannerDelegate.h"
+
 #import "SCMItemViewController.h"
 #import "SCMQueryResultViewController.h"
