@@ -8,6 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  An SCMHTTPOperation performs a http request. This class is used only internally
+ *  and meant to be subclassed...
+ *
+ *  TODO: make this usable directly?
+ *
+ *  @discussion
+ *  This is a subclass of NSOperation. After you have initialized and configured
+ *  an instance you must kick it off by either calling the SCMHTTPOperation -start
+ *  method on it or by scheduling it in an operation queue.
+ *  @see NSOperationQueue -addOperation:
+ */
 @interface SCMHTTPOperation : NSOperation
 
 - (instancetype)initWithRequest:(NSURLRequest *)request;
