@@ -8,6 +8,7 @@
 
 #import "SCMBeaconScanner.h"
 #import <CoreLocation/CoreLocation.h>
+#import "SCMBeaconLookupOperation.h"
 
 NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
@@ -17,6 +18,8 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 @property (strong, nonatomic) NSMutableDictionary *rangedBeacons;
 @property (strong, nonatomic) CLBeacon *selectedBeacon;
+
+@property (strong, nonatomic) NSOperationQueue *lookupQueue;
 
 @end
 
@@ -39,6 +42,8 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     if (self = [super init]) {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
+        
+        self.lookupQueue = [[NSOperationQueue alloc] init];
     }
     
     return self;
@@ -65,7 +70,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     [self.locationManager requestStateForRegion:self.regionToMonitor];
 }
 
-#pragma mark - Private methods
+#pragma mark - Helpers
 
 - (BOOL)isAuthorized
 {
@@ -79,7 +84,9 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     return [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:identifier];
 }
 
-- (void)selectBeacon
+#pragma mark - Beacon processing
+
+- (void)processBeacons
 {
     // find the currently selected beacon
     CLBeacon *previouslySelectedBeacon;
@@ -113,20 +120,59 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     
     // select the closest beacon if it is closer than the previously selected one
     if (closestBeacon && (closestBeacon.proximity < previouslySelectedBeacon.proximity || previouslySelectedBeacon == nil)) {
-        self.selectedBeacon = closestBeacon;
-        DebugLog(@"LM did select beacon: %@/%@ (%ld)", closestBeacon.major, closestBeacon.minor, (long)closestBeacon.proximity);
-        if ([self.delegate respondsToSelector:@selector(beaconScanner:didSelectBeacon:)]) {
-            [self.delegate beaconScanner:self didSelectBeacon:self.selectedBeacon];
-        }
+        [self selectBeacon:closestBeacon];
     }
     
     // select nil if there are no beacons in range
     if (self.rangedBeacons.count == 0) {
-        self.selectedBeacon = nil;
-        DebugLog(@"LM did select beacon: (null)");
-        if ([self.delegate respondsToSelector:@selector(beaconScanner:didSelectBeacon:)]) {
+        [self selectBeacon:nil];
+    }
+}
+
+- (void)selectBeacon:(CLBeacon *)beacon
+{
+    DebugLog(@"LM did select beacon: %@/%@ (%ld)", beacon.major, beacon.minor, (long)beacon.proximity);
+    
+    self.selectedBeacon = beacon;
+    if ([self.delegate respondsToSelector:@selector(beaconScanner:didSelectBeacon:)]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate beaconScanner:self didSelectBeacon:self.selectedBeacon];
+        });
+    }
+    
+    if (self.selectedBeacon) {
+        [self sendLookupOperation];
+    }
+}
+
+- (void)sendLookupOperation
+{
+    SCMBeaconLookupOperation *operation = [[SCMBeaconLookupOperation alloc] initWithBeacon:self.selectedBeacon];
+    // TODO: add timeout?
+    //operation.responseTimeoutInterval = kMaximumServerResponseTime;
+    
+    __weak SCMBeaconLookupOperation *completedOperation = operation;
+    [operation setCompletionBlock:^{
+        if ([completedOperation isCancelled] == NO) {
+            [self lookupOperationCompleted:completedOperation];
         }
+    }];
+    
+    [self.lookupQueue addOperation:operation];
+}
+
+- (void)lookupOperationCompleted:(SCMBeaconLookupOperation *)operation
+{
+    if (operation.queryResponse) {
+        if ([self.delegate respondsToSelector:@selector(beaconScanner:recognizedQuery:fromBeacon:)]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate beaconScanner:self
+                             recognizedQuery:operation.queryResponse
+                                  fromBeacon:operation.beacon];
+            });
+        }
+    } else {
+        // TODO: error handling/signalling?
     }
 }
 
@@ -182,14 +228,14 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
         [manager stopRangingBeaconsInRegion:beaconRegion];
         
         [self.rangedBeacons removeObjectForKey:beaconRegion];
-        [self selectBeacon];
+        [self processBeacons];
     }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
     [self.rangedBeacons setObject:beacons forKey:region];
-    [self selectBeacon];
+    [self processBeacons];
 }
 
 // TODO: expose this to delegate??
