@@ -18,5 +18,7 @@
 #import "SCMBeaconScanner.h"
 #import "SCMBeaconScannerDelegate.h"
 
+#import "SCMBeaconLookupOperation.h"
+
 #import "SCMItemViewController.h"
 #import "SCMQueryResultViewController.h"
