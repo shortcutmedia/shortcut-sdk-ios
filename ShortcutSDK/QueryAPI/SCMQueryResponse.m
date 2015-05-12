@@ -76,4 +76,9 @@
     return result;
 }
 
+
+
+NSString *kSCMQueryResponseErrorDomain = @"SCMQueryResponseErrorDomain";
+int kSCMQueryResponseNoMatchingMetadata = -1;
+
 @end

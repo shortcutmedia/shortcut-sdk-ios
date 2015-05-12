@@ -11,10 +11,6 @@
 #import "KWSImageRequest.h"
 #import "SCMLocalization.h"
 
-NSString *kSCMRecognitionOperationErrorDomain = @"SCMRecognitionOperationErrorDomain";
-int kSCMRecognitionOperationNoMatchingMetadata = -1;
-
-
 @interface SCMRecognitionOperation ()
 
 @property (nonatomic, strong, readwrite) CLLocation *location;
@@ -88,6 +84,8 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
     return _request;
 }
 
+#pragma mark - Initializer
+
 - (id)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation
 {
     self = [super init];
@@ -101,22 +99,16 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 
 #pragma mark - Operation implementation
 
-- (void)main
+- (void)operationDidFinishWithResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *)error
 {
-    @autoreleasepool {
-        NSURLResponse *response = nil;
-        NSError *connectionError = nil;
-        NSData *data = nil;
-        data = [NSURLConnection sendSynchronousRequest:self.request returningResponse:&response error:&connectionError];
-        if (connectionError) {
-            self.error = connectionError;
-        } else {
-            [self handleResponse:response withData:data];
-        }
+    if (error) {
+        self.error = error;
+    } else {
+        [self parseResponse:response withData:data];
     }
 }
 
-- (void)handleResponse:(NSURLResponse *)response withData:(NSData *)data
+- (void)parseResponse:(NSURLResponse *)response withData:(NSData *)data
 {
     if (data) {
         NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
@@ -125,8 +117,8 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
         if (response.hasCurrentMetadata) {
             self.queryResponse = response;
         } else {
-            self.error = [NSError errorWithDomain:kSCMRecognitionOperationErrorDomain
-                                             code:kSCMRecognitionOperationNoMatchingMetadata
+            self.error = [NSError errorWithDomain:kSCMQueryResponseErrorDomain
+                                             code:kSCMQueryResponseNoMatchingMetadata
                                          userInfo:nil];
         }
     }

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "SCMHTTPOperation.h"
 #import "SCMQueryResponse.h"
 
 /**
@@ -20,7 +21,7 @@
  *  method on it or by scheduling it in an operation queue.
  *  @see NSOperationQueue -addOperation:
  */
-@interface SCMRecognitionOperation : NSOperation
+@interface SCMRecognitionOperation : SCMHTTPOperation
 
 /**
  *  The image to submit to the image recognition service.
@@ -57,9 +58,5 @@
  *  @return A new query operation instance.
  */
 - (id)initWithImageData:(NSData *)imageData location:(CLLocation *)location;
-
-
-extern NSString *kSCMRecognitionOperationErrorDomain;
-extern int kSCMRecognitionOperationNoMatchingMetadata;
 
 @end

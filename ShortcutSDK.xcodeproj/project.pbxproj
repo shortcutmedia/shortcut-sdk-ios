@@ -39,6 +39,8 @@
 		86197B0D1A2C66A700BD726B /* NavigationBarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0B1A2C66A700BD726B /* NavigationBarBackground@2x.png */; };
 		86197B101A2C671F00BD726B /* BarButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0E1A2C671F00BD726B /* BarButtonBackground.png */; };
 		86197B111A2C671F00BD726B /* BarButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */; };
+		864B5D9F1B022C7800D2C45B /* SCMHTTPOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 864B5D9D1B022C7800D2C45B /* SCMHTTPOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		864B5DA01B022C7800D2C45B /* SCMHTTPOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 864B5D9E1B022C7800D2C45B /* SCMHTTPOperation.m */; };
 		869DFCFA1A83C178007B8C31 /* SCMCustomUserAgentProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */; };
 		869DFCFB1A83C178007B8C31 /* SCMCustomUserAgentProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */; };
 		86AB02DA1A2872E600586049 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AB02D91A2872E600586049 /* Foundation.framework */; };
@@ -285,6 +287,8 @@
 		86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BarButtonBackground@2x.png"; path = "Resources/BarButtonBackground@2x.png"; sourceTree = "<group>"; };
 		864218961A4040430044B744 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		864218981A4040F10044B744 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		864B5D9D1B022C7800D2C45B /* SCMHTTPOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMHTTPOperation.h; sourceTree = "<group>"; };
+		864B5D9E1B022C7800D2C45B /* SCMHTTPOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMHTTPOperation.m; sourceTree = "<group>"; };
 		86775FB51A417EEB00D136A5 /* create_framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = create_framework.sh; sourceTree = "<group>"; };
 		86775FB61A417EEB00D136A5 /* finish_build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = finish_build.sh; sourceTree = "<group>"; };
 		86775FB71A417EEB00D136A5 /* render_docs.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = render_docs.sh; sourceTree = "<group>"; };
@@ -1181,6 +1185,8 @@
 				86ED35A81A2772F700D9F3B0 /* UIImage+ImageOrientation.m */,
 				869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */,
 				869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */,
+				864B5D9D1B022C7800D2C45B /* SCMHTTPOperation.h */,
+				864B5D9E1B022C7800D2C45B /* SCMHTTPOperation.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1271,6 +1277,7 @@
 				86ED36451A27783C00D9F3B0 /* SCMHistogramFilter.h in Headers */,
 				86ED364A1A27786300D9F3B0 /* SCMCameraToolbar.h in Headers */,
 				86EEC7561A2F1D7C007C6FA9 /* SCMQRCodeScanner.h in Headers */,
+				864B5D9F1B022C7800D2C45B /* SCMHTTPOperation.h in Headers */,
 				86ED364D1A27786E00D9F3B0 /* SCMCustomToolbarButton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1546,6 +1553,7 @@
 				86169CF91B00F03700900913 /* SCMBeaconScanner.m in Sources */,
 				86ED36141A2772F700D9F3B0 /* ResultPoint.cpp in Sources */,
 				86ED360A1A2772F700D9F3B0 /* FinderPatternFinder.cpp in Sources */,
+				864B5DA01B022C7800D2C45B /* SCMHTTPOperation.m in Sources */,
 				869DFCFB1A83C178007B8C31 /* SCMCustomUserAgentProtocol.m in Sources */,
 				86ED36061A2772F700D9F3B0 /* AlignmentPattern.cpp in Sources */,
 				86ED35DB1A2772F700D9F3B0 /* ReedSolomonException.cpp in Sources */,
