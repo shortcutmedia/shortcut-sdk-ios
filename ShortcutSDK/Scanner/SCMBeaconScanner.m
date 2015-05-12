@@ -119,6 +119,15 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
             [self.delegate beaconScanner:self didSelectBeacon:self.selectedBeacon];
         }
     }
+    
+    // select nil if there are no beacons in range
+    if (self.rangedBeacons.count == 0) {
+        self.selectedBeacon = nil;
+        DebugLog(@"LM did select beacon: (null)");
+        if ([self.delegate respondsToSelector:@selector(beaconScanner:didSelectBeacon:)]) {
+            [self.delegate beaconScanner:self didSelectBeacon:self.selectedBeacon];
+        }
+    }
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -178,7 +187,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 }
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
-{    
+{
     [self.rangedBeacons setObject:beacons forKey:region];
     [self selectBeacon];
 }
