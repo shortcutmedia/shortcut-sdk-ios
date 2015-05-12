@@ -43,10 +43,8 @@
     NSArray *allResults = [SCMDictionaryUtils arrayFromDictionary:self.responseDictionary atPath:@"results"];
     for (NSDictionary *resultDictionary in allResults) {
         SCMQueryResult *result = [[SCMQueryResult alloc] initWithDictionary:resultDictionary];
-        if (result.imageSHA1) {
-            if ([result.metadataVersions indexOfObject:@(QUERY_API_METADATA_VERSION)] != NSNotFound) {
-                [usableResults addObject:result];
-            }
+        if ([result.metadataVersions indexOfObject:@(QUERY_API_METADATA_VERSION)] != NSNotFound) {
+            [usableResults addObject:result];
         }
     }
     return usableResults;

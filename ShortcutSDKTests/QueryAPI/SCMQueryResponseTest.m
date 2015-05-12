@@ -48,7 +48,7 @@
                 ]
             },
             @{
-                @"title" : @"no recognition",
+                @"title" : @"good result with no recognition",
                 @"recognitions" : @{@"id" : @""},
                 @"metadata" : @[
                     @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION], @"title" : @"fourth metadata title"}
@@ -69,9 +69,9 @@
     XCTAssertEqualObjects(self.queryResponse.queryUUID, expectedUUID);
 }
 
-- (void)testResults_ReturnsResultsWithRecognitionsAndMatchingMetadataVersion
+- (void)testResults_ReturnsResultsWithMatchingMetadataVersion
 {
-    XCTAssertEqual(self.queryResponse.results.count, 2);
+    XCTAssertEqual(self.queryResponse.results.count, 3);
     
     id object1 = [self.queryResponse.results objectAtIndex:0];
     XCTAssertEqualObjects([object1 class], [SCMQueryResult class]);
@@ -82,6 +82,11 @@
     XCTAssertEqualObjects([object2 class], [SCMQueryResult class]);
     SCMQueryResult *result2 = (SCMQueryResult*)object2;
     XCTAssertEqualObjects(result2.title, @"second good result");
+    
+    id object3 = [self.queryResponse.results objectAtIndex:2];
+    XCTAssertEqualObjects([object3 class], [SCMQueryResult class]);
+    SCMQueryResult *result3 = (SCMQueryResult*)object3;
+    XCTAssertEqualObjects(result3.title, @"good result with no recognition");
 }
 
 @end
