@@ -9,7 +9,6 @@
 #import "SCMRecognitionOperation.h"
 #import "SCMSDKConfig.h"
 #import "KWSImageRequest.h"
-#import "SCMLocalization.h"
 
 @interface SCMRecognitionOperation ()
 
