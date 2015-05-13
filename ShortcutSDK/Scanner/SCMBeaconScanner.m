@@ -151,17 +151,21 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     // TODO: add timeout?
     //operation.responseTimeoutInterval = kMaximumServerResponseTime;
     
+    UIBackgroundTaskIdentifier lookupTask = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:^{
+        [UIApplication.sharedApplication endBackgroundTask:lookupTask];
+    }];
+    
     __weak SCMBeaconLookupOperation *completedOperation = operation;
     [operation setCompletionBlock:^{
         if ([completedOperation isCancelled] == NO) {
-            [self lookupOperationCompleted:completedOperation];
+            [self lookupOperationCompleted:completedOperation withBackgroundTask:lookupTask];
         }
     }];
     
     [self.lookupQueue addOperation:operation];
 }
 
-- (void)lookupOperationCompleted:(SCMBeaconLookupOperation *)operation
+- (void)lookupOperationCompleted:(SCMBeaconLookupOperation *)operation withBackgroundTask:(UIBackgroundTaskIdentifier)task
 {
     if (operation.queryResponse) {
         if ([self.delegate respondsToSelector:@selector(beaconScanner:recognizedQuery:fromBeacon:)]) {
@@ -169,10 +173,13 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
                 [self.delegate beaconScanner:self
                              recognizedQuery:operation.queryResponse
                                   fromBeacon:operation.beacon];
+                [UIApplication.sharedApplication endBackgroundTask:task];
             });
         }
     } else {
         // TODO: error handling/signalling?
+        
+        [UIApplication.sharedApplication endBackgroundTask:task];
     }
 }
 
