@@ -53,7 +53,21 @@
  *  @discussion
  *  The scanner is idle when not started and only looks out for beacons after it is started. Therefore
  *  it is necessary to start it once it has been configured properly.
+ *
+ *  @see -stop
  */
 - (void)start;
+
+/**
+ *  This method stops the scanner.
+ *
+ *  @discussion
+ *  When stopped the scanner is in an idle state and does not react to beacon events. This is also true
+ *  for background monitoring, so do NOT stop the scanner if you want your app to look for beacons when
+ *  in the background.
+ *
+ *  @see -start
+ */
+- (void)stop;
 
 @end

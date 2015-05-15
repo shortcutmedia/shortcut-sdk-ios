@@ -70,6 +70,16 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     [self.locationManager requestStateForRegion:self.regionToMonitor];
 }
 
+- (void)stop
+{
+    for (CLBeaconRegion *region in self.locationManager.monitoredRegions) {
+        [self.locationManager stopMonitoringForRegion:region];
+    }
+    for (CLBeaconRegion *region in self.locationManager.rangedRegions) {
+        [self.locationManager stopRangingBeaconsInRegion:region];
+    }
+}
+
 #pragma mark - Helpers
 
 - (BOOL)isAuthorized
