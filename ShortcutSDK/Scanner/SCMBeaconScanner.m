@@ -35,6 +35,13 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     return _rangedBeacons;
 }
 
+- (CLRegion *)regionToMonitor
+{
+    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:kSCMShortcutRegionUUID];
+    NSString *identifier = kSCMShortcutRegionUUID;
+    return [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:identifier];
+}
+
 #pragma mark - Initializers
 
 - (instancetype)init
@@ -54,8 +61,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 - (void)start
 {
     if (!self.isAuthorized) {
-        // TODO: check that NSLocationAlwaysUsageDescription is set in Info.plist
-        [self.locationManager requestAlwaysAuthorization];
+        [self requestAuthorization];
         return;
     }
     
@@ -80,18 +86,19 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     }
 }
 
-#pragma mark - Helpers
+#pragma mark - Authorization
 
 - (BOOL)isAuthorized
 {
     return CLLocationManager.authorizationStatus == kCLAuthorizationStatusAuthorizedAlways;
 }
 
-- (CLRegion *)regionToMonitor
+- (void)requestAuthorization
 {
-    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:kSCMShortcutRegionUUID];
-    NSString *identifier = kSCMShortcutRegionUUID;
-    return [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:identifier];
+    if (![NSBundle.mainBundle objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"]) {
+        NSLog(@"ShortcutSDK You must set NSLocationAlwaysUsageDescription in your app's Info.plist file for location services/beacon monitoring to work properly");
+    }
+    [self.locationManager requestAlwaysAuthorization];
 }
 
 #pragma mark - Beacon processing

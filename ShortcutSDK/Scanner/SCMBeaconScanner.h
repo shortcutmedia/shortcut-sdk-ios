@@ -53,6 +53,10 @@
  *  @discussion
  *  The scanner is idle when not started and only looks out for beacons after it is started. Therefore
  *  it is necessary to start it once it has been configured properly.
+ *  This method also requests Location Service access from the user since this is needed for the scanner
+ *  to function at all.
+ *  Important: you must add the key NSLocationAlwaysUsageDescription to your app's Info.plist file,
+ *  otherwise Location Service access cannot be requested.
  *
  *  @see -stop
  */
