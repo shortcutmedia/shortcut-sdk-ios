@@ -174,9 +174,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     
     __weak SCMBeaconLookupOperation *completedOperation = operation;
     [operation setCompletionBlock:^{
-        if ([completedOperation isCancelled] == NO) {
-            [self lookupOperationCompleted:completedOperation withBackgroundTask:lookupTask];
-        }
+        [self lookupOperationCompleted:completedOperation withBackgroundTask:lookupTask];
     }];
     
     [self.lookupQueue addOperation:operation];
