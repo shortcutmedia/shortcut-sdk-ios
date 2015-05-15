@@ -33,14 +33,23 @@
     }
     
     @autoreleasepool {
-        NSURLResponse *response  = nil;
-        NSError *connectionError = nil;
-        NSData *data             = nil;
+        NSURLResponse *response = nil;
+        NSError *error          = nil;
+        NSData *data            = nil;
         
         data = [NSURLConnection sendSynchronousRequest:self.request
-                                     returningResponse:&response error:&connectionError];
+                                     returningResponse:&response error:&error];
         
-        [self operationDidFinishWithResponse:response data:data error:connectionError];
+        if (error == nil && [response.class isSubclassOfClass:NSHTTPURLResponse.class]) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if (httpResponse.statusCode > 399) {
+                error = [NSError errorWithDomain:kSCMHTTPOperationErrorDomain
+                                            code:httpResponse.statusCode
+                                        userInfo:nil];
+            }
+        }
+        
+        [self operationDidFinishWithResponse:response data:data error:error];
     }
 }
 
@@ -48,6 +57,8 @@
 {
     
 }
+
+NSString *kSCMHTTPOperationErrorDomain = @"SCMHTTPOperationErrorDomain";
 
 @end
 

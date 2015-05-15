@@ -184,7 +184,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 - (void)lookupOperationCompleted:(SCMBeaconLookupOperation *)operation withBackgroundTask:(UIBackgroundTaskIdentifier)task
 {
-    if (operation.queryResponse) {
+    if (!operation.error) {
         if ([self.delegate respondsToSelector:@selector(beaconScanner:recognizedQuery:fromBeacon:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate beaconScanner:self

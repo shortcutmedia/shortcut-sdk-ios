@@ -417,6 +417,11 @@ typedef enum
                     [self switchToMode:kSCMLiveScannerSingleShotMode];
                 }
             }
+            // http error
+            else if ([error.domain isEqualToString:kSCMHTTPOperationErrorDomain]) {
+                title = [SCMLocalization translationFor:@"HTTPOperationErrorTitle" withDefaultValue:[NSString stringWithFormat:@"Server error (%ld)", (long)error.code]];
+                subtitle = [SCMLocalization translationFor:@"HTTPOperationErrorBody" withDefaultValue:@"Please try again.\nContact support if the problem persists."];
+            }
             // authentication error
             else if ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorUserCancelledAuthentication)) {
                 title = [SCMLocalization translationFor:@"AuthenticationErrorTitle" withDefaultValue:@"Authentication error"];

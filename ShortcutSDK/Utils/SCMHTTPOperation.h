@@ -25,4 +25,12 @@
 - (instancetype)initWithRequest:(NSURLRequest *)request;
 - (void)operationDidFinishWithResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *)error;
 
+/**
+ *  Error domain for http errors.
+ *
+ *  @discussion
+ *  Errors in this domain represent http errors. Their code corresponds to the http status code.
+ */
+extern NSString *kSCMHTTPOperationErrorDomain;
+
 @end
