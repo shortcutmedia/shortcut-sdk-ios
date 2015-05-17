@@ -29,7 +29,7 @@ The SDK consists of two parts: the code (packaged in a .framework file) and some
   - libiconv.dylib
   - libc++.dylib
 5. Within your project's **Build phases** make sure that *ShortcutSDK.bundle* is added in the **Copy bundle resources** section.
-
+6. [Request the demo keys](http://shortcutmedia.com/request_demo_keys.html). We will immediately send you an email with the keys.
 
 # Getting started
 
@@ -37,7 +37,7 @@ To get a feeling for the different parts of the SDK this section walks you throu
 
 **Prerequisites:** First, we have to create a new project in Xcode. Select the most basic of the available templates (In Xcode 6 this would be the *Single view application* template ) and follow the steps in the Installation section above.
 
-You also need access keys; at the moment you have to request them by sending a mail to support@shortcutmedia.com. For just trying out the SDK you could also copy the access key and secret token from the  [example app](https://github.com/shortcutmedia/shortcut-sdk-ios-example) which will allow you to scan the [Lenna test image](https://en.wikipedia.org/wiki/Lenna).
+**You need access keys**. [Request the demo keys](http://shortcutmedia.com/request_demo_keys.html). We will immediately send you an email with the keys. These keys will allow you to scan the [Lenna test image](https://en.wikipedia.org/wiki/Lenna). Alternatively, send an email to support@shortcutmedia.com to request your keys.
 
 We want to display a Scanner view as soon as the app starts; so let's go to the *AppDelegate.m* file and make the following changes:
 
