@@ -162,4 +162,20 @@
     XCTAssertEqualObjects(self.queryResult.thumbnailURL, expectedURL);
 }
 
+- (void)testJSONSerialization
+{
+    NSString *json = [self.queryResult toJSONString];
+    SCMQueryResult *queryResultFromJSON = [[SCMQueryResult alloc] initWithJSONString:json];
+    
+    XCTAssertEqualObjects(queryResultFromJSON.uuid,            self.queryResult.uuid);
+    XCTAssertEqualObjects(queryResultFromJSON.imageSHA1,       self.queryResult.imageSHA1);
+    XCTAssertEqualObjects(queryResultFromJSON.title,           self.queryResult.title);
+    XCTAssertEqualObjects(queryResultFromJSON.subtitle,        self.queryResult.subtitle);
+    XCTAssertEqualObjects(queryResultFromJSON.score,           self.queryResult.score);
+    XCTAssertEqualObjects(queryResultFromJSON.mediumType,      self.queryResult.mediumType);
+    XCTAssertEqualObjects(queryResultFromJSON.responseTarget,  self.queryResult.responseTarget);
+    XCTAssertEqualObjects(queryResultFromJSON.responseContent, self.queryResult.responseContent);
+    XCTAssertEqualObjects(queryResultFromJSON.thumbnailURL,    self.queryResult.thumbnailURL);
+}
+
 @end

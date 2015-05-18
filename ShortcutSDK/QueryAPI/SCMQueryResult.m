@@ -116,6 +116,26 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     return foundVersions;
 }
 
+#pragma mark - JSON serialization
+
+- (instancetype)initWithJSONString:(NSString *)json
+{
+    NSData *jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
+    
+    return [self initWithDictionary:jsonDictionary];
+}
+
+- (NSString *)toJSONString
+{
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self.resultDictionary
+                                                       options:NSJSONWritingPrettyPrinted error:NULL];
+    NSString *jsonString = [[NSString alloc]  initWithBytes:jsonData.bytes
+                                                     length:jsonData.length
+                                                   encoding: NSUTF8StringEncoding];
+    return jsonString;
+}
+
 #pragma mark - Private
 
 - (NSDictionary *)currentMetadata

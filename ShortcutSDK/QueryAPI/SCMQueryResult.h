@@ -101,4 +101,23 @@
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
+
+/// @name JSON serialization
+
+/**
+ *  Returns a new instance populated with data from the JSON string.
+ *
+ *  @param json The raw data describing the query result in JSON format.
+ *
+ *  @return A new query result instance.
+ */
+- (instancetype)initWithJSONString:(NSString *)json;
+
+/**
+ *  Returns a JSON string containing the raw data describing the query result.
+ *
+ *  @return A JSON string.
+ */
+- (NSString *)toJSONString;
+
 @end
