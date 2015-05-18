@@ -8,10 +8,12 @@
 
 #import "SCMBeaconHandler.h"
 #import "SCMBeaconScanner.h"
+#import "SCMBeaconLookupOperation.h"
 
 @interface SCMBeaconHandler () <SCMBeaconScannerDelegate>
 
 @property (strong, nonatomic) SCMBeaconScanner *beaconScanner;
+@property (strong, nonatomic) NSOperationQueue *lookupQueue;
 
 @end
 
@@ -27,6 +29,14 @@
         _beaconScanner = scanner;
     }
     return _beaconScanner;
+}
+
+- (NSOperationQueue *)lookupQueue
+{
+    if (!_lookupQueue) {
+        _lookupQueue = [[NSOperationQueue alloc] init];
+    }
+    return _lookupQueue;
 }
 
 #pragma mark - Initializer
@@ -64,37 +74,60 @@
 
 #pragma mark - SCMBeaconScannerDelegate
 
-- (void)beaconScanner:(SCMBeaconScanner *)beaconScanner recognizedQuery:(SCMQueryResponse *)response fromBeacon:(CLBeacon *)beacon
+- (void)beaconScanner:(SCMBeaconScanner *)beaconScanner didSelectBeacon:(CLBeacon *)beacon
 {
-    SCMQueryResult * result = response.results.firstObject;
+    if (beacon) {
+        [self sendLookupOperationWithBeacon:beacon];
+    } else {
+        [self removeResultDisplay];
+    }
+}
+
+#pragma mark - Beacon lookup
+
+- (void)sendLookupOperationWithBeacon:(CLBeacon *)beacon
+{
+    SCMBeaconLookupOperation *operation = [[SCMBeaconLookupOperation alloc] initWithBeacon:beacon];
+    // TODO: add timeout?
+    //operation.responseTimeoutInterval = kMaximumServerResponseTime;
+    
+    UIBackgroundTaskIdentifier lookupTask = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:^{
+        [UIApplication.sharedApplication endBackgroundTask:lookupTask];
+    }];
+    
+    __weak SCMBeaconLookupOperation *completedOperation = operation;
+    [operation setCompletionBlock:^{
+        [self lookupOperationCompleted:completedOperation withBackgroundTask:lookupTask];
+    }];
+    
+    [self.lookupQueue addOperation:operation];
+}
+
+- (void)lookupOperationCompleted:(SCMBeaconLookupOperation *)operation withBackgroundTask:(UIBackgroundTaskIdentifier)task
+{
+    if (!operation.error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self handleResponseOfLookupOperation:operation];
+            [UIApplication.sharedApplication endBackgroundTask:task];
+        });
+    } else {
+        // TODO: error handling/signalling?
+        
+        [UIApplication.sharedApplication endBackgroundTask:task];
+    }
+}
+
+- (void)handleResponseOfLookupOperation:(SCMBeaconLookupOperation *)operation
+{
+    SCMQueryResult * result = [operation.queryResponse.results firstObject];
+    if (!result) {
+        return;
+    }
     
     if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
         [self displayResult:result];
     } else {
         [self notifyAboutResult:result];
-    }
-}
-
-- (void)beaconScanner:(SCMBeaconScanner *)beaconScanner didSelectBeacon:(CLBeacon *)beacon
-{
-    if (beacon == nil) {
-        [self removeResultDisplay];
-    }
-}
-
-#pragma mark - Helpers
-
-- (void)displayResult:(SCMQueryResult *)result
-{
-    if ([self.delegate respondsToSelector:@selector(beaconHandler:recognizedItem:)]) {
-        [self.delegate beaconHandler:self recognizedItem:result];
-    }
-}
-
-- (void)removeResultDisplay
-{
-    if ([self.delegate respondsToSelector:@selector(beaconHandlerLostContactToItems:)]) {
-        [self.delegate beaconHandlerLostContactToItems:self];
     }
 }
 
@@ -142,6 +175,22 @@
 {
     [NSUserDefaults.standardUserDefaults setValue:@[] forKey:@"resultUUIDsWithNotification"];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+
+#pragma mark - Delegate interation
+
+- (void)displayResult:(SCMQueryResult *)result
+{
+    if ([self.delegate respondsToSelector:@selector(beaconHandler:recognizedItem:)]) {
+        [self.delegate beaconHandler:self recognizedItem:result];
+    }
+}
+
+- (void)removeResultDisplay
+{
+    if ([self.delegate respondsToSelector:@selector(beaconHandlerLostContactToItems:)]) {
+        [self.delegate beaconHandlerLostContactToItems:self];
+    }
 }
 
 @end

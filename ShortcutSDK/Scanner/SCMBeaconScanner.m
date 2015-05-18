@@ -19,8 +19,6 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 @property (strong, nonatomic) NSMutableDictionary *rangedBeacons;
 @property (strong, nonatomic) CLBeacon *selectedBeacon;
 
-@property (strong, nonatomic) NSOperationQueue *lookupQueue;
-
 @end
 
 @implementation SCMBeaconScanner
@@ -49,8 +47,6 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     if (self = [super init]) {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
-        
-        self.lookupQueue = [[NSOperationQueue alloc] init];
     }
     
     return self;
@@ -155,46 +151,6 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate beaconScanner:self didSelectBeacon:self.selectedBeacon];
         });
-    }
-    
-    if (self.selectedBeacon) {
-        [self sendLookupOperation];
-    }
-}
-
-- (void)sendLookupOperation
-{
-    SCMBeaconLookupOperation *operation = [[SCMBeaconLookupOperation alloc] initWithBeacon:self.selectedBeacon];
-    // TODO: add timeout?
-    //operation.responseTimeoutInterval = kMaximumServerResponseTime;
-    
-    UIBackgroundTaskIdentifier lookupTask = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:^{
-        [UIApplication.sharedApplication endBackgroundTask:lookupTask];
-    }];
-    
-    __weak SCMBeaconLookupOperation *completedOperation = operation;
-    [operation setCompletionBlock:^{
-        [self lookupOperationCompleted:completedOperation withBackgroundTask:lookupTask];
-    }];
-    
-    [self.lookupQueue addOperation:operation];
-}
-
-- (void)lookupOperationCompleted:(SCMBeaconLookupOperation *)operation withBackgroundTask:(UIBackgroundTaskIdentifier)task
-{
-    if (!operation.error) {
-        if ([self.delegate respondsToSelector:@selector(beaconScanner:recognizedQuery:fromBeacon:)]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate beaconScanner:self
-                             recognizedQuery:operation.queryResponse
-                                  fromBeacon:operation.beacon];
-                [UIApplication.sharedApplication endBackgroundTask:task];
-            });
-        }
-    } else {
-        // TODO: error handling/signalling?
-        
-        [UIApplication.sharedApplication endBackgroundTask:task];
     }
 }
 
