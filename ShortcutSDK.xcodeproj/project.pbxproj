@@ -39,6 +39,9 @@
 		86197B0D1A2C66A700BD726B /* NavigationBarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0B1A2C66A700BD726B /* NavigationBarBackground@2x.png */; };
 		86197B101A2C671F00BD726B /* BarButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0E1A2C671F00BD726B /* BarButtonBackground.png */; };
 		86197B111A2C671F00BD726B /* BarButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */; };
+		8619B17E1B0A19C70061D8BB /* SCMBeaconHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 8619B17C1B0A19C70061D8BB /* SCMBeaconHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8619B17F1B0A19C70061D8BB /* SCMBeaconHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 8619B17D1B0A19C70061D8BB /* SCMBeaconHandler.m */; };
+		8619B1811B0A24320061D8BB /* SCMBeaconHandlerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8619B1801B0A19FE0061D8BB /* SCMBeaconHandlerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		864B5D9F1B022C7800D2C45B /* SCMHTTPOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 864B5D9D1B022C7800D2C45B /* SCMHTTPOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		864B5DA01B022C7800D2C45B /* SCMHTTPOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 864B5D9E1B022C7800D2C45B /* SCMHTTPOperation.m */; };
 		864B5DA71B0237BF00D2C45B /* SCMBeaconLookupOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 864B5DA51B0237BF00D2C45B /* SCMBeaconLookupOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -287,6 +290,9 @@
 		86197B0B1A2C66A700BD726B /* NavigationBarBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "NavigationBarBackground@2x.png"; path = "Resources/NavigationBarBackground@2x.png"; sourceTree = "<group>"; };
 		86197B0E1A2C671F00BD726B /* BarButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BarButtonBackground.png; path = Resources/BarButtonBackground.png; sourceTree = "<group>"; };
 		86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BarButtonBackground@2x.png"; path = "Resources/BarButtonBackground@2x.png"; sourceTree = "<group>"; };
+		8619B17C1B0A19C70061D8BB /* SCMBeaconHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBeaconHandler.h; sourceTree = "<group>"; };
+		8619B17D1B0A19C70061D8BB /* SCMBeaconHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMBeaconHandler.m; sourceTree = "<group>"; };
+		8619B1801B0A19FE0061D8BB /* SCMBeaconHandlerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCMBeaconHandlerDelegate.h; sourceTree = "<group>"; };
 		864218961A4040430044B744 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		864218981A4040F10044B744 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		864B5D9D1B022C7800D2C45B /* SCMHTTPOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMHTTPOperation.h; sourceTree = "<group>"; };
@@ -1170,6 +1176,9 @@
 				86169CF61B00F03700900913 /* SCMBeaconScanner.h */,
 				86169CF71B00F03700900913 /* SCMBeaconScanner.m */,
 				86169CFA1B00F06100900913 /* SCMBeaconScannerDelegate.h */,
+				8619B17C1B0A19C70061D8BB /* SCMBeaconHandler.h */,
+				8619B17D1B0A19C70061D8BB /* SCMBeaconHandler.m */,
+				8619B1801B0A19FE0061D8BB /* SCMBeaconHandlerDelegate.h */,
 			);
 			path = Scanner;
 			sourceTree = "<group>";
@@ -1258,6 +1267,7 @@
 				86ED363D1A2777B200D9F3B0 /* SCMScannerViewController.h in Headers */,
 				86EEC75A1A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h in Headers */,
 				86ED363F1A2777B200D9F3B0 /* SCMItemViewController.h in Headers */,
+				8619B17E1B0A19C70061D8BB /* SCMBeaconHandler.h in Headers */,
 				86ED36401A2777B200D9F3B0 /* SCMQueryResultViewController.h in Headers */,
 				86ED364E1A27787100D9F3B0 /* SCMProgressToolbar.h in Headers */,
 				86ED364C1A27786A00D9F3B0 /* SCMCustomToolbar.h in Headers */,
@@ -1285,6 +1295,7 @@
 				86ED364A1A27786300D9F3B0 /* SCMCameraToolbar.h in Headers */,
 				86EEC7561A2F1D7C007C6FA9 /* SCMQRCodeScanner.h in Headers */,
 				864B5D9F1B022C7800D2C45B /* SCMHTTPOperation.h in Headers */,
+				8619B1811B0A24320061D8BB /* SCMBeaconHandlerDelegate.h in Headers */,
 				86ED364D1A27786E00D9F3B0 /* SCMCustomToolbarButton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1517,6 +1528,7 @@
 				86ED35F01A2772F700D9F3B0 /* MultiFinderPatternFinder.cpp in Sources */,
 				86ED35CD1A2772F700D9F3B0 /* WhiteRectangleDetector.cpp in Sources */,
 				86ED35E91A2772F700D9F3B0 /* Exception.cpp in Sources */,
+				8619B17F1B0A19C70061D8BB /* SCMBeaconHandler.m in Sources */,
 				86ED35F81A2772F700D9F3B0 /* ITFReader.cpp in Sources */,
 				86ED35E11A2772F700D9F3B0 /* DecodedBitStreamParser.cpp in Sources */,
 				86ED361A1A2772F700D9F3B0 /* SCMSDKConfig.m in Sources */,
