@@ -86,7 +86,10 @@
     XCTAssertEqualObjects(@"en", [[NSLocale preferredLanguages] firstObject]);
     
     NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
-    [mutableResultDictionary setValue:@[@{@"version" : @"1"}] forKey:@"metadata"];
+    mutableResultDictionary[@"metadata"] = @[
+        @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION],
+          @"title" : [NSNull null]}
+    ];
     self.resultDictionary = mutableResultDictionary;
     
     NSString *expectedTitle = @"Test Item, Tonga Test";
@@ -108,7 +111,10 @@
     XCTAssertEqualObjects(@"en", [[NSLocale preferredLanguages] firstObject]);
     
     NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
-    [mutableResultDictionary setValue:@[@{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION]}] forKey:@"metadata"];
+    mutableResultDictionary[@"metadata"] = @[
+        @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION],
+          @"subtitle" : [NSNull null]}
+    ];
     self.resultDictionary = mutableResultDictionary;
     
     XCTAssertNil(self.queryResult.subtitle);
@@ -135,7 +141,10 @@
 - (void)testResponseTarget_ReturnsNilIfNotDefined
 {
     NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
-    [mutableResultDictionary setValue:@[@{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION]}] forKey:@"metadata"];
+    mutableResultDictionary[@"metadata"] = @[
+        @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION],
+          @"response" : [NSNull null]}
+    ];
     self.resultDictionary = mutableResultDictionary;
     
     XCTAssertNil(self.queryResult.responseTarget);
@@ -150,7 +159,10 @@
 - (void)testResponseContent_ReturnsNilIfNotDefined
 {
     NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
-    [mutableResultDictionary setValue:@[@{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION]}] forKey:@"metadata"];
+    mutableResultDictionary[@"metadata"] = @[
+        @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION],
+          @"response" : [NSNull null]}
+    ];
     self.resultDictionary = mutableResultDictionary;
     
     XCTAssertNil(self.queryResult.responseContent);
