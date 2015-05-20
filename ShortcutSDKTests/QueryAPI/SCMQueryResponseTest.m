@@ -89,4 +89,29 @@
     XCTAssertEqualObjects(result3.title, @"good result with no recognition");
 }
 
+- (void)testHasCurrentMetadata_ReturnsTrueIfResultHasValidMetadata
+{
+    XCTAssertEqual(YES, self.queryResponse.hasCurrentMetadata);
+}
+
+- (void)testHasCurrentMetadata_ReturnsTrueIfThereAreNoResults
+{
+    NSMutableDictionary *responseWithNoResults = [self.responseDictionary mutableCopy];
+    responseWithNoResults[@"results"] = @[];
+    self.responseDictionary = responseWithNoResults;
+    
+    XCTAssertEqual(YES, self.queryResponse.hasCurrentMetadata);
+}
+
+- (void)testHasCurrentMetadata_ReturnsFalseIfResultHasInvalidMetadata
+{
+    NSMutableDictionary *responseWithInvalidResults = [self.responseDictionary mutableCopy];
+    responseWithInvalidResults[@"results"] = @[
+        @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION+1]}
+    ];
+    self.responseDictionary = responseWithInvalidResults;
+    
+    XCTAssertEqual(NO, self.queryResponse.hasCurrentMetadata);
+}
+
 @end

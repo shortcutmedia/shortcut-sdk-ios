@@ -104,16 +104,21 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     return [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"thumbnail_url"];
 }
 
-- (NSArray *)metadataVersions
+- (BOOL)hasCurrentMetadata
 {
+    BOOL result = NO;
+    
     NSArray *array = [SCMDictionaryUtils arrayFromDictionary:self.resultDictionary atPath:@"metadata"];
-    NSMutableArray *foundVersions = [NSMutableArray new];
     for (NSDictionary *dict in array) {
         NSString *versionString = [dict valueForKey:@"version"];
         NSNumber *version = [NSNumber numberWithInt:versionString.intValue];
-        [foundVersions addObject:version];
+        if (version.intValue == QUERY_API_METADATA_VERSION) {
+            result = YES;
+            break;
+        }
     }
-    return foundVersions;
+    
+    return result;
 }
 
 #pragma mark - JSON serialization
@@ -148,5 +153,9 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     }
     return NULL;
 }
+
+
+NSString *kSCMQueryResultErrorDomain = @"SCMQueryResultErrorDomain";
+int kSCMQueryResultNoMatchingMetadata = -1;
 
 @end

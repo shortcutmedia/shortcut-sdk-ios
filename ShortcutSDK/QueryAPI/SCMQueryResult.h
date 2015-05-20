@@ -85,12 +85,12 @@
 @property (strong, nonatomic, readonly) NSString *thumbnailURL;
 
 /**
- *  Array containing all API version numbers supported by this result.
+ *  Returns true if the current SDK version understands the metadata provided in the result.
  *
  *  @discussion
  *  This is for internal use only.
  */
-@property (strong, nonatomic, readonly) NSArray *metadataVersions;
+@property (nonatomic, readonly) BOOL hasCurrentMetadata;
 
 /**
  *  Returns a new instance populated with data from the dictionary.
@@ -119,5 +119,8 @@
  *  @return A JSON string.
  */
 - (NSString *)toJSONString;
+
+extern NSString *kSCMQueryResultErrorDomain;
+extern int kSCMQueryResultNoMatchingMetadata;
 
 @end

@@ -56,8 +56,4 @@
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
-
-extern NSString *kSCMQueryResponseErrorDomain;
-extern int kSCMQueryResponseNoMatchingMetadata;
-
 @end

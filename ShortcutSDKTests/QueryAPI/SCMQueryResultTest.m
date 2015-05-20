@@ -174,6 +174,22 @@
     XCTAssertEqualObjects(self.queryResult.thumbnailURL, expectedURL);
 }
 
+- (void)testHasCurrentMetadata_ReturnsTrueIfMetadataIsValid
+{
+    XCTAssertEqual(YES, self.queryResult.hasCurrentMetadata);
+}
+
+- (void)testHasCurrentMetadata_ReturnsFalseIfMetadataIsInvalid
+{
+    NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
+    mutableResultDictionary[@"metadata"] = @[
+        @{@"version" : [NSString stringWithFormat:@"%d", QUERY_API_METADATA_VERSION+1]}
+    ];
+    self.resultDictionary = mutableResultDictionary;
+    
+    XCTAssertEqual(NO, self.queryResult.hasCurrentMetadata);
+}
+
 - (void)testJSONSerialization
 {
     NSString *json = [self.queryResult toJSONString];

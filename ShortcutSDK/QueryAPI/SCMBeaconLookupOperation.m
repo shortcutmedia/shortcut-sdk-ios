@@ -63,8 +63,8 @@
         if (response.hasCurrentMetadata) {
             self.queryResponse = response;
         } else {
-            self.error = [NSError errorWithDomain:kSCMQueryResponseErrorDomain
-                                             code:kSCMQueryResponseNoMatchingMetadata
+            self.error = [NSError errorWithDomain:kSCMQueryResultErrorDomain
+                                             code:kSCMQueryResultNoMatchingMetadata
                                          userInfo:nil];
         }
     }

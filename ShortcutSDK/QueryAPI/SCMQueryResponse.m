@@ -38,35 +38,21 @@
 
 - (NSArray *)results
 {
-    NSMutableArray *usableResults = [[NSMutableArray alloc] init];
+    NSArray *usableResults = [self.allResults filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id obj, NSDictionary *bindings) {
+        SCMQueryResult *result = (SCMQueryResult *)obj;
+        return [result hasCurrentMetadata];
+    }]];
     
-    NSArray *allResults = [SCMDictionaryUtils arrayFromDictionary:self.responseDictionary atPath:@"results"];
-    for (NSDictionary *resultDictionary in allResults) {
-        SCMQueryResult *result = [[SCMQueryResult alloc] initWithDictionary:resultDictionary];
-        if ([result.metadataVersions indexOfObject:@(QUERY_API_METADATA_VERSION)] != NSNotFound) {
-            [usableResults addObject:result];
-        }
-    }
     return usableResults;
 }
 
 - (BOOL)hasCurrentMetadata
 {
-    BOOL result = NO;
+    BOOL result;
     
-    NSArray *allResults = [SCMDictionaryUtils arrayFromDictionary:self.responseDictionary atPath:@"results"];
-    if (allResults.count > 0) {
-        SCMQueryResult *firstResult = [[SCMQueryResult alloc] initWithDictionary:[allResults firstObject]];
-        if (firstResult.metadataVersions.count > 0) {
-            for (NSNumber *number in firstResult.metadataVersions) {
-                if (number.intValue == QUERY_API_METADATA_VERSION) {
-                    result = YES;
-                    break;
-                }
-            }
-        } else {
-            result = YES;
-        }
+    if (self.allResults.count > 0) {
+        SCMQueryResult *firstResult = [self.allResults firstObject];
+        result = firstResult.hasCurrentMetadata;
     } else {
         result = YES;
     }
@@ -74,9 +60,18 @@
     return result;
 }
 
+#pragma mark - Helpers
 
-
-NSString *kSCMQueryResponseErrorDomain = @"SCMQueryResponseErrorDomain";
-int kSCMQueryResponseNoMatchingMetadata = -1;
+- (NSArray *)allResults
+{
+    NSMutableArray *allResults = [NSMutableArray array];
+    for (NSDictionary *dict in [SCMDictionaryUtils arrayFromDictionary:self.responseDictionary atPath:@"results"]) {
+        SCMQueryResult *result = [[SCMQueryResult alloc] initWithDictionary:dict];
+        if (result) {
+            [allResults addObject:result];
+        }
+    }
+    return allResults;
+}
 
 @end

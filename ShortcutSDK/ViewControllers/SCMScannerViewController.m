@@ -428,7 +428,7 @@ typedef enum
                 subtitle = [SCMLocalization translationFor:@"AuthenticationErrorBody" withDefaultValue:@"The image recognition service could not authenticate your request"];
             }
             // outdated API version
-            else if ([error.domain isEqualToString:kSCMQueryResponseErrorDomain] && (error.code == kSCMQueryResponseNoMatchingMetadata)) {
+            else if ([error.domain isEqualToString:kSCMQueryResultErrorDomain] && (error.code == kSCMQueryResultNoMatchingMetadata)) {
                 title = [SCMLocalization translationFor:@"OutdatedAPIErrorTitle" withDefaultValue:@"App is outdated"];
                 subtitle = [SCMLocalization translationFor:@"OutdatedAPIErrorBody" withDefaultValue:@"The app cannot understand the image recognition service response.\nPlease update the app."];
             }
