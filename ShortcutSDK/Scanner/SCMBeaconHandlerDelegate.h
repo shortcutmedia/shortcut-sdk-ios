@@ -32,10 +32,12 @@
  *  A typical action that you should implement/trigger in this method is the display
  *  of the matched item(s).
  *
- *  @param beaconHandler The beacon handler instance that recognized an item.
- *  @param result        The item that was recognized.
+ *  @param beaconHandler    The beacon handler instance that recognized an item.
+ *  @param result           The item that was recognized.
+ *  @param fromNotification The flag indicates whether the handler was invoked directly
+ *                          or only after the user tapped on a notification about the item.
  */
-- (void)beaconHandler:(SCMBeaconHandler *)beaconHandler recognizedItem:(SCMQueryResult *)result;
+- (void)beaconHandler:(SCMBeaconHandler *)beaconHandler recognizedItem:(SCMQueryResult *)result fromNotification:(BOOL)fromNotification;
 
 /**
  *  This method is called whenever a beacon handler loses contact with all nearby beacons.

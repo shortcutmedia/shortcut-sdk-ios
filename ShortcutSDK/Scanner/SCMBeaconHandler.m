@@ -66,7 +66,7 @@
 {
     SCMQueryResult *result = [self resultFromNotification:notification];
     if (result) {
-        [self displayResult:result];
+        [self displayResult:result fromNotification:YES];
     }
     
     [self resetNotifications];
@@ -124,7 +124,7 @@
     }
     
     if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
-        [self displayResult:operation.queryResult];
+        [self displayResult:operation.queryResult fromNotification:NO];
     } else {
         [self notifyAboutResult:operation.queryResult];
     }
@@ -178,10 +178,10 @@
 
 #pragma mark - Delegate interation
 
-- (void)displayResult:(SCMQueryResult *)result
+- (void)displayResult:(SCMQueryResult *)result fromNotification:(BOOL)fromNotification
 {
-    if ([self.delegate respondsToSelector:@selector(beaconHandler:recognizedItem:)]) {
-        [self.delegate beaconHandler:self recognizedItem:result];
+    if ([self.delegate respondsToSelector:@selector(beaconHandler:recognizedItem:fromNotification:)]) {
+        [self.delegate beaconHandler:self recognizedItem:result fromNotification:fromNotification];
     }
 }
 
