@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		86C87D311B0CD76400E7DAE5 /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 86C87D341B0CD76400E7DAE5 /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+				86C87D351B0CD78300E7DAE5 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
 		86ED36571A277EA500D9F3B0 /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 86ED36581A277EA500D9F3B0 /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -16,6 +27,7 @@
 			dependencies = (
 				86ED365C1A277EB400D9F3B0 /* PBXTargetDependency */,
 				86D085481A2889BE005CECD3 /* PBXTargetDependency */,
+				86C87D371B0CD79800E7DAE5 /* PBXTargetDependency */,
 			);
 			name = Framework;
 			productName = Framework;
@@ -238,6 +250,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		86C87D361B0CD79800E7DAE5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 86ED34981A27726E00D9F3B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 86C87D311B0CD76400E7DAE5;
+			remoteInfo = Documentation;
+		};
 		86D085471A2889BE005CECD3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 86ED34981A27726E00D9F3B0 /* Project object */;
@@ -1366,6 +1385,9 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Shortcut Media AG";
 				TargetAttributes = {
+					86C87D311B0CD76400E7DAE5 = {
+						CreatedOnToolsVersion = 6.2;
+					};
 					86D0853F1A2888B5005CECD3 = {
 						CreatedOnToolsVersion = 6.1;
 					};
@@ -1396,6 +1418,7 @@
 				86ED34AA1A27726E00D9F3B0 /* ShortcutSDKTests */,
 				86ED36571A277EA500D9F3B0 /* Framework */,
 				86D0853F1A2888B5005CECD3 /* ShortcutSDKResources */,
+				86C87D311B0CD76400E7DAE5 /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -1466,6 +1489,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		86C87D351B0CD78300E7DAE5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/ShortcutSDK/BuildScripts/render_docs.sh\n";
+		};
 		86ED365D1A277EC300D9F3B0 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1478,7 +1514,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/ShortcutSDK/BuildScripts/create_framework.sh\n$SRCROOT/ShortcutSDK/BuildScripts/render_docs.sh\n$SRCROOT/ShortcutSDK/BuildScripts/finish_build.sh";
+			shellScript = "$SRCROOT/ShortcutSDK/BuildScripts/create_framework.sh\n$SRCROOT/ShortcutSDK/BuildScripts/finish_build.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1630,6 +1666,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		86C87D371B0CD79800E7DAE5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 86C87D311B0CD76400E7DAE5 /* Documentation */;
+			targetProxy = 86C87D361B0CD79800E7DAE5 /* PBXContainerItemProxy */;
+		};
 		86D085481A2889BE005CECD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 86D0853F1A2888B5005CECD3 /* ShortcutSDKResources */;
@@ -1648,6 +1689,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		86C87D321B0CD76400E7DAE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		86C87D331B0CD76400E7DAE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		86D085441A2888B5005CECD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1867,6 +1922,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		86C87D341B0CD76400E7DAE5 /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				86C87D321B0CD76400E7DAE5 /* Debug */,
+				86C87D331B0CD76400E7DAE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		86D085461A2888B5005CECD3 /* Build configuration list for PBXNativeTarget "ShortcutSDKResources" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
