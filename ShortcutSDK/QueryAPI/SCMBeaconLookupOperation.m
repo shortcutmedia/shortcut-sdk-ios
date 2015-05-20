@@ -13,7 +13,7 @@
 
 @property (nonatomic, strong, readwrite) CLBeacon *beacon;
 @property (nonatomic, strong, readonly) NSURLRequest *request;
-@property (nonatomic, strong, readwrite) SCMQueryResponse *queryResponse;
+@property (nonatomic, strong, readwrite) SCMQueryResult *queryResult;
 @property (nonatomic, strong, readwrite) NSError *error;
 
 @end
@@ -57,11 +57,11 @@
 - (void)parseResponse:(NSURLResponse *)response withData:(NSData *)data
 {
     if (data) {
-        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
-        SCMQueryResponse *response = [[SCMQueryResponse alloc] initWithDictionary:responseDictionary];
+        NSDictionary *resultDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
+        SCMQueryResult *result = [[SCMQueryResult alloc] initWithDictionary:resultDictionary];
         
-        if (response.hasCurrentMetadata) {
-            self.queryResponse = response;
+        if (result.hasCurrentMetadata) {
+            self.queryResult = result;
         } else {
             self.error = [NSError errorWithDomain:kSCMQueryResultErrorDomain
                                              code:kSCMQueryResultNoMatchingMetadata
@@ -74,7 +74,7 @@
 
 - (NSURL *)lookupURL
 {
-    NSString *lookupURLString = [NSString stringWithFormat:@"http://%@/beacons?uuid=%@&major=%@&minor=%@",
+    NSString *lookupURLString = [NSString stringWithFormat:@"http://%@/api/v2/beacon?uuid=%@&major=%@&minor=%@",
                                  [[SCMSDKConfig sharedConfig] itemServerAddress],
                                  self.beacon.proximityUUID.UUIDString,
                                  self.beacon.major,

@@ -119,15 +119,14 @@
 
 - (void)handleResponseOfLookupOperation:(SCMBeaconLookupOperation *)operation
 {
-    SCMQueryResult * result = [operation.queryResponse.results firstObject];
-    if (!result) {
+    if (!operation.queryResult) {
         return;
     }
     
     if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
-        [self displayResult:result];
+        [self displayResult:operation.queryResult];
     } else {
-        [self notifyAboutResult:result];
+        [self notifyAboutResult:operation.queryResult];
     }
 }
 

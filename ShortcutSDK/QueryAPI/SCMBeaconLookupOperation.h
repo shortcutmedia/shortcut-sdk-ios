@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "SCMHTTPOperation.h"
-#import "SCMQueryResponse.h"
+#import "SCMQueryResult.h"
 
 /**
  *  An SCMBeaconLookupOperation handles the submission of beacon data to the beacon
@@ -29,12 +29,12 @@
 @property (nonatomic, strong, readonly) CLBeacon *beacon;
 
 /**
- *  The response of the beacon lookup service.
+ *  The result of the beacon lookup service.
  *
  *  @discussion
  *  This is only populated after the operation finished successfully.
  */
-@property (nonatomic, strong, readonly) SCMQueryResponse *queryResponse;
+@property (nonatomic, strong, readonly) SCMQueryResult *queryResult;
 
 /**
  *  The (potential) error that occurred during the operation.
