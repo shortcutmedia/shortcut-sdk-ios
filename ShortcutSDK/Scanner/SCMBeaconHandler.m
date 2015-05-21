@@ -54,6 +54,8 @@
 - (void)start
 {
     [self requestNotificationAccess];
+    [self resetNotifications];
+    
     [self.beaconScanner start];
 }
 
@@ -126,11 +128,14 @@
     if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
         [self displayResult:operation.queryResult fromNotification:NO];
     } else {
-        [self notifyAboutResult:operation.queryResult];
+        [self notifyOnceAboutResult:operation.queryResult];
     }
 }
 
 #pragma mark - Local notification handling
+
+static NSString *kResultsWithNotificationKey = @"resultsWithNotification";
+static NSString *kResultJSONKey = @"resultJSON";
 
 - (void)requestNotificationAccess
 {
@@ -138,31 +143,23 @@
     [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
 }
 
-- (void)notifyAboutResult:(SCMQueryResult *)result
+- (UILocalNotification *)notificationFromResult:(SCMQueryResult *)result
 {
-    // keep an array of result uuids for which notifications were already triggered
-    // in the user defaults and do not trigger notifications twice for the same result...
-    NSArray *resultUUIDsWithNotification = [NSUserDefaults.standardUserDefaults valueForKey:@"resultUUIDsWithNotification"];
-    if ([resultUUIDsWithNotification containsObject:result.uuid]) {
-        return;
-    }
-    [NSUserDefaults.standardUserDefaults setValue:[resultUUIDsWithNotification arrayByAddingObject:result.uuid] forKey:@"resultUUIDsWithNotification"];
-    
+
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     notification.alertBody   = [NSString stringWithFormat:@"There is a beacon nearby with item %@", result.title];
     notification.alertAction = @"Show";
     notification.soundName   = UILocalNotificationDefaultSoundName;
-    notification.userInfo    = @{@"resultJSON" : [result toJSONString]};
-    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+    notification.userInfo    = @{kResultJSONKey : [result toJSONString]};
     
-    [UIApplication sharedApplication].applicationIconBadgeNumber++;
+    return notification;
 }
 
 - (SCMQueryResult *)resultFromNotification:(UILocalNotification *)notification
 {
     SCMQueryResult *result = nil;
     
-    NSString *json = [notification.userInfo objectForKey:@"resultJSON"];
+    NSString *json = [notification.userInfo objectForKey:kResultJSONKey];
     if (json) {
         result = [[SCMQueryResult alloc] initWithJSONString:json];
     }
@@ -170,19 +167,49 @@
     return result;
 }
 
+- (BOOL)notificationExistsForResult:(SCMQueryResult *)result
+{
+    NSArray *alreadyHandledUUIDs = [NSUserDefaults.standardUserDefaults valueForKey:kResultsWithNotificationKey];
+    return alreadyHandledUUIDs && [alreadyHandledUUIDs containsObject:result.uuid];
+}
+
+- (void)rememberNotificationForResult:(SCMQueryResult *)result
+{
+    NSArray *alreadyHandledUUIDs = [NSUserDefaults.standardUserDefaults valueForKey:kResultsWithNotificationKey];
+    if (!alreadyHandledUUIDs) { alreadyHandledUUIDs = [NSArray array]; }
+    
+    alreadyHandledUUIDs = [alreadyHandledUUIDs arrayByAddingObject:result.uuid];
+    
+    [NSUserDefaults.standardUserDefaults setValue:alreadyHandledUUIDs forKey:kResultsWithNotificationKey];
+}
+
 - (void)resetNotifications
 {
-    [NSUserDefaults.standardUserDefaults setValue:@[] forKey:@"resultUUIDsWithNotification"];
+    [NSUserDefaults.standardUserDefaults removeObjectForKey:kResultsWithNotificationKey];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
-#pragma mark - Delegate interation
+#pragma mark - Actions
 
 - (void)displayResult:(SCMQueryResult *)result fromNotification:(BOOL)fromNotification
 {
     if ([self.delegate respondsToSelector:@selector(beaconHandler:recognizedItem:fromNotification:)]) {
         [self.delegate beaconHandler:self recognizedItem:result fromNotification:fromNotification];
     }
+}
+
+- (void)notifyOnceAboutResult:(SCMQueryResult *)result
+{
+    if ([self notificationExistsForResult:result]) {
+        return;
+    } else {
+        [self rememberNotificationForResult:result];
+    }
+    
+    UILocalNotification *notification = [self notificationFromResult:result];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber++;
 }
 
 - (void)removeResultDisplay
