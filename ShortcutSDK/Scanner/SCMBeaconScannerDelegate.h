@@ -33,4 +33,21 @@
  */
 - (void)beaconScanner:(SCMBeaconScanner *)beaconScanner didSelectBeacon:(CLBeacon *)beacon;
 
+/**
+ *  This method is called whenever an error is encountered by the scanner.
+ *
+ *  @discussion
+ *  This is basically the "error handler" of a beacon scanner. It is called whenever an error
+ *  is encountered.
+ *
+ *  Errors to look out for are:
+ *  * kCLErrorDomain/kCLErrorRegionMonitoringFailure: Bluetooth turned off
+ *  * kCLErrorDomain/kCLErrorRangingUnavailable:      Bluetooth turned off
+ *  * kCLErrorDomain/kCLErrorRegionMonitoringDenied:  No "Always" access for Location Services
+ *
+ *  @param beaconScanner The beacon scanner instance that encountered an error.
+ *  @param error         The error that occured.
+ */
+- (void)beaconScanner:(SCMBeaconScanner *)beaconScanner didEncounterError:(NSError *)error;
+
 @end

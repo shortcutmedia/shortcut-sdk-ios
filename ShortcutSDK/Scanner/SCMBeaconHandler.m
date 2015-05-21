@@ -85,6 +85,11 @@
     }
 }
 
+- (void)beaconScanner:(SCMBeaconScanner *)beaconScanner didEncounterError:(NSError *)error
+{
+    [self reportError:error];
+}
+
 #pragma mark - Beacon lookup
 
 - (void)sendLookupOperationWithBeacon:(CLBeacon *)beacon
@@ -113,8 +118,7 @@
             [UIApplication.sharedApplication endBackgroundTask:task];
         });
     } else {
-        // TODO: error handling/signalling?
-        
+        [self reportError:operation.error];
         [UIApplication.sharedApplication endBackgroundTask:task];
     }
 }
@@ -220,6 +224,13 @@ static NSString *kResultJSONKey = @"resultJSON";
 {
     if ([self.delegate respondsToSelector:@selector(beaconHandlerLostContactToItems:)]) {
         [self.delegate beaconHandlerLostContactToItems:self];
+    }
+}
+
+- (void)reportError:(NSError *)error
+{
+    if ([self.delegate respondsToSelector:@selector(beaconHandler:didEncounterError:)]) {
+        [self.delegate beaconHandler:self didEncounterError:error];
     }
 }
 

@@ -216,22 +216,34 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     [self processBeacons];
 }
 
-// TODO: expose this to delegate??
 #pragma mark CLLocationManagerDelegate error handling
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     DebugLog(@"LM error: %ld - %@", (long)error.code, error.debugDescription);
+    
+    [self reportError:error];
 }
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
 {
     DebugLog(@"LM did fail to monitor region %@: %ld - %@", region.identifier, (long)error.code, error.debugDescription);
+    
+    [self reportError:error];
 }
 
 - (void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
 {
     DebugLog(@"LM did fail to range in region %@: %ld - %@", region.identifier, (long)error.code, error.debugDescription);
+    
+    [self reportError:error];
+}
+
+- (void)reportError:(NSError *)error
+{
+    if ([self.delegate respondsToSelector:@selector(beaconScanner:didEncounterError:)]) {
+        [self.delegate beaconScanner:self didEncounterError:error];
+    }
 }
 
 @end

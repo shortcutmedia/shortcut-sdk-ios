@@ -72,5 +72,24 @@
  */
 - (void)beaconHandlerLostContactToItems:(SCMBeaconHandler *)beaconHandler;
 
+/**
+ *  This method is called whenever an error is encountered by the handler.
+ *
+ *  @discussion
+ *  This is basically the "error handler" of a beacon handler. It is called whenever an error
+ *  is encountered.
+ *
+ *  Errors to look out for are:
+ *  * kCLErrorDomain/kCLErrorRegionMonitoringFailure: Bluetooth turned off
+ *  * kCLErrorDomain/kCLErrorRangingUnavailable:      Bluetooth turned off
+ *  * kCLErrorDomain/kCLErrorRegionMonitoringDenied:  No "Always" access for Location Services
+ *  * NSURLErrorDomain                                Network problem
+ *  * kSCMHTTPOperationErrorDomain                    Beacon lookup got a 4XX/5XX response
+ *
+ *  @param beaconHandler The beacon hander instance that encountered an error.
+ *  @param error         The error that occured.
+ */
+- (void)beaconHandler:(SCMBeaconHandler *)beaconHandler didEncounterError:(NSError *)error;
+
 @end
 
