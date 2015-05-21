@@ -17,8 +17,7 @@
  *  only beacons in the predefined Shortcut beacon region by default.
  *
  *  Important events that happen within the scanner (e.g. beacon recognized) are communicated to
- *  the scanner's delegate. This delegate is the main means of interaction with the
- *  scanner.
+ *  the scanner's delegate. This delegate is the main means of interaction with the scanner.
  *
  *  The scanner works when the app is in the background and even when it is terminated: it gets
  *  triggered by the system when a matching beacon is nearby and it handles this beacon just as
