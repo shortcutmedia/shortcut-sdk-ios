@@ -40,6 +40,22 @@
 - (void)beaconHandler:(SCMBeaconHandler *)beaconHandler recognizedItem:(SCMQueryResult *)result fromNotification:(BOOL)fromNotification;
 
 /**
+ *  This method is called whenever a beacon handler is about to present a notification to the user.
+ *
+ *  @discussion
+ *  This method is called after an item was recognized and the background and the handler has
+ *  built a notification it it about to present to the user.
+ *  
+ *  A typical use case for this method is to modify the notification (e.g. change notification text
+ *  or sound).
+ *
+ *  @param beaconHandler The beacon handler instance that is about to present the notification.
+ *  @param notification  The standard notification that the beacon handler prepared.
+ *  @param result        The item the notification is about.
+ */
+- (void)beaconHandler:(SCMBeaconHandler *)beaconHandler willPresentNotification:(UILocalNotification *)notification forItem:(SCMQueryResult *)result;
+
+/**
  *  This method is called whenever a beacon handler loses contact with all nearby beacons.
  *
  *  @discussion

@@ -207,6 +207,10 @@ static NSString *kResultJSONKey = @"resultJSON";
     }
     
     UILocalNotification *notification = [self notificationFromResult:result];
+    
+    if ([self.delegate respondsToSelector:@selector(beaconHandler:willPresentNotification:forItem:)]) {
+        [self.delegate beaconHandler:self willPresentNotification:notification forItem:result];
+    }
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
     
     [UIApplication sharedApplication].applicationIconBadgeNumber++;
