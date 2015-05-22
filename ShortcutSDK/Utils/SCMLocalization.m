@@ -18,4 +18,15 @@
                                                                                 table:[SCMSDKConfig sharedConfig].localizationTable];
 }
 
++ (NSString *)translationFor:(NSString *)key withDefaultValue:(NSString *)defaultValue withReplacements:(NSDictionary *)replacements
+{
+    NSString *translation = [self translationFor:key withDefaultValue:defaultValue];
+    
+    for (NSString *toReplace in replacements) {
+        translation = [translation stringByReplacingOccurrencesOfString:toReplace withString:replacements[toReplace]];
+    }
+    
+    return translation;
+}
+
 @end

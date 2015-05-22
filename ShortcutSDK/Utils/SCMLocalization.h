@@ -11,5 +11,6 @@
 @interface SCMLocalization : NSObject
 
 + (NSString *)translationFor:(NSString *)key withDefaultValue:(NSString *)defaultValue;
++ (NSString *)translationFor:(NSString *)key withDefaultValue:(NSString *)defaultValue withReplacements:(NSDictionary *)replacements;
 
 @end
