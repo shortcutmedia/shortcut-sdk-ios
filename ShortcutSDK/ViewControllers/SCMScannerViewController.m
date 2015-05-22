@@ -419,7 +419,9 @@ typedef enum
             }
             // http error
             else if ([error.domain isEqualToString:kSCMHTTPOperationErrorDomain]) {
-                title = [SCMLocalization translationFor:@"HTTPOperationErrorTitle" withDefaultValue:[NSString stringWithFormat:@"Server error (%ld)", (long)error.code]];
+                title = [SCMLocalization translationFor:@"HTTPOperationErrorTitle"
+                                       withDefaultValue:[NSString stringWithFormat:@"Server error (%ld)", (long)error.code]
+                                       withReplacements:@{@"{code}" : @(error.code).description}];
                 subtitle = [SCMLocalization translationFor:@"HTTPOperationErrorBody" withDefaultValue:@"Please try again.\nContact support if the problem persists."];
             }
             // authentication error
@@ -435,7 +437,10 @@ typedef enum
             // unknown error
             else {
                 title = [SCMLocalization translationFor:@"RecognitionOperationFailedTitle" withDefaultValue:@"Recognition could not be completed"];
-                subtitle = [NSString stringWithFormat:@"Error code %ld", (long)error.code];
+                subtitle = [SCMLocalization translationFor:@"RecognitionOperationFailedBody"
+                                       withDefaultValue:[NSString stringWithFormat:@"An error with code %ld occurred:\n%@", (long)error.code, error.localizedDescription]
+                                       withReplacements:@{@"{code}" : @(error.code).description,
+                                                          @"{description}" : error.localizedDescription}];
             }
             
             [self.cameraStatusView setStatusTitle:title subtitle:subtitle];
