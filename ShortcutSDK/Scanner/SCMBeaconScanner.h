@@ -76,7 +76,33 @@
 
 /**
  *  This method returns YES if the scanner is running.
+ *
+ *  @discussion
+ *  "Running" means the scanner was started and all required elements are in place: Bluetooth is on and
+ *  region monitoring is allowed.
  */
 - (BOOL)isRunning;
+
+/**
+ *  This method returns YES if Bluetooth is turned on.
+ *
+ *  @discussion
+ *  This method relies on an CBCentralManager instance and its state property. This state property is not
+ *  immediately set correctly, so allow for a few moments to pass before it indicates Bluetooth as being
+ *  turned on.
+ *
+ *  @see CBCentralManager -state
+ */
+- (BOOL)isBluetoothOn;
+
+/**
+ *  This method returns YES if region monitoring is successfully running.
+ */
+- (BOOL)isRegionMonitoringOn;
+
+/**
+ *  This method returns YES if the user allowed "Always" Location Services usage.
+ */
+- (BOOL)isAuthorizedForLocationServices;
 
 @end

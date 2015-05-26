@@ -62,7 +62,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 - (void)start
 {
-    if (!self.isAuthorized) {
+    if (!self.isAuthorizedForLocationServices) {
         [self requestAuthorization];
         return;
     }
@@ -105,7 +105,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     return self.locationManager.monitoredRegions.count > 0;
 }
 
-- (BOOL)isAuthorized
+- (BOOL)isAuthorizedForLocationServices
 {
     return CLLocationManager.authorizationStatus == kCLAuthorizationStatusAuthorizedAlways;
 }
@@ -181,7 +181,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
-    if (self.isAuthorized) {
+    if (self.isAuthorizedForLocationServices) {
         [self.locationManager requestStateForRegion:self.regionToMonitor];
     }
 }
