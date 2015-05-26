@@ -13,6 +13,7 @@
 @interface SCMBeaconHandler () <SCMBeaconScannerDelegate>
 
 @property (strong, nonatomic) SCMBeaconScanner *beaconScanner;
+@property (strong, nonatomic) NSArray *regionsToMonitor;
 @property (strong, nonatomic) NSOperationQueue *lookupQueue;
 
 @end
@@ -24,7 +25,7 @@
 - (SCMBeaconScanner *)beaconScanner
 {
     if (!_beaconScanner) {
-        SCMBeaconScanner *scanner = [[SCMBeaconScanner alloc] init];
+        SCMBeaconScanner *scanner = [[SCMBeaconScanner alloc] initWithRegions:self.regionsToMonitor];
         scanner.delegate = self;
         _beaconScanner = scanner;
     }
@@ -41,10 +42,15 @@
 
 #pragma mark - Initializer
 
-- (instancetype)initWithDelegate:(id<SCMBeaconHandlerDelegate>)delegate
+- (instancetype)init
+{
+    return [self initWithRegions:nil];
+}
+
+- (instancetype)initWithRegions:(NSArray *)regions
 {
     if (self = [super init]) {
-        self.delegate = delegate;
+        self.regionsToMonitor = regions;
     }
     return self;
 }

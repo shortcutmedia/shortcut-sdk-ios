@@ -38,11 +38,28 @@
 @property (nonatomic, unsafe_unretained, readwrite) id<SCMBeaconHandlerDelegate> delegate;
 
 /**
- *  This method initializes a new beacon handler and sets its delegate.
+ *  Returns a beacon handler instance with the default setup.
  *
- *  @param delegate The delegate of the new beacon handler instance.
+ *  @return A new beacon handler instance.
  */
-- (instancetype)initWithDelegate:(id<SCMBeaconHandlerDelegate>)delegate;
+- (instancetype)init;
+
+/**
+ *  Returns a beacon handler instance monitoring the given beacon regions.
+ *
+ *  @discussion
+ *  Use this initializer to create a handler instance that monitors a custom collection of beacon
+ *  regions.
+ *  To use this initializer only makes sense if you set up items with custom beacon regions in the
+ *  Shortcut Manager webapp.
+ *
+ *  @see SCMBeaconScanner -initWithRegions:
+ *
+ *  @param regions An array containing CLBeaconRegion instances.
+ *
+ *  @return A new beacon handler instance.
+ */
+- (instancetype)initWithRegions:(NSArray *)regions;
 
 /**
  *  This method starts the handler.
