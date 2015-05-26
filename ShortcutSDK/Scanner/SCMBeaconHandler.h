@@ -70,6 +70,11 @@
 - (void)stop;
 
 /**
+ *  This method returns YES if the handler is running.
+ */
+- (BOOL)isRunning;
+
+/**
  *  This method triggers the display of items based on the given notification if needed.
  *
  *  @discussion

@@ -8,16 +8,18 @@
 
 #import "SCMBeaconScanner.h"
 #import <CoreLocation/CoreLocation.h>
-#import "SCMBeaconLookupOperation.h"
+#import <CoreBluetooth/CoreBluetooth.h>
 
 NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
-@interface SCMBeaconScanner () <CLLocationManagerDelegate>
+@interface SCMBeaconScanner () <CLLocationManagerDelegate, CBCentralManagerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
 @property (strong, nonatomic) NSMutableDictionary *rangedBeacons;
 @property (strong, nonatomic) CLBeacon *selectedBeacon;
+
+@property (strong, nonatomic) CBCentralManager *bluetoothMananger;
 
 @end
 
@@ -47,12 +49,16 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     if (self = [super init]) {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
+        
+        self.bluetoothMananger = [[CBCentralManager alloc] initWithDelegate:self
+                                                                      queue:dispatch_get_main_queue()
+                                                                    options:@{CBCentralManagerOptionShowPowerAlertKey : @(NO)}];
     }
     
     return self;
 }
 
-#pragma mark - Public API
+#pragma mark - Running
 
 - (void)start
 {
@@ -82,12 +88,29 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     }
 }
 
-#pragma mark - Authorization
+#pragma mark - Status
+
+- (BOOL)isRunning
+{
+    return self.isBluetoothOn && self.isRegionMonitoringOn;
+}
+
+- (BOOL)isBluetoothOn
+{
+    return self.bluetoothMananger.state == CBCentralManagerStatePoweredOn;
+}
+
+- (BOOL)isRegionMonitoringOn
+{
+    return self.locationManager.monitoredRegions.count > 0;
+}
 
 - (BOOL)isAuthorized
 {
     return CLLocationManager.authorizationStatus == kCLAuthorizationStatusAuthorizedAlways;
 }
+
+#pragma mark - Authorization
 
 - (void)requestAuthorization
 {
@@ -244,6 +267,13 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     if ([self.delegate respondsToSelector:@selector(beaconScanner:didEncounterError:)]) {
         [self.delegate beaconScanner:self didEncounterError:error];
     }
+}
+
+#pragma mark - CBCentralManagerDelegate
+
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    // Nothing to do but required by CBCentralManagerDelegate protocol
 }
 
 @end

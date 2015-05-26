@@ -325,6 +325,7 @@
 		869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCustomUserAgentProtocol.m; sourceTree = "<group>"; };
 		86AB02D91A2872E600586049 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		86AB02DB1A2872F000586049 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		86B3553A1B0F87B7002CD9D6 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		86BD712E1A2DE5E500EA8633 /* PLCameraZoomMax.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PLCameraZoomMax.png; path = Resources/PLCameraZoomMax.png; sourceTree = "<group>"; };
 		86BD712F1A2DE5E500EA8633 /* PLCameraZoomMax@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PLCameraZoomMax@2x.png"; path = "Resources/PLCameraZoomMax@2x.png"; sourceTree = "<group>"; };
 		86BD71301A2DE5E500EA8633 /* PLCameraZoomMin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PLCameraZoomMin.png; path = Resources/PLCameraZoomMin.png; sourceTree = "<group>"; };
@@ -661,6 +662,7 @@
 		86AB02DD1A2872FE00586049 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				86B3553A1B0F87B7002CD9D6 /* CoreBluetooth.framework */,
 				86AB02DB1A2872F000586049 /* UIKit.framework */,
 				86AB02D91A2872E600586049 /* Foundation.framework */,
 			);

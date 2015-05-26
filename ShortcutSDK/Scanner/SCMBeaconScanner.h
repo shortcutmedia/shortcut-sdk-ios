@@ -58,6 +58,7 @@
  *  otherwise Location Service access cannot be requested.
  *
  *  @see -stop
+ *  @see -isRunning
  */
 - (void)start;
 
@@ -72,5 +73,10 @@
  *  @see -start
  */
 - (void)stop;
+
+/**
+ *  This method returns YES if the scanner is running.
+ */
+- (BOOL)isRunning;
 
 @end

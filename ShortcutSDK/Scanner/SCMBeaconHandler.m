@@ -64,6 +64,11 @@
     [self.beaconScanner stop];
 }
 
+- (BOOL)isRunning
+{
+    return self.beaconScanner.isRunning;
+}
+
 - (void)handleNotification:(UILocalNotification *)notification
 {
     SCMQueryResult *result = [self resultFromNotification:notification];
