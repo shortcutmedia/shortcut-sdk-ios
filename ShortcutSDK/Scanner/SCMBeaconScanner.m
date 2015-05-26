@@ -15,6 +15,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 @interface SCMBeaconScanner () <CLLocationManagerDelegate, CBCentralManagerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) NSArray *regionsToMonitor;
 
 @property (strong, nonatomic) NSMutableDictionary *rangedBeacons;
 @property (strong, nonatomic) CLBeacon *selectedBeacon;
@@ -35,7 +36,14 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     return _rangedBeacons;
 }
 
-- (CLRegion *)regionToMonitor
+- (NSArray *)regionsToMonitor
+{
+    if (!_regionsToMonitor) {
+        _regionsToMonitor = @[self.shortcutRegion];
+    }
+    return _regionsToMonitor;
+}
+- (CLRegion *)shortcutRegion
 {
     NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:kSCMShortcutRegionUUID];
     NSString *identifier = kSCMShortcutRegionUUID;
@@ -46,7 +54,14 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 - (instancetype)init
 {
+    return [self initWithRegions:nil];
+}
+
+- (instancetype)initWithRegions:(NSArray *)regions
+{
     if (self = [super init]) {
+        self.regionsToMonitor = regions;
+        
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
         
@@ -75,7 +90,9 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
         [self.locationManager stopMonitoringForRegion:region];
     }
     
-    [self.locationManager requestStateForRegion:self.regionToMonitor];
+    for (CLBeaconRegion *region in self.regionsToMonitor) {
+        [self.locationManager requestStateForRegion:region];
+    }
 }
 
 - (void)stop
@@ -182,7 +199,9 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
     if (self.isAuthorizedForLocationServices) {
-        [self.locationManager requestStateForRegion:self.regionToMonitor];
+        for (CLBeaconRegion *region in self.regionsToMonitor) {
+            [self.locationManager requestStateForRegion:region];
+        }
     }
 }
 

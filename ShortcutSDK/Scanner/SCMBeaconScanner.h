@@ -47,6 +47,34 @@
 @property (nonatomic, unsafe_unretained, readwrite) id<SCMBeaconScannerDelegate> delegate;
 
 /**
+ *  Returns a beacon scanner instance monitoring the default beacon region.
+ *
+ *  @discussion
+ *  Use this initializer to create a scanner instance that looks out for beacons in the default
+ *  region. The default region contains all beacons with identifiers generated through the
+ *  Shortcut Manager website.
+ *
+ *  @return A new beacon scanner instance.
+ */
+- (instancetype)init;
+
+/**
+ *  Returns a beacon scanner instance monitoring the given beacon regions.
+ *
+ *  @discussion
+ *  Use this initializer to create a scanner instance that monitors a custom collection of beacon
+ *  regions.
+ *
+ *  @warning
+ *  The iOS system allows only up to 20 regions to be monitored by one single app.
+ *
+ *  @param regions An array containing CLBeaconRegion instances.
+ *
+ *  @return A new beacon handler instance.
+ */
+- (instancetype)initWithRegions:(NSArray *)regions;
+
+/**
  *  This method starts the scanner.
  *
  *  @discussion
