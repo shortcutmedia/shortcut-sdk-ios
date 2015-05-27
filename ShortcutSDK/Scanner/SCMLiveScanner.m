@@ -15,6 +15,7 @@
 #import "SCMQRCodeScannerDelegate.h"
 #import "SCMImageUtils.h"
 #import "SCMLocalization.h"
+#import "SCMStatsTracker.h"
 
 
 NSString *kSCMLiveScannerErrorDomain = @"SCMLiveScannerErrorDomain";
@@ -344,6 +345,8 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
         if (recognized) {
             if (!self.imageRecognized) {
                 self.imageRecognized = YES;
+                [self cancelAllOperations];
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.delegate liveScanner:self
                                recognizedImage:recognitionOperation.imageData
@@ -351,8 +354,14 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
                                   withResponse:recognitionOperation.queryResponse];
                 });
                 
-                // Cancel any other image operations
-                [self cancelAllOperations];
+                SCMStatsTracker *tracker = [[SCMStatsTracker alloc] init];
+                // TODO: is it "correct" to track an image recognition query with each result? Or should only
+                // the best result get a stats entry? My reasoning is that all results will be handed off to
+                // the SDK user and all results were recognized, so I give each result a stats entry...
+                for (SCMQueryResult *result in recognitionOperation.queryResponse.results) {
+                    [tracker trackEvent:@"image_recognition_query"
+                           withItemUUID:[[NSUUID alloc] initWithUUIDString:result.uuid]];
+                }
             }
         } else {
             imageNotRecognized = YES;

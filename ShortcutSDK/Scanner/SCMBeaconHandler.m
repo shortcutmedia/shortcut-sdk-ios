@@ -9,6 +9,7 @@
 #import "SCMBeaconHandler.h"
 #import "SCMBeaconScanner.h"
 #import "SCMBeaconLookupOperation.h"
+#import "SCMStatsTracker.h"
 
 @interface SCMBeaconHandler () <SCMBeaconScannerDelegate>
 
@@ -145,6 +146,9 @@
     } else {
         [self notifyOnceAboutResult:operation.queryResult];
     }
+    
+    [[[SCMStatsTracker alloc] init] trackEvent:@"beacon_lookup"
+                                  withItemUUID:[[NSUUID alloc] initWithUUIDString:operation.queryResult.uuid]];
 }
 
 #pragma mark - Local notification handling
