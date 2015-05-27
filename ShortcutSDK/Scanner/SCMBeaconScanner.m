@@ -17,8 +17,8 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) NSArray *regionsToMonitor;
 
-@property (strong, nonatomic) NSMutableDictionary *rangedBeacons;
-@property (strong, nonatomic) CLBeacon *closestBeacon;
+@property (strong, nonatomic) NSMutableDictionary *currentBeacons;
+@property (strong, nonatomic, readwrite) CLBeacon *closestBeacon;
 
 @property (strong, nonatomic) CBCentralManager *bluetoothMananger;
 
@@ -26,14 +26,14 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 @implementation SCMBeaconScanner
 
-#pragma mark - Properties
+#pragma mark - Properties (internal)
 
-- (NSMutableDictionary *)rangedBeacons
+- (NSMutableDictionary *)currentBeacons
 {
-    if (!_rangedBeacons) {
-        _rangedBeacons = [NSMutableDictionary dictionary];
+    if (!_currentBeacons) {
+        _currentBeacons = [NSMutableDictionary dictionary];
     }
-    return _rangedBeacons;
+    return _currentBeacons;
 }
 
 - (NSArray *)regionsToMonitor
@@ -105,6 +105,29 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     }
 }
 
+#pragma mark - Region and beacon access
+
+- (NSArray *)monitoredRegions
+{
+    return [[self.locationManager monitoredRegions] allObjects];
+}
+
+- (NSArray *)enteredRegions
+{
+    return self.currentBeacons.allKeys;
+}
+
+- (NSArray *)rangedBeacons
+{
+    NSMutableArray *result = [NSMutableArray array];
+    
+    for (NSArray *beacons in [self.currentBeacons allValues]) {
+        [result addObjectsFromArray:beacons];
+    }
+    
+    return result;
+}
+
 #pragma mark - Status
 
 - (BOOL)isRunning
@@ -143,8 +166,8 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 {
     // find the currently closest beacon
     CLBeacon *previouslyClosestBeacon;
-    for (CLRegion *region in self.rangedBeacons) {
-        for (CLBeacon *beacon in self.rangedBeacons[region]) {
+    for (CLRegion *region in self.currentBeacons) {
+        for (CLBeacon *beacon in self.currentBeacons[region]) {
             if ([beacon.proximityUUID isEqual:self.closestBeacon.proximityUUID] &&
                 [beacon.major isEqual:self.closestBeacon.major] &&
                 [beacon.minor isEqual:self.closestBeacon.minor]) {
@@ -159,8 +182,8 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     if (previouslyClosestBeacon.proximity != CLProximityUnknown) {
         newClosestBeacon = previouslyClosestBeacon;
     }
-    for (CLRegion *region in self.rangedBeacons) {
-        for (CLBeacon *beacon in self.rangedBeacons[region]) {
+    for (CLRegion *region in self.currentBeacons) {
+        for (CLBeacon *beacon in self.currentBeacons[region]) {
             if (beacon.proximity == CLProximityUnknown) {
                 continue;
             }
@@ -177,7 +200,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     }
     
     // select nil if there are no beacons in range
-    if (self.rangedBeacons.count == 0) {
+    if (self.currentBeacons.count == 0) {
         [self changeClosestBeacon:nil];
     }
 }
@@ -226,8 +249,8 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     if ([region.class isSubclassOfClass:CLBeaconRegion.class]) {
         CLBeaconRegion *beaconRegion = (CLBeaconRegion *)region;
         
-        if (![self.rangedBeacons.allKeys containsObject:beaconRegion]) {
-            [self.rangedBeacons setObject:@[] forKey:beaconRegion];
+        if (![self.currentBeacons.allKeys containsObject:beaconRegion]) {
+            [self.currentBeacons setObject:@[] forKey:beaconRegion];
         }
         
         if (![manager.rangedRegions containsObject:beaconRegion]) {
@@ -247,14 +270,14 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
         DebugLog(@"LM stops ranging region %@", beaconRegion.identifier);
         [manager stopRangingBeaconsInRegion:beaconRegion];
         
-        [self.rangedBeacons removeObjectForKey:beaconRegion];
+        [self.currentBeacons removeObjectForKey:beaconRegion];
         [self processBeacons];
     }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
-    [self.rangedBeacons setObject:beacons forKey:region];
+    [self.currentBeacons setObject:beacons forKey:region];
     [self processBeacons];
 }
 

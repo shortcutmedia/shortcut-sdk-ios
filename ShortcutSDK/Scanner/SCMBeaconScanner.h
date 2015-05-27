@@ -102,6 +102,34 @@
  */
 - (void)stop;
 
+
+/// @name Regions and beacons
+
+/**
+ *  The beacon regions currently monitored by the scanner.
+ *
+ *  @see CLLocationManager -monitoredRegions
+ */
+@property (strong, nonatomic, readonly) NSArray *monitoredRegions;
+
+/**
+ *  The beacon regions the device is currently within.
+ */
+@property (strong, nonatomic, readonly) NSArray *enteredRegions;
+
+/**
+ *  The beacons the scanner is ranging.
+ */
+@property (strong, nonatomic, readonly) NSArray *rangedBeacons;
+
+/**
+ *  The beacon that is closest to the scanner.
+ */
+@property (strong, nonatomic, readonly) CLBeacon *closestBeacon;
+
+
+/// @name Status
+
 /**
  *  This method returns YES if the scanner is running.
  *
