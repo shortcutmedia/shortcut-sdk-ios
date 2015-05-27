@@ -21,17 +21,17 @@
 @protocol SCMBeaconScannerDelegate <NSObject>
 
 /**
- *  This method is called whenever a new beacon is selected as the closest to the scanner.
+ *  This method is called whenever a new beacon is detected to be the closest to the scanner.
  *
  *  @discussion
  *  This is basically the "success handler" of a beacon scanner. It is called when a
  *  beacon was detected, successfully ranged and recognized as being the closest to
  *  the device.
  *
- *  @param beaconScanner The beacon scanner instance that selected a beacon.
- *  @param beacon        The beacon that was selected and is closest to the device.
+ *  @param beaconScanner The beacon scanner instance whose closest beacon changed.
+ *  @param beacon        The beacon that is now closest to the device.
  */
-- (void)beaconScanner:(SCMBeaconScanner *)beaconScanner didSelectBeacon:(CLBeacon *)beacon;
+- (void)beaconScanner:(SCMBeaconScanner *)beaconScanner closestBeaconChanged:(CLBeacon *)beacon;
 
 /**
  *  This method is called whenever an error is encountered by the scanner.

@@ -87,7 +87,7 @@
 
 #pragma mark - SCMBeaconScannerDelegate
 
-- (void)beaconScanner:(SCMBeaconScanner *)beaconScanner didSelectBeacon:(CLBeacon *)beacon
+- (void)beaconScanner:(SCMBeaconScanner *)beaconScanner closestBeaconChanged:(CLBeacon *)beacon
 {
     if (beacon) {
         [self sendLookupOperationWithBeacon:beacon];

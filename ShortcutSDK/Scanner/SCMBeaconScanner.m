@@ -18,7 +18,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 @property (strong, nonatomic) NSArray *regionsToMonitor;
 
 @property (strong, nonatomic) NSMutableDictionary *rangedBeacons;
-@property (strong, nonatomic) CLBeacon *selectedBeacon;
+@property (strong, nonatomic) CLBeacon *closestBeacon;
 
 @property (strong, nonatomic) CBCentralManager *bluetoothMananger;
 
@@ -141,23 +141,23 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 - (void)processBeacons
 {
-    // find the currently selected beacon
-    CLBeacon *previouslySelectedBeacon;
+    // find the currently closest beacon
+    CLBeacon *previouslyClosestBeacon;
     for (CLRegion *region in self.rangedBeacons) {
         for (CLBeacon *beacon in self.rangedBeacons[region]) {
-            if ([beacon.proximityUUID isEqual:self.selectedBeacon.proximityUUID] &&
-                [beacon.major isEqual:self.selectedBeacon.major] &&
-                [beacon.minor isEqual:self.selectedBeacon.minor]) {
-                previouslySelectedBeacon = beacon;
+            if ([beacon.proximityUUID isEqual:self.closestBeacon.proximityUUID] &&
+                [beacon.major isEqual:self.closestBeacon.major] &&
+                [beacon.minor isEqual:self.closestBeacon.minor]) {
+                previouslyClosestBeacon = beacon;
                 break;
             }
         }
     }
     
-    // find the closest beacon
-    CLBeacon *closestBeacon;
-    if (previouslySelectedBeacon.proximity != CLProximityUnknown) {
-        closestBeacon = previouslySelectedBeacon;
+    // find the new closest beacon
+    CLBeacon *newClosestBeacon;
+    if (previouslyClosestBeacon.proximity != CLProximityUnknown) {
+        newClosestBeacon = previouslyClosestBeacon;
     }
     for (CLRegion *region in self.rangedBeacons) {
         for (CLBeacon *beacon in self.rangedBeacons[region]) {
@@ -165,31 +165,31 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
                 continue;
             }
             
-            if (closestBeacon == nil || closestBeacon.proximity > beacon.proximity) {
-                closestBeacon = beacon;
+            if (newClosestBeacon == nil || newClosestBeacon.proximity > beacon.proximity) {
+                newClosestBeacon = beacon;
             }
         }
     }
     
-    // select the closest beacon if it is closer than the previously selected one
-    if (closestBeacon && (closestBeacon.proximity < previouslySelectedBeacon.proximity || previouslySelectedBeacon == nil)) {
-        [self selectBeacon:closestBeacon];
+    // select the new closest beacon if it is closer than the previously closest one
+    if (newClosestBeacon && (newClosestBeacon.proximity < previouslyClosestBeacon.proximity || previouslyClosestBeacon == nil)) {
+        [self changeClosestBeacon:newClosestBeacon];
     }
     
     // select nil if there are no beacons in range
     if (self.rangedBeacons.count == 0) {
-        [self selectBeacon:nil];
+        [self changeClosestBeacon:nil];
     }
 }
 
-- (void)selectBeacon:(CLBeacon *)beacon
+- (void)changeClosestBeacon:(CLBeacon *)beacon
 {
-    DebugLog(@"LM did select beacon: %@/%@ (%ld)", beacon.major, beacon.minor, (long)beacon.proximity);
+    DebugLog(@"LM did change closest beacon: %@/%@ (%ld)", beacon.major, beacon.minor, (long)beacon.proximity);
     
-    self.selectedBeacon = beacon;
-    if ([self.delegate respondsToSelector:@selector(beaconScanner:didSelectBeacon:)]) {
+    self.closestBeacon = beacon;
+    if ([self.delegate respondsToSelector:@selector(beaconScanner:closestBeaconChanged:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate beaconScanner:self didSelectBeacon:self.selectedBeacon];
+            [self.delegate beaconScanner:self closestBeaconChanged:self.closestBeacon];
         });
     }
 }
