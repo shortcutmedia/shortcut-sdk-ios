@@ -72,7 +72,7 @@
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    NSLog(@"SCMItemViewController: custom nib ignored. Use init to instantiate an instance");
+    NSLog(@"ShortcutSDK (SCMItemViewController): Custom nib ignored. Use init to instantiate an instance");
     return [self init];
 }
 

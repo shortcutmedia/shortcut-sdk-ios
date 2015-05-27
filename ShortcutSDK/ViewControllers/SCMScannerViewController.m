@@ -128,7 +128,7 @@ typedef enum
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    NSLog(@"SCMScannerViewController: custom nib ignored. Use init to instantiate an instance");
+    NSLog(@"ShortcutSDK (SCMScannerViewController): Custom nib ignored. Use init to instantiate an instance");
     return [self init];
 }
 

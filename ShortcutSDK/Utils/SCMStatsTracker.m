@@ -33,7 +33,7 @@
 - (void)trackEvent:(NSString *)eventType withItemUUID:(NSUUID *)itemUUID
 {
     if (!eventType || !itemUUID) {
-        NSLog(@"stats tracking: must provide event type and item uuid!");
+        NSLog(@"ShortcutSDK (SCMStatsTracker): must provide event type and item uuid");
         return;
     }
     

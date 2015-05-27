@@ -155,7 +155,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 - (void)requestAuthorization
 {
     if (![NSBundle.mainBundle objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"]) {
-        NSLog(@"ShortcutSDK You must set NSLocationAlwaysUsageDescription in your app's Info.plist file for location services/beacon monitoring to work properly");
+        NSLog(@"ShortcutSDK (SCMBeaconScanner): You must set NSLocationAlwaysUsageDescription in your app's Info.plist file for location services/beacon monitoring to work properly");
     }
     [self.locationManager requestAlwaysAuthorization];
 }
