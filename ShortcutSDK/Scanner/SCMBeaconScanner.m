@@ -169,7 +169,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 - (void)processBeacons
 {
     // find the currently closest beacon
-    CLBeacon *previouslyClosestBeacon;
+    CLBeacon *previouslyClosestBeacon = nil;
     for (CLRegion *region in self.currentBeacons) {
         for (CLBeacon *beacon in self.currentBeacons[region]) {
             if ([beacon.proximityUUID isEqual:self.closestBeacon.proximityUUID] &&
@@ -182,7 +182,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     }
     
     // find the new closest beacon
-    CLBeacon *newClosestBeacon;
+    CLBeacon *newClosestBeacon = nil;
     if (previouslyClosestBeacon.proximity != CLProximityUnknown) {
         newClosestBeacon = previouslyClosestBeacon;
     }
@@ -192,16 +192,23 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
                 continue;
             }
             
-            if (newClosestBeacon == nil || newClosestBeacon.proximity > beacon.proximity) {
+            if (newClosestBeacon == nil || beacon.proximity < newClosestBeacon.proximity) {
                 newClosestBeacon = beacon;
             }
         }
     }
     
-    // select the new closest beacon if it is closer than the previously closest one
-    if (newClosestBeacon && (newClosestBeacon.proximity < previouslyClosestBeacon.proximity || previouslyClosestBeacon == nil)) {
-        [self changeClosestBeacon:newClosestBeacon];
+    if (newClosestBeacon) {
+        // if the closest beacon changed -> select new closest beacon
+        if (newClosestBeacon != previouslyClosestBeacon) {
+            [self changeClosestBeacon:newClosestBeacon];
+        }
+        // if the closest beacon remained but its distance changed -> reselect closest beacon with new proximity
+        else if (newClosestBeacon.proximity != self.closestBeacon.proximity) {
+            [self changeClosestBeacon:newClosestBeacon];
+        }
     }
+
     
     // select nil if there are no beacons in range
     if (self.currentBeacons.count == 0) {
