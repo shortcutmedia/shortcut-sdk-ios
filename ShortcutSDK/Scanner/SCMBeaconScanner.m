@@ -307,7 +307,9 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 - (void)reportError:(NSError *)error
 {
     if ([self.delegate respondsToSelector:@selector(beaconScanner:didEncounterError:)]) {
-        [self.delegate beaconScanner:self didEncounterError:error];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate beaconScanner:self didEncounterError:error];
+        });
     }
 }
 

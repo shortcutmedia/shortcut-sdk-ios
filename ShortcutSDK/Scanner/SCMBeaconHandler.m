@@ -80,7 +80,9 @@
 {
     SCMQueryResult *result = [self resultFromNotification:notification];
     if (result) {
-        [self displayResult:result fromNotification:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self displayResult:result fromNotification:YES];
+        });
     }
     
     [self resetNotifications];
@@ -124,15 +126,14 @@
 
 - (void)lookupOperationCompleted:(SCMBeaconLookupOperation *)operation withBackgroundTask:(UIBackgroundTaskIdentifier)task
 {
-    if (!operation.error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!operation.error) {
             [self handleResponseOfLookupOperation:operation];
-            [UIApplication.sharedApplication endBackgroundTask:task];
-        });
-    } else {
-        [self reportError:operation.error];
+        } else {
+            [self reportError:operation.error];
+        }
         [UIApplication.sharedApplication endBackgroundTask:task];
-    }
+    });
 }
 
 - (void)handleResponseOfLookupOperation:(SCMBeaconLookupOperation *)operation
@@ -213,6 +214,7 @@ static NSString *kResultJSONKey = @"resultJSON";
 - (void)displayResult:(SCMQueryResult *)result fromNotification:(BOOL)fromNotification
 {
     if ([self.delegate respondsToSelector:@selector(beaconHandler:recognizedItem:fromNotification:)]) {
+        NSAssert([NSThread isMainThread], @"delegate methods must be invoked on the main queue/thread");
         [self.delegate beaconHandler:self recognizedItem:result fromNotification:fromNotification];
     }
 }
@@ -238,6 +240,7 @@ static NSString *kResultJSONKey = @"resultJSON";
 - (void)removeResultDisplay
 {
     if ([self.delegate respondsToSelector:@selector(beaconHandlerLostContactToItems:)]) {
+        NSAssert([NSThread isMainThread], @"delegate methods must be invoked on the main queue/thread");
         [self.delegate beaconHandlerLostContactToItems:self];
     }
 }
@@ -245,6 +248,7 @@ static NSString *kResultJSONKey = @"resultJSON";
 - (void)reportError:(NSError *)error
 {
     if ([self.delegate respondsToSelector:@selector(beaconHandler:didEncounterError:)]) {
+        NSAssert([NSThread isMainThread], @"delegate methods must be invoked on the main queue/thread");
         [self.delegate beaconHandler:self didEncounterError:error];
     }
 }
