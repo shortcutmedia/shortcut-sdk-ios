@@ -87,10 +87,12 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
     //          system level and we want to start from a fresh state whenever
     //          a new instance of SCMBeaconScanner is started.
     for (CLBeaconRegion *region in self.locationManager.monitoredRegions) {
+        DebugLog(@"LM stops monitoring region %@", region.identifier);
         [self.locationManager stopMonitoringForRegion:region];
     }
     
     for (CLBeaconRegion *region in self.regionsToMonitor) {
+        DebugLog(@"LM requests state for region %@", region.identifier);
         [self.locationManager requestStateForRegion:region];
     }
 }
@@ -98,9 +100,11 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 - (void)stop
 {
     for (CLBeaconRegion *region in self.locationManager.monitoredRegions) {
+        DebugLog(@"LM stops monitoring region %@", region.identifier);
         [self.locationManager stopMonitoringForRegion:region];
     }
     for (CLBeaconRegion *region in self.locationManager.rangedRegions) {
+        DebugLog(@"LM stops ranging region %@", region.identifier);
         [self.locationManager stopRangingBeaconsInRegion:region];
     }
 }
@@ -223,6 +227,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 {
     if (self.isAuthorizedForLocationServices) {
         for (CLBeaconRegion *region in self.regionsToMonitor) {
+            DebugLog(@"LM requests state for region %@", region.identifier);
             [self.locationManager requestStateForRegion:region];
         }
     }
