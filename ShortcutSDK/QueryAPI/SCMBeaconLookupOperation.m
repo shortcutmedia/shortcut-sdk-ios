@@ -74,11 +74,16 @@
 
 - (NSURL *)lookupURL
 {
-    NSString *lookupURLString = [NSString stringWithFormat:@"http://%@/api/v2/beacon?uuid=%@&major=%@&minor=%@",
+    NSString *lookupURLString = [NSString stringWithFormat:@"http://%@/api/v2/beacon?uuid=%@&major=%@&minor=%@&proximity=%@",
                                  [[SCMSDKConfig sharedConfig] itemServerAddress],
                                  self.beacon.proximityUUID.UUIDString,
                                  self.beacon.major,
-                                 self.beacon.minor];
+                                 self.beacon.minor,
+                                 @{
+                                   @(CLProximityFar)       : @"far",
+                                   @(CLProximityNear)      : @"near",
+                                   @(CLProximityImmediate) : @"immediate"
+                                 }[@(self.beacon.proximity)]];
     return [NSURL URLWithString:lookupURLString];
 }
 
