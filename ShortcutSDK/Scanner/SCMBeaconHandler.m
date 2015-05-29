@@ -15,6 +15,9 @@
 
 @property (strong, nonatomic) SCMBeaconScanner *beaconScanner;
 @property (strong, nonatomic) NSArray *regionsToMonitor;
+
+@property (strong, nonatomic) SCMQueryResult *currentItem;
+
 @property (strong, nonatomic) NSOperationQueue *lookupQueue;
 
 @end
@@ -138,18 +141,21 @@
 
 - (void)handleResponseOfLookupOperation:(SCMBeaconLookupOperation *)operation
 {
-    if (!operation.queryResult) {
+    if (operation.queryResult == nil ||
+        [operation.queryResult.uuid isEqualToString:self.currentItem.uuid]) {
         return;
     }
     
+    self.currentItem = operation.queryResult;
+    
     if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
-        [self displayResult:operation.queryResult fromNotification:NO];
+        [self displayResult:self.currentItem fromNotification:NO];
     } else {
-        [self notifyOnceAboutResult:operation.queryResult];
+        [self notifyOnceAboutResult:self.currentItem];
     }
     
     [[[SCMStatsTracker alloc] init] trackEvent:@"beacon_lookup"
-                                  withItemUUID:[[NSUUID alloc] initWithUUIDString:operation.queryResult.uuid]];
+                                  withItemUUID:[[NSUUID alloc] initWithUUIDString:self.currentItem.uuid]];
 }
 
 #pragma mark - Local notification handling
