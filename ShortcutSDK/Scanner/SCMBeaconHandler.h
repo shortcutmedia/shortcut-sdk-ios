@@ -92,6 +92,11 @@
 - (BOOL)isRunning;
 
 /**
+ *  The item that was recognized by the handler.
+ */
+@property (strong, nonatomic, readonly) SCMQueryResult *currentItem;
+
+/**
  *  This method triggers the display of items based on the given notification if needed.
  *
  *  @discussion

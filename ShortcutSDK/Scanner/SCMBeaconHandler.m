@@ -16,7 +16,7 @@
 @property (strong, nonatomic) SCMBeaconScanner *beaconScanner;
 @property (strong, nonatomic) NSArray *regionsToMonitor;
 
-@property (strong, nonatomic) SCMQueryResult *currentItem;
+@property (strong, nonatomic, readwrite) SCMQueryResult *currentItem;
 
 @property (strong, nonatomic) NSOperationQueue *lookupQueue;
 
