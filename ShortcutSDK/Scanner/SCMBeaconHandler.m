@@ -98,6 +98,7 @@
     if (beacon) {
         [self sendLookupOperationWithBeacon:beacon];
     } else {
+        self.currentItem = nil;
         [self removeResultDisplay];
     }
 }
