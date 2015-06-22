@@ -77,10 +77,7 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 - (void)start
 {
-    if (!self.isAuthorizedForLocationServices) {
-        [self requestAuthorization];
-        return;
-    }
+    [self requestAuthorizationIfNecessary];
     
     // cleanup: Remove all monitorings to clean out legacy monitorings.
     //          This is needed since monitored regions are persisted on a
@@ -151,17 +148,29 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 - (BOOL)isAuthorizedForLocationServices
 {
-    return CLLocationManager.authorizationStatus == kCLAuthorizationStatusAuthorizedAlways;
+    // kCLAuthorizationStatusAuthorized means "authorized" in iOS7 and "authorized always"
+    // in iOS8 and newer...
+    return CLLocationManager.authorizationStatus == kCLAuthorizationStatusAuthorized;
+}
+
+- (BOOL)isLocationServicesAuthorizationNotYetRequested
+{
+    return CLLocationManager.authorizationStatus == kCLAuthorizationStatusNotDetermined;
 }
 
 #pragma mark - Authorization
 
-- (void)requestAuthorization
+- (void)requestAuthorizationIfNecessary
 {
     if (![NSBundle.mainBundle objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"]) {
         NSLog(@"ShortcutSDK (SCMBeaconScanner): You must set NSLocationAlwaysUsageDescription in your app's Info.plist file for location services/beacon monitoring to work properly");
     }
-    [self.locationManager requestAlwaysAuthorization];
+    
+    if (self.isLocationServicesAuthorizationNotYetRequested) {
+        if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+            [self.locationManager performSelector:@selector(requestAlwaysAuthorization)];
+        }
+    }
 }
 
 #pragma mark - Beacon processing
