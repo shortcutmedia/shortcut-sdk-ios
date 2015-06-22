@@ -59,6 +59,8 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 - (instancetype)initWithRegions:(NSArray *)regions
 {
+    NSAssert(floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1, @"beacon scanning only works on iOS7 and newer");
+    
     if (self = [super init]) {
         self.regionsToMonitor = regions;
         
