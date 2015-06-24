@@ -36,6 +36,8 @@
 
 /* Begin PBXBuildFile section */
 		86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */; };
+		860A6E451B3ADFF900EB6B7B /* SCMBeaconLookupOperationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 860A6E441B3ADFF900EB6B7B /* SCMBeaconLookupOperationTest.m */; };
+		860A6E4D1B3AE6CF00EB6B7B /* SCMMockBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 860A6E4C1B3AE6CF00EB6B7B /* SCMMockBeacon.m */; };
 		86169CF81B00F03700900913 /* SCMBeaconScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 86169CF61B00F03700900913 /* SCMBeaconScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86169CF91B00F03700900913 /* SCMBeaconScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 86169CF71B00F03700900913 /* SCMBeaconScanner.m */; };
 		86169CFB1B01010800900913 /* SCMBeaconScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86169CFA1B00F06100900913 /* SCMBeaconScannerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -296,6 +298,9 @@
 
 /* Begin PBXFileReference section */
 		86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResponseTest.m; path = QueryAPI/SCMQueryResponseTest.m; sourceTree = "<group>"; };
+		860A6E441B3ADFF900EB6B7B /* SCMBeaconLookupOperationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMBeaconLookupOperationTest.m; path = QueryAPI/SCMBeaconLookupOperationTest.m; sourceTree = "<group>"; };
+		860A6E4B1B3AE6CF00EB6B7B /* SCMMockBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMMockBeacon.h; sourceTree = "<group>"; };
+		860A6E4C1B3AE6CF00EB6B7B /* SCMMockBeacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMMockBeacon.m; sourceTree = "<group>"; };
 		86169CF61B00F03700900913 /* SCMBeaconScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBeaconScanner.h; sourceTree = "<group>"; };
 		86169CF71B00F03700900913 /* SCMBeaconScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMBeaconScanner.m; sourceTree = "<group>"; };
 		86169CFA1B00F06100900913 /* SCMBeaconScannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCMBeaconScannerDelegate.h; sourceTree = "<group>"; };
@@ -649,8 +654,18 @@
 				86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */,
 				86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */,
 				86E5F35F1A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m */,
+				860A6E441B3ADFF900EB6B7B /* SCMBeaconLookupOperationTest.m */,
 			);
 			name = QueryAPI;
+			sourceTree = "<group>";
+		};
+		860A6E4A1B3AE6CF00EB6B7B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				860A6E4B1B3AE6CF00EB6B7B /* SCMMockBeacon.h */,
+				860A6E4C1B3AE6CF00EB6B7B /* SCMMockBeacon.m */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		86775FB41A417EEB00D136A5 /* BuildScripts */ = {
@@ -796,6 +811,7 @@
 				86E5F35C1A77E9F40039C7A3 /* SCMTestCase.h */,
 				86E5F35D1A77E9F40039C7A3 /* SCMTestCase.m */,
 				86037A911A769744002010FF /* QueryAPI */,
+				860A6E4A1B3AE6CF00EB6B7B /* Utils */,
 				86ED34B01A27726E00D9F3B0 /* Supporting Files */,
 				86E5F3611A77EBA20039C7A3 /* Resources */,
 			);
@@ -1669,7 +1685,9 @@
 				86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */,
 				86E5F3601A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m in Sources */,
 				86E5F3591A77D1170039C7A3 /* SCMQueryResultTest.m in Sources */,
+				860A6E451B3ADFF900EB6B7B /* SCMBeaconLookupOperationTest.m in Sources */,
 				86E5F35E1A77E9F40039C7A3 /* SCMTestCase.m in Sources */,
+				860A6E4D1B3AE6CF00EB6B7B /* SCMMockBeacon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
