@@ -15,6 +15,10 @@
 @property (strong, nonatomic, readwrite) NSNumber *minor;
 @property (assign, nonatomic, readwrite) CLProximity proximity;
 
+- (instancetype)initInShortcutRegionWithMajor:(NSNumber *)major
+                                        minor:(NSNumber *)minor
+                                    proximity:(CLProximity)proximity;
+
 - (instancetype)initWithProximityUUID:(NSUUID *)uuid
                                 major:(NSNumber *)major
                                 minor:(NSNumber *)minor

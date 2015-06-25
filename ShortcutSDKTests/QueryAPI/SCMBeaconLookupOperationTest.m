@@ -29,10 +29,9 @@
 
 - (void)testMain_PopulatesQueryResultWhenLookupSucceeded
 {
-    self.beacon = [[SCMMockBeacon alloc] initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:@"1978F86D-FA83-484B-9624-C360AC3BDB71"]
-                                                      major:@1
-                                                      minor:@1
-                                                  proximity:CLProximityNear];
+    self.beacon = [[SCMMockBeacon alloc] initInShortcutRegionWithMajor:@1
+                                                                 minor:@1
+                                                             proximity:CLProximityNear];
     
     SCMBeaconLookupOperation *operation = [self createLookupOperation];
     [operation main];

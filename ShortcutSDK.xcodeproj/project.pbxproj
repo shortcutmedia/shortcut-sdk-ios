@@ -38,6 +38,8 @@
 		86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */; };
 		860A6E451B3ADFF900EB6B7B /* SCMBeaconLookupOperationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 860A6E441B3ADFF900EB6B7B /* SCMBeaconLookupOperationTest.m */; };
 		860A6E4D1B3AE6CF00EB6B7B /* SCMMockBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 860A6E4C1B3AE6CF00EB6B7B /* SCMMockBeacon.m */; };
+		860E14321B3BFF320026AA2B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86B3553A1B0F87B7002CD9D6 /* CoreBluetooth.framework */; };
+		860E14341B3BFF430026AA2B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 860E14331B3BFF430026AA2B /* CoreLocation.framework */; };
 		86169CF81B00F03700900913 /* SCMBeaconScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 86169CF61B00F03700900913 /* SCMBeaconScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86169CF91B00F03700900913 /* SCMBeaconScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 86169CF71B00F03700900913 /* SCMBeaconScanner.m */; };
 		86169CFB1B01010800900913 /* SCMBeaconScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86169CFA1B00F06100900913 /* SCMBeaconScannerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -301,6 +303,7 @@
 		860A6E441B3ADFF900EB6B7B /* SCMBeaconLookupOperationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMBeaconLookupOperationTest.m; path = QueryAPI/SCMBeaconLookupOperationTest.m; sourceTree = "<group>"; };
 		860A6E4B1B3AE6CF00EB6B7B /* SCMMockBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMMockBeacon.h; sourceTree = "<group>"; };
 		860A6E4C1B3AE6CF00EB6B7B /* SCMMockBeacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMMockBeacon.m; sourceTree = "<group>"; };
+		860E14331B3BFF430026AA2B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		86169CF61B00F03700900913 /* SCMBeaconScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMBeaconScanner.h; sourceTree = "<group>"; };
 		86169CF71B00F03700900913 /* SCMBeaconScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMBeaconScanner.m; sourceTree = "<group>"; };
 		86169CFA1B00F06100900913 /* SCMBeaconScannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCMBeaconScannerDelegate.h; sourceTree = "<group>"; };
@@ -641,6 +644,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				860E14341B3BFF430026AA2B /* CoreLocation.framework in Frameworks */,
+				860E14321B3BFF320026AA2B /* CoreBluetooth.framework in Frameworks */,
 				86ED34AC1A27726E00D9F3B0 /* libShortcutSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -681,6 +686,7 @@
 		86AB02DD1A2872FE00586049 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				860E14331B3BFF430026AA2B /* CoreLocation.framework */,
 				86B3553A1B0F87B7002CD9D6 /* CoreBluetooth.framework */,
 				86AB02DB1A2872F000586049 /* UIKit.framework */,
 				86AB02D91A2872E600586049 /* Foundation.framework */,

@@ -7,6 +7,7 @@
 //
 
 #import "SCMMockBeacon.h"
+#import <ShortcutSDK/SCMBeaconScanner.h>
 
 @implementation SCMMockBeacon
 
@@ -14,6 +15,12 @@
 @synthesize major = _major;
 @synthesize minor = _minor;
 @synthesize proximity = _proximity;
+
+- (instancetype)initInShortcutRegionWithMajor:(NSNumber *)major minor:(NSNumber *)minor proximity:(CLProximity)proximity
+{
+    NSUUID *proximityUUID = [[NSUUID alloc] initWithUUIDString:kSCMShortcutRegionUUIDString];
+    return [self initWithProximityUUID:proximityUUID major:major minor:minor proximity:proximity];
+}
 
 - (instancetype)initWithProximityUUID:(NSUUID *)uuid major:(NSNumber *)major minor:(NSNumber *)minor proximity:(CLProximity)proximity
 {
