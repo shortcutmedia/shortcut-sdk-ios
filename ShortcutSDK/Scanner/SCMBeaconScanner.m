@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
+NSString *kSCMShortcutRegionUUIDString = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 
 @interface SCMBeaconScanner () <CLLocationManagerDelegate, CBCentralManagerDelegate>
 
@@ -45,8 +45,8 @@ NSString *kSCMShortcutRegionUUID = @"1978F86D-FA83-484B-9624-C360AC3BDB71";
 }
 - (CLRegion *)shortcutRegion
 {
-    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:kSCMShortcutRegionUUID];
-    NSString *identifier = kSCMShortcutRegionUUID;
+    NSUUID *uuid         = [[NSUUID alloc] initWithUUIDString:kSCMShortcutRegionUUIDString];
+    NSString *identifier = kSCMShortcutRegionUUIDString;
     return [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:identifier];
 }
 

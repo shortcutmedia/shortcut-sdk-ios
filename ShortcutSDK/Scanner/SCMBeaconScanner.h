@@ -161,4 +161,9 @@
  */
 - (BOOL)isAuthorizedForLocationServices;
 
+/**
+ *  String containing the UUID of the default Shortcut beacon region.
+ */
+extern NSString *kSCMShortcutRegionUUIDString;
+
 @end
