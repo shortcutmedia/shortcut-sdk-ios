@@ -74,7 +74,7 @@
 - (void)testTitle_ReturnsLocalizedTitle
 {
     // precondition:
-    XCTAssertEqualObjects(@"en", [[NSLocale preferredLanguages] firstObject]);
+    XCTAssertEqualObjects(@"en-US", [[NSLocale preferredLanguages] firstObject]);
     
     NSString *expectedTitle = @"Test Item en";
     XCTAssertEqualObjects(self.queryResult.title, expectedTitle);
@@ -83,7 +83,7 @@
 - (void)testTitle_ReturnsGlobalTitleIfLocalizationsAreNotAvailable
 {
     // precondition:
-    XCTAssertEqualObjects(@"en", [[NSLocale preferredLanguages] firstObject]);
+    XCTAssertEqualObjects(@"en-US", [[NSLocale preferredLanguages] firstObject]);
     
     NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
     mutableResultDictionary[@"metadata"] = @[
@@ -99,7 +99,7 @@
 - (void)testSubtitle_ReturnsLocalizedSubtitle
 {
     // precondition:
-    XCTAssertEqualObjects(@"en", [[NSLocale preferredLanguages] firstObject]);
+    XCTAssertEqualObjects(@"en-US", [[NSLocale preferredLanguages] firstObject]);
     
     NSString *expectedSubtitle = @"Tonga Test en";
     XCTAssertEqualObjects(self.queryResult.subtitle, expectedSubtitle);
@@ -108,7 +108,7 @@
 - (void)testSubtitle_ReturnsNilIfLocalizationsAreNotAvailable
 {
     // precondition:
-    XCTAssertEqualObjects(@"en", [[NSLocale preferredLanguages] firstObject]);
+    XCTAssertEqualObjects(@"en-US", [[NSLocale preferredLanguages] firstObject]);
     
     NSMutableDictionary *mutableResultDictionary = [self.resultDictionary mutableCopy];
     mutableResultDictionary[@"metadata"] = @[
