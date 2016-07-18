@@ -12,7 +12,7 @@
 @interface KWSImageRequest : NSObject
 
 @property (nonatomic, strong, readwrite) NSString *returnedMetadata;
-@property (nonatomic, strong, readwrite) NSData *clientData;
+@property (nonatomic, strong, readwrite) NSDictionary *clientData;
 
 - (id)initWithURL:(NSURL *)requestURL imageData:(NSData *)data;
 - (NSMutableURLRequest *)signedRequestWithAccessKey:(NSString *)accessKey secretToken:(NSString *)secretToken;

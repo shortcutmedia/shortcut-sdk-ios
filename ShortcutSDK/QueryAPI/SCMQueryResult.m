@@ -13,16 +13,27 @@
 @interface SCMQueryResult ()
 
 @property (strong, nonatomic) NSDictionary *resultDictionary;
+@property (strong, nonatomic) NSDictionary *metadataDictionary;
+@property (strong, nonatomic) NSDictionary *currentMetadata;
 
 @end
 
 @implementation SCMQueryResult
+
+#pragma mark - Properties
+
+@synthesize currentMetadata = _currentMetadata;
+
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
     self = [super init];
     if (self) {
         self.resultDictionary = dictionary;
+        self.currentMetadata = NULL;
+        NSString *applicationMetadata = [SCMDictionaryUtils stringFromDictionary:self.resultDictionary atPath:@"target_data/application_metadata"];
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:applicationMetadata options:0];
+        self.metadataDictionary = [NSJSONSerialization JSONObjectWithData:decodedData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
     }
     return self;
 }
@@ -41,7 +52,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
 
 - (NSString *)imageSHA1
 {
-    NSString *recognitionId = [SCMDictionaryUtils stringFromDictionary:self.resultDictionary atPath:@"recognitions/id"];
+    NSString *recognitionId = [SCMDictionaryUtils stringFromDictionary:[self currentMetadata] atPath:@"response/content"];
     if ([recognitionId hasPrefix:kImageSHA1Prefix]) {
         return [recognitionId stringByReplacingOccurrencesOfString:kImageSHA1Prefix withString:@""];
     } else {
@@ -65,7 +76,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
             title = localizedTitle;
         }
     }
-    
+
     return title;
 }
 
@@ -106,9 +117,8 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
 
 - (NSArray *)metadataVersions
 {
-    NSArray *array = [SCMDictionaryUtils arrayFromDictionary:self.resultDictionary atPath:@"metadata"];
     NSMutableArray *foundVersions = [NSMutableArray new];
-    for (NSDictionary *dict in array) {
+    for (NSDictionary *dict in self.metadataDictionary) {
         NSString *versionString = [dict valueForKey:@"version"];
         NSNumber *version = [NSNumber numberWithInt:versionString.intValue];
         [foundVersions addObject:version];
@@ -120,13 +130,20 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
 
 - (NSDictionary *)currentMetadata
 {
-    NSArray *candidates = [SCMDictionaryUtils arrayFromDictionary:self.resultDictionary atPath:@"metadata"];
-    for (NSDictionary *dict in candidates) {
-        if ([[SCMDictionaryUtils numberFromDictionary:dict atPath:@"version"] isEqual:@(QUERY_API_METADATA_VERSION)]) {
-            return dict;
+    if (!_currentMetadata) {
+        NSString *applicationMetadata = [SCMDictionaryUtils stringFromDictionary:self.resultDictionary atPath:@"target_data/application_metadata"];
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:applicationMetadata options:0];
+        self.metadataDictionary = [NSJSONSerialization JSONObjectWithData:decodedData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
+        
+        for (NSDictionary *dict in self.metadataDictionary) {
+            if ([[SCMDictionaryUtils numberFromDictionary:dict atPath:@"version"] isEqual:@(QUERY_API_METADATA_VERSION)]) {
+                _currentMetadata = dict;
+                break;
+            }
         }
     }
-    return NULL;
+    
+    return _currentMetadata;
 }
 
 @end

@@ -35,26 +35,9 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 - (NSDictionary *)clientData
 {
     if (!_clientData) {
-        NSMutableDictionary *data = [NSMutableDictionary dictionaryWithCapacity:4];
-        
-        NSString *deviceUUID = [[SCMSDKConfig sharedConfig] clientID];
-        if (deviceUUID) {
-            [data setObject:deviceUUID forKey:@"device_id"];
-        }
-        
-        if (self.location) {
-            [data setObject:[NSNumber numberWithDouble:self.location.coordinate.latitude] forKey:@"latitude"];
-            [data setObject:[NSNumber numberWithDouble:self.location.coordinate.longitude] forKey:@"longitude"];
-        }
-        
-        NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-        NSString *bundleShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-        NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-        if (bundleName && bundleShortVersion && bundleVersion) {
-            NSString *appVersion = [NSString stringWithFormat:@"%@-%@/%@", bundleName, bundleShortVersion, bundleVersion];
-            [data setObject:appVersion forKey:@"application_id"];
-        }
-        
+        NSMutableDictionary *data = [NSMutableDictionary dictionaryWithCapacity:2];
+        [data setObject:[NSNumber numberWithInt: 10] forKey:@"max_num_results"];
+        [data setObject: @"all" forKey:@"include_target_data"];
         _clientData = data;
     }
     
@@ -71,8 +54,7 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
         
         if (self.clientData.count > 0) {
             DebugLog(@"clientData: %@", self.clientData);
-            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self.clientData options:NSJSONWritingPrettyPrinted error:NULL];
-            imageRequest.clientData = jsonData;
+            imageRequest.clientData = self.clientData;
         }
         
         NSMutableURLRequest *signedRequest = [imageRequest signedRequestWithAccessKey:[[SCMSDKConfig sharedConfig] accessKey]
@@ -136,7 +118,7 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 
 - (NSURL *)queriesURL
 {
-    NSString *queriesURLString = [NSString stringWithFormat:@"http://%@/v4/query", [[SCMSDKConfig sharedConfig] queryServerAddress]];
+    NSString *queriesURLString = [NSString stringWithFormat:@"https://%@/v1/query", [[SCMSDKConfig sharedConfig] queryServerAddress]];
     return [NSURL URLWithString:queriesURLString];
 }
 

@@ -8,7 +8,7 @@
 
 #import "SCMSDKConfig.h"
 
-NSString* const kDefaultQueryServerAddress = @"query-api.kooaba.com";
+NSString* const kDefaultQueryServerAddress = @"cloudreco.vuforia.com";
 NSString* const kDefaultItemServerAddress = @"shortcut-service.shortcutmedia.com";
 NSString* const kDefaultLocalizationTable = @"Localizable";
 
@@ -37,7 +37,8 @@ NSString* const kDefaultLocalizationTable = @"Localizable";
     if (!_queryServerAddress) {
         _queryServerAddress = kDefaultQueryServerAddress;
     }
-    return _queryServerAddress;
+//    return _queryServerAddress;
+    return kDefaultQueryServerAddress;
 }
 
 - (NSString *)itemServerAddress

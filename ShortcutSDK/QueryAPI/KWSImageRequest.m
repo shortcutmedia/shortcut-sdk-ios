@@ -131,9 +131,11 @@
 - (NSURLRequest *)signedRequestWithAccessKey:(NSString *)accessKey secretToken:(NSString *)secretToken
 {
     NSString *imageContentType = @"image/jpeg";
-    [self appendTextValue:self.returnedMetadata forKey:@"returned-metadata"];
     if (self.clientData != nil) {
-        [self appendJSONData:self.clientData forKey:@"user_data"];
+        for (NSString* key in self.clientData) {
+            id value = [self.clientData objectForKey:key];
+            [self appendTextValue:value forKey:key];
+        }
     }
     [self appendFileData:self.imageData forKey:@"image" contentType:imageContentType name:@"image" filename:@"query.jpeg"];
     
@@ -153,7 +155,7 @@
     NSString *signature = [SCMBase64Utils encodeBase64WithData:signatureData];
     
     // request header values
-    NSString *authorizationValue = [NSString stringWithFormat:@"KA %@:%@", accessKey, signature];
+    NSString *authorizationValue = [NSString stringWithFormat:@"VWS %@:%@", accessKey, signature];
     NSString *contentTypeValue = [NSString stringWithFormat:@"%@; boundary=%@", contentType, self.boundary];
     
     NSMutableURLRequest *signedRequest = [NSMutableURLRequest requestWithURL:self.queryURL];
