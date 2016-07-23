@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -13,7 +13,6 @@
                 <outlet property="cameraToolbar" destination="4" id="37"/>
                 <outlet property="cameraZoomSlider" destination="8" id="18"/>
                 <outlet property="flashButton" destination="76" id="78"/>
-                <outlet property="infoButton" destination="75" id="79"/>
                 <outlet property="previewImageView" destination="88" id="100"/>
                 <outlet property="previewView" destination="7" id="20"/>
                 <outlet property="progressToolbar" destination="89" id="98"/>
@@ -32,7 +31,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="SCMCameraToolbar">
                     <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Done Button" customClass="SCMCustomToolbarButton">
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Done Button" customClass="SCMCustomToolbarButton">
                             <rect key="frame" x="8" y="8" width="33" height="28"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <state key="normal" title="Done">
@@ -89,7 +88,7 @@
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="89" customClass="SCMProgressToolbar">
                     <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92" userLabel="Cancel Button" customClass="SCMCustomToolbarButton">
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92" userLabel="Cancel Button" customClass="SCMCustomToolbarButton">
                             <rect key="frame" x="8" y="8" width="43" height="28"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <state key="normal" title="Cancel">
@@ -157,23 +156,9 @@
                         <action selector="toggleFlashMode:" destination="-1" eventType="touchUpInside" id="87"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="75" userLabel="Info Button">
-                    <rect key="frame" x="544" y="0.0" width="36" height="29"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                    <state key="normal" image="CameraInfoOffIcon.png" backgroundImage="CameraOverlayButtonBackground.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="highlighted">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="toggleHelp" destination="-1" eventType="touchUpInside" id="KIr-Wh-qcI"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="75" firstAttribute="top" secondItem="1" secondAttribute="top" id="1FQ-RY-Jwp"/>
                 <constraint firstAttribute="trailing" secondItem="7" secondAttribute="trailing" id="2f3-5e-HDH"/>
                 <constraint firstAttribute="bottom" secondItem="7" secondAttribute="bottom" id="3ld-sj-tql"/>
                 <constraint firstAttribute="bottom" secondItem="89" secondAttribute="bottom" id="7JN-jO-WLp"/>
@@ -182,7 +167,6 @@
                 <constraint firstItem="7" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="FiJ-ut-KR4"/>
                 <constraint firstAttribute="bottom" secondItem="4" secondAttribute="bottom" id="Liv-s3-lsM"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="O8H-4A-800"/>
-                <constraint firstAttribute="trailing" secondItem="75" secondAttribute="trailing" constant="20" symbolic="YES" id="VBg-Hm-Uqw"/>
                 <constraint firstAttribute="trailing" secondItem="4" secondAttribute="trailing" id="ZDP-7T-Iqy"/>
                 <constraint firstItem="7" firstAttribute="top" secondItem="1" secondAttribute="top" id="ZHk-Rz-MyE"/>
                 <constraint firstAttribute="centerY" secondItem="68" secondAttribute="centerY" id="Zcm-aU-meI"/>
@@ -212,7 +196,6 @@
         <image name="CameraButtonBackgroundHighlighted.png" width="111" height="39"/>
         <image name="CameraButtonIconDefault.png" width="32" height="24"/>
         <image name="CameraFlashOffIcon.png" width="20" height="20"/>
-        <image name="CameraInfoOffIcon.png" width="20" height="20"/>
         <image name="CameraOverlayButtonBackground.png" width="36" height="29"/>
     </resources>
 </document>
