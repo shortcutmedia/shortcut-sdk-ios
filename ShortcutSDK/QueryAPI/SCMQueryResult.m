@@ -70,7 +70,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     NSString *title = [SCMDictionaryUtils stringFromDictionary:self.resultDictionary atPath:@"title"];
     NSDictionary *titleLocalizations = [SCMDictionaryUtils dictionaryFromDictionary:self.currentMetadata atPath:@"title"];
     if (titleLocalizations) {
-        NSString *language = [[NSLocale preferredLanguages] firstObject];
+        NSString *language = [self shortLanguage];
         NSString *localizedTitle = [SCMDictionaryUtils stringFromDictionary:titleLocalizations atPath:language];
         if (localizedTitle.length > 0) {
             title = localizedTitle;
@@ -85,7 +85,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     NSString *subtitle = [SCMDictionaryUtils stringFromDictionary:self.resultDictionary atPath:@"subtitle"];
     NSDictionary *subtitleLocalizations = [SCMDictionaryUtils dictionaryFromDictionary:self.currentMetadata atPath:@"subtitle"];
     if (subtitleLocalizations) {
-        NSString *language = [[NSLocale preferredLanguages] firstObject];
+        NSString *language = [self shortLanguage];
         NSString *localizedSubtitle = [SCMDictionaryUtils stringFromDictionary:subtitleLocalizations atPath:language];
         if (localizedSubtitle.length > 0) {
             subtitle = localizedSubtitle;
@@ -144,6 +144,14 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     }
     
     return _currentMetadata;
+}
+
+- (NSString *)shortLanguage {
+    NSString *language = [[NSLocale preferredLanguages] firstObject];
+    if (language) {
+        language = [[language componentsSeparatedByString:@"-"] firstObject];
+    }
+    return language;
 }
 
 @end
