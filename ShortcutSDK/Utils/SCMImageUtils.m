@@ -397,7 +397,7 @@
     size_t scaledImageSize = size.height * (size.width * sizeof(uint32_t));
     NSMutableData *scaledImageData = [[NSMutableData alloc] initWithLength:scaledImageSize];
     
-    if (vImageScale_ARGB8888 != NULL && (width != size.width || height != size.height)) {
+    if (&vImageScale_ARGB8888 != NULL && (width != size.width || height != size.height)) {
         vImage_Buffer scaledImageBuffer;
         scaledImageBuffer.width = size.width;
         scaledImageBuffer.height = size.height;
@@ -478,7 +478,7 @@
     size_t scaledImageSize = size.height * (size.width * sizeof(uint32_t));
     NSMutableData *scaledImageData = [[NSMutableData alloc] initWithLength:scaledImageSize];
     
-    if (vImageScale_ARGB8888 != NULL && (width != size.width || height != size.height)) {
+    if (&vImageScale_ARGB8888 != NULL && (width != size.width || height != size.height)) {
         vImage_Buffer scaledImageBuffer;
         scaledImageBuffer.width = size.width;
         scaledImageBuffer.height = size.height;

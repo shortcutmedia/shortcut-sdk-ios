@@ -109,7 +109,7 @@ static const CGFloat KSliderDragThreshold = 4.0;
 {
     CGPoint location = [touch locationInView:self];
     CGFloat deltaX = location.x - self.initialTouchX;
-    if (fabsf(deltaX) > KSliderDragThreshold) {
+    if (fabs(deltaX) > KSliderDragThreshold) {
         self.userDraggedSlider = YES;
     }
     

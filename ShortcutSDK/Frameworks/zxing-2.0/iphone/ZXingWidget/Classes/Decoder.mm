@@ -102,12 +102,12 @@ public:
   
   subsetBytesPerRow = ((subsetWidth + 0xf) >> 4) << 4;
 #ifdef DEBUG
-  NSLog(@"decoding: image to decode is (%d x %d) (%d bytes/row)", subsetWidth, subsetHeight, subsetBytesPerRow);
+  NSLog(@"decoding: image to decode is (%lu x %lu) (%lu bytes/row)", subsetWidth, subsetHeight, subsetBytesPerRow);
 #endif
   
   subsetData = (unsigned char *)malloc(subsetBytesPerRow * subsetHeight);
 #ifdef DEBUG
-  NSLog(@"allocated %d bytes of memory", subsetBytesPerRow * subsetHeight);
+  NSLog(@"allocated %lu bytes of memory", subsetBytesPerRow * subsetHeight);
 #endif
   
   CGColorSpaceRef grayColorSpace = CGColorSpaceCreateDeviceGray();
@@ -124,7 +124,7 @@ public:
   CGContextScaleCTM(ctx, 1.0, -1.0);  
   
 #ifdef DEBUG
-  NSLog(@"created %dx%d bitmap context", subsetWidth, subsetHeight);
+  NSLog(@"created %lux%lu bitmap context", subsetWidth, subsetHeight);
 #endif
   
   UIGraphicsPushContext(ctx);
@@ -136,7 +136,7 @@ public:
   UIGraphicsPopContext();
   
 #ifdef DEBUG
-  NSLog(@"drew image into %d(%d)x%d  bitmap context", subsetWidth, subsetBytesPerRow, subsetHeight);
+  NSLog(@"drew image into %lu(%lu)x%lu  bitmap context", subsetWidth, subsetBytesPerRow, subsetHeight);
 #endif
   CGContextFlush(ctx);
 #ifdef DEBUG
@@ -165,14 +165,14 @@ public:
     //NSSet *formatReaders = [FormatReader formatReaders];
     NSSet *formatReaders = self.readers;
     Ref<LuminanceSource> source 
-        (new GreyscaleLuminanceSource(subsetData, subsetBytesPerRow, subsetHeight, 0, 0, subsetWidth, subsetHeight));
+        (new GreyscaleLuminanceSource(subsetData, int(subsetBytesPerRow), int(subsetHeight), 0, 0, int(subsetWidth), int(subsetHeight)));
 
     Ref<Binarizer> binarizer (new HybridBinarizer(source));
     source = 0;
     Ref<BinaryBitmap> grayImage (new BinaryBitmap(binarizer));
     binarizer = 0;
 #ifdef DEBUG
-    NSLog(@"created GreyscaleLuminanceSource(%p,%d,%d,%d,%d,%d,%d)",
+    NSLog(@"created GreyscaleLuminanceSource(%p,%lu,%lu,%d,%d,%lu,%lu)",
           subsetData, subsetBytesPerRow, subsetHeight, 0, 0, subsetWidth, subsetHeight);
     NSLog(@"grayImage count = %d", grayImage->count());
 #endif
