@@ -23,7 +23,6 @@ static const NSInteger kMaxOutstandingImageRecognitionOperations = 2;
 static const NSTimeInterval kDefaultNoMotionThreshold = 0.1;
 static const CGFloat kDefaultQueryImageSize = 640.0;
 static const CGFloat kDefaultOutputCompressionLevel = 0.30;
-static const NSTimeInterval kMaximumServerResponseTime = 8.0;
 
 @interface SCMLiveScanner () <AVCaptureVideoDataOutputSampleBufferDelegate, SCMQRCodeScannerDelegate>
 
@@ -364,14 +363,23 @@ static const NSTimeInterval kMaximumServerResponseTime = 8.0;
         DebugLog(@"RecognitionOperation failed: %@", [recognitionOperation.error localizedDescription]);
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([recognitionOperation.error.domain isEqualToString:NSURLErrorDomain]) {
+
                 if (recognitionOperation.error.code == NSURLErrorTimedOut ||
                     recognitionOperation.error.code == NSURLErrorCannotFindHost ||
                     recognitionOperation.error.code == NSURLErrorCannotConnectToHost ||
                     recognitionOperation.error.code == NSURLErrorNetworkConnectionLost ||
                     recognitionOperation.error.code == NSURLErrorDNSLookupFailed ||
                     recognitionOperation.error.code == NSURLErrorNotConnectedToInternet) {
+
                     if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
                         self.recognitionError = [NSError errorWithDomain:kSCMLiveScannerErrorDomain code:kSCMLiveScannerErrorServerResponseTooSlow userInfo:nil];
+                    } else if (self.liveScannerMode == kSCMLiveScannerSingleShotMode) {
+                        [self.delegate liveScanner:self capturedSingleImageWhileOffline:recognitionOperation.imageData atLocation:self.location];
+                    }
+                } else if (recognitionOperation.error.code == NSURLErrorInternationalRoamingOff) {
+                    // International roaming off
+                    if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
+                        self.recognitionError = [NSError errorWithDomain:kSCMLiveScannerErrorDomain code:kSCMLiveScannerErrorInternationalRoamingOff userInfo:nil];
                     } else if (self.liveScannerMode == kSCMLiveScannerSingleShotMode) {
                         [self.delegate liveScanner:self capturedSingleImageWhileOffline:recognitionOperation.imageData atLocation:self.location];
                     }

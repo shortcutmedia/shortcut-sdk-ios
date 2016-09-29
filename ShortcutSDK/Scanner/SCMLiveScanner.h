@@ -45,5 +45,6 @@ extern NSString *kSCMLiveScannerErrorDomain;
 
 typedef enum
 {
-    kSCMLiveScannerErrorServerResponseTooSlow = -1
+    kSCMLiveScannerErrorServerResponseTooSlow = -1,
+    kSCMLiveScannerErrorInternationalRoamingOff = -2
 } SCMLiveScannerErrorCode;

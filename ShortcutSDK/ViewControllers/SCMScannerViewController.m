@@ -126,12 +126,6 @@ typedef enum
     return self;
 }
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    NSLog(@"SCMScannerViewController: custom nib ignored. Use init to instantiate an instance");
-    return [self init];
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -297,7 +291,7 @@ typedef enum
     return NO;
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
@@ -410,11 +404,20 @@ typedef enum
                 title = [SCMLocalization translationFor:@"NoInternetConnectionTitle" withDefaultValue:@"No Internet connection"];
             }
             // slow internet connection
-            else if ([error.domain isEqualToString:kSCMLiveScannerErrorDomain] && error.code == kSCMLiveScannerErrorServerResponseTooSlow) {
-                title = [SCMLocalization translationFor:@"SlowInternetConnectionTitle" withDefaultValue:@"No Internet connection"];
-                if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
-                    subtitle = [SCMLocalization translationFor:@"SwitchingToSnapshotModeBody" withDefaultValue:@"Switching to Snapshot mode"];
-                    [self switchToMode:kSCMLiveScannerSingleShotMode];
+            else if ([error.domain isEqualToString:kSCMLiveScannerErrorDomain]) {
+                if (error.code == kSCMLiveScannerErrorInternationalRoamingOff) {
+                    title = [SCMLocalization translationFor:@"InternationalRoamingOff" withDefaultValue:@"International roaming is currently off."];
+                    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
+                        subtitle = [SCMLocalization translationFor:@"SwitchingToSnapshotModeBody" withDefaultValue:@"Switching to Snapshot mode"];
+                        [self switchToMode:kSCMLiveScannerSingleShotMode];
+                    }
+
+                } else if (error.code == kSCMLiveScannerErrorServerResponseTooSlow) {
+                    title = [SCMLocalization translationFor:@"SlowInternetConnectionTitle" withDefaultValue:@"No Internet connection"];
+                    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
+                        subtitle = [SCMLocalization translationFor:@"SwitchingToSnapshotModeBody" withDefaultValue:@"Switching to Snapshot mode"];
+                        [self switchToMode:kSCMLiveScannerSingleShotMode];
+                    }
                 }
             }
             // authentication error
