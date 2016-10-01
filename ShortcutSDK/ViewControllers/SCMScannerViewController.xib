@@ -12,6 +12,7 @@
                 <outlet property="cameraStatusView" destination="68" id="69"/>
                 <outlet property="cameraToolbar" destination="4" id="37"/>
                 <outlet property="cameraZoomSlider" destination="8" id="18"/>
+                <outlet property="flashBackground" destination="YPc-3R-ugx" id="lgD-5U-NcJ"/>
                 <outlet property="flashButton" destination="76" id="78"/>
                 <outlet property="previewImageView" destination="88" id="100"/>
                 <outlet property="previewView" destination="7" id="20"/>
@@ -21,18 +22,47 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="1">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7" userLabel="Preview View">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="SCMCameraToolbar">
-                    <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                    <rect key="frame" x="0.0" y="648" width="414" height="88"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Done Button" customClass="SCMCustomToolbarButton">
-                            <rect key="frame" x="8" y="8" width="33" height="28"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="10" userLabel="Camera Button">
+                            <rect key="frame" x="174" y="10" width="67" height="67"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="67" id="5iO-mg-Wnh"/>
+                                <constraint firstAttribute="width" constant="67" id="hmf-M8-v8m"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" image="CameraButton"/>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="takePicture:" destination="-1" eventType="touchUpInside" id="19"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84" customClass="SCMCameraModeControl">
+                            <rect key="frame" x="342" y="22" width="64" height="44"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="2Sn-0J-fSS"/>
+                                <constraint firstAttribute="width" constant="64" id="3zu-qU-SKt"/>
+                            </constraints>
+                            <connections>
+                                <action selector="cameraModeChanged:" destination="-1" eventType="valueChanged" id="86"/>
+                            </connections>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Done Button" customClass="SCMCustomToolbarButton">
+                            <rect key="frame" x="8" y="30" width="33" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="33" id="2pE-LX-UXq"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <state key="normal" title="Done">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -45,38 +75,14 @@
                                 <action selector="done:" destination="-1" eventType="touchUpInside" id="41"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="10" userLabel="Camera Button">
-                            <rect key="frame" x="245" y="2" width="111" height="39"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" image="CameraButtonIconDefault.png" backgroundImage="CameraButtonBackgroundDefault.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted" backgroundImage="CameraButtonBackgroundHighlighted.png">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="takePicture:" destination="-1" eventType="touchUpInside" id="19"/>
-                            </connections>
-                        </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84" customClass="SCMCameraModeControl">
-                            <rect key="frame" x="528" y="0.0" width="64" height="44"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="2Sn-0J-fSS"/>
-                                <constraint firstAttribute="width" constant="64" id="3zu-qU-SKt"/>
-                            </constraints>
-                            <connections>
-                                <action selector="cameraModeChanged:" destination="-1" eventType="valueChanged" id="86"/>
-                            </connections>
-                        </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.29940958969999998" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerY" secondItem="10" secondAttribute="centerY" id="Agu-xr-AkH"/>
-                        <constraint firstItem="9" firstAttribute="leading" secondItem="4" secondAttribute="leadingMargin" id="PF9-Ur-fF3"/>
+                        <constraint firstItem="9" firstAttribute="leading" secondItem="4" secondAttribute="leadingMargin" id="Owh-jO-SMA"/>
                         <constraint firstAttribute="centerX" secondItem="10" secondAttribute="centerX" id="UXJ-Gf-acU"/>
-                        <constraint firstAttribute="height" constant="44" id="VJE-mD-lpr"/>
-                        <constraint firstAttribute="centerY" secondItem="9" secondAttribute="centerY" id="iag-hh-MZd"/>
+                        <constraint firstAttribute="height" constant="88" id="VJE-mD-lpr"/>
+                        <constraint firstItem="9" firstAttribute="centerY" secondItem="4" secondAttribute="centerY" id="i7D-xz-fq6"/>
                         <constraint firstAttribute="trailingMargin" secondItem="84" secondAttribute="trailing" id="lji-CZ-Ga9"/>
                         <constraint firstAttribute="centerY" secondItem="84" secondAttribute="centerY" id="o6I-6T-B0K"/>
                     </constraints>
@@ -86,10 +92,13 @@
                     </connections>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="89" customClass="SCMProgressToolbar">
-                    <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                    <rect key="frame" x="0.0" y="648" width="414" height="88"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92" userLabel="Cancel Button" customClass="SCMCustomToolbarButton">
-                            <rect key="frame" x="8" y="8" width="43" height="28"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92" userLabel="Cancel Button" customClass="SCMCustomToolbarButton">
+                            <rect key="frame" x="8" y="30.5" width="43" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="43" id="ILH-ty-Y0O"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                             <state key="normal" title="Cancel">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -103,22 +112,22 @@
                             </connections>
                         </button>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="93">
-                            <rect key="frame" x="572" y="12" width="20" height="20"/>
+                            <rect key="frame" x="386" y="34" width="20" height="20"/>
                         </activityIndicatorView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Status" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="94">
-                            <rect key="frame" x="514" y="11" width="50" height="21"/>
+                            <rect key="frame" x="328" y="33.5" width="50" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.29940958969465647" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="93" firstAttribute="leading" secondItem="94" secondAttribute="trailing" constant="8" symbolic="YES" id="0FT-Cn-N1o"/>
-                        <constraint firstAttribute="centerY" secondItem="92" secondAttribute="centerY" id="1pD-nN-YIG"/>
-                        <constraint firstItem="92" firstAttribute="leading" secondItem="89" secondAttribute="leadingMargin" id="7e0-e9-HOU"/>
-                        <constraint firstAttribute="height" constant="44" id="CNq-Vn-afN"/>
+                        <constraint firstAttribute="height" constant="88" id="CNq-Vn-afN"/>
                         <constraint firstAttribute="trailingMargin" secondItem="93" secondAttribute="trailing" id="DVl-1c-eyM"/>
+                        <constraint firstItem="92" firstAttribute="leading" secondItem="89" secondAttribute="leadingMargin" id="ZE0-Fd-YSb"/>
+                        <constraint firstItem="92" firstAttribute="centerY" secondItem="94" secondAttribute="centerY" id="bVi-Zo-xoL"/>
                         <constraint firstAttribute="centerY" secondItem="94" secondAttribute="centerY" id="vNu-xk-Mfp"/>
                         <constraint firstAttribute="centerY" secondItem="93" secondAttribute="centerY" id="x0p-Hx-Cd5"/>
                     </constraints>
@@ -129,41 +138,54 @@
                     </connections>
                 </view>
                 <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="SCMCameraZoomSlider">
-                    <rect key="frame" x="20" y="512" width="560" height="36"/>
+                    <rect key="frame" x="20" y="604" width="374" height="36"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="Gup-tA-kU6"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="68" customClass="SCMStatusView">
-                    <rect key="frame" x="250" y="250" width="100" height="100"/>
+                    <rect key="frame" x="157" y="318" width="100" height="100"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="100" id="L0I-8m-V9O"/>
                         <constraint firstAttribute="width" constant="100" id="c0z-M5-gbu"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76" userLabel="Flash Button">
-                    <rect key="frame" x="20" y="0.0" width="36" height="29"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                    <state key="normal" image="CameraFlashOffIcon.png" backgroundImage="CameraOverlayButtonBackground.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="highlighted">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="toggleFlashMode:" destination="-1" eventType="touchUpInside" id="87"/>
-                    </connections>
-                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YPc-3R-ugx" userLabel="Flash Background View">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76" userLabel="Flash Button">
+                            <rect key="frame" x="20" y="0.0" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="36" id="5kI-nx-4e4"/>
+                                <constraint firstAttribute="height" constant="36" id="HDq-LP-K1z"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" image="CameraFlashOff"/>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="toggleFlashMode:" destination="-1" eventType="touchUpInside" id="87"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.29940958969999998" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="H1V-0e-NZo"/>
+                        <constraint firstItem="76" firstAttribute="top" secondItem="YPc-3R-ugx" secondAttribute="top" id="WnP-cU-ML1"/>
+                        <constraint firstItem="76" firstAttribute="leading" secondItem="YPc-3R-ugx" secondAttribute="leading" constant="20" id="k8C-Rv-XA3"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="7" secondAttribute="bottom" id="1Vz-CN-ETq"/>
                 <constraint firstAttribute="trailing" secondItem="7" secondAttribute="trailing" id="2f3-5e-HDH"/>
                 <constraint firstAttribute="bottom" secondItem="7" secondAttribute="bottom" id="3ld-sj-tql"/>
                 <constraint firstAttribute="bottom" secondItem="89" secondAttribute="bottom" id="7JN-jO-WLp"/>
-                <constraint firstItem="76" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="9kr-hU-JJA"/>
-                <constraint firstItem="76" firstAttribute="top" secondItem="1" secondAttribute="top" id="CpL-jy-fnb"/>
+                <constraint firstItem="YPc-3R-ugx" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="7yC-ma-RKP"/>
                 <constraint firstItem="7" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="FiJ-ut-KR4"/>
                 <constraint firstAttribute="bottom" secondItem="4" secondAttribute="bottom" id="Liv-s3-lsM"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="O8H-4A-800"/>
@@ -171,17 +193,23 @@
                 <constraint firstItem="7" firstAttribute="top" secondItem="1" secondAttribute="top" id="ZHk-Rz-MyE"/>
                 <constraint firstAttribute="centerY" secondItem="68" secondAttribute="centerY" id="Zcm-aU-meI"/>
                 <constraint firstAttribute="trailing" secondItem="89" secondAttribute="trailing" id="bPt-dU-WvP"/>
+                <constraint firstItem="YPc-3R-ugx" firstAttribute="top" secondItem="1" secondAttribute="top" id="cgm-rS-lKA"/>
+                <constraint firstAttribute="trailing" secondItem="YPc-3R-ugx" secondAttribute="trailing" id="d88-j5-IaX"/>
                 <constraint firstItem="4" firstAttribute="top" secondItem="7" secondAttribute="bottom" id="fXk-T3-IVa"/>
                 <constraint firstItem="8" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="hKA-KP-L5c"/>
                 <constraint firstAttribute="centerX" secondItem="68" secondAttribute="centerX" id="hnc-Qm-LEh"/>
                 <constraint firstItem="89" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="mgN-4U-Z4n"/>
                 <constraint firstItem="4" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="8" symbolic="YES" id="r8c-mm-MoV"/>
                 <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="20" symbolic="YES" id="rNo-ig-pHJ"/>
+                <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" constant="96" id="t0R-yp-Wpx"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="3ld-sj-tql"/>
+                    <exclude reference="fXk-T3-IVa"/>
+                    <exclude reference="r8c-mm-MoV"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="140" y="154"/>
@@ -189,13 +217,11 @@
         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="88" userLabel="Single Shot Image View">
             <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <point key="canvasLocation" x="570" y="109"/>
         </imageView>
     </objects>
     <resources>
-        <image name="CameraButtonBackgroundDefault.png" width="111" height="39"/>
-        <image name="CameraButtonBackgroundHighlighted.png" width="111" height="39"/>
-        <image name="CameraButtonIconDefault.png" width="32" height="24"/>
-        <image name="CameraFlashOffIcon.png" width="20" height="20"/>
-        <image name="CameraOverlayButtonBackground.png" width="36" height="29"/>
+        <image name="CameraButton" width="67" height="67"/>
+        <image name="CameraFlashOff" width="27" height="27"/>
     </resources>
 </document>

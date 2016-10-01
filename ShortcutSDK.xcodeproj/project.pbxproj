@@ -23,19 +23,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		61E138991D9EC0FB00A11FF0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E11BAE1D9EBAB3002222B9 /* Images.xcassets */; };
 		86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */; };
 		86197B021A2C663700BD726B /* CameraModeLiveScannerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */; };
 		86197B031A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */; };
 		86197B041A2C663700BD726B /* CameraModeSingleShotIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFC1A2C663700BD726B /* CameraModeSingleShotIcon.png */; };
 		86197B051A2C663700BD726B /* CameraModeSingleShotIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFD1A2C663700BD726B /* CameraModeSingleShotIcon@2x.png */; };
-		86197B061A2C663700BD726B /* CameraModeSlider.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFE1A2C663700BD726B /* CameraModeSlider.png */; };
-		86197B071A2C663700BD726B /* CameraModeSlider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFF1A2C663700BD726B /* CameraModeSlider@2x.png */; };
-		86197B081A2C663700BD726B /* CameraModeSliderBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B001A2C663700BD726B /* CameraModeSliderBackground.png */; };
-		86197B091A2C663700BD726B /* CameraModeSliderBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B011A2C663700BD726B /* CameraModeSliderBackground@2x.png */; };
-		86197B0C1A2C66A700BD726B /* NavigationBarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0A1A2C66A700BD726B /* NavigationBarBackground.png */; };
-		86197B0D1A2C66A700BD726B /* NavigationBarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0B1A2C66A700BD726B /* NavigationBarBackground@2x.png */; };
-		86197B101A2C671F00BD726B /* BarButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0E1A2C671F00BD726B /* BarButtonBackground.png */; };
-		86197B111A2C671F00BD726B /* BarButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */; };
 		869DFCFA1A83C178007B8C31 /* SCMCustomUserAgentProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */; };
 		869DFCFB1A83C178007B8C31 /* SCMCustomUserAgentProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */; };
 		86AB02DA1A2872E600586049 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AB02D91A2872E600586049 /* Foundation.framework */; };
@@ -56,27 +49,11 @@
 		86CCF7DD1A2E0BDE004FA85C /* SCMLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CCF7DB1A2E0BDE004FA85C /* SCMLocalization.m */; };
 		86D085491A2889EC005CECD3 /* SCMScannerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86ED35AC1A2772F700D9F3B0 /* SCMScannerViewController.xib */; };
 		86D0854A1A2889F2005CECD3 /* SCMItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86ED35B01A2772F700D9F3B0 /* SCMItemViewController.xib */; };
-		86D085781A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D0856A1A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png */; };
-		86D085791A28BB7B005CECD3 /* CameraButtonBackgroundDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D0856B1A28BB7B005CECD3 /* CameraButtonBackgroundDefault@2x.png */; };
-		86D0857A1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D0856C1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted.png */; };
-		86D0857B1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D0856D1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted@2x.png */; };
-		86D0857C1A28BB7B005CECD3 /* CameraButtonIconDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D0856E1A28BB7B005CECD3 /* CameraButtonIconDefault.png */; };
-		86D0857D1A28BB7B005CECD3 /* CameraButtonIconDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D0856F1A28BB7B005CECD3 /* CameraButtonIconDefault@2x.png */; };
-		86D0857E1A28BB7B005CECD3 /* CameraFlashOffIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085701A28BB7B005CECD3 /* CameraFlashOffIcon.png */; };
-		86D0857F1A28BB7B005CECD3 /* CameraFlashOffIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085711A28BB7B005CECD3 /* CameraFlashOffIcon@2x.png */; };
-		86D085801A28BB7B005CECD3 /* CameraFlashOnIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085721A28BB7B005CECD3 /* CameraFlashOnIcon.png */; };
-		86D085811A28BB7B005CECD3 /* CameraFlashOnIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085731A28BB7B005CECD3 /* CameraFlashOnIcon@2x.png */; };
-		86D085841A28BB7B005CECD3 /* CameraOverlayButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085761A28BB7B005CECD3 /* CameraOverlayButtonBackground.png */; };
-		86D085851A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D085771A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png */; };
 		86E5F3591A77D1170039C7A3 /* SCMQueryResultTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */; };
 		86E5F35E1A77E9F40039C7A3 /* SCMTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F35D1A77E9F40039C7A3 /* SCMTestCase.m */; };
 		86E5F3601A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F35F1A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m */; };
 		86E5F3681A77ED690039C7A3 /* recognizable_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 86E5F3661A77ED690039C7A3 /* recognizable_image.jpg */; };
 		86E5F3691A77ED690039C7A3 /* unrecognizable_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 86E5F3671A77ED690039C7A3 /* unrecognizable_image.jpg */; };
-		86ECE1731AD80829008E341B /* CameraInfoOffIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86ECE16F1AD80829008E341B /* CameraInfoOffIcon.png */; };
-		86ECE1741AD80829008E341B /* CameraInfoOffIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86ECE1701AD80829008E341B /* CameraInfoOffIcon@2x.png */; };
-		86ECE1751AD80829008E341B /* CameraInfoOnIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86ECE1711AD80829008E341B /* CameraInfoOnIcon.png */; };
-		86ECE1761AD80829008E341B /* CameraInfoOnIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86ECE1721AD80829008E341B /* CameraInfoOnIcon@2x.png */; };
 		86ED34AC1A27726E00D9F3B0 /* libShortcutSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86ED34A01A27726E00D9F3B0 /* libShortcutSDK.a */; };
 		86ED35C21A2772F700D9F3B0 /* BarcodeFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ED34C31A2772F700D9F3B0 /* BarcodeFormat.cpp */; };
 		86ED35C31A2772F700D9F3B0 /* Binarizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ED34C51A2772F700D9F3B0 /* Binarizer.cpp */; };
@@ -264,19 +241,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		61E11BAE1D9EBAB3002222B9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResponseTest.m; path = QueryAPI/SCMQueryResponseTest.m; sourceTree = "<group>"; };
 		86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraModeLiveScannerIcon.png; path = Resources/CameraModeLiveScannerIcon.png; sourceTree = "<group>"; };
 		86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraModeLiveScannerIcon@2x.png"; path = "Resources/CameraModeLiveScannerIcon@2x.png"; sourceTree = "<group>"; };
 		86197AFC1A2C663700BD726B /* CameraModeSingleShotIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraModeSingleShotIcon.png; path = Resources/CameraModeSingleShotIcon.png; sourceTree = "<group>"; };
 		86197AFD1A2C663700BD726B /* CameraModeSingleShotIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraModeSingleShotIcon@2x.png"; path = "Resources/CameraModeSingleShotIcon@2x.png"; sourceTree = "<group>"; };
-		86197AFE1A2C663700BD726B /* CameraModeSlider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraModeSlider.png; path = Resources/CameraModeSlider.png; sourceTree = "<group>"; };
-		86197AFF1A2C663700BD726B /* CameraModeSlider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraModeSlider@2x.png"; path = "Resources/CameraModeSlider@2x.png"; sourceTree = "<group>"; };
-		86197B001A2C663700BD726B /* CameraModeSliderBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraModeSliderBackground.png; path = Resources/CameraModeSliderBackground.png; sourceTree = "<group>"; };
-		86197B011A2C663700BD726B /* CameraModeSliderBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraModeSliderBackground@2x.png"; path = "Resources/CameraModeSliderBackground@2x.png"; sourceTree = "<group>"; };
-		86197B0A1A2C66A700BD726B /* NavigationBarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NavigationBarBackground.png; path = Resources/NavigationBarBackground.png; sourceTree = "<group>"; };
-		86197B0B1A2C66A700BD726B /* NavigationBarBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "NavigationBarBackground@2x.png"; path = "Resources/NavigationBarBackground@2x.png"; sourceTree = "<group>"; };
-		86197B0E1A2C671F00BD726B /* BarButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BarButtonBackground.png; path = Resources/BarButtonBackground.png; sourceTree = "<group>"; };
-		86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BarButtonBackground@2x.png"; path = "Resources/BarButtonBackground@2x.png"; sourceTree = "<group>"; };
 		864218961A4040430044B744 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		864218981A4040F10044B744 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		86775FB51A417EEB00D136A5 /* create_framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = create_framework.sh; sourceTree = "<group>"; };
@@ -302,28 +272,12 @@
 		86CCF7DB1A2E0BDE004FA85C /* SCMLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMLocalization.m; sourceTree = "<group>"; };
 		86D085401A2888B5005CECD3 /* ShortcutSDK.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortcutSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		86D085431A2888B5005CECD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		86D0856A1A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraButtonBackgroundDefault.png; path = Resources/CameraButtonBackgroundDefault.png; sourceTree = "<group>"; };
-		86D0856B1A28BB7B005CECD3 /* CameraButtonBackgroundDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraButtonBackgroundDefault@2x.png"; path = "Resources/CameraButtonBackgroundDefault@2x.png"; sourceTree = "<group>"; };
-		86D0856C1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraButtonBackgroundHighlighted.png; path = Resources/CameraButtonBackgroundHighlighted.png; sourceTree = "<group>"; };
-		86D0856D1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraButtonBackgroundHighlighted@2x.png"; path = "Resources/CameraButtonBackgroundHighlighted@2x.png"; sourceTree = "<group>"; };
-		86D0856E1A28BB7B005CECD3 /* CameraButtonIconDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraButtonIconDefault.png; path = Resources/CameraButtonIconDefault.png; sourceTree = "<group>"; };
-		86D0856F1A28BB7B005CECD3 /* CameraButtonIconDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraButtonIconDefault@2x.png"; path = "Resources/CameraButtonIconDefault@2x.png"; sourceTree = "<group>"; };
-		86D085701A28BB7B005CECD3 /* CameraFlashOffIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraFlashOffIcon.png; path = Resources/CameraFlashOffIcon.png; sourceTree = "<group>"; };
-		86D085711A28BB7B005CECD3 /* CameraFlashOffIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraFlashOffIcon@2x.png"; path = "Resources/CameraFlashOffIcon@2x.png"; sourceTree = "<group>"; };
-		86D085721A28BB7B005CECD3 /* CameraFlashOnIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraFlashOnIcon.png; path = Resources/CameraFlashOnIcon.png; sourceTree = "<group>"; };
-		86D085731A28BB7B005CECD3 /* CameraFlashOnIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraFlashOnIcon@2x.png"; path = "Resources/CameraFlashOnIcon@2x.png"; sourceTree = "<group>"; };
-		86D085761A28BB7B005CECD3 /* CameraOverlayButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraOverlayButtonBackground.png; path = Resources/CameraOverlayButtonBackground.png; sourceTree = "<group>"; };
-		86D085771A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraOverlayButtonBackground@2x.png"; path = "Resources/CameraOverlayButtonBackground@2x.png"; sourceTree = "<group>"; };
 		86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResultTest.m; path = QueryAPI/SCMQueryResultTest.m; sourceTree = "<group>"; };
 		86E5F35C1A77E9F40039C7A3 /* SCMTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMTestCase.h; sourceTree = "<group>"; };
 		86E5F35D1A77E9F40039C7A3 /* SCMTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMTestCase.m; sourceTree = "<group>"; };
 		86E5F35F1A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMRecognitionOperationTest.m; path = QueryAPI/SCMRecognitionOperationTest.m; sourceTree = "<group>"; };
 		86E5F3661A77ED690039C7A3 /* recognizable_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = recognizable_image.jpg; path = Resources/recognizable_image.jpg; sourceTree = "<group>"; };
 		86E5F3671A77ED690039C7A3 /* unrecognizable_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = unrecognizable_image.jpg; path = Resources/unrecognizable_image.jpg; sourceTree = "<group>"; };
-		86ECE16F1AD80829008E341B /* CameraInfoOffIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraInfoOffIcon.png; path = Resources/CameraInfoOffIcon.png; sourceTree = "<group>"; };
-		86ECE1701AD80829008E341B /* CameraInfoOffIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraInfoOffIcon@2x.png"; path = "Resources/CameraInfoOffIcon@2x.png"; sourceTree = "<group>"; };
-		86ECE1711AD80829008E341B /* CameraInfoOnIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraInfoOnIcon.png; path = Resources/CameraInfoOnIcon.png; sourceTree = "<group>"; };
-		86ECE1721AD80829008E341B /* CameraInfoOnIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraInfoOnIcon@2x.png"; path = "Resources/CameraInfoOnIcon@2x.png"; sourceTree = "<group>"; };
 		86ED34A01A27726E00D9F3B0 /* libShortcutSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libShortcutSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		86ED34AB1A27726E00D9F3B0 /* ShortcutSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortcutSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		86ED34B11A27726E00D9F3B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -647,34 +601,10 @@
 		86D085691A28BA96005CECD3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				86197B0E1A2C671F00BD726B /* BarButtonBackground.png */,
-				86197B0F1A2C671F00BD726B /* BarButtonBackground@2x.png */,
-				86D0856A1A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png */,
-				86D0856B1A28BB7B005CECD3 /* CameraButtonBackgroundDefault@2x.png */,
-				86D0856C1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted.png */,
-				86D0856D1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted@2x.png */,
-				86D0856E1A28BB7B005CECD3 /* CameraButtonIconDefault.png */,
-				86D0856F1A28BB7B005CECD3 /* CameraButtonIconDefault@2x.png */,
-				86D085701A28BB7B005CECD3 /* CameraFlashOffIcon.png */,
-				86D085711A28BB7B005CECD3 /* CameraFlashOffIcon@2x.png */,
-				86D085721A28BB7B005CECD3 /* CameraFlashOnIcon.png */,
-				86D085731A28BB7B005CECD3 /* CameraFlashOnIcon@2x.png */,
-				86ECE16F1AD80829008E341B /* CameraInfoOffIcon.png */,
-				86ECE1701AD80829008E341B /* CameraInfoOffIcon@2x.png */,
-				86ECE1711AD80829008E341B /* CameraInfoOnIcon.png */,
-				86ECE1721AD80829008E341B /* CameraInfoOnIcon@2x.png */,
 				86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */,
 				86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */,
 				86197AFC1A2C663700BD726B /* CameraModeSingleShotIcon.png */,
 				86197AFD1A2C663700BD726B /* CameraModeSingleShotIcon@2x.png */,
-				86197AFE1A2C663700BD726B /* CameraModeSlider.png */,
-				86197AFF1A2C663700BD726B /* CameraModeSlider@2x.png */,
-				86197B001A2C663700BD726B /* CameraModeSliderBackground.png */,
-				86197B011A2C663700BD726B /* CameraModeSliderBackground@2x.png */,
-				86D085761A28BB7B005CECD3 /* CameraOverlayButtonBackground.png */,
-				86D085771A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png */,
-				86197B0A1A2C66A700BD726B /* NavigationBarBackground.png */,
-				86197B0B1A2C66A700BD726B /* NavigationBarBackground@2x.png */,
 				86BD712E1A2DE5E500EA8633 /* PLCameraZoomMax.png */,
 				86BD712F1A2DE5E500EA8633 /* PLCameraZoomMax@2x.png */,
 				86BD71301A2DE5E500EA8633 /* PLCameraZoomMin.png */,
@@ -691,6 +621,7 @@
 				86F682CD1A41D69400738E2F /* ToolbarNavigationBack@2x.png */,
 				86F682CE1A41D69400738E2F /* ToolbarNavigationForward.png */,
 				86F682CF1A41D69400738E2F /* ToolbarNavigationForward@2x.png */,
+				61E11BAE1D9EBAB3002222B9 /* Images.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1371,50 +1302,27 @@
 			files = (
 				86197B021A2C663700BD726B /* CameraModeLiveScannerIcon.png in Resources */,
 				86BD713D1A2DE5E500EA8633 /* PLCameraZoomMin@2x.png in Resources */,
-				86ECE1741AD80829008E341B /* CameraInfoOffIcon@2x.png in Resources */,
-				86D0857A1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted.png in Resources */,
 				86F682D31A41D69400738E2F /* ToolbarNavigationForward@2x.png in Resources */,
-				86D085801A28BB7B005CECD3 /* CameraFlashOnIcon.png in Resources */,
-				86D085781A28BB7B005CECD3 /* CameraButtonBackgroundDefault.png in Resources */,
 				86F682D21A41D69400738E2F /* ToolbarNavigationForward.png in Resources */,
-				86ECE1731AD80829008E341B /* CameraInfoOffIcon.png in Resources */,
 				86BD71421A2DE5E500EA8633 /* PLCameraZoomTrackMax.png in Resources */,
-				86197B0C1A2C66A700BD726B /* NavigationBarBackground.png in Resources */,
 				86D085491A2889EC005CECD3 /* SCMScannerViewController.xib in Resources */,
 				86BD713F1A2DE5E500EA8633 /* PLCameraZoomThumb@2x.png in Resources */,
 				86F682D01A41D69400738E2F /* ToolbarNavigationBack.png in Resources */,
 				86197B051A2C663700BD726B /* CameraModeSingleShotIcon@2x.png in Resources */,
 				86BD71401A2DE5E500EA8633 /* PLCameraZoomTrack.png in Resources */,
-				86D0857B1A28BB7B005CECD3 /* CameraButtonBackgroundHighlighted@2x.png in Resources */,
-				86D0857E1A28BB7B005CECD3 /* CameraFlashOffIcon.png in Resources */,
 				86BD71431A2DE5E500EA8633 /* PLCameraZoomTrackMax@2x.png in Resources */,
 				86F682D11A41D69400738E2F /* ToolbarNavigationBack@2x.png in Resources */,
-				86197B081A2C663700BD726B /* CameraModeSliderBackground.png in Resources */,
-				86D085851A28BB7B005CECD3 /* CameraOverlayButtonBackground@2x.png in Resources */,
 				86BD71411A2DE5E500EA8633 /* PLCameraZoomTrack@2x.png in Resources */,
 				86BD713B1A2DE5E500EA8633 /* PLCameraZoomMax@2x.png in Resources */,
 				86BD713C1A2DE5E500EA8633 /* PLCameraZoomMin.png in Resources */,
-				86D085811A28BB7B005CECD3 /* CameraFlashOnIcon@2x.png in Resources */,
-				86197B091A2C663700BD726B /* CameraModeSliderBackground@2x.png in Resources */,
-				86D0857F1A28BB7B005CECD3 /* CameraFlashOffIcon@2x.png in Resources */,
-				86197B061A2C663700BD726B /* CameraModeSlider.png in Resources */,
+				61E138991D9EC0FB00A11FF0 /* Images.xcassets in Resources */,
 				86BD713E1A2DE5E500EA8633 /* PLCameraZoomThumb.png in Resources */,
 				86197B041A2C663700BD726B /* CameraModeSingleShotIcon.png in Resources */,
-				86D0857C1A28BB7B005CECD3 /* CameraButtonIconDefault.png in Resources */,
-				86ECE1751AD80829008E341B /* CameraInfoOnIcon.png in Resources */,
-				86197B101A2C671F00BD726B /* BarButtonBackground.png in Resources */,
 				86D0854A1A2889F2005CECD3 /* SCMItemViewController.xib in Resources */,
 				86BD713A1A2DE5E500EA8633 /* PLCameraZoomMax.png in Resources */,
 				86197B031A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png in Resources */,
-				86D085841A28BB7B005CECD3 /* CameraOverlayButtonBackground.png in Resources */,
-				86197B0D1A2C66A700BD726B /* NavigationBarBackground@2x.png in Resources */,
 				86BD71441A2DE5E500EA8633 /* PLCameraZoomTrackMin.png in Resources */,
 				86BD71451A2DE5E500EA8633 /* PLCameraZoomTrackMin@2x.png in Resources */,
-				86197B111A2C671F00BD726B /* BarButtonBackground@2x.png in Resources */,
-				86197B071A2C663700BD726B /* CameraModeSlider@2x.png in Resources */,
-				86D0857D1A28BB7B005CECD3 /* CameraButtonIconDefault@2x.png in Resources */,
-				86D085791A28BB7B005CECD3 /* CameraButtonBackgroundDefault@2x.png in Resources */,
-				86ECE1761AD80829008E341B /* CameraInfoOnIcon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

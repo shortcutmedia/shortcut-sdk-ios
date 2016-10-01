@@ -47,6 +47,7 @@ typedef enum
 @property (nonatomic, strong, readwrite) IBOutlet SCMCameraModeControl *cameraModeControl;
 @property (nonatomic, strong, readwrite) IBOutlet UIButton *infoButton;
 @property (nonatomic, strong, readwrite) IBOutlet UIButton *flashButton;
+@property (nonatomic, strong, readwrite) IBOutlet UIView *flashBackground;
 @property (nonatomic, strong, readwrite) IBOutlet UIImageView *previewImageView;
 @property (nonatomic, strong, readwrite) CALayer *scanLineView;
 @property (nonatomic, strong, readwrite) UITapGestureRecognizer *tapGestureRecognizer;
@@ -196,6 +197,7 @@ typedef enum
     self.cameraModeControl = nil;
     self.infoButton = nil;
     self.flashButton = nil;
+    self.flashBackground = nil;
     self.previewImageView = nil;
     self.scanLineView = nil;
     self.tapGestureRecognizer = nil;
@@ -680,13 +682,13 @@ typedef enum
 {
     if ([self.liveScanner.captureSessionController hasFlash]) {
         if (self.liveScanner.captureSessionController.flashOn) {
-            [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOnIcon"] forState:UIControlStateNormal];
+            [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOn"] forState:UIControlStateNormal];
         } else {
-            [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOffIcon"] forState:UIControlStateNormal];
+            [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOff"] forState:UIControlStateNormal];
         }
-        self.flashButton.hidden = NO;
+        self.flashBackground.hidden = NO;
     } else {
-        self.flashButton.hidden = YES;
+        self.flashBackground.hidden = YES;
     }
 }
 
@@ -730,13 +732,13 @@ typedef enum
                              if (self.helpView) {
                                  self.infoButton.hidden = YES;
                              }
-                             self.flashButton.hidden = YES;
+                             self.flashBackground.hidden = YES;
                          }];
     } else {
         if (self.helpView) {
             self.infoButton.hidden = YES;
         }
-        self.flashButton.hidden = YES;
+        self.flashBackground.hidden = YES;
     }
 }
 
@@ -764,7 +766,7 @@ typedef enum
                          if (self.helpView) {
                              self.infoButton.hidden = NO;
                          }
-                         self.flashButton.hidden = NO;
+                         self.flashBackground.hidden = NO;
                      }];
 }
 
