@@ -114,8 +114,6 @@
         return;
     }
     
-    // Since the different modes have different flash/torch modes, it is turned of by
-    // default when mode is changed
     [self turnFlashOff];
     
     if (mode == kSCMCaptureSessionLiveScanningMode) {
@@ -223,11 +221,7 @@
     BOOL on = NO;
     
     if ([self hasFlash]) {
-        if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
-            on = (self.captureDevice.torchMode == AVCaptureTorchModeOn);
-        } else {
-            on = (self.captureDevice.flashMode == AVCaptureFlashModeOn);
-        }
+        on = (self.captureDevice.torchMode == AVCaptureTorchModeOn);
     }
     
     return on;
@@ -237,11 +231,7 @@
 {
     BOOL hasFlash = NO;
     
-    if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
-        hasFlash = [self.captureDevice hasTorch] && [self.captureDevice isTorchModeSupported:AVCaptureTorchModeOn];
-    } else {
-        hasFlash = [self.captureDevice hasFlash] && [self.captureDevice isFlashModeSupported:AVCaptureFlashModeOn];
-    }
+    hasFlash = [self.captureDevice hasTorch] && [self.captureDevice isTorchModeSupported:AVCaptureTorchModeOn];
     
     return hasFlash;
 }
@@ -252,19 +242,10 @@
         return;
     }
     
-    if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
-        if (self.captureDevice.torchMode != AVCaptureTorchModeOn) {
-            if ([self.captureDevice lockForConfiguration:NULL]) {
-                self.captureDevice.torchMode = AVCaptureTorchModeOn;
-                [self.captureDevice unlockForConfiguration];
-            }
-        }
-    } else {
-        if (self.captureDevice.flashMode != AVCaptureFlashModeOn) {
-            if ([self.captureDevice lockForConfiguration:NULL]) {
-                self.captureDevice.flashMode = AVCaptureFlashModeOn;
-                [self.captureDevice unlockForConfiguration];
-            }
+    if (self.captureDevice.torchMode != AVCaptureTorchModeOn) {
+        if ([self.captureDevice lockForConfiguration:NULL]) {
+            self.captureDevice.torchMode = AVCaptureTorchModeOn;
+            [self.captureDevice unlockForConfiguration];
         }
     }
 }
@@ -275,19 +256,10 @@
         return;
     }
     
-    if (self.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
-        if (self.captureDevice.torchMode != AVCaptureTorchModeOff) {
-            if ([self.captureDevice lockForConfiguration:NULL]) {
-                self.captureDevice.torchMode = AVCaptureTorchModeOff;
-                [self.captureDevice unlockForConfiguration];
-            }
-        }
-    } else {
-        if (self.captureDevice.flashMode != AVCaptureFlashModeOff) {
-            if ([self.captureDevice lockForConfiguration:NULL]) {
-                self.captureDevice.flashMode = AVCaptureFlashModeOff;
-                [self.captureDevice unlockForConfiguration];
-            }
+    if (self.captureDevice.torchMode != AVCaptureTorchModeOff) {
+        if ([self.captureDevice lockForConfiguration:NULL]) {
+            self.captureDevice.torchMode = AVCaptureTorchModeOff;
+            [self.captureDevice unlockForConfiguration];
         }
     }
 }
