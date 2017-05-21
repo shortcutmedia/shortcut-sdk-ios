@@ -791,11 +791,9 @@ typedef enum
     horizontalLine.frame = CGRectMake(maxX, 0, lineWidth, lineLength);
     
     UIColor *color;
-    if ([self.view respondsToSelector:@selector(tintColor)]) {
-        color = self.view.tintColor;
-    } else {
-        color = [UIColor lightGrayColor];
-    }
+
+    color = [UIColor blueColor];
+
     verticalLine.backgroundColor = horizontalLine.backgroundColor = color.CGColor;
     
     [self.scanLineView addSublayer:verticalLine];
