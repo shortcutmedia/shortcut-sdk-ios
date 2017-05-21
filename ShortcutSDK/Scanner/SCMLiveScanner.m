@@ -91,9 +91,10 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     CMVideoDimensions deviceVideoDimensions = CMVideoFormatDescriptionGetDimensions(self.captureSessionController.captureDevice.activeFormat.formatDescription);
     int deviceMaxSize = MAX(deviceVideoDimensions.width, deviceVideoDimensions.height);
     
-    if (deviceMaxSize >= 1280) {
-        self.queryImageSize = 1280;
-    } else if (deviceMaxSize >= 640) {
+//    if (deviceMaxSize >= 1280) {
+//        self.queryImageSize = 1280;
+//    } else
+    if (deviceMaxSize >= 640) {
         self.queryImageSize = 640;
     } else {
         self.queryImageSize = 320;
