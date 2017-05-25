@@ -25,7 +25,7 @@
 {
     [super awakeFromNib];
     
-    [self.cancelButton setTitle:[SCMLocalization translationFor:@"CancelButtonTitle" withDefaultValue:@"Cancel"] forState:UIControlStateNormal];
+    [self.cancelButton setTitle:[SCMLocalization translationFor:@"SkipButtonTitle" withDefaultValue:@"Skip"] forState:UIControlStateNormal];
     self.statusLabel.text = [SCMLocalization translationFor:@"ProcessingTitle" withDefaultValue:@"Processing…"];
     self.activityIndicator.hidesWhenStopped = YES;
 }

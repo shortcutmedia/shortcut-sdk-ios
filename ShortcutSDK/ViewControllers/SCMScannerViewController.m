@@ -76,6 +76,11 @@ typedef enum
     return _liveScanner;
 }
 
+- (UIImage *) originalImage
+{
+    return self.liveScanner.originalImage;
+}
+
 - (CLLocation *)location
 {
     return self.liveScanner.location;
@@ -478,14 +483,22 @@ typedef enum
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+
+    self.liveScanner.originalImage = image;
+    NSLog(@"XXX Original Image width: %f, height: %f", self.liveScanner.originalImage.size.width, self.liveScanner.originalImage.size.height);
+
     // TODO: fix image rotation/orientation
     [self.liveScanner processImage:image.CGImage];
 }
 #endif
 
-- (IBAction)cancelSingleImageRequest
+- (IBAction)skipSingleImageRequest
 {
     [self hideSingleImagePreview];
+    if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
+        [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
+        [self singleImageRecognitionFinished];
+    }
 }
 
 - (void)updateModeStatus
@@ -930,7 +943,12 @@ typedef enum
 - (void)liveScanner:(SCMLiveScanner *)scanner didNotRecognizeImage:(NSData *)imageData
 {
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
-        [self singleImageFailedRecognition];
+        if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
+            [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
+            [self singleImageRecognitionFinished];
+        } else {
+            [self singleImageFailedRecognition];
+        }
     }
 }
 
@@ -952,10 +970,16 @@ typedef enum
 - (void)liveScanner:(SCMLiveScanner *)scanner capturedSingleImageWhileOffline:(NSData *)imageData atLocation:(CLLocation *)location
 {
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
-        [self singleImageDidFailWithError:nil];
-    }
-    if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImageWhileOffline:atLocation:)]) {
-        [self.delegate scannerViewController:self capturedSingleImageWhileOffline:imageData atLocation:location];
+        if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
+            NSLog(@"XXX Image taken width: %f height: %f", self.liveScanner.originalImage.size.width, self.liveScanner.originalImage.size.height);
+            [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
+            [self singleImageRecognitionFinished];
+        } else {
+            [self singleImageDidFailWithError:nil];
+            if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImageWhileOffline:atLocation:)]) {
+                [self.delegate scannerViewController:self capturedSingleImageWhileOffline:imageData atLocation:location];
+            }
+        }
     }
 }
 

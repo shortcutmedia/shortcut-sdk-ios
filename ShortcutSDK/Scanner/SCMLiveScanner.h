@@ -31,6 +31,7 @@ typedef enum
 @property (nonatomic, assign, readonly) BOOL currentImageIsUnrecognized;
 @property (nonatomic, strong, readonly) NSError *recognitionError;
 @property (nonatomic, assign, readwrite) BOOL paused;
+@property (nonatomic, strong, readwrite) UIImage *originalImage;
 
 - (void)setupForMode:(SCMLiveScannerMode)initialMode;
 - (void)startScanning;

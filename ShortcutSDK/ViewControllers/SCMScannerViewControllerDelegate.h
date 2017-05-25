@@ -83,6 +83,19 @@
 - (void)scannerViewController:(SCMScannerViewController *)scannerViewController capturedSingleImageWhileOffline:(NSData *)imageData atLocation:(CLLocation *)location;
 
 /**
+ *  This method is called when the Snapshot mode of the scanner was used to capture an image but
+ *  no internet connection was available or timeout occured or no match found.
+ *
+ *  @discussion
+ *  This method stores the original high-definition image for storage as is and possible processing for later.
+ *
+ *  @param scannerViewController The scanner view controller that was used to capture the image.
+ *  @param originalImage        The original image that was captured.
+ *  @param location             The location where the image was captured.
+ */
+- (void)scannerViewController:(SCMScannerViewController *)scannerViewController capturedSingleImage:(UIImage *)originalImage atLocation:(CLLocation *)location;
+
+/**
  *  This method is invoked when the user taps on the "Done" button.
  *
  *  @note If you do not implement this method then the "Done" button will not be displayed.

@@ -71,6 +71,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 - (void)dealloc
 {
     [self cancelAllOperations];
+    self.originalImage = nil;
 }
 
 #pragma mark - Public Methods
@@ -178,6 +179,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
             CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData (imgData);
             CGImageRef image = CGImageCreateWithJPEGDataProvider(imgDataProvider, NULL, true, kCGRenderingIntentDefault);
             
+            self.originalImage = [[UIImage alloc] initWithCGImage:image];
             [self processImage:image];
             
             CGImageRelease(image);

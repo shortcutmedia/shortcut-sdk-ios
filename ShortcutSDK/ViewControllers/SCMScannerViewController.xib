@@ -108,7 +108,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="cancelSingleImageRequest" destination="-1" eventType="touchUpInside" id="101"/>
+                                <action selector="skipSingleImageRequest" destination="-1" eventType="touchUpInside" id="sFo-AO-qdD"/>
                             </connections>
                         </button>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="93">
