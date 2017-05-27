@@ -175,11 +175,13 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
             // Therefore we cannot convert it to a CGImageRef using +[SCMImageUtils newImageFromSampleBuffer:]
             // so we have to use +[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:] and then
             // CGImageCreateWithJPEGDataProvider() to get a CGImageRef...
-            CFDataRef imgData = (__bridge CFDataRef)[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:sampleBuffer];
+            NSData *originalImageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:sampleBuffer];
+
+            CFDataRef imgData = (__bridge CFDataRef)originalImageData;
             CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData (imgData);
             CGImageRef image = CGImageCreateWithJPEGDataProvider(imgDataProvider, NULL, true, kCGRenderingIntentDefault);
             
-            self.originalImage = [[UIImage alloc] initWithCGImage:image];
+            self.originalImage = [[UIImage alloc] initWithData:originalImageData];
             [self processImage:image];
             
             CGImageRelease(image);

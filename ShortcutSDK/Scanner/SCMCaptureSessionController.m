@@ -141,6 +141,19 @@
     for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
         for (AVCaptureInputPort *port in [connection inputPorts]) {
             if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
+                switch (UIDevice.currentDevice.orientation)
+                {
+                    case UIDeviceOrientationPortrait :
+                        connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+                        break;
+                    case UIDeviceOrientationPortraitUpsideDown : connection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+                    case UIDeviceOrientationLandscapeLeft : connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+                        break;
+                    case UIDeviceOrientationLandscapeRight : connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+                        break;
+                    default: break;
+                }
+
                 self.stillImageVideoConnection = connection;
                 break;
             }
