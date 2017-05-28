@@ -141,19 +141,6 @@
     for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
         for (AVCaptureInputPort *port in [connection inputPorts]) {
             if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
-                switch (UIDevice.currentDevice.orientation)
-                {
-                    case UIDeviceOrientationPortrait :
-                        connection.videoOrientation = AVCaptureVideoOrientationPortrait;
-                        break;
-                    case UIDeviceOrientationPortraitUpsideDown : connection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
-                    case UIDeviceOrientationLandscapeLeft : connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
-                        break;
-                    case UIDeviceOrientationLandscapeRight : connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
-                        break;
-                    default: break;
-                }
-
                 self.stillImageVideoConnection = connection;
                 break;
             }
@@ -226,6 +213,23 @@
 
 - (void)takePictureAsynchronouslyWithCompletionHandler:(void (^)(CMSampleBufferRef imageDataSampleBuffer, NSError *error))handler
 {
+    switch (UIDevice.currentDevice.orientation)
+    {
+        case UIDeviceOrientationPortrait :
+            self.stillImageVideoConnection.videoOrientation = AVCaptureVideoOrientationPortrait;
+            break;
+        case UIDeviceOrientationPortraitUpsideDown :
+            self.stillImageVideoConnection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+            break;
+        case UIDeviceOrientationLandscapeLeft :
+            self.stillImageVideoConnection.videoOrientation =  AVCaptureVideoOrientationLandscapeRight;
+            break;
+        case UIDeviceOrientationLandscapeRight :
+            self.stillImageVideoConnection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+            break;
+        default: break;
+    }
+
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:self.stillImageVideoConnection completionHandler:handler];
 }
 
