@@ -321,8 +321,6 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     // We need to start this operation on a different thread since this thread may not stick around.
     // For now, we'll use the main thread.
     SCMRecognitionOperation *operation = [[SCMRecognitionOperation alloc] initWithImageData:scaledImageData location:self.location];
-    // TODO: readd timeout?
-    //operation.responseTimeoutInterval = kMaximumServerResponseTime;
     
     __weak SCMRecognitionOperation *completedOperation = operation;
     [operation setCompletionBlock:^{

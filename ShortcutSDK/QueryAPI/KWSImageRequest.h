@@ -14,7 +14,7 @@
 @property (nonatomic, strong, readwrite) NSString *returnedMetadata;
 @property (nonatomic, strong, readwrite) NSDictionary *clientData;
 
-- (id)initWithURL:(NSURL *)requestURL imageData:(NSData *)data;
+- (id)initWithURL:(NSURL *)requestURL imageData:(NSData *)data timeoutInterval:(NSTimeInterval)timeoutInterval;
 - (NSMutableURLRequest *)signedRequestWithAccessKey:(NSString *)accessKey secretToken:(NSString *)secretToken;
 
 @end

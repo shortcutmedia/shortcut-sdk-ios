@@ -8,7 +8,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SCMScannerViewController">
             <connections>
-                <outlet property="cameraModeControl" destination="84" id="85"/>
                 <outlet property="cameraStatusView" destination="68" id="69"/>
                 <outlet property="cameraToolbar" destination="4" id="37"/>
                 <outlet property="cameraZoomSlider" destination="8" id="18"/>
@@ -47,17 +46,6 @@
                                 <action selector="takePicture:" destination="-1" eventType="touchUpInside" id="19"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84" customClass="SCMCameraModeControl">
-                            <rect key="frame" x="342" y="22" width="64" height="44"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="2Sn-0J-fSS"/>
-                                <constraint firstAttribute="width" constant="64" id="3zu-qU-SKt"/>
-                            </constraints>
-                            <connections>
-                                <action selector="cameraModeChanged:" destination="-1" eventType="valueChanged" id="86"/>
-                            </connections>
-                        </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Done Button" customClass="SCMCustomToolbarButton">
                             <rect key="frame" x="8" y="30" width="33" height="28"/>
                             <constraints>
@@ -83,8 +71,6 @@
                         <constraint firstAttribute="centerX" secondItem="10" secondAttribute="centerX" id="UXJ-Gf-acU"/>
                         <constraint firstAttribute="height" constant="88" id="VJE-mD-lpr"/>
                         <constraint firstItem="9" firstAttribute="centerY" secondItem="4" secondAttribute="centerY" id="i7D-xz-fq6"/>
-                        <constraint firstAttribute="trailingMargin" secondItem="84" secondAttribute="trailing" id="lji-CZ-Ga9"/>
-                        <constraint firstAttribute="centerY" secondItem="84" secondAttribute="centerY" id="o6I-6T-B0K"/>
                     </constraints>
                     <connections>
                         <outlet property="cameraButton" destination="10" id="34"/>

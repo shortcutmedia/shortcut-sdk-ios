@@ -23,6 +23,7 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 @property (nonatomic, strong, readonly) NSURLRequest *request;
 @property (nonatomic, strong, readwrite) SCMQueryResponse *queryResponse;
 @property (nonatomic, strong, readwrite) NSError *error;
+@property NSTimeInterval timeoutInterval;
 
 @end
 
@@ -49,7 +50,7 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 - (NSURLRequest *)request
 {
     if (!_request) {
-        KWSImageRequest *imageRequest = [[KWSImageRequest alloc] initWithURL:self.queriesURL imageData:self.imageData];
+        KWSImageRequest *imageRequest = [[KWSImageRequest alloc] initWithURL:self.queriesURL imageData:self.imageData timeoutInterval:self.timeoutInterval];
         imageRequest.returnedMetadata = @"details";
         
         if (self.clientData.count > 0) {
@@ -76,6 +77,7 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
     if (self != nil) {
         self.location = queryLocation;
         self.imageData = data;
+        self.timeoutInterval = 5.0;
     }
     
     return self;

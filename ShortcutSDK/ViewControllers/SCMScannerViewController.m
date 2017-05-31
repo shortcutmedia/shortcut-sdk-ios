@@ -146,17 +146,6 @@ typedef enum
     
     // The default mode is single shot mode.
     SCMLiveScannerMode mode = kSCMLiveScannerSingleShotMode;
-    BOOL startInScanMode = [[NSUserDefaults standardUserDefaults] boolForKey:kUserPreferenceCameraStartsInScanMode];
-    if (self.previewImageData != nil || startInScanMode) {
-        mode = kSCMLiveScannerLiveScanningMode;
-    }
-    
-    /*if ((([[UIScreen mainScreen] bounds].size.height-568)?NO:YES))
-     {
-     CGRect frame = self.previewView.frame;
-     frame.size.height += 176;
-     [self.previewView setFrame:frame];
-     }*/
     
     [self.liveScanner setupForMode:mode];
     
@@ -172,14 +161,13 @@ typedef enum
     
     [self updateModeStatus];
     [self updateFlashStatus];
-    [self updateInfoStatus];
     
     if (self.previewImageData != nil) {
         self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
         [self showSingleImagePreviewAnimated:NO];
     } else {
         // Only show the status view if we are not re-submitting a single shot image.
-        [self showStatusViewForModeStatusChange];
+//        [self showStatusViewForModeStatusChange];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -215,8 +203,6 @@ typedef enum
 {
     [super viewWillAppear:animated];
     
-    [self updateInfoStatus];
-    
     self.liveScanner.captureSessionController.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
     
@@ -230,9 +216,9 @@ typedef enum
 {
     [super viewDidAppear:animated];
     
-    if (self.previewImageData == nil) {
-        [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
-    }
+//    if (self.previewImageData == nil) {
+//        [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
+//    }
     [self.liveScanner addObserver:self forKeyPath:@"currentImageIsUnrecognized" options:0 context:&kUnrecognizedChanged];
     [self.liveScanner addObserver:self forKeyPath:@"scanning" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:&kScanningStatusChanged];
     [self.liveScanner addObserver:self forKeyPath:@"recognitionError" options:0 context:&kRecognitionErrorChanged];
@@ -485,8 +471,6 @@ typedef enum
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 
     self.liveScanner.originalImage = image;
-    NSLog(@"XXX Original Image width: %f, height: %f", self.liveScanner.originalImage.size.width, self.liveScanner.originalImage.size.height);
-
     // TODO: fix image rotation/orientation
     [self.liveScanner processImage:image.CGImage];
 }
@@ -583,7 +567,6 @@ typedef enum
     [self.liveScanner switchToMode:mode];
     [self updateModeStatus];
     [self updateFlashStatus];
-    [self updateInfoStatus];
     
     // Reset the zoom level when switching modes
     self.cameraZoomSlider.zoomScale = 1.0;
@@ -597,13 +580,13 @@ typedef enum
     
     if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning && self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self switchToMode:kSCMLiveScannerLiveScanningMode];
-        [self showStatusViewForModeStatusChange];
+//        [self showStatusViewForModeStatusChange];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserPreferenceCameraStartsInScanMode];
         [self startScanLineAnimation];
     } else if (self.cameraModeControl.cameraMode == kCameraModeSingleShot && self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
     {
         [self switchToMode:kSCMLiveScannerSingleShotMode];
-        [self showStatusViewForModeStatusChange];
+//        [self showStatusViewForModeStatusChange];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserPreferenceCameraStartsInScanMode];
         [self stopScanLineAnimation];
     }
@@ -657,8 +640,6 @@ typedef enum
                     animations:^{self.helpView.alpha = 1.0;}
                     completion:NULL];
     
-    [self updateInfoStatus];
-    
     // Reinstate the idle timer while the user views the info screen.
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
@@ -685,8 +666,6 @@ typedef enum
     
     [self updateImageNotRecognizedStatus];
     
-    [self updateInfoStatus];
-    
     // Disable the idle timer since we are going back to the camera view.
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
@@ -703,10 +682,6 @@ typedef enum
     } else {
         self.flashBackground.hidden = YES;
     }
-}
-
-- (void)updateInfoStatus
-{
 }
 
 - (IBAction)toggleFlashMode:(id)sender
@@ -971,7 +946,6 @@ typedef enum
 {
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
-            NSLog(@"XXX Image taken width: %f height: %f", self.liveScanner.originalImage.size.width, self.liveScanner.originalImage.size.height);
             [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
             [self singleImageRecognitionFinished];
         } else {

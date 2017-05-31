@@ -19,13 +19,13 @@
 @property (nonatomic, strong, readwrite) NSData *imageData;
 @property (nonatomic, strong, readwrite) NSMutableData *bodyData;
 @property (nonatomic, strong, readwrite) NSString *boundary;
+@property NSTimeInterval timeoutInterval;
 
 @end
 
-
 @implementation KWSImageRequest
 
-- (id)initWithURL:(NSURL *)requestURL imageData:(NSData *)data
+- (id)initWithURL:(NSURL *)requestURL imageData:(NSData *)data timeoutInterval:(NSTimeInterval)timeoutInterval
 {
     self = [super init];
     if (self != nil) {
@@ -33,6 +33,7 @@
         self.imageData = data;
         self.bodyData = [NSMutableData data];
         self.boundary = [SCMUUIDUtils generateUUID];
+        self.timeoutInterval = timeoutInterval;
     }
     
     return self;
@@ -159,6 +160,7 @@
     NSString *contentTypeValue = [NSString stringWithFormat:@"%@; boundary=%@", contentType, self.boundary];
     
     NSMutableURLRequest *signedRequest = [NSMutableURLRequest requestWithURL:self.queryURL];
+    [signedRequest setTimeoutInterval:self.timeoutInterval];
     [signedRequest setHTTPMethod:httpMethod];
     [signedRequest setHTTPBody:self.bodyData];
     [signedRequest setValue:contentTypeValue forHTTPHeaderField:@"Content-Type"];
