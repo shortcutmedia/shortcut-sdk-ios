@@ -24,7 +24,7 @@
 static NSString *kUnrecognizedChanged = @"unrecognized changed";
 static NSString *kScanningStatusChanged = @"scanning status changed";
 static NSString *kRecognitionErrorChanged = @"recognition error changed";
-NSString *const kUserPreferenceCameraStartsInSnapshotMode = @"CameraStartsInSnapshotMode";
+NSString *const kUserPreferenceCameraStartsInScanMode = @"CameraStartsInScanMode";
 
 static const NSTimeInterval kStatusViewTemporarilyVisibleDuration = 5.0;
 
@@ -144,11 +144,11 @@ typedef enum
     
     // Do any additional setup after loading the view from its nib.
     
-    // The default mode is live scanning mode.
-    SCMLiveScannerMode mode = kSCMLiveScannerLiveScanningMode;
-    BOOL startInSingleShotMode = [[NSUserDefaults standardUserDefaults] boolForKey:kUserPreferenceCameraStartsInSnapshotMode];
-    if (self.previewImageData != nil || startInSingleShotMode) {
-        mode = kSCMLiveScannerSingleShotMode;
+    // The default mode is single shot mode.
+    SCMLiveScannerMode mode = kSCMLiveScannerSingleShotMode;
+    BOOL startInScanMode = [[NSUserDefaults standardUserDefaults] boolForKey:kUserPreferenceCameraStartsInScanMode];
+    if (self.previewImageData != nil || startInScanMode) {
+        mode = kSCMLiveScannerLiveScanningMode;
     }
     
     /*if ((([[UIScreen mainScreen] bounds].size.height-568)?NO:YES))
@@ -598,13 +598,13 @@ typedef enum
     if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning && self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self switchToMode:kSCMLiveScannerLiveScanningMode];
         [self showStatusViewForModeStatusChange];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserPreferenceCameraStartsInSnapshotMode];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserPreferenceCameraStartsInScanMode];
         [self startScanLineAnimation];
     } else if (self.cameraModeControl.cameraMode == kCameraModeSingleShot && self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
     {
         [self switchToMode:kSCMLiveScannerSingleShotMode];
         [self showStatusViewForModeStatusChange];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserPreferenceCameraStartsInSnapshotMode];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserPreferenceCameraStartsInScanMode];
         [self stopScanLineAnimation];
     }
     
