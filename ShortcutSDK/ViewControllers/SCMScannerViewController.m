@@ -60,6 +60,7 @@ typedef enum
 @property (nonatomic, assign, readwrite) BOOL shouldShowNavigationBarWhenDisappearing;
 @property (nonatomic, assign, readwrite) BOOL scanQRCodes;
 @property (nonatomic, assign, readwrite) BOOL showDoneButton;
+@property (nonatomic, assign, readwrite) BOOL photoOnly;
 
 @end
 
@@ -78,7 +79,41 @@ typedef enum
 
 - (UIImage *) originalImage
 {
-    return self.liveScanner.originalImage;
+    return [self cropToDefaultAspectRatio:self.liveScanner.originalImage];
+    
+}
+
+- (UIImage*)cropToDefaultAspectRatio:(UIImage*)image
+{
+    UIImage* returnImage;
+    CGFloat aspect = 1.333333333333333;
+    CGSize imageSize = image.size;
+    
+    // initialize values assuming that imageSize.width < imageSize.height
+    CGFloat shortSideLength = MIN(imageSize.width, imageSize.height);
+    CGFloat longSideLength = shortSideLength * aspect;
+    CGFloat offset = round(36.0 / self.view.layer.frame.size.width * imageSize.width);
+    CGFloat posX = 0.0;
+    CGFloat posY = offset;
+    CGRect rect = CGRectMake(posX, posY, shortSideLength, longSideLength);
+    
+    // mutate variables in case imageSize.height < imageSize.width
+    if (imageSize.height < imageSize.width) {
+        offset = round(36.0 / self.view.layer.frame.size.width * imageSize.height);
+        posX = offset;
+        posY = 0.0;
+        rect = CGRectMake(posX, posY, longSideLength, shortSideLength);
+    }
+    
+
+    // Create bitmap image from context using the rect
+    CGImageRef imageRef = CGImageCreateWithImageInRect(image.CGImage, rect);
+
+    // Create a new image based on the imageRef and rotate back to the original orientation
+    returnImage = [[UIImage alloc] initWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
+    image = nil;
+
+    return returnImage;
 }
 
 - (CLLocation *)location
@@ -142,6 +177,7 @@ typedef enum
 {
     [super viewDidLoad];
     
+    _photoOnly = YES;
     // Do any additional setup after loading the view from its nib.
     
     // The default mode is single shot mode.
@@ -452,8 +488,13 @@ typedef enum
 #if TARGET_IPHONE_SIMULATOR
     [self choosePhotoFromLibrary];
 #else
-    [self.liveScanner takePictureWithZoomFactor:self.cameraZoomSlider.zoomScale];
+    if (!_photoOnly) {
+        [self.liveScanner takePictureWithZoomFactor:self.cameraZoomSlider.zoomScale];
+    } else {
+        [self.liveScanner takePictureOnlyWithZoomFactor:self.cameraZoomSlider.zoomScale];
+    }
 #endif
+    
 }
 
 #if TARGET_IPHONE_SIMULATOR
