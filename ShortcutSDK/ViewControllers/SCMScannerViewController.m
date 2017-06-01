@@ -1011,6 +1011,16 @@ typedef enum
     }
 }
 
+- (void)liveScanner:(SCMLiveScanner *)scanner capturedSingleImageatLocation:(CLLocation *)location
+{
+    if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode && self.photoOnly) {
+        if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
+            [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
+        }
+    }
+    
+}
+
 - (void)liveScannerShouldClose:(SCMLiveScanner *)scanner
 {
     if ([self.delegate respondsToSelector:@selector(scannerViewControllerDidFinish:)]) {

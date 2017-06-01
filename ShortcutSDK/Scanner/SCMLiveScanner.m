@@ -203,9 +203,9 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
             NSData *originalImageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:sampleBuffer];
             
             self.originalImage = [[UIImage alloc] initWithData:originalImageData];
-            NSLog(@"XXX Original Image Size %f %f", self.originalImage.size.width, self.originalImage.size.height);
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate liveScanner:self didNotRecognizeImage:nil];
+                [self.delegate liveScanner:self capturedSingleImageatLocation:self.location];
+//                [self.delegate liveScanner:self didNotRecognizeImage:nil];
             });
 
         } else {
