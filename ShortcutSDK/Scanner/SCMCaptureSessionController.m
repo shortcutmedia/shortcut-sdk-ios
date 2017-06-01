@@ -64,10 +64,10 @@
     // use current/system-default session preset as default...
     NSString *sessionPreset = self.captureSession.sessionPreset;
     
-    if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset1280x720]) {
-        sessionPreset = AVCaptureSessionPreset1280x720;
-    } else if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset640x480]) {
-        sessionPreset = AVCaptureSessionPreset640x480;
+    if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset3840x2160]) {
+        sessionPreset = AVCaptureSessionPreset3840x2160;
+    } else {
+        sessionPreset = AVCaptureSessionPresetHigh;
     }
     
     return sessionPreset;

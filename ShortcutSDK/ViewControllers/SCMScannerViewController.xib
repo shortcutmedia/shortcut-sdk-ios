@@ -12,6 +12,7 @@
                 <outlet property="cameraToolbar" destination="4" id="37"/>
                 <outlet property="cameraZoomSlider" destination="8" id="18"/>
                 <outlet property="flashBackground" destination="YPc-3R-ugx" id="lgD-5U-NcJ"/>
+                <outlet property="flashBackgroundView" destination="YPc-3R-ugx" id="LfE-UD-ZOp"/>
                 <outlet property="flashButton" destination="76" id="78"/>
                 <outlet property="previewImageView" destination="88" id="100"/>
                 <outlet property="previewView" destination="7" id="20"/>
