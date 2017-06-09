@@ -37,6 +37,7 @@ typedef enum
 } StatusViewState;
 
 @interface SCMScannerViewController () <SCMLiveScannerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+- (IBAction)collectionButtonPressed:(UIButton *)sender;
 
 @property (nonatomic, strong, readwrite) SCMLiveScanner *liveScanner;
 @property (nonatomic, strong, readwrite) IBOutlet UIView *previewView;
@@ -67,6 +68,11 @@ typedef enum
 @implementation SCMScannerViewController
 
 #pragma mark - Live scanner configuration
+
+- (IBAction)collectionButtonPressed:(UIButton *)sender
+{
+    [self choosePhotoFromLibrary];
+}
 
 - (SCMLiveScanner *)liveScanner
 {
@@ -510,7 +516,6 @@ typedef enum
     
 }
 
-#if TARGET_IPHONE_SIMULATOR
 - (void)choosePhotoFromLibrary
 {
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
@@ -528,7 +533,6 @@ typedef enum
     // TODO: fix image rotation/orientation
     [self.liveScanner processImage:image.CGImage];
 }
-#endif
 
 - (IBAction)skipSingleImageRequest
 {
