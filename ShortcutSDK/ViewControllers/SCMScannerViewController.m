@@ -61,6 +61,7 @@ typedef enum
 @property (nonatomic, assign, readwrite) BOOL shouldShowNavigationBarWhenDisappearing;
 @property (nonatomic, assign, readwrite) BOOL scanQRCodes;
 @property (nonatomic, assign, readwrite) BOOL showDoneButton;
+@property (nonatomic, assign, readwrite) BOOL photoFromCameraRoll;
 @property (weak, nonatomic) IBOutlet UIView *flashBackgroundView;
 
 @end
@@ -71,6 +72,7 @@ typedef enum
 
 - (IBAction)collectionButtonPressed:(UIButton *)sender
 {
+    [self hideCameraHelp];
     [self choosePhotoFromLibrary];
 }
 
@@ -85,9 +87,10 @@ typedef enum
 
 - (UIImage *) originalImage
 {
+    if (self.photoFromCameraRoll == YES) {
+        return self.liveScanner.originalImage;
+    }
     return [self cropToDefaultAspectRatio:self.liveScanner.originalImage];
-//    return self.liveScanner.originalImage;
-    
 }
 
 - (UIImage*)cropToDefaultAspectRatio:(UIImage*)image
@@ -218,6 +221,7 @@ typedef enum
     [self updateFlashStatus];
     
     if (self.previewImageData != nil) {
+        [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
         self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
         [self showSingleImagePreviewAnimated:NO];
     } else {
@@ -364,17 +368,23 @@ typedef enum
     [self switchToMode:kSCMLiveScannerSingleShotMode];
     
     self.previewImageData = imageData;
+
+    [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
     self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
-    
-    CGImageRef image = [UIImage imageWithData:imageData].CGImage;
-    [self.liveScanner processImage:image];
-    
-    [self singleImageRecognitionStarted];
+    if (self.photoOnly == NO) {
+        CGImageRef image = [UIImage imageWithData:imageData].CGImage;
+        [self.liveScanner processImage:image];
+        
+        [self singleImageRecognitionStarted];
+    } else {
+        [self liveScanner:self.liveScanner capturedSingleImageatLocation:self.location];
+    }
 }
 
 - (void)singleImageSentForRecognition:(NSData *)imageData
 {
     self.previewImageData = imageData;
+    [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
     self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
     
     [self singleImageRecognitionStarted];
@@ -502,6 +512,8 @@ typedef enum
 
 - (IBAction)takePicture:(id)sender
 {
+    self.photoFromCameraRoll = NO;
+
     [self hideCameraHelp];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -518,6 +530,8 @@ typedef enum
 
 - (void)choosePhotoFromLibrary
 {
+    self.photoFromCameraRoll = YES;
+
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePickerController.delegate = self;
@@ -530,8 +544,14 @@ typedef enum
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 
     self.liveScanner.originalImage = image;
-    // TODO: fix image rotation/orientation
-    [self.liveScanner processImage:image.CGImage];
+
+    UIImage * rotatedImage = [self fixImageRotation:image];
+    
+    if (_photoOnly == YES) {
+        [self liveScanner:self.liveScanner capturedSingleImageatLocation:self.location];
+    } else {
+        [self.liveScanner processImage:rotatedImage.CGImage];
+    }
 }
 
 - (IBAction)skipSingleImageRequest
@@ -541,6 +561,17 @@ typedef enum
         [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
         [self singleImageRecognitionFinished];
     }
+}
+
+- (UIImage*)fixImageRotation:(UIImage*)image
+{
+    CGSize size = image.size;
+    UIGraphicsBeginImageContext(CGSizeMake(size.height, size.width));
+    [[UIImage imageWithCGImage:[image CGImage] scale:1.0 orientation:UIImageOrientationLeft] drawInRect:CGRectMake(0,0,size.height ,size.width)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
 }
 
 - (void)updateModeStatus

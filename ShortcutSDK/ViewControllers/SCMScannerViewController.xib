@@ -64,9 +64,13 @@
                                 <action selector="done:" destination="-1" eventType="touchUpInside" id="41"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kIO-gf-GRj">
-                            <rect key="frame" x="357" y="29" width="46" height="30"/>
-                            <state key="normal" title="Button"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kIO-gf-GRj">
+                            <rect key="frame" x="333" y="24" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="aSb-K6-Gnp"/>
+                                <constraint firstAttribute="height" constant="40" id="d9m-Rz-HAX"/>
+                            </constraints>
+                            <state key="normal" title="Button" image="GalleryIcon"/>
                             <connections>
                                 <action selector="collectionButtonPressed:" destination="-1" eventType="touchUpInside" id="sEI-l3-6BS"/>
                             </connections>
@@ -75,11 +79,11 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="centerY" secondItem="10" secondAttribute="centerY" id="Agu-xr-AkH"/>
-                        <constraint firstAttribute="trailing" secondItem="kIO-gf-GRj" secondAttribute="trailing" constant="11" id="Arn-7e-a6K"/>
+                        <constraint firstAttribute="trailing" secondItem="kIO-gf-GRj" secondAttribute="trailing" constant="41" id="Arn-7e-a6K"/>
                         <constraint firstItem="9" firstAttribute="leading" secondItem="4" secondAttribute="leadingMargin" id="Owh-jO-SMA"/>
                         <constraint firstAttribute="centerX" secondItem="10" secondAttribute="centerX" id="UXJ-Gf-acU"/>
                         <constraint firstAttribute="height" constant="88" id="VJE-mD-lpr"/>
-                        <constraint firstAttribute="bottom" secondItem="kIO-gf-GRj" secondAttribute="bottom" constant="29" id="VaZ-Ty-4Ly"/>
+                        <constraint firstAttribute="bottom" secondItem="kIO-gf-GRj" secondAttribute="bottom" constant="24" id="VaZ-Ty-4Ly"/>
                         <constraint firstItem="9" firstAttribute="centerY" secondItem="4" secondAttribute="centerY" id="i7D-xz-fq6"/>
                     </constraints>
                     <connections>
@@ -219,5 +223,6 @@
     <resources>
         <image name="CameraButton" width="67" height="67"/>
         <image name="CameraFlashOff" width="27" height="27"/>
+        <image name="GalleryIcon" width="40" height="40"/>
     </resources>
 </document>
