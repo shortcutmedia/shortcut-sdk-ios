@@ -220,14 +220,10 @@ typedef enum
     [self updateModeStatus];
     [self updateFlashStatus];
     
-    if (self.previewImageData != nil) {
-        [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
-        self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
-        [self showSingleImagePreviewAnimated:NO];
-    } else {
+    [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
+    [self.previewImageView setBackgroundColor:[UIColor blackColor]];
         // Only show the status view if we are not re-submitting a single shot image.
 //        [self showStatusViewForModeStatusChange];
-    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deviceOrientationDidChange:)
@@ -369,8 +365,12 @@ typedef enum
     
     self.previewImageData = imageData;
 
-    [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
-    self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
+    if (self.liveScanner.originalImage != nil) {
+        self.previewImageView.image = self.liveScanner.originalImage;
+    } else {
+        self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
+    }
+    
     if (self.photoOnly == NO) {
         CGImageRef image = [UIImage imageWithData:imageData].CGImage;
         [self.liveScanner processImage:image];
@@ -384,8 +384,11 @@ typedef enum
 - (void)singleImageSentForRecognition:(NSData *)imageData
 {
     self.previewImageData = imageData;
-    [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
-    self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
+    if (self.liveScanner.originalImage != nil) {
+        self.previewImageView.image = self.liveScanner.originalImage;
+    } else {
+        self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
+    }
     
     [self singleImageRecognitionStarted];
 }
@@ -423,8 +426,8 @@ typedef enum
 
 - (void)singleImageRecognitionFinished
 {
-    [self hideSingleImagePreview];
-    self.previewImageData = nil;
+//    [self hideSingleImagePreview];
+//    self.previewImageData = nil;
     self.progressToolbar.animating = NO;
 }
 
@@ -556,7 +559,7 @@ typedef enum
 
 - (IBAction)skipSingleImageRequest
 {
-    [self hideSingleImagePreview];
+//    [self hideSingleImagePreview];
     if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
         [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
         [self singleImageRecognitionFinished];
