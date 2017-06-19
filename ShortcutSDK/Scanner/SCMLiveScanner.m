@@ -414,7 +414,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
             if (!self.recognitionError) {
                 if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
                     self.recognitionError = recognitionOperation.error;
-                } else if (self.liveScannerMode == kSCMLiveScannerSingleShotMode) {
+                } else {
                     [self.delegate liveScanner:self capturedSingleImageWhileOffline:recognitionOperation.imageData atLocation:self.location];
                 }
             }
