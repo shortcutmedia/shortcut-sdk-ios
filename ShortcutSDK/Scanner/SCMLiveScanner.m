@@ -388,6 +388,8 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     } else {
         DebugLog(@"RecognitionOperation failed: %@", [recognitionOperation.error localizedDescription]);
         dispatch_async(dispatch_get_main_queue(), ^{
+            BOOL sentOfflineImage = false;
+            
             if ([recognitionOperation.error.domain isEqualToString:NSURLErrorDomain]) {
 
                 if (recognitionOperation.error.code == NSURLErrorTimedOut ||
@@ -401,6 +403,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
                         self.recognitionError = [NSError errorWithDomain:kSCMLiveScannerErrorDomain code:kSCMLiveScannerErrorServerResponseTooSlow userInfo:nil];
                     } else if (self.liveScannerMode == kSCMLiveScannerSingleShotMode) {
                         [self.delegate liveScanner:self capturedSingleImageWhileOffline:recognitionOperation.imageData atLocation:self.location];
+                        sentOfflineImage = true;
                     }
                 } else if (recognitionOperation.error.code == NSURLErrorInternationalRoamingOff) {
                     // International roaming off
@@ -408,6 +411,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
                         self.recognitionError = [NSError errorWithDomain:kSCMLiveScannerErrorDomain code:kSCMLiveScannerErrorInternationalRoamingOff userInfo:nil];
                     } else if (self.liveScannerMode == kSCMLiveScannerSingleShotMode) {
                         [self.delegate liveScanner:self capturedSingleImageWhileOffline:recognitionOperation.imageData atLocation:self.location];
+                        sentOfflineImage = true;
                     }
                 }
             }
@@ -415,7 +419,10 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
                 if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
                     self.recognitionError = recognitionOperation.error;
                 } else {
-                    [self.delegate liveScanner:self capturedSingleImageWhileOffline:recognitionOperation.imageData atLocation:self.location];
+                    if (!sentOfflineImage)
+                    {
+                        [self.delegate liveScanner:self capturedSingleImageWhileOffline:recognitionOperation.imageData atLocation:self.location];
+                    }
                 }
             }
         });

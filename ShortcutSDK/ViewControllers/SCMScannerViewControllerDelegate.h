@@ -39,7 +39,7 @@
  *  @param location             The location where the query was sent from.
  *  @param imageData            The (captured) image that was recognized.
  */
-- (void)scannerViewController:(SCMScannerViewController *)scannerViewController recognizedQuery:(SCMQueryResponse *)response atLocation:(CLLocation *)location fromImage:(NSData *)imageData;
+- (void)scannerViewController:(SCMScannerViewController *)scannerViewController recognizedQuery:(SCMQueryResponse *)response atLocation:(CLLocation *)location fromImage:(UIImage *)imageData;
 
 @optional
 
@@ -62,7 +62,7 @@
  *  @param text                 The content of the QR code.
  *  @param location             The location where the QR code was decoded.
  */
-- (void)scannerViewController:(SCMScannerViewController *)scannerViewController recognizedQRCode:(NSString *)text atLocation:(CLLocation *)location;
+- (void)scannerViewController:(SCMScannerViewController *)scannerViewController recognizedQRCode:(NSString *)text atLocation:(CLLocation *)location fromImage:(UIImage *)imageData;
 
 /**
  *  This method is called when the Snapshot mode of the scanner was used to capture an image but

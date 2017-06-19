@@ -321,7 +321,7 @@ typedef enum
     _delegate = newDelegate;
     
     // enable QR code scanning if delegate has related callback
-    self.scanQRCodes = [newDelegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:)];
+    self.scanQRCodes = [newDelegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:fromImage:)];
     
     // show "Done" button if delegate has related callback
     self.showDoneButton = [newDelegate respondsToSelector:@selector(scannerViewControllerDidFinish:)];
@@ -1024,13 +1024,13 @@ typedef enum
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self singleImageRecognitionFinished];
     }
-    [self.delegate scannerViewController:self recognizedQuery:response atLocation:location fromImage:imageData];
+    [self.delegate scannerViewController:self recognizedQuery:response atLocation:location fromImage:[self originalImage]];
 }
 
 - (void)liveScanner:(SCMLiveScanner *)scanner recognizedQRCode:(NSString *)text atLocation:(CLLocation *)location
 {
-    if ([self.delegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:)]) {
-        [self.delegate scannerViewController:self recognizedQRCode:text atLocation:location];
+    if ([self.delegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:fromImage:)]) {
+        [self.delegate scannerViewController:self recognizedQRCode:text atLocation:location fromImage:[self originalImage]];
     }
 }
 
@@ -1039,6 +1039,7 @@ typedef enum
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
             [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
+
             [self singleImageRecognitionFinished];
         } else {
             [self singleImageDidFailWithError:nil];
