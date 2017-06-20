@@ -51,8 +51,8 @@ typedef enum
 @property (nonatomic, strong, readwrite) IBOutlet UIView *flashBackground;
 @property (nonatomic, strong, readwrite) IBOutlet UIImageView *previewImageView;
 @property (nonatomic, strong, readwrite) CALayer *scanLineView;
-@property (nonatomic, strong, readwrite) UITapGestureRecognizer *tapGestureRecognizer;
-@property (nonatomic, strong, readwrite) UIPinchGestureRecognizer *pinchGestureRecognizer;
+//@property (nonatomic, strong, readwrite) UITapGestureRecognizer *tapGestureRecognizer;
+//@property (nonatomic, strong, readwrite) UIPinchGestureRecognizer *pinchGestureRecognizer;
 @property (nonatomic, assign, readwrite) BOOL showingCameraHelp;
 @property (nonatomic, assign, readwrite) StatusViewState statusViewState;
 @property (nonatomic, strong, readwrite) NSTimer *statusViewTimer;
@@ -87,10 +87,12 @@ typedef enum
 
 - (UIImage *) originalImage
 {
-    if (self.photoFromCameraRoll == YES) {
-        return self.liveScanner.originalImage;
-    }
-    return [self cropToDefaultAspectRatio:self.liveScanner.originalImage];
+    return self.liveScanner.originalImage;
+
+//    if (self.photoFromCameraRoll == YES) {
+//        return self.liveScanner.originalImage;
+//    }
+//    return [self cropToDefaultAspectRatio:self.liveScanner.originalImage];
 }
 
 - (UIImage*)cropToDefaultAspectRatio:(UIImage*)image
@@ -207,11 +209,11 @@ typedef enum
     
     [self.liveScanner setupForMode:mode];
     
-    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToZoom)];
-    [self.previewView addGestureRecognizer:self.tapGestureRecognizer];
+//    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToZoom)];
+//    [self.previewView addGestureRecognizer:self.tapGestureRecognizer];
     
-    self.pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self.cameraZoomSlider action:@selector(pinchToZoom:)];
-    [self.previewView addGestureRecognizer:self.pinchGestureRecognizer];
+//    self.pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self.cameraZoomSlider action:@selector(pinchToZoom:)];
+//    [self.previewView addGestureRecognizer:self.pinchGestureRecognizer];
     [self.cameraZoomSlider addTarget:self action:@selector(cameraZoomChanged) forControlEvents:UIControlEventValueChanged];
     
     self.cameraStatusView.hidden = YES;
@@ -248,8 +250,8 @@ typedef enum
     self.flashBackground = nil;
     self.previewImageView = nil;
     self.scanLineView = nil;
-    self.tapGestureRecognizer = nil;
-    self.pinchGestureRecognizer = nil;
+//    self.tapGestureRecognizer = nil;
+//    self.pinchGestureRecognizer = nil;
     self.statusViewState = kStatusViewStateHidden;
     self.showingCameraHelp = NO;
 }
@@ -583,14 +585,14 @@ typedef enum
         self.cameraModeControl.cameraMode = kCameraModeLiveScanning;
         self.cameraToolbar.cameraButton.hidden = YES;
         self.cameraZoomSlider.hidden = YES;
-        self.tapGestureRecognizer.enabled = NO;
-        self.pinchGestureRecognizer.enabled = NO;
+//        self.tapGestureRecognizer.enabled = NO;
+//        self.pinchGestureRecognizer.enabled = NO;
     } else {
         self.cameraModeControl.cameraMode = kCameraModeSingleShot;
         self.cameraToolbar.cameraButton.hidden = NO;
         // Note: We don't need to unhide the camera zoom slider. It will show when the user actually zooms or taps.
-        self.tapGestureRecognizer.enabled = YES;
-        self.pinchGestureRecognizer.enabled = YES;
+//        self.tapGestureRecognizer.enabled = YES;
+//        self.pinchGestureRecognizer.enabled = YES;
     }
 }
 
@@ -688,11 +690,11 @@ typedef enum
 
 - (void)tapToZoom
 {
-    [self hideCameraHelp];
-    
-    if (self.tapGestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.cameraZoomSlider showZoomControl];
-    }
+//    [self hideCameraHelp];
+//    
+//    if (self.tapGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+//        [self.cameraZoomSlider showZoomControl];
+//    }
 }
 
 - (void)cameraZoomChanged

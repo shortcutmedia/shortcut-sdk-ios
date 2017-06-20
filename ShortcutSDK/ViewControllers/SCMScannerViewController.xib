@@ -91,6 +91,32 @@
                         <outlet property="doneButton" destination="9" id="35"/>
                     </connections>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YPc-3R-ugx" userLabel="Flash Background View">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76" userLabel="Flash Button">
+                            <rect key="frame" x="20" y="0.0" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="36" id="5kI-nx-4e4"/>
+                                <constraint firstAttribute="height" constant="36" id="HDq-LP-K1z"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" image="CameraFlashOff"/>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="toggleFlashMode:" destination="-1" eventType="touchUpInside" id="87"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="H1V-0e-NZo"/>
+                        <constraint firstItem="76" firstAttribute="top" secondItem="YPc-3R-ugx" secondAttribute="top" id="WnP-cU-ML1"/>
+                        <constraint firstItem="76" firstAttribute="leading" secondItem="YPc-3R-ugx" secondAttribute="leading" constant="20" id="k8C-Rv-XA3"/>
+                    </constraints>
+                </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="89" customClass="SCMProgressToolbar">
                     <rect key="frame" x="0.0" y="648" width="414" height="88"/>
                     <subviews>
@@ -150,32 +176,6 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="100" id="L0I-8m-V9O"/>
                         <constraint firstAttribute="width" constant="100" id="c0z-M5-gbu"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YPc-3R-ugx" userLabel="Flash Background View">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76" userLabel="Flash Button">
-                            <rect key="frame" x="20" y="0.0" width="36" height="36"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="36" id="5kI-nx-4e4"/>
-                                <constraint firstAttribute="height" constant="36" id="HDq-LP-K1z"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" image="CameraFlashOff"/>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="toggleFlashMode:" destination="-1" eventType="touchUpInside" id="87"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="36" id="H1V-0e-NZo"/>
-                        <constraint firstItem="76" firstAttribute="top" secondItem="YPc-3R-ugx" secondAttribute="top" id="WnP-cU-ML1"/>
-                        <constraint firstItem="76" firstAttribute="leading" secondItem="YPc-3R-ugx" secondAttribute="leading" constant="20" id="k8C-Rv-XA3"/>
                     </constraints>
                 </view>
             </subviews>
