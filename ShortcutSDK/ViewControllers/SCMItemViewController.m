@@ -52,11 +52,18 @@
 
 - (instancetype)initWithItemUUID:(NSString *)itemUUID imageSHA1:(NSString *)imageSHA1
 {
-    self = [self init];
+    [SCMStatusView class];
+    self = [super initWithNibName:@"SCMItemViewController" bundle:[SCMSDKConfig SDKBundle]];
     if (self) {
         self.itemUUID  = itemUUID;
         self.imageSHA1 = imageSHA1;
     }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [self init];
     return self;
 }
 
