@@ -408,14 +408,14 @@ typedef enum
 - (void)singleImageDidFailWithError:(NSError *)error
 {
     [self singleImageRecognitionFinished];
-    NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
-    NSString *message = [error localizedDescription];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
-                                              otherButtonTitles:nil];
-    [alertView show];
+//    NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
+//    NSString *message = [error localizedDescription];
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+//                                                        message:message
+//                                                       delegate:nil
+//                                              cancelButtonTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
+//                                              otherButtonTitles:nil];
+//    [alertView show];
 }
 
 - (void)singleImageRecognitionStarted
