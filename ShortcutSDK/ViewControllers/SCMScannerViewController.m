@@ -194,7 +194,23 @@ typedef enum
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    @try {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    } @catch (NSException *exception) { }
+    
+    self.previewView = nil;
+    self.cameraStatusView = nil;
+    self.cameraZoomSlider = nil;
+    self.cameraToolbar = nil;
+    self.progressToolbar = nil;
+    self.cameraModeControl = nil;
+    self.infoButton = nil;
+    self.flashButton = nil;
+    self.flashBackground = nil;
+    self.previewImageView = nil;
+    self.scanLineView = nil;
+    self.statusViewState = kStatusViewStateHidden;
+    self.showingCameraHelp = NO;
     self.liveScanner.delegate = nil;
 }
 
@@ -231,29 +247,6 @@ typedef enum
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-    
-    self.previewView = nil;
-    self.cameraStatusView = nil;
-    self.cameraZoomSlider = nil;
-    self.cameraToolbar = nil;
-    self.progressToolbar = nil;
-    self.cameraModeControl = nil;
-    self.infoButton = nil;
-    self.flashButton = nil;
-    self.flashBackground = nil;
-    self.previewImageView = nil;
-    self.scanLineView = nil;
-//    self.tapGestureRecognizer = nil;
-//    self.pinchGestureRecognizer = nil;
-    self.statusViewState = kStatusViewStateHidden;
-    self.showingCameraHelp = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
