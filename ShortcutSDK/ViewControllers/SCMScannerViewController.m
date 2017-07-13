@@ -302,9 +302,11 @@ typedef enum
     
     [self.liveScanner stopScanning];
     
-    [self.liveScanner removeObserver:self forKeyPath:@"currentImageIsUnrecognized"];
-    [self.liveScanner removeObserver:self forKeyPath:@"scanning"];
-    [self.liveScanner removeObserver:self forKeyPath:@"recognitionError"];
+    @try {
+        [self.liveScanner removeObserver:self forKeyPath:@"currentImageIsUnrecognized"];
+        [self.liveScanner removeObserver:self forKeyPath:@"scanning"];
+        [self.liveScanner removeObserver:self forKeyPath:@"recognitionError"];
+    } @catch (NSException *exception) { }
     
     self.navigationController.navigationBarHidden = !self.shouldShowNavigationBarWhenDisappearing;
 }
