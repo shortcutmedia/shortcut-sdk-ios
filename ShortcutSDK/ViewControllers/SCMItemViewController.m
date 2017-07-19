@@ -67,6 +67,8 @@
     return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 - (instancetype)init
 {
     // Load view classes referenced in xib-file. TODO: is there another way??
@@ -76,6 +78,7 @@
     
     return [super initWithNibName:@"SCMItemViewController" bundle:[SCMSDKConfig SDKBundle]];
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
