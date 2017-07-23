@@ -304,7 +304,11 @@ typedef enum
     
     @try {
         [self.liveScanner removeObserver:self forKeyPath:@"currentImageIsUnrecognized"];
+    } @catch (NSException *exception) { }
+    @try {
         [self.liveScanner removeObserver:self forKeyPath:@"scanning"];
+    } @catch (NSException *exception) { }
+    @try {
         [self.liveScanner removeObserver:self forKeyPath:@"recognitionError"];
     } @catch (NSException *exception) { }
     

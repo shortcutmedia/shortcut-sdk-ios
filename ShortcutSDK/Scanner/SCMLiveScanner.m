@@ -205,7 +205,6 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
             self.originalImage = [[UIImage alloc] initWithData:originalImageData];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate liveScanner:self capturedSingleImageatLocation:self.location];
-//                [self.delegate liveScanner:self didNotRecognizeImage:nil];
             });
 
         } else {
