@@ -72,6 +72,10 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 {
     [self cancelAllOperations];
     self.originalImage = nil;
+    self.captureSessionController = nil;
+    self.motionDetector = nil;
+    self.histogramFilter = nil;
+    self.qrCodeScanner = nil;
 }
 
 #pragma mark - Public Methods
