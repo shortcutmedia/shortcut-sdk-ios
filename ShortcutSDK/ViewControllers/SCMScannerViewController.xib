@@ -91,6 +91,13 @@
                         <outlet property="doneButton" destination="9" id="35"/>
                     </connections>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gX3-xj-vpC" userLabel="Flash Background View">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="xch-dg-eCv"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YPc-3R-ugx" userLabel="Flash Background View">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
                     <subviews>
@@ -109,25 +116,12 @@
                                 <action selector="toggleFlashMode:" destination="-1" eventType="touchUpInside" id="87"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzi-s1-jfe" customClass="SCMCameraModeControl">
-                            <rect key="frame" x="312" y="0.0" width="94" height="44"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="94" id="Bhx-SA-zca"/>
-                                <constraint firstAttribute="height" constant="44" id="fk6-fE-Xp1"/>
-                            </constraints>
-                            <connections>
-                                <action selector="cameraModeChanged:" destination="-1" eventType="valueChanged" id="dTB-BX-OeR"/>
-                            </connections>
-                        </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="H1V-0e-NZo"/>
                         <constraint firstItem="76" firstAttribute="top" secondItem="YPc-3R-ugx" secondAttribute="top" id="WnP-cU-ML1"/>
                         <constraint firstItem="76" firstAttribute="leading" secondItem="YPc-3R-ugx" secondAttribute="leading" constant="20" id="k8C-Rv-XA3"/>
-                        <constraint firstItem="bzi-s1-jfe" firstAttribute="top" secondItem="YPc-3R-ugx" secondAttribute="top" id="yhd-P4-p1m"/>
-                        <constraint firstAttribute="trailing" secondItem="bzi-s1-jfe" secondAttribute="trailing" constant="8" id="zR9-Mh-7wa"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="89" customClass="SCMProgressToolbar">
@@ -191,17 +185,31 @@
                         <constraint firstAttribute="width" constant="100" id="c0z-M5-gbu"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzi-s1-jfe" customClass="SCMCameraModeControl">
+                    <rect key="frame" x="312" y="0.0" width="94" height="44"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="94" id="Bhx-SA-zca"/>
+                        <constraint firstAttribute="height" constant="44" id="fk6-fE-Xp1"/>
+                    </constraints>
+                    <connections>
+                        <action selector="cameraModeChanged:" destination="-1" eventType="valueChanged" id="dTB-BX-OeR"/>
+                    </connections>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="7" secondAttribute="bottom" id="1Vz-CN-ETq"/>
+                <constraint firstAttribute="trailing" secondItem="gX3-xj-vpC" secondAttribute="trailing" id="2PA-9u-Ha8"/>
                 <constraint firstAttribute="trailing" secondItem="7" secondAttribute="trailing" id="2f3-5e-HDH"/>
                 <constraint firstAttribute="bottom" secondItem="7" secondAttribute="bottom" id="3ld-sj-tql"/>
+                <constraint firstAttribute="trailing" secondItem="bzi-s1-jfe" secondAttribute="trailing" constant="8" id="4ht-ql-4SM"/>
                 <constraint firstAttribute="bottom" secondItem="89" secondAttribute="bottom" id="7JN-jO-WLp"/>
                 <constraint firstItem="YPc-3R-ugx" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="7yC-ma-RKP"/>
                 <constraint firstItem="7" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="FiJ-ut-KR4"/>
                 <constraint firstAttribute="bottom" secondItem="4" secondAttribute="bottom" id="Liv-s3-lsM"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="O8H-4A-800"/>
+                <constraint firstItem="gX3-xj-vpC" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Xmp-bA-kKa"/>
                 <constraint firstAttribute="trailing" secondItem="4" secondAttribute="trailing" id="ZDP-7T-Iqy"/>
                 <constraint firstItem="7" firstAttribute="top" secondItem="1" secondAttribute="top" id="ZHk-Rz-MyE"/>
                 <constraint firstAttribute="centerY" secondItem="68" secondAttribute="centerY" id="Zcm-aU-meI"/>
@@ -209,12 +217,14 @@
                 <constraint firstItem="YPc-3R-ugx" firstAttribute="top" secondItem="1" secondAttribute="top" id="cgm-rS-lKA"/>
                 <constraint firstAttribute="trailing" secondItem="YPc-3R-ugx" secondAttribute="trailing" id="d88-j5-IaX"/>
                 <constraint firstItem="4" firstAttribute="top" secondItem="7" secondAttribute="bottom" id="fXk-T3-IVa"/>
+                <constraint firstItem="gX3-xj-vpC" firstAttribute="top" secondItem="1" secondAttribute="top" id="gOZ-21-m4B"/>
                 <constraint firstItem="8" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="hKA-KP-L5c"/>
                 <constraint firstAttribute="centerX" secondItem="68" secondAttribute="centerX" id="hnc-Qm-LEh"/>
                 <constraint firstItem="89" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="mgN-4U-Z4n"/>
                 <constraint firstItem="4" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="8" symbolic="YES" id="r8c-mm-MoV"/>
                 <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="20" symbolic="YES" id="rNo-ig-pHJ"/>
                 <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" constant="96" id="t0R-yp-Wpx"/>
+                <constraint firstItem="bzi-s1-jfe" firstAttribute="top" secondItem="1" secondAttribute="top" id="w2F-Oy-jXD"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
