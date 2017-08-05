@@ -41,15 +41,6 @@
 @property (nonatomic, unsafe_unretained, readwrite) id<SCMScannerViewControllerDelegate> delegate;
 
 /**
- *  The camer mode.
- *
- *  @discussion
- *  You can set to photo only flag if you want to use the SDK to take photos without image recognition. 
- *  The default value is NO 
- */
-@property (nonatomic, assign, readwrite) BOOL photoOnly;
-
-/**
  *  The current location of the user/device.
  *
  *  @discussion

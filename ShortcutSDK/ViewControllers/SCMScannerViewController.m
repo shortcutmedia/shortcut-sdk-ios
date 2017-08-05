@@ -88,11 +88,6 @@ typedef enum
 - (UIImage *) originalImage
 {
     return self.liveScanner.originalImage;
-
-//    if (self.photoFromCameraRoll == YES) {
-//        return self.liveScanner.originalImage;
-//    }
-//    return [self cropToDefaultAspectRatio:self.liveScanner.originalImage];
 }
 
 - (UIImage*)cropToDefaultAspectRatio:(UIImage*)image
@@ -176,20 +171,9 @@ typedef enum
                                                  selector:@selector(applicationWillResignActive:)
                                                      name:UIApplicationWillResignActiveNotification
                                                    object:nil];
-        _photoOnly = NO;
     }
     
     return self;
-}
-
-- (void)setPhotoOnly:(BOOL)photoOnly
-{
-    _photoOnly = photoOnly;
-}
-
-- (BOOL)isPhotoOnly
-{
-    return _photoOnly;
 }
 
 - (void)dealloc
@@ -221,8 +205,11 @@ typedef enum
     // Do any additional setup after loading the view from its nib.
     
     // The default mode is single shot mode.
-    SCMLiveScannerMode mode = kSCMLiveScannerSingleShotMode;
-    
+    SCMLiveScannerMode mode = kSCMLiveScannerLiveScanningMode;
+    BOOL startInScanMode = [[NSUserDefaults standardUserDefaults] boolForKey:kUserPreferenceCameraStartsInScanMode];
+    if (self.previewImageData != nil || startInScanMode == NO) {
+        mode = kSCMLiveScannerSingleShotMode;
+    }
     [self.liveScanner setupForMode:mode];
     
 //    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToZoom)];
@@ -240,8 +227,8 @@ typedef enum
     
     [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
     [self.previewImageView setBackgroundColor:[UIColor blackColor]];
-        // Only show the status view if we are not re-submitting a single shot image.
-//        [self showStatusViewForModeStatusChange];
+    // Only show the status view if we are not re-submitting a single shot image.
+    [self showStatusViewForModeStatusChange]; //
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deviceOrientationDidChange:)
@@ -266,9 +253,9 @@ typedef enum
 {
     [super viewDidAppear:animated];
     
-//    if (self.previewImageData == nil) {
-//        [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration];
-//    }
+    if (self.previewImageData == nil) { //
+        [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration]; //
+    } //
     [self.liveScanner addObserver:self forKeyPath:@"currentImageIsUnrecognized" options:0 context:&kUnrecognizedChanged];
     [self.liveScanner addObserver:self forKeyPath:@"scanning" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:&kScanningStatusChanged];
     [self.liveScanner addObserver:self forKeyPath:@"recognitionError" options:0 context:&kRecognitionErrorChanged];
@@ -322,7 +309,7 @@ typedef enum
     _delegate = newDelegate;
     
     // enable QR code scanning if delegate has related callback
-    self.scanQRCodes = [newDelegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:fromImage:)];
+    self.scanQRCodes = [newDelegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:)];
     
     // show "Done" button if delegate has related callback
     self.showDoneButton = [newDelegate respondsToSelector:@selector(scannerViewControllerDidFinish:)];
@@ -372,14 +359,10 @@ typedef enum
         self.previewImageView.image = [UIImage imageWithData:self.previewImageData];
     }
     
-    if (self.photoOnly == NO) {
-        CGImageRef image = [UIImage imageWithData:imageData].CGImage;
-        [self.liveScanner processImage:image];
-        
-        [self singleImageRecognitionStarted];
-    } else {
-        [self liveScanner:self.liveScanner capturedSingleImageatLocation:self.location];
-    }
+    CGImageRef image = [UIImage imageWithData:imageData].CGImage;
+    [self.liveScanner processImage:image];
+    
+    [self singleImageRecognitionStarted];
 }
 
 - (void)singleImageSentForRecognition:(NSData *)imageData
@@ -407,14 +390,16 @@ typedef enum
 - (void)singleImageDidFailWithError:(NSError *)error
 {
     [self singleImageRecognitionFinished];
-//    NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
-//    NSString *message = [error localizedDescription];
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-//                                                        message:message
-//                                                       delegate:nil
-//                                              cancelButtonTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
-//                                              otherButtonTitles:nil];
-//    [alertView show];
+//
+    NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
+    NSString *message = [error localizedDescription];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
+                                              otherButtonTitles:nil];
+    [alertView show];
+//
 }
 
 - (void)singleImageRecognitionStarted
@@ -427,8 +412,10 @@ typedef enum
 
 - (void)singleImageRecognitionFinished
 {
-//    [self hideSingleImagePreview];
-//    self.previewImageData = nil;
+//
+    [self hideSingleImagePreview];
+    self.previewImageData = nil;
+//
     self.progressToolbar.animating = NO;
 }
 
@@ -523,11 +510,7 @@ typedef enum
 #if TARGET_IPHONE_SIMULATOR
     [self choosePhotoFromLibrary];
 #else
-    if (!_photoOnly) {
-        [self.liveScanner takePictureWithZoomFactor:self.cameraZoomSlider.zoomScale];
-    } else {
-        [self.liveScanner takePictureOnlyWithZoomFactor:self.cameraZoomSlider.zoomScale];
-    }
+    [self.liveScanner takePictureWithZoomFactor:self.cameraZoomSlider.zoomScale];
 #endif
     
 }
@@ -551,20 +534,7 @@ typedef enum
 
     UIImage * rotatedImage = [self fixImageRotation:image];
     
-    if (_photoOnly == YES) {
-        [self liveScanner:self.liveScanner capturedSingleImageatLocation:self.location];
-    } else {
-        [self.liveScanner processImage:rotatedImage.CGImage];
-    }
-}
-
-- (IBAction)skipSingleImageRequest
-{
-//    [self hideSingleImagePreview];
-    if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
-        [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
-        [self singleImageRecognitionFinished];
-    }
+    [self.liveScanner processImage:rotatedImage.CGImage];
 }
 
 - (UIImage*)fixImageRotation:(UIImage*)image
@@ -673,13 +643,13 @@ typedef enum
     
     if (self.cameraModeControl.cameraMode == kCameraModeLiveScanning && self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self switchToMode:kSCMLiveScannerLiveScanningMode];
-//        [self showStatusViewForModeStatusChange];
+        [self showStatusViewForModeStatusChange]; //
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserPreferenceCameraStartsInScanMode];
         [self startScanLineAnimation];
     } else if (self.cameraModeControl.cameraMode == kCameraModeSingleShot && self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode)
     {
         [self switchToMode:kSCMLiveScannerSingleShotMode];
-//        [self showStatusViewForModeStatusChange];
+        [self showStatusViewForModeStatusChange]; //
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserPreferenceCameraStartsInScanMode];
         [self stopScanLineAnimation];
     }
@@ -873,7 +843,8 @@ typedef enum
     
     UIColor *color;
 
-    color = [UIColor blueColor];
+    UIColor *themeColor = [UIColor colorWithRed:0.682f green:0.161f blue:0.067f alpha:1.0f];
+    color = themeColor;
 
     verticalLine.backgroundColor = horizontalLine.backgroundColor = color.CGColor;
     
@@ -1011,12 +982,7 @@ typedef enum
 - (void)liveScanner:(SCMLiveScanner *)scanner didNotRecognizeImage:(NSData *)imageData
 {
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
-        if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
-            [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
-            [self singleImageRecognitionFinished];
-        } else {
-            [self singleImageFailedRecognition];
-        }
+        [self singleImageFailedRecognition];
     }
 }
 
@@ -1030,35 +996,19 @@ typedef enum
 
 - (void)liveScanner:(SCMLiveScanner *)scanner recognizedQRCode:(NSString *)text atLocation:(CLLocation *)location
 {
-    if ([self.delegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:fromImage:)]) {
-        [self.delegate scannerViewController:self recognizedQRCode:text atLocation:location fromImage:[self originalImage]];
+    if ([self.delegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:)]) {
+        [self.delegate scannerViewController:self recognizedQRCode:text atLocation:location];
     }
 }
 
 - (void)liveScanner:(SCMLiveScanner *)scanner capturedSingleImageWhileOffline:(NSData *)imageData atLocation:(CLLocation *)location
 {
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
-        if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
-            [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
-
-            [self singleImageRecognitionFinished];
-        } else {
-            [self singleImageDidFailWithError:nil];
-            if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImageWhileOffline:atLocation:)]) {
-                [self.delegate scannerViewController:self capturedSingleImageWhileOffline:imageData atLocation:location];
-            }
+        [self singleImageDidFailWithError:nil];
+        if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImageWhileOffline:atLocation:)]) {
+            [self.delegate scannerViewController:self capturedSingleImageWhileOffline:imageData atLocation:location];
         }
     }
-}
-
-- (void)liveScanner:(SCMLiveScanner *)scanner capturedSingleImageatLocation:(CLLocation *)location
-{
-    if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode && self.photoOnly) {
-        if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImage:atLocation:)]) {
-            [self.delegate scannerViewController:self capturedSingleImage:[self originalImage] atLocation:[self location]];
-        }
-    }
-    
 }
 
 - (void)liveScannerShouldClose:(SCMLiveScanner *)scanner

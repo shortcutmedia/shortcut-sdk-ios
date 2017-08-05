@@ -25,7 +25,7 @@
 {
     [super awakeFromNib];
     
-    [self.doneButton setTitle:[SCMLocalization translationFor:@"DoneButtonTitle" withDefaultValue:@"Done"]
+    [self.doneButton setTitle:[SCMLocalization translationFor:@"CancelButtonTitle" withDefaultValue:@"Cancel"]
                      forState:UIControlStateNormal];
 }
 

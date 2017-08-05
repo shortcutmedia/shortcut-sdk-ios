@@ -195,28 +195,6 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     }];
 }
 
-- (void)takePictureOnlyWithZoomFactor:(CGFloat)zoomFactor
-{
-    [self.captureSessionController takePictureAsynchronouslyWithCompletionHandler:^(CMSampleBufferRef sampleBuffer, NSError *error) {
-        
-        if (sampleBuffer != NULL) {
-            // The sample buffer contains no image buffer, but a block buffer containing jpeg data.
-            // Therefore we cannot convert it to a CGImageRef using +[SCMImageUtils newImageFromSampleBuffer:]
-            // so we have to use +[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:] and then
-            // CGImageCreateWithJPEGDataProvider() to get a CGImageRef...
-            NSData *originalImageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:sampleBuffer];
-            
-            self.originalImage = [[UIImage alloc] initWithData:originalImageData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate liveScanner:self capturedSingleImageatLocation:self.location];
-            });
-
-        } else {
-            DebugLog(@"could not take picture because: %@", [error localizedDescription]);
-        }
-    }];
-}
-
 - (void)setPaused:(BOOL)value
 {
     _paused = value;
