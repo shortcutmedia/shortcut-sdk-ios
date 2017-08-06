@@ -290,5 +290,44 @@
     }
 }
 
+- (void)focusInPoint:(CGPoint)focusPoint
+{
+    CGFloat x = focusPoint.x;
+    CGFloat y = focusPoint.y;
+    
+    if (self.captureDevice.position == AVCaptureDevicePositionBack) {
+        y = 1.0 - y;
+    }
+    
+    CGPoint pointToFocus = CGPointMake(x, y);
+    NSError *error;
+    
+    @try {
+        [self.captureDevice lockForConfiguration:&error];
+        if (self.captureDevice.exposurePointOfInterestSupported == YES) {
+            self.captureDevice.exposurePointOfInterest = pointToFocus;
+            self.captureDevice.exposureMode = AVCaptureExposureModeContinuousAutoExposure;
+        }
+        
+        if (self.captureDevice.focusPointOfInterestSupported == YES) {
+            self.captureDevice.focusPointOfInterest = pointToFocus;
+            
+            if ([self.captureDevice isFocusModeSupported:AVCaptureFocusModeAutoFocus] == YES)
+            {
+                self.captureDevice.focusMode = AVCaptureFocusModeAutoFocus;
+            }
+        } else if ([self.captureDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus] == YES)
+        {
+            self.captureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+        }
+        [self.captureDevice unlockForConfiguration];
+    } @catch (NSException *exception) {
+        DebugLog(@"Auto Focus in point caught exception");
+        // Nothing to be done
+    } @finally {
+        // Nothing to be done
+    }
+    
+}
 
 @end

@@ -35,5 +35,5 @@ typedef enum
 - (void)takePictureAsynchronouslyWithCompletionHandler:(void (^)(CMSampleBufferRef imageDataSampleBuffer, NSError *error))handler;
 - (BOOL)hasFlash;
 - (void)toggleFlashMode;
-
+- (void)focusInPoint:(CGPoint)focusPoint;
 @end
