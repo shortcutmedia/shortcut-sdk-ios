@@ -115,6 +115,7 @@
     }
     
     [self turnFlashOff];
+    [self turnTorchOff];
     
     if (mode == kSCMCaptureSessionLiveScanningMode) {
         [self switchToLiveScanningMode];
@@ -205,6 +206,7 @@
 {
     if (self.running) {
         [self turnFlashOff];
+        [self turnTorchOff];
         
         [self.captureSession stopRunning];
         self.running = NO;
@@ -238,7 +240,7 @@
     BOOL on = NO;
     
     if ([self hasFlash]) {
-        on = (self.captureDevice.torchMode == AVCaptureTorchModeOn);
+        on = (self.captureDevice.flashMode == AVCaptureFlashModeOn);
     }
     
     return on;
@@ -248,7 +250,7 @@
 {
     BOOL hasFlash = NO;
     
-    hasFlash = [self.captureDevice hasTorch] && [self.captureDevice isTorchModeSupported:AVCaptureTorchModeOn];
+    hasFlash = [self.captureDevice hasFlash] && [self.captureDevice isFlashModeSupported:AVCaptureFlashModeOn];
     
     return hasFlash;
 }
@@ -259,9 +261,9 @@
         return;
     }
     
-    if (self.captureDevice.torchMode != AVCaptureTorchModeOn) {
+    if (self.captureDevice.flashMode != AVCaptureFlashModeOn) {
         if ([self.captureDevice lockForConfiguration:NULL]) {
-            self.captureDevice.torchMode = AVCaptureTorchModeOn;
+            self.captureDevice.flashMode = AVCaptureFlashModeOn;
             [self.captureDevice unlockForConfiguration];
         }
     }
@@ -273,9 +275,9 @@
         return;
     }
     
-    if (self.captureDevice.torchMode != AVCaptureTorchModeOff) {
+    if (self.captureDevice.flashMode != AVCaptureFlashModeOff) {
         if ([self.captureDevice lockForConfiguration:NULL]) {
-            self.captureDevice.torchMode = AVCaptureTorchModeOff;
+            self.captureDevice.flashMode = AVCaptureFlashModeOff;
             [self.captureDevice unlockForConfiguration];
         }
     }
@@ -287,6 +289,63 @@
         [self turnFlashOff];
     } else {
         [self turnFlashOn];
+    }
+}
+
+- (BOOL)torchOn
+{
+    BOOL on = NO;
+    
+    if ([self hasTorch]) {
+        on = (self.captureDevice.torchMode == AVCaptureTorchModeOn);
+    }
+    
+    return on;
+}
+
+- (BOOL)hasTorch
+{
+    BOOL hasTorch = NO;
+    
+    hasTorch = [self.captureDevice hasTorch] && [self.captureDevice isTorchModeSupported:AVCaptureTorchModeOn];
+    
+    return hasTorch;
+}
+
+- (void)turnTorchOn
+{
+    if (!self.hasTorch) {
+        return;
+    }
+    
+    if (self.captureDevice.torchMode != AVCaptureTorchModeOn) {
+        if ([self.captureDevice lockForConfiguration:NULL]) {
+            self.captureDevice.torchMode = AVCaptureTorchModeOn;
+            [self.captureDevice unlockForConfiguration];
+        }
+    }
+}
+
+- (void)turnTorchOff
+{
+    if (!self.hasTorch) {
+        return;
+    }
+    
+    if (self.captureDevice.torchMode != AVCaptureTorchModeOff) {
+        if ([self.captureDevice lockForConfiguration:NULL]) {
+            self.captureDevice.torchMode = AVCaptureTorchModeOff;
+            [self.captureDevice unlockForConfiguration];
+        }
+    }
+}
+
+- (void)toggleTorchMode
+{
+    if (self.torchOn) {
+        [self turnTorchOff];
+    } else {
+        [self turnTorchOn];
     }
 }
 

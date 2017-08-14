@@ -24,6 +24,7 @@ typedef enum
 @property (nonatomic, strong, readonly) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, assign, readonly) SCMCaptureSessionMode captureSessionMode;
 @property (nonatomic, assign, readonly) BOOL flashOn;
+@property (nonatomic, assign, readonly) BOOL torchOn;
 @property (nonatomic, assign, readonly) CMTime minimumLiveScanningFrameDuration;
 
 + (BOOL)authorizedForVideoCapture;
@@ -33,6 +34,8 @@ typedef enum
 - (void)switchToMode:(SCMCaptureSessionMode)mode;
 - (void)stopSession;
 - (void)takePictureAsynchronouslyWithCompletionHandler:(void (^)(CMSampleBufferRef imageDataSampleBuffer, NSError *error))handler;
+- (BOOL)hasTorch;
+- (void)toggleTorchMode;
 - (BOOL)hasFlash;
 - (void)toggleFlashMode;
 - (void)focusInPoint:(CGPoint)focusPoint;

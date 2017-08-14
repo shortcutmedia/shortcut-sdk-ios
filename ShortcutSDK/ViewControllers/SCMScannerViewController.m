@@ -714,8 +714,8 @@ typedef enum
 
 - (void)updateFlashStatus
 {
-    if ([self.liveScanner.captureSessionController hasFlash]) {
-        if (self.liveScanner.captureSessionController.flashOn) {
+    if ([self.liveScanner.captureSessionController hasTorch]) {
+        if (self.liveScanner.captureSessionController.torchOn) {
             [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOn"] forState:UIControlStateNormal];
         } else {
             [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOff"] forState:UIControlStateNormal];
@@ -726,9 +726,9 @@ typedef enum
     }
 }
 
-- (IBAction)toggleFlashMode:(id)sender
+- (IBAction)toggleTorchMode:(id)sender
 {
-    [self.liveScanner.captureSessionController toggleFlashMode];
+    [self.liveScanner.captureSessionController toggleTorchMode];
     [self updateFlashStatus];
 }
 
