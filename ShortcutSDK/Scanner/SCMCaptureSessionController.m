@@ -73,13 +73,75 @@
     return sessionPreset;
 }
 
+
+#pragma mark - Camera Configuration
+
+- (BOOL)hasCameraWithCapturePosition:(AVCaptureDevicePosition)capturePosition
+{
+    BOOL returnValue = false;
+    
+    NSArray *devices = [AVCaptureDevice devices];
+    for(AVCaptureDevice *device in devices) {
+        if ([device hasMediaType:AVMediaTypeVideo] == YES) {
+            if (device.position == capturePosition) {
+                returnValue = true;
+            }
+        }
+    }
+    return returnValue;
+}
+
+- (BOOL)isCurrentCapturePositionBack
+{
+    if (self.captureDevice.position == AVCaptureDevicePositionBack) {
+        return true;
+    }
+    return false;
+}
+
+- (void)configureCamera:(AVCaptureDevicePosition)capturePosition
+{
+    if (capturePosition == AVCaptureDevicePositionUnspecified) {
+        self.captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    } else {
+        NSArray *devices = [AVCaptureDevice devices];
+        for(AVCaptureDevice *device in devices) {
+            if ([device hasMediaType:AVMediaTypeVideo] == YES) {
+                if (device.position == capturePosition) {
+                    self.captureDevice = device;
+                }
+            }
+        }
+    }
+}
+
+- (void)toggleBackFrontCamera {
+    if(self.captureDevice != nil && [self captureSessionMode] == kSCMCaptureSessionSingleShotMode && [self hasCameraWithCapturePosition:AVCaptureDevicePositionFront])
+    {
+        [self.captureSession stopRunning];
+        [self.captureSession removeInput:self.captureInput];
+        [self.captureSession removeOutput:self.stillImageOutput];
+        if ([self isCurrentCapturePositionBack] == YES) {
+            [self configureCamera:AVCaptureDevicePositionFront];
+        } else {
+            [self configureCamera:AVCaptureDevicePositionBack];
+        }
+        [self configureConnection];
+        [self setupCaptureSessionForMode:kSCMCaptureSessionSingleShotMode];
+        [self startSession];
+    }
+}
+
+
+#pragma mark - Camera Session
+
 - (void)setupCaptureSessionForMode:(SCMCaptureSessionMode)initialMode
 {
     if (self.captureSession != nil) {
         return;
     }
     
-    self.captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    [self configureCamera:AVCaptureDevicePositionUnspecified];
     
     NSError *error = nil;
     self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
@@ -124,6 +186,26 @@
     }
 }
 
+- (void)toggleCamera
+{
+    
+}
+
+- (void)configureConnection {
+    for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
+        for (AVCaptureInputPort *port in [connection inputPorts]) {
+            if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
+                self.stillImageVideoConnection = connection;
+                break;
+            }
+        }
+        
+        if (self.stillImageVideoConnection != nil) {
+            break;
+        }
+    }
+}
+
 - (void)switchToSingleShotMode
 {
     [self.captureSession beginConfiguration];
@@ -138,20 +220,7 @@
     NSDictionary *outputSettings = [NSDictionary dictionaryWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
     [self.stillImageOutput setOutputSettings:outputSettings];
     [self.captureSession addOutput:self.stillImageOutput];
-    
-    for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
-        for (AVCaptureInputPort *port in [connection inputPorts]) {
-            if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
-                self.stillImageVideoConnection = connection;
-                break;
-            }
-        }
-        
-        if (self.stillImageVideoConnection != nil) {
-            break;
-        }
-    }
-    
+    [self configureConnection];
     [self.captureSession commitConfiguration];
 }
 

@@ -39,4 +39,7 @@ typedef enum
 - (BOOL)hasFlash;
 - (void)toggleFlashMode;
 - (void)focusInPoint:(CGPoint)focusPoint;
+- (void)toggleBackFrontCamera;
+- (BOOL)hasCameraWithCapturePosition:(AVCaptureDevicePosition)capturePosition;
+
 @end
