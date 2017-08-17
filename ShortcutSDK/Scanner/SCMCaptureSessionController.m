@@ -118,17 +118,40 @@
 - (void)toggleBackFrontCamera {
     if(self.captureDevice != nil && [self captureSessionMode] == kSCMCaptureSessionSingleShotMode && [self hasCameraWithCapturePosition:AVCaptureDevicePositionFront])
     {
-        [self.captureSession stopRunning];
+
+        //begin configuration changes
+        [self.captureSession beginConfiguration];
+
+            
+        //remove the previous inputs
         [self.captureSession removeInput:self.captureInput];
-        [self.captureSession removeOutput:self.stillImageOutput];
+        
+            //add the new input
         if ([self isCurrentCapturePositionBack] == YES) {
             [self configureCamera:AVCaptureDevicePositionFront];
         } else {
             [self configureCamera:AVCaptureDevicePositionBack];
         }
-        [self configureConnection];
-        [self setupCaptureSessionForMode:kSCMCaptureSessionSingleShotMode];
-        [self startSession];
+        NSError *error;
+        @try {
+            [self.captureDevice lockForConfiguration:&error];
+            if ([self.captureDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus] == YES) {
+                self.captureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+            }
+            [self.captureDevice unlockForConfiguration];
+        } @catch (NSException *exception) {
+            DebugLog(@"Auto Focus in point caught exception");
+            // Nothing to be done
+        } @finally {
+            // Nothing to be done
+        }
+        self.captureSession.sessionPreset = [self findCaptureSessionPreset];
+        self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
+        [self.captureSession addInput:self.captureInput];
+
+        
+        //end the configuration
+        [self.captureSession commitConfiguration];
     }
 }
 
@@ -186,15 +209,10 @@
     }
 }
 
-- (void)toggleCamera
-{
-    
-}
-
 - (void)configureConnection {
     for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
-        for (AVCaptureInputPort *port in [connection inputPorts]) {
-            if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
+        for (AVCaptureInputPort *port in connection.inputPorts) {
+            if ([port.mediaType isEqualToString:AVMediaTypeVideo]) {
                 self.stillImageVideoConnection = connection;
                 break;
             }
