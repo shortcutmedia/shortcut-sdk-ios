@@ -41,5 +41,7 @@ typedef enum
 - (void)focusInPoint:(CGPoint)focusPoint;
 - (void)toggleBackFrontCamera;
 - (BOOL)hasCameraWithCapturePosition:(AVCaptureDevicePosition)capturePosition;
+- (void)changeZoomToScale:(CGFloat)scale;
+- (CGFloat)zoomFactor;
 
 @end

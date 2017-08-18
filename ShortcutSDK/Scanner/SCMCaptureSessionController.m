@@ -62,7 +62,7 @@
 - (NSString *)findCaptureSessionPreset
 {
     // use current/system-default session preset as default...
-    NSString *sessionPreset = self.captureSession.sessionPreset;
+    NSString *sessionPreset; //= self.captureSession.sessionPreset;
     
     if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset1920x1080]) {
         sessionPreset = AVCaptureSessionPreset1920x1080;
@@ -109,47 +109,81 @@
             if ([device hasMediaType:AVMediaTypeVideo] == YES) {
                 if (device.position == capturePosition) {
                     self.captureDevice = device;
+                    [self configureDevice];
+                    return;
                 }
             }
         }
     }
 }
 
+- (void)changeZoomToScale:(CGFloat)scale {
+    NSError *error = nil;
+    if ([self.captureDevice lockForConfiguration:&error]) {
+        CGFloat desiredZoomFactor = scale;
+        // Check if desiredZoomFactor fits required range from 1.0 to activeFormat.videoMaxZoomFactor
+        self.captureDevice.videoZoomFactor = MAX(1.0, MIN(desiredZoomFactor, 10.0));
+        [self.captureDevice unlockForConfiguration];
+    } else {
+        NSLog(@"error: %@", error);
+    }
+}
+
+- (CGFloat)zoomFactor
+{
+    return self.captureDevice.videoZoomFactor;
+}
+
+- (void)configureDevice
+{
+    NSError *error;
+    @try {
+        [self.captureDevice lockForConfiguration:&error];
+        if ([self.captureDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus] == YES) {
+            self.captureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+        }
+        [self.captureDevice unlockForConfiguration];
+    } @catch (NSException *exception) {
+        DebugLog(@"Auto Focus in point caught exception");
+        // Nothing to be done
+    } @finally {
+        // Nothing to be done
+    }
+}
+
 - (void)toggleBackFrontCamera {
     if(self.captureDevice != nil && [self captureSessionMode] == kSCMCaptureSessionSingleShotMode && [self hasCameraWithCapturePosition:AVCaptureDevicePositionFront])
     {
-
-        //begin configuration changes
         [self.captureSession beginConfiguration];
-
-            
-        //remove the previous inputs
         [self.captureSession removeInput:self.captureInput];
+        [self.captureSession removeOutput:self.stillImageOutput];
         
-            //add the new input
+        //add the new input
         if ([self isCurrentCapturePositionBack] == YES) {
             [self configureCamera:AVCaptureDevicePositionFront];
         } else {
             [self configureCamera:AVCaptureDevicePositionBack];
         }
+
+        self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+        NSDictionary *outputSettings = [NSDictionary dictionaryWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
+        [self.stillImageOutput setOutputSettings:outputSettings];
+
         NSError *error;
-        @try {
-            [self.captureDevice lockForConfiguration:&error];
-            if ([self.captureDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus] == YES) {
-                self.captureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
-            }
-            [self.captureDevice unlockForConfiguration];
-        } @catch (NSException *exception) {
-            DebugLog(@"Auto Focus in point caught exception");
-            // Nothing to be done
-        } @finally {
-            // Nothing to be done
-        }
         self.captureSession.sessionPreset = [self findCaptureSessionPreset];
         self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
-        [self.captureSession addInput:self.captureInput];
-
+ 
         
+        if ([self.captureSession canAddInput:self.captureInput] && [self.captureSession canAddOutput:self.stillImageOutput]){
+            [self.captureSession addInput:self.captureInput];
+            [self.captureSession addOutput:self.stillImageOutput];
+        } else {
+            NSLog(@"XXX Can't add input or output");
+            return;
+        }
+        
+        [self configureConnection];
+
         //end the configuration
         [self.captureSession commitConfiguration];
     }
@@ -213,6 +247,7 @@
     for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
         for (AVCaptureInputPort *port in connection.inputPorts) {
             if ([port.mediaType isEqualToString:AVMediaTypeVideo]) {
+                NSLog(@"XXX configureConnection");
                 self.stillImageVideoConnection = connection;
                 break;
             }
