@@ -178,7 +178,6 @@
             [self.captureSession addInput:self.captureInput];
             [self.captureSession addOutput:self.stillImageOutput];
         } else {
-            NSLog(@"XXX Can't add input or output");
             return;
         }
         
@@ -247,7 +246,6 @@
     for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
         for (AVCaptureInputPort *port in connection.inputPorts) {
             if ([port.mediaType isEqualToString:AVMediaTypeVideo]) {
-                NSLog(@"XXX configureConnection");
                 self.stillImageVideoConnection = connection;
                 break;
             }
