@@ -304,6 +304,9 @@
     if ([self.liveVideoConnection isVideoMinFrameDurationSupported]) {
         self.liveVideoConnection.videoMinFrameDuration = self.minimumLiveScanningFrameDuration;
     }
+//    if ([_captureDevice.activeFormat.videoSupportedFrameRateRanges containsObject:self.minimumLiveScanningFrameDuration]) {
+//        [_captureDevice setActiveVideoMinFrameDuration:self.minimumLiveScanningFrameDuration];
+//    }
     
     if (self.sampleBufferDelegate != nil) {
         dispatch_queue_t frameQueue = dispatch_queue_create("VideoFrameQueue", NULL);

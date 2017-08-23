@@ -60,6 +60,7 @@ typedef enum
 @property (nonatomic, assign, readwrite) BOOL scanQRCodes;
 @property (nonatomic, assign, readwrite) BOOL showDoneButton;
 @property (nonatomic, assign, readwrite) BOOL photoFromCameraRoll;
+@property (nonatomic, assign, readwrite) BOOL QRCodeRecognized;
 @property (weak, nonatomic) IBOutlet UIView *flashBackgroundView;
 
 @end
@@ -203,7 +204,7 @@ typedef enum
     // Do any additional setup after loading the view from its nib.
     
     // The default mode is single shot mode.
-    SCMLiveScannerMode mode = kSCMLiveScannerLiveScanningMode;
+    SCMLiveScannerMode mode = kSCMLiveScannerSingleShotMode;//kSCMLiveScannerLiveScanningMode;
     BOOL startInScanMode = [[NSUserDefaults standardUserDefaults] boolForKey:kUserPreferenceCameraStartsInScanMode];
     if (self.previewImageData != nil || startInScanMode == NO) {
         mode = kSCMLiveScannerSingleShotMode;
@@ -211,17 +212,6 @@ typedef enum
     [self.liveScanner setupForMode:mode];
     
     [self.cameraZoomSlider addTarget:self action:@selector(cameraZoomChanged) forControlEvents:UIControlEventValueChanged];
-    
-    self.cameraStatusView.hidden = YES;
-    self.cameraStatusView.alpha = 0.0;
-    
-    [self updateModeStatus];
-    [self updateFlashStatus];
-    
-    [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
-    [self.previewImageView setBackgroundColor:[UIColor blackColor]];
-    // Only show the status view if we are not re-submitting a single shot image.
-    [self showStatusViewForModeStatusChange]; //
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deviceOrientationDidChange:)
@@ -232,6 +222,17 @@ typedef enum
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.cameraStatusView.hidden = YES;
+    self.cameraStatusView.alpha = 0.0;
+    
+    [self updateModeStatus];
+    [self updateFlashStatus];
+    
+    [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
+    [self.previewImageView setBackgroundColor:[UIColor blackColor]];
+    // Only show the status view if we are not re-submitting a single shot image.
+    [self showStatusViewForModeStatusChange]; //
+
     
     self.liveScanner.captureSessionController.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
@@ -383,7 +384,7 @@ typedef enum
 - (void)singleImageDidFailWithError:(NSError *)error
 {
     [self singleImageRecognitionFinished];
-//
+
     NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
     NSString *message = [error localizedDescription];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
@@ -392,7 +393,6 @@ typedef enum
                                               cancelButtonTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
                                               otherButtonTitles:nil];
     [alertView show];
-//
 }
 
 - (void)singleImageRecognitionStarted
@@ -975,6 +975,7 @@ typedef enum
 
 - (void)liveScanner:(SCMLiveScanner *)scanner recognizedQRCode:(NSString *)text atLocation:(CLLocation *)location
 {
+    self.QRCodeRecognized = YES;
     if ([self.delegate respondsToSelector:@selector(scannerViewController:recognizedQRCode:atLocation:)]) {
         [self.delegate scannerViewController:self recognizedQRCode:text atLocation:location];
     }
@@ -982,6 +983,11 @@ typedef enum
 
 - (void)liveScanner:(SCMLiveScanner *)scanner capturedSingleImageWhileOffline:(NSData *)imageData atLocation:(CLLocation *)location
 {
+    if (self.QRCodeRecognized) {
+        self.QRCodeRecognized = NO;
+        return;
+    }
+    
     if (self.liveScanner.liveScannerMode == kSCMLiveScannerSingleShotMode) {
         [self singleImageDidFailWithError:nil];
         if ([self.delegate respondsToSelector:@selector(scannerViewController:capturedSingleImageWhileOffline:atLocation:)]) {
