@@ -246,6 +246,6 @@
     <resources>
         <image name="CameraButton" width="67" height="67"/>
         <image name="CameraFlashOff" width="27" height="27"/>
-        <image name="GalleryIcon" width="40" height="40"/>
+        <image name="GalleryIcon" width="54" height="54"/>
     </resources>
 </document>
