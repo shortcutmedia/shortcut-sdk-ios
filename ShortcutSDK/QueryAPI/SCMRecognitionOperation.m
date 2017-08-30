@@ -77,7 +77,7 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
     if (self != nil) {
         self.location = queryLocation;
         self.imageData = data;
-        self.timeoutInterval = 5.0;
+        self.timeoutInterval = 15.0;
     }
     
     return self;
