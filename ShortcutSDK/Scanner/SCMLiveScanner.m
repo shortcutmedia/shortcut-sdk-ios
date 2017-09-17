@@ -243,7 +243,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     CFAbsoluteTime endOfFrameHandling = CFAbsoluteTimeGetCurrent();
     
     // Let other threads/the network thread work for a bit if this handler basically runs all the time...
-    if (endOfFrameHandling - startOfFrameHandling > CMTimeGetSeconds(self.captureSessionController.minimumLiveScanningFrameDuration)) {
+    if (endOfFrameHandling - startOfFrameHandling > (1.0f/self.captureSessionController.minimumLiveScanningFrameRate)) {
         DebugLog(@"sample buffer handler is too slow");
         [NSThread sleepForTimeInterval:0.01];
     }

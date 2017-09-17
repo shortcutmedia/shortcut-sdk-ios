@@ -25,7 +25,7 @@ typedef enum
 @property (nonatomic, assign, readonly) SCMCaptureSessionMode captureSessionMode;
 @property (nonatomic, assign, readonly) BOOL flashOn;
 @property (nonatomic, assign, readonly) BOOL torchOn;
-@property (nonatomic, assign, readonly) CMTime minimumLiveScanningFrameDuration;
+@property (nonatomic, assign, readonly) Float64 minimumLiveScanningFrameRate;
 
 + (BOOL)authorizedForVideoCapture;
 

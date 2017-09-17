@@ -52,9 +52,13 @@
     CGFloat cancelButtonX = CGRectGetMinX(self.cancelButton.frame);
     CGFloat maxCancelButtonX = CGRectGetMinX(self.activityIndicator.frame) - 8.0;
     NSString *cancelButtonTitle = [self.cancelButton titleForState:UIControlStateNormal];
-    CGSize cancelTitleSize = [cancelButtonTitle sizeWithFont:self.cancelButton.titleLabel.font
-                                                    forWidth:maxCancelButtonX - cancelButtonX - buttonEdgeInset
-                                               lineBreakMode:NSLineBreakByTruncatingTail];
+
+    CGSize constraintSize = CGSizeMake(maxCancelButtonX - cancelButtonX - buttonEdgeInset, CGFLOAT_MAX);
+    CGSize cancelTitleSize = [cancelButtonTitle boundingRectWithSize:constraintSize
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:@{NSFontAttributeName: self.cancelButton.titleLabel.font}
+                                                             context:nil].size;
+    
     self.cancelButton.frame = CGRectMake(cancelButtonX, CGRectGetMinY(self.cancelButton.frame),
                                          cancelTitleSize.width + buttonEdgeInset, CGRectGetHeight(self.cancelButton.frame));
     

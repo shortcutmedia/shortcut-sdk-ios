@@ -42,11 +42,11 @@
     }
 }
 
-- (CMTime)minimumLiveScanningFrameDuration
+- (Float64)minimumLiveScanningFrameRate
 {
     // Note: This needs to stay at 15fps. Otherwise, the display looks really slow. iOS will automatically throttle our
     //       frame rate if we take longer than 1/15s to process an image.
-    return CMTimeMake(1, 15);
+    return 15.0f;
 }
 
 + (BOOL)authorizedForVideoCapture
@@ -64,11 +64,11 @@
     // use current/system-default session preset as default...
     NSString *sessionPreset; //= self.captureSession.sessionPreset;
     
-    if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPreset1920x1080]) {
-        sessionPreset = AVCaptureSessionPreset1920x1080;
-    } else {
-        sessionPreset = AVCaptureSessionPresetHigh;
-    }
+//    if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPresetHigh]) {
+    sessionPreset = AVCaptureSessionPresetHigh;
+//    } else {
+//        sessionPreset = AVCaptureSessionPresetHigh;
+//    }
     
     return sessionPreset;
 }
@@ -301,12 +301,14 @@
         }
     }
     
-    if ([self.liveVideoConnection isVideoMinFrameDurationSupported]) {
-        self.liveVideoConnection.videoMinFrameDuration = self.minimumLiveScanningFrameDuration;
-    }
-//    if ([_captureDevice.activeFormat.videoSupportedFrameRateRanges containsObject:self.minimumLiveScanningFrameDuration]) {
-//        [_captureDevice setActiveVideoMinFrameDuration:self.minimumLiveScanningFrameDuration];
+//    if ([self.liveVideoConnection isVideoMinFrameDurationSupported]) {
+//        self.liveVideoConnection.videoMinFrameDuration = self.minimumLiveScanningFrameDuration;
 //    }
+    Float64 minFrameRate = ((AVFrameRateRange*) [_captureDevice.activeFormat.videoSupportedFrameRateRanges objectAtIndex:0]).minFrameRate;
+
+    if (minFrameRate <= self.minimumLiveScanningFrameRate) {
+        [_captureDevice setActiveVideoMinFrameDuration:CMTimeMake(10, self.minimumLiveScanningFrameRate * 10)];
+    }
     
     if (self.sampleBufferDelegate != nil) {
         dispatch_queue_t frameQueue = dispatch_queue_create("VideoFrameQueue", NULL);

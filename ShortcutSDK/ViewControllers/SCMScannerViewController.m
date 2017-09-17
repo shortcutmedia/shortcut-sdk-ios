@@ -876,11 +876,6 @@ typedef enum
 
 - (void)updateIconOrientation
 {
-    // if the interface does rotate then do not rotate the icons
-    if (self.interfaceOrientation != UIInterfaceOrientationPortrait) {
-        return;
-    }
-    
     CGAffineTransform transform = CGAffineTransformIdentity;
     
     switch ([UIDevice currentDevice].orientation)

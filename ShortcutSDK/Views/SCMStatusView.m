@@ -92,17 +92,20 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
     
     CGSize titleSize = CGSizeMake(0.0, self.titleLabel.font.lineHeight);
     CGSize subtitleSize = CGSizeZero;
-    
+    CGSize constraintSize = CGSizeMake(maxTextWidth, CGFLOAT_MAX);
+
     if (self.titleLabel.text.length > 0) {
-        titleSize = [self.titleLabel.text sizeWithFont:self.titleLabel.font
-                                     constrainedToSize:CGSizeMake(maxTextWidth, CGFLOAT_MAX)
-                                         lineBreakMode:NSLineBreakByWordWrapping];
+        titleSize = [self.titleLabel.text boundingRectWithSize:constraintSize
+                                                       options:NSStringDrawingUsesLineFragmentOrigin
+                                                    attributes:@{NSFontAttributeName: self.titleLabel.font}
+                                                       context:nil].size;
     }
     
     if (self.subtitleLabel.text.length > 0) {
-        subtitleSize = [self.subtitleLabel.text sizeWithFont:self.subtitleLabel.font
-                                           constrainedToSize:CGSizeMake(maxTextWidth, CGFLOAT_MAX)
-                                               lineBreakMode:NSLineBreakByWordWrapping];
+        titleSize = [self.subtitleLabel.text boundingRectWithSize:constraintSize
+                                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                                       attributes:@{NSFontAttributeName: self.subtitleLabel.font}
+                                                          context:nil].size;
     }
     
     CGFloat activityHeight = CGRectGetHeight(self.activityIndicator.frame);
