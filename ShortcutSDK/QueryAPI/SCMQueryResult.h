@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Shortcut Media AG. All rights reserved.
 //
 
+#ifndef _SCMQueryResult_h
+#define _SCMQueryResult_h
+
 #import <Foundation/Foundation.h>
 
 /**
@@ -102,3 +105,5 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
+
+#endif

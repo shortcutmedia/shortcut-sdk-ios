@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Shortcut Media AG. All rights reserved.
 //
 
+#ifndef _SCMRecognitionRequest_h
+#define _SCMRecognitionRequest_h
+
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "SCMQueryResponse.h"
@@ -63,3 +66,5 @@ extern NSString *kSCMRecognitionOperationErrorDomain;
 extern int kSCMRecognitionOperationNoMatchingMetadata;
 
 @end
+
+#endif

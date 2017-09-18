@@ -5,6 +5,8 @@
 //  Created by Severin Schoepke on 20/11/14.
 //  Copyright (c) 2014 Shortcut Media AG. All rights reserved.
 //
+#ifndef _SCMQueryResponse_h
+#define _SCMQueryResponse_h
 
 #import <Foundation/Foundation.h>
 #import "SCMQueryResult.h"
@@ -57,3 +59,5 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
+
+#endif
