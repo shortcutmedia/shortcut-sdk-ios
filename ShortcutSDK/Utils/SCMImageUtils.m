@@ -670,4 +670,26 @@
     return [UIImage imageNamed:[NSString stringWithFormat:@"ShortcutSDK.bundle/%@", fileName]];
 }
 
++ (UIImage *)imageResize:(UIImage*)image andResizeToAspectFillSize:(CGFloat)side
+{
+    CGFloat scale = [[UIScreen mainScreen]scale];
+    /*You can remove the below comment if you dont want to scale the image in retina   device .Dont forget to comment UIGraphicsBeginImageContextWithOptions*/
+    CGSize imageSize = image.size;
+    CGSize newSize = CGSizeZero;
+    if (imageSize.width > imageSize.height) {
+        newSize.height = side;
+        newSize.width = imageSize.width / imageSize.height * side;
+    } else {
+        newSize.width = side;
+        newSize.height = imageSize.height / imageSize.width * side;
+    }
+    
+    UIGraphicsBeginImageContext(newSize);
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, scale);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 @end
