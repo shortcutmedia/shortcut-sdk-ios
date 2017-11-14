@@ -33,18 +33,6 @@
 
 @synthesize initialRequest = _initialRequest;
 
-- (NSURLRequest *)initialRequest
-{
-    if (!_initialRequest && self.itemUUID) {
-        NSString *urlString = [NSString stringWithFormat:@"http://%@/app/#/results/%@", [SCMSDKConfig sharedConfig].itemServerAddress, self.itemUUID];
-        if (self.imageSHA1) {
-            urlString = [urlString stringByAppendingFormat:@"_%@", self.imageSHA1];
-        }
-        _initialRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-    }
-    return _initialRequest;
-}
-
 - (instancetype)initWithItemUUID:(NSString *)itemUUID
 {
     return [self initWithItemUUID:itemUUID imageSHA1:nil];
@@ -61,8 +49,6 @@
     return self;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 - (instancetype)init
 {
     // Load view classes referenced in xib-file. TODO: is there another way??
@@ -72,13 +58,27 @@
     
     return [super initWithNibName:@"SCMItemViewController" bundle:[SCMSDKConfig SDKBundle]];
 }
-#pragma clang diagnostic pop
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     NSLog(@"SCMItemViewController: custom nib ignored. Use init to instantiate an instance");
     return [self init];
 }
+
+- (NSURLRequest *)initialRequest
+{
+    if (!_initialRequest && self.itemUUID) {
+        NSString *urlString = [NSString stringWithFormat:@"http://%@/app/#/results/%@", [SCMSDKConfig sharedConfig].itemServerAddress, self.itemUUID];
+        if (self.imageSHA1) {
+            urlString = [urlString stringByAppendingFormat:@"_%@", self.imageSHA1];
+        }
+        _initialRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    }
+    return _initialRequest;
+}
+
+
+#pragma mark - View Lifecycle
 
 - (void)viewDidLoad
 {

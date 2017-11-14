@@ -29,8 +29,9 @@
 /**
  *  The web view instance that is used to render the result page.
  */
+NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet WKWebView *webView;
-
+NS_ASSUME_NONNULL_END
 
 /// @name Creation
 
@@ -41,7 +42,9 @@
  *
  *  @return A new item view controller instance.
  */
+NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithItemUUID:(NSString *)itemUUID;
+NS_ASSUME_NONNULL_END
 
 /**
  *  Returns a item view controller instance for the item with the given UUID.
@@ -51,8 +54,9 @@
  *
  *  @return A new item view controller instance.
  */
-- (instancetype)initWithItemUUID:(NSString *)itemUUID imageSHA1:(NSString *)imageSHA1 NS_DESIGNATED_INITIALIZER;
-
+NS_ASSUME_NONNULL_BEGIN
+- (instancetype)initWithItemUUID:(NSString *)itemUUID imageSHA1:(NSString *_Nullable)imageSHA1;
+NS_ASSUME_NONNULL_END
 
 #pragma mark - Protected
 
@@ -64,27 +68,36 @@
  *  @see WKNavigationDelegate -webView:decidePolicyForNavigationAction:decisionHandler::
  */
 
+NS_ASSUME_NONNULL_BEGIN
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
+NS_ASSUME_NONNULL_END
 
 /**
  *  You can override this method in a subclass to customize loading behavior.
  *
  *  @see WKNavigationDelegate -webView:didStartProvisionalNavigation:
  */
+NS_ASSUME_NONNULL_BEGIN
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation;
+NS_ASSUME_NONNULL_END
 
 /**
  *  You can override this method in a subclass to customize loading behavior.
  *
  *  @see WKNavigationDelegate -webView:didFinishNavigation:
  */
+
+NS_ASSUME_NONNULL_BEGIN
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation;
+NS_ASSUME_NONNULL_END
 
 /**
  *  You can override this method in a subclass to customize loading behavior.
  *
  *  @see WKNavigationDelegate -webView:didFailNavigation:withError:
  */
+NS_ASSUME_NONNULL_BEGIN
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(nonnull NSError *)error;
+NS_ASSUME_NONNULL_END
 
 @end
