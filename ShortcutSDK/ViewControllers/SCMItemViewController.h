@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 /**
  *  The SCMItemViewController implements a simple item view.
@@ -16,7 +17,7 @@
  *  recognition service. You have to identify the item you want to display the result page for
  *  with its UUID.
  *
- *  This view controller basically just renders a UIWebView which loads the result page. The view
+ *  This view controller basically just renders a WKWebView which loads the result page. The view
  *  controller instance is the delegate of the web view and the delegate methods are exposed in the
  *  public API; so if you want to customize the loading process you can subclass this class and hook
  *  into the web view delegate methods.
@@ -28,7 +29,7 @@
 /**
  *  The web view instance that is used to render the result page.
  */
-@property (strong, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet WKWebView *webView;
 
 
 /// @name Creation
@@ -55,34 +56,35 @@
 
 #pragma mark - Protected
 
-/// @name UIWebView delegate implementation
+/// @name WKNavigation delegate implementation
 
 /**
  *  You can override this method in a subclass to customize loading behavior.
  *
- *  @see UIWebViewDelegate -webView:shouldStartLoadWithRequest:navigationType:
+ *  @see WKNavigationDelegate -webView:decidePolicyForNavigationAction:decisionHandler::
  */
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 
 /**
  *  You can override this method in a subclass to customize loading behavior.
  *
- *  @see UIWebViewDelegate -webViewDidStartLoad:
+ *  @see WKNavigationDelegate -webView:didStartProvisionalNavigation:
  */
-- (void)webViewDidStartLoad:(UIWebView *)webView;
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation;
 
 /**
  *  You can override this method in a subclass to customize loading behavior.
  *
- *  @see UIWebViewDelegate -webViewDidFinishLoad:
+ *  @see WKNavigationDelegate -webView:didFinishNavigation:
  */
-- (void)webViewDidFinishLoad:(UIWebView *)webView;
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation;
 
 /**
  *  You can override this method in a subclass to customize loading behavior.
  *
- *  @see UIWebViewDelegate -webView:didFailLoadWithError:
+ *  @see WKNavigationDelegate -webView:didFailNavigation:withError:
  */
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error;
+- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(nonnull NSError *)error;
 
 @end

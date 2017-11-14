@@ -12,7 +12,7 @@
 #import "SCMLocalization.h"
 #import "SCMCustomUserAgentProtocol.h"
 
-@interface SCMItemViewController () <UIWebViewDelegate>
+@interface SCMItemViewController () <WKNavigationDelegate>
 
 @property (strong, nonatomic) IBOutlet SCMStatusView *statusView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
@@ -84,7 +84,7 @@
 {
     [super viewDidLoad];
     
-    self.webView.delegate = self;
+    self.webView.navigationDelegate = self;
     self.webView.hidden = YES;
     
     [self registerUserAgentCustomization];
@@ -133,7 +133,7 @@
     } else if ([sender isEqual:self.toolbarForwardButton]) {
         [self.webView goForward];
     } else if ([sender isEqual:self.toolbarOpenInSafariButton]) {
-        [[UIApplication sharedApplication] openURL:self.webView.request.URL];
+        [[UIApplication sharedApplication] openURL:self.webView.URL];
     }
 }
 
@@ -141,9 +141,9 @@
 {
     // If the web view is not empty or displaying an internal page, then show the toolbar
     // and adjust the web view height.
-    if (!self.webView.request ||
-        [self.webView.request.URL.absoluteString isEqualToString:@""] ||
-        [self.webView.request.URL.host isEqualToString:[SCMSDKConfig sharedConfig].itemServerAddress]) {
+    if (!self.webView.URL ||
+        [self.webView.URL.absoluteString isEqualToString:@""] ||
+        [self.webView.URL.host isEqualToString:[SCMSDKConfig sharedConfig].itemServerAddress]) {
         self.toolbar.hidden = YES;
         self.webViewBottomConstraint.constant = 0;
     } else {
@@ -164,36 +164,36 @@
     self.statusView.hidden = ![self.webView isLoading];
 }
 
-#pragma mark - UIWebViewDelegate
+#pragma mark - WKNavigationDelegate
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    if ([request.URL.scheme isEqualToString:@"http"] || [request.URL.scheme isEqualToString:@"https"]) {
-        return YES;
-    } else if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
-        [[UIApplication sharedApplication] openURL:request.URL];
-        return NO;
+    if ([navigationAction.request.URL.scheme isEqualToString:@"http"] || [navigationAction.request.URL.scheme isEqualToString:@"https"]) {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    } else if ([[UIApplication sharedApplication] canOpenURL:navigationAction.request.URL]) {
+        [[UIApplication sharedApplication] openURL:navigationAction.request.URL];
+        decisionHandler(WKNavigationActionPolicyCancel);
     } else {
-        DebugLog(@"webView cannot load request with url %@", request.URL.absoluteString);
-        return NO;
+        DebugLog(@"webView cannot load request with url %@", navigationAction.request.URL.absoluteString);
+        decisionHandler(WKNavigationActionPolicyCancel);
     }
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)aWebView
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
 {
     [self updateStatusView];
     [self updateToolbar];
     
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)aWebView
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     self.webView.hidden = NO;
     [self updateStatusView];
     [self updateToolbar];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
     self.statusView.hidden = YES;
     DebugLog(@"webView didFailLoadWithError: %@", [error localizedDescription]);
