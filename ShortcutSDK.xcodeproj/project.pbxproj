@@ -23,12 +23,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		61E138991D9EC0FB00A11FF0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E11BAE1D9EBAB3002222B9 /* Images.xcassets */; };
 		86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */; };
 		86197B021A2C663700BD726B /* CameraModeLiveScannerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */; };
 		86197B031A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */; };
 		86197B041A2C663700BD726B /* CameraModeSingleShotIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFC1A2C663700BD726B /* CameraModeSingleShotIcon.png */; };
 		86197B051A2C663700BD726B /* CameraModeSingleShotIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFD1A2C663700BD726B /* CameraModeSingleShotIcon@2x.png */; };
+		8684B99220626822008CF111 /* ShortcutSDK-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 8684B99020626822008CF111 /* ShortcutSDK-Prefix.pch */; };
 		869DFCFA1A83C178007B8C31 /* SCMCustomUserAgentProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */; };
 		869DFCFB1A83C178007B8C31 /* SCMCustomUserAgentProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */; };
 		86AB02DA1A2872E600586049 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AB02D91A2872E600586049 /* Foundation.framework */; };
@@ -139,10 +139,10 @@
 		86ED36131A2772F700D9F3B0 /* Result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35731A2772F700D9F3B0 /* Result.cpp */; };
 		86ED36141A2772F700D9F3B0 /* ResultPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35751A2772F700D9F3B0 /* ResultPoint.cpp */; };
 		86ED36151A2772F700D9F3B0 /* ResultPointCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35771A2772F700D9F3B0 /* ResultPointCallback.cpp */; };
-		86ED36161A2772F700D9F3B0 /* Decoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86ED357D1A2772F700D9F3B0 /* Decoder.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		86ED36171A2772F700D9F3B0 /* FormatReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35801A2772F700D9F3B0 /* FormatReader.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		86ED36181A2772F700D9F3B0 /* QRCodeReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35821A2772F700D9F3B0 /* QRCodeReader.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		86ED36191A2772F700D9F3B0 /* TwoDDecoderResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35841A2772F700D9F3B0 /* TwoDDecoderResult.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		86ED36161A2772F700D9F3B0 /* Decoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86ED357D1A2772F700D9F3B0 /* Decoder.mm */; };
+		86ED36171A2772F700D9F3B0 /* FormatReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35801A2772F700D9F3B0 /* FormatReader.mm */; };
+		86ED36181A2772F700D9F3B0 /* QRCodeReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35821A2772F700D9F3B0 /* QRCodeReader.mm */; };
+		86ED36191A2772F700D9F3B0 /* TwoDDecoderResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35841A2772F700D9F3B0 /* TwoDDecoderResult.m */; };
 		86ED361A1A2772F700D9F3B0 /* SCMSDKConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35861A2772F700D9F3B0 /* SCMSDKConfig.m */; };
 		86ED361B1A2772F700D9F3B0 /* SCMQueryResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED35891A2772F700D9F3B0 /* SCMQueryResponse.m */; };
 		86ED361C1A2772F700D9F3B0 /* SCMQueryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 86ED358B1A2772F700D9F3B0 /* SCMQueryResult.m */; };
@@ -192,9 +192,8 @@
 		86ED36521A27788100D9F3B0 /* SCMImageUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35A31A2772F700D9F3B0 /* SCMImageUtils.h */; };
 		86ED36531A27788400D9F3B0 /* SCMUUIDUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35A51A2772F700D9F3B0 /* SCMUUIDUtils.h */; };
 		86ED36541A27788800D9F3B0 /* UIImage+ImageOrientation.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35A71A2772F700D9F3B0 /* UIImage+ImageOrientation.h */; };
-		86ED36551A27789100D9F3B0 /* ShortcutSDK-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 86ED36341A2775CF00D9F3B0 /* ShortcutSDK-Prefix.pch */; };
 		86EEC7561A2F1D7C007C6FA9 /* SCMQRCodeScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7531A2F1D7C007C6FA9 /* SCMQRCodeScanner.h */; };
-		86EEC7571A2F1D7C007C6FA9 /* SCMQRCodeScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86EEC7541A2F1D7C007C6FA9 /* SCMQRCodeScanner.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		86EEC7571A2F1D7C007C6FA9 /* SCMQRCodeScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86EEC7541A2F1D7C007C6FA9 /* SCMQRCodeScanner.mm */; };
 		86EEC7581A2F1D7C007C6FA9 /* SCMQRCodeScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7551A2F1D7C007C6FA9 /* SCMQRCodeScannerDelegate.h */; };
 		86EEC75A1A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7591A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h */; };
 		86EEC75C1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC75B1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -241,7 +240,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		61E11BAE1D9EBAB3002222B9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResponseTest.m; path = QueryAPI/SCMQueryResponseTest.m; sourceTree = "<group>"; };
 		86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CameraModeLiveScannerIcon.png; path = Resources/CameraModeLiveScannerIcon.png; sourceTree = "<group>"; };
 		86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraModeLiveScannerIcon@2x.png"; path = "Resources/CameraModeLiveScannerIcon@2x.png"; sourceTree = "<group>"; };
@@ -249,9 +247,9 @@
 		86197AFD1A2C663700BD726B /* CameraModeSingleShotIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CameraModeSingleShotIcon@2x.png"; path = "Resources/CameraModeSingleShotIcon@2x.png"; sourceTree = "<group>"; };
 		864218961A4040430044B744 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		864218981A4040F10044B744 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		86775FB51A417EEB00D136A5 /* create_framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = create_framework.sh; sourceTree = "<group>"; };
-		86775FB61A417EEB00D136A5 /* finish_build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = finish_build.sh; sourceTree = "<group>"; };
-		86775FB71A417EEB00D136A5 /* render_docs.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = render_docs.sh; sourceTree = "<group>"; };
+		8684B98F20626773008CF111 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8684B99020626822008CF111 /* ShortcutSDK-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ShortcutSDK-Prefix.pch"; path = "Supporting Files/ShortcutSDK-Prefix.pch"; sourceTree = "<group>"; };
+		8684B99120626822008CF111 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Supporting Files/Images.xcassets"; sourceTree = "<group>"; };
 		869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCustomUserAgentProtocol.h; sourceTree = "<group>"; };
 		869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCustomUserAgentProtocol.m; sourceTree = "<group>"; };
 		86AB02D91A2872E600586049 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -271,7 +269,6 @@
 		86CCF7DA1A2E0BDE004FA85C /* SCMLocalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMLocalization.h; sourceTree = "<group>"; };
 		86CCF7DB1A2E0BDE004FA85C /* SCMLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMLocalization.m; sourceTree = "<group>"; };
 		86D085401A2888B5005CECD3 /* ShortcutSDK.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortcutSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		86D085431A2888B5005CECD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResultTest.m; path = QueryAPI/SCMQueryResultTest.m; sourceTree = "<group>"; };
 		86E5F35C1A77E9F40039C7A3 /* SCMTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMTestCase.h; sourceTree = "<group>"; };
 		86E5F35D1A77E9F40039C7A3 /* SCMTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMTestCase.m; sourceTree = "<group>"; };
@@ -513,7 +510,6 @@
 		86ED35BF1A2772F700D9F3B0 /* SCMProgressToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMProgressToolbar.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35C01A2772F700D9F3B0 /* SCMStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMStatusView.h; sourceTree = "<group>"; };
 		86ED35C11A2772F700D9F3B0 /* SCMStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMStatusView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		86ED36341A2775CF00D9F3B0 /* ShortcutSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShortcutSDK-Prefix.pch"; sourceTree = "<group>"; };
 		86EEC7531A2F1D7C007C6FA9 /* SCMQRCodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMQRCodeScanner.h; sourceTree = "<group>"; };
 		86EEC7541A2F1D7C007C6FA9 /* SCMQRCodeScanner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = SCMQRCodeScanner.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86EEC7551A2F1D7C007C6FA9 /* SCMQRCodeScannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMQRCodeScannerDelegate.h; sourceTree = "<group>"; };
@@ -563,16 +559,6 @@
 			name = QueryAPI;
 			sourceTree = "<group>";
 		};
-		86775FB41A417EEB00D136A5 /* BuildScripts */ = {
-			isa = PBXGroup;
-			children = (
-				86775FB51A417EEB00D136A5 /* create_framework.sh */,
-				86775FB71A417EEB00D136A5 /* render_docs.sh */,
-				86775FB61A417EEB00D136A5 /* finish_build.sh */,
-			);
-			path = BuildScripts;
-			sourceTree = "<group>";
-		};
 		86AB02DD1A2872FE00586049 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -580,22 +566,6 @@
 				86AB02D91A2872E600586049 /* Foundation.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		86D085411A2888B5005CECD3 /* ShortcutSDKResources */ = {
-			isa = PBXGroup;
-			children = (
-				86D085421A2888B5005CECD3 /* Supporting Files */,
-			);
-			path = ShortcutSDKResources;
-			sourceTree = "<group>";
-		};
-		86D085421A2888B5005CECD3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				86D085431A2888B5005CECD3 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		86D085691A28BA96005CECD3 /* Resources */ = {
@@ -621,7 +591,6 @@
 				86F682CD1A41D69400738E2F /* ToolbarNavigationBack@2x.png */,
 				86F682CE1A41D69400738E2F /* ToolbarNavigationForward.png */,
 				86F682CF1A41D69400738E2F /* ToolbarNavigationForward@2x.png */,
-				61E11BAE1D9EBAB3002222B9 /* Images.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -641,7 +610,6 @@
 				864218961A4040430044B744 /* README.md */,
 				864218981A4040F10044B744 /* LICENSE.txt */,
 				86ED34A21A27726E00D9F3B0 /* ShortcutSDK */,
-				86D085411A2888B5005CECD3 /* ShortcutSDKResources */,
 				86ED34AF1A27726E00D9F3B0 /* ShortcutSDKTests */,
 				86ED34A11A27726E00D9F3B0 /* Products */,
 				86AB02DD1A2872FE00586049 /* Frameworks */,
@@ -1147,8 +1115,9 @@
 		86ED36351A2775D500D9F3B0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				86ED36341A2775CF00D9F3B0 /* ShortcutSDK-Prefix.pch */,
-				86775FB41A417EEB00D136A5 /* BuildScripts */,
+				8684B99120626822008CF111 /* Images.xcassets */,
+				8684B98F20626773008CF111 /* Info.plist */,
+				8684B99020626822008CF111 /* ShortcutSDK-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1184,7 +1153,7 @@
 				86ED36461A27784100D9F3B0 /* SCMLiveScanner.h in Headers */,
 				86ED364B1A27786600D9F3B0 /* SCMCameraZoomSlider.h in Headers */,
 				86EEC75C1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h in Headers */,
-				86ED36551A27789100D9F3B0 /* ShortcutSDK-Prefix.pch in Headers */,
+				8684B99220626822008CF111 /* ShortcutSDK-Prefix.pch in Headers */,
 				86ED36481A27784700D9F3B0 /* SCMMotionDetector.h in Headers */,
 				86ED36441A27783800D9F3B0 /* SCMCaptureSessionController.h in Headers */,
 				86CCF7DC1A2E0BDE004FA85C /* SCMLocalization.h in Headers */,
@@ -1315,7 +1284,6 @@
 				86BD71411A2DE5E500EA8633 /* PLCameraZoomTrack@2x.png in Resources */,
 				86BD713B1A2DE5E500EA8633 /* PLCameraZoomMax@2x.png in Resources */,
 				86BD713C1A2DE5E500EA8633 /* PLCameraZoomMin.png in Resources */,
-				61E138991D9EC0FB00A11FF0 /* Images.xcassets in Resources */,
 				86BD713E1A2DE5E500EA8633 /* PLCameraZoomThumb.png in Resources */,
 				86197B041A2C663700BD726B /* CameraModeSingleShotIcon.png in Resources */,
 				86D0854A1A2889F2005CECD3 /* SCMItemViewController.xib in Resources */,
@@ -1600,7 +1568,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1643,7 +1611,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1655,18 +1623,19 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ShortcutSDK/ShortcutSDK-Prefix.pch";
+				GCC_PREFIX_HEADER = "ShortcutSDK/Supporting Files/ShortcutSDK-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(PROJECT_DIR)/ShortcutSDK/Frameworks/zxing-2.0/iphone/ZXingWidget/Classes/**",
 					"$(PROJECT_DIR)/ShortcutSDK/Frameworks/zxing-2.0/cpp/core/src",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_GENERATE_MAP_FILE = YES;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "-ObjC";
@@ -1682,18 +1651,19 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ShortcutSDK/ShortcutSDK-Prefix.pch";
+				GCC_PREFIX_HEADER = "ShortcutSDK/Supporting Files/ShortcutSDK-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(PROJECT_DIR)/ShortcutSDK/Frameworks/zxing-2.0/iphone/ZXingWidget/Classes/**",
 					"$(PROJECT_DIR)/ShortcutSDK/Frameworks/zxing-2.0/cpp/core/src",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

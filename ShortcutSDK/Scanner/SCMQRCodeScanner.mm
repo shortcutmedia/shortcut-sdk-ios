@@ -28,8 +28,8 @@
 {
     self = [super init];
     if (self != nil) {
-        self.decoder = [[[Decoder alloc] init] autorelease];
-        QRCodeReader *qrCodeReader = [[[QRCodeReader alloc] init] autorelease];
+        self.decoder = [[Decoder alloc] init];
+        QRCodeReader *qrCodeReader = [[QRCodeReader alloc] init];
         self.decoder.readers = [NSSet setWithObject:qrCodeReader];
         self.decoder.delegate = self;
     }
@@ -40,8 +40,7 @@
 - (void)dealloc
 {
     self.decoder.delegate = nil;
-    [self.decoder release];
-    [super dealloc];
+    self.decoder = nil;
 }
 
 - (void)decodeImage:(CGImageRef)imageRef

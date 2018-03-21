@@ -21,4 +21,10 @@
 #import "SCMItemViewController.h"
 #import "SCMQueryResultViewController.h"
 
+//! Project version number for TestSDK.
+FOUNDATION_EXPORT double TestSDKVersionNumber;
+
+//! Project version string for TestSDK.
+FOUNDATION_EXPORT const unsigned char TestSDKVersionString[];
+
 #endif

@@ -188,6 +188,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
             self.originalImage = [[UIImage alloc] initWithData:originalImageData];
             [self processImage:image];
             
+            CGDataProviderRelease(imgDataProvider);
             CGImageRelease(image);
         } else {
             DebugLog(@"could not take picture because: %@", [error localizedDescription]);

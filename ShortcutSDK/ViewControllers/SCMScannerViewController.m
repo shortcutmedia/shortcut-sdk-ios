@@ -120,6 +120,7 @@ typedef enum
 
     image = nil;
     referenceImage = nil;
+    CGImageRelease(imageRef);
     
     return returnImage;
 }

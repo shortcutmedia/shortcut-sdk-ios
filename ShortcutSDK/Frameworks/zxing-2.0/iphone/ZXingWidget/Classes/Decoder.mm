@@ -68,7 +68,7 @@ public:
   if ([self.delegate respondsToSelector:@selector(decoder:didDecodeImage:usingSubset:withResult:)]) {
     [self.delegate decoder:self didDecodeImage:self.image usingSubset:self.subsetImage withResult:result];
   }
-  [result release];
+  result = nil;
 }
 
 - (void)failedToDecodeImage:(NSString *)reason {
@@ -158,7 +158,6 @@ public:
 }  
 
 - (BOOL)decode {
-  NSAutoreleasePool* mainpool = [[NSAutoreleasePool alloc] init];
   TwoDDecoderResult *decoderResult = nil;
   BOOL returnCode = NO;
   { 
@@ -181,7 +180,6 @@ public:
     for (int i = 0; !decoderResult && i < 4; i++) {
 #endif
       for (FormatReader *reader in formatReaders) {
-        NSAutoreleasePool *secondarypool = [[NSAutoreleasePool alloc] init];
         NSMutableArray *points = nil;
         NSString *resultString = nil;
         try {
@@ -207,7 +205,7 @@ public:
           }
           
           resultString = [[NSString alloc] initWithCString:cString encoding:NSUTF8StringEncoding];
-          if (decoderResult) [decoderResult release];
+          if (decoderResult) decoderResult = nil;
           decoderResult = [[TwoDDecoderResult alloc] initWithText:resultString points:points];
         } catch (ReaderException &rex) {
 #ifdef DEBUG
@@ -222,9 +220,8 @@ public:
         } catch (...) {
           NSLog(@"Caught unknown exception!");
         }
-        [resultString release];
-        [points release];
-        [secondarypool release];
+        resultString = nil;
+        points = nil;
       }
       
 #ifdef TRY_ROTATIONS
@@ -252,7 +249,7 @@ public:
       [self performSelectorOnMainThread:@selector(didDecodeImage:)
                    withObject:[decoderResult copy]
                 waitUntilDone:NO];
-      [decoderResult release];
+      decoderResult = nil;
       returnCode = YES;
     } else {
       [self performSelectorOnMainThread:@selector(failedToDecodeImage:)
@@ -265,7 +262,6 @@ public:
 #ifdef DEBUG
   NSLog(@"finished decoding.");
 #endif
-  [mainpool release];
 
   return returnCode;
 }
@@ -284,11 +280,10 @@ public:
 
 - (void) dealloc {
   delegate = nil;
-  [image release];
-  [subsetImage release];
+  image = nil;
+  subsetImage = nil;
   free(subsetData);
-  [readers release];
-  [super dealloc];
+  readers = nil;
 }
 
 @end
