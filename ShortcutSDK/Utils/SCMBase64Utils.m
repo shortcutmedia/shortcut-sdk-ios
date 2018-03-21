@@ -14,12 +14,12 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
 
 + (NSString *)encodeBase64WithData:(NSData *)objData
 {
-    const unsigned char * objRawData = [objData bytes];
+    const unsigned char * objRawData = objData.bytes;
     char * objPointer;
     char * strResult;
     
     // Get the Raw Data length and ensure we actually have data
-    NSUInteger intLength = [objData length];
+    NSUInteger intLength = objData.length;
     if (intLength == 0) {
         return nil;
     }
@@ -59,7 +59,7 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
     *objPointer = '\0';
     
     // Return the results as an NSString object
-    NSString *base64result = [NSString stringWithCString:strResult encoding:NSUTF8StringEncoding];
+    NSString *base64result = @(strResult);
     free(strResult);
     return base64result;
 }

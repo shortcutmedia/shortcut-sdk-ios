@@ -37,8 +37,8 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 {
     if (!_clientData) {
         NSMutableDictionary *data = [NSMutableDictionary dictionaryWithCapacity:2];
-        [data setObject:[NSNumber numberWithInt: 10] forKey:@"max_num_results"];
-        [data setObject: @"all" forKey:@"include_target_data"];
+        data[@"max_num_results"] = @10;
+        data[@"include_target_data"] = @"all";
         _clientData = data;
     }
     
@@ -58,8 +58,8 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
             imageRequest.clientData = self.clientData;
         }
         
-        NSMutableURLRequest *signedRequest = [imageRequest signedRequestWithAccessKey:[[SCMSDKConfig sharedConfig] accessKey]
-                                                                            secretToken:[[SCMSDKConfig sharedConfig] secretToken]];
+        NSMutableURLRequest *signedRequest = [imageRequest signedRequestWithAccessKey:[SCMSDKConfig sharedConfig].accessKey
+                                                                            secretToken:[SCMSDKConfig sharedConfig].secretToken];
         [signedRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
         if (self.requestLanguage) {
             [signedRequest setValue:self.requestLanguage forHTTPHeaderField:@"Accept-Language"];
@@ -71,7 +71,7 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
     return _request;
 }
 
-- (id)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation
+- (instancetype)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation
 {
     self = [super init];
     if (self != nil) {
@@ -120,13 +120,13 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 
 - (NSURL *)queriesURL
 {
-    NSString *queriesURLString = [NSString stringWithFormat:@"https://%@/v1/query", [[SCMSDKConfig sharedConfig] queryServerAddress]];
+    NSString *queriesURLString = [NSString stringWithFormat:@"https://%@/v1/query", [SCMSDKConfig sharedConfig].queryServerAddress];
     return [NSURL URLWithString:queriesURLString];
 }
 
 - (NSString *)requestLanguage
 {
-    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSString *language = [NSLocale preferredLanguages][0];
     if (!language) {
         language = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
     }

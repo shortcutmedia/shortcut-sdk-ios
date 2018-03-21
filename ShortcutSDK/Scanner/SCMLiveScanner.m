@@ -328,11 +328,11 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     SCMRecognitionOperation *operation = [[SCMRecognitionOperation alloc] initWithImageData:scaledImageData location:self.location];
     
     __weak SCMRecognitionOperation *completedOperation = operation;
-    [operation setCompletionBlock:^{
-        if ([completedOperation isCancelled] == NO) {
+    operation.completionBlock = ^{
+        if (completedOperation.cancelled == NO) {
             [self recognitionOperationCompleted:completedOperation];
         }
-    }];
+    };
     
     self.recognitionError = nil;
     [self.recognitionQueue addOperation:operation];

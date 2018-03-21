@@ -97,7 +97,7 @@ NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
         fullHost = [NSString stringWithFormat:@"%@:%@", request.URL.host, request.URL.port];
     }
     
-    return (([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) && [fullHost isEqualToString:[[SCMSDKConfig sharedConfig] itemServerAddress]]);
+    return (([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) && [fullHost isEqualToString:[SCMSDKConfig sharedConfig].itemServerAddress]);
 }
 
 - (void)customizeUserAgentForRequest:(NSMutableURLRequest *)request

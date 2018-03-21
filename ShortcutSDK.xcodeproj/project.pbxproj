@@ -1682,7 +1682,7 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ShortcutSDK/ShortcutSDK-Prefix.pch";
+				GCC_PREFIX_HEADER = "ShortcutSDK/Supporting Files/ShortcutSDK-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1703,7 +1703,7 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ShortcutSDK/ShortcutSDK-Prefix.pch";
+				GCC_PREFIX_HEADER = "ShortcutSDK/Supporting Files/ShortcutSDK-Prefix.pch";
 				INFOPLIST_FILE = ShortcutSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shortcutmedia.$(PRODUCT_NAME:rfc1034identifier)";

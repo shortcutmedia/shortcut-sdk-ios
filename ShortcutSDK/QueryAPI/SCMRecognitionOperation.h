@@ -59,7 +59,7 @@
  *
  *  @return A new query operation instance.
  */
-- (id)initWithImageData:(NSData *)imageData location:(CLLocation *)location;
+- (instancetype)initWithImageData:(NSData *)imageData location:(CLLocation *)location;
 
 
 extern NSString *kSCMRecognitionOperationErrorDomain;

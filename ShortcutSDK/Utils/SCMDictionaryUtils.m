@@ -20,10 +20,10 @@
     NSMutableArray *remainingComponents = [NSMutableArray arrayWithArray:components];
     
     while (remainingComponents.count > 1) {
-        NSString *key = [remainingComponents objectAtIndex:0];
-        dictionary = [dictionary objectForKey:key];
+        NSString *key = remainingComponents[0];
+        dictionary = dictionary[key];
         if ([dictionary isKindOfClass:[NSArray class]]) {
-            dictionary = [((NSArray *)dictionary) objectAtIndex:0];
+            dictionary = ((NSArray *)dictionary)[0];
         }
         if ([dictionary isKindOfClass:[NSDictionary class]] == NO) {
             return nil;
@@ -33,9 +33,9 @@
     
     id result = nil;
     if (remainingComponents.count == 1) {
-        id object = [dictionary objectForKey:[remainingComponents objectAtIndex:0]];
+        id object = dictionary[remainingComponents[0]];
         if (class == NSNumber.class && [object isKindOfClass:NSString.class])
-            object = [NSNumber numberWithInt:((NSString *)object).intValue];
+            object = @(((NSString *)object).intValue);
         if ([object isKindOfClass:class]) {
             result = object;
         }

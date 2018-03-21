@@ -18,8 +18,8 @@ const CGFloat kPlusMinusMargin = 11.0;
 const CGFloat kPlusMinusUpdateDelta = 0.02;
 const NSTimeInterval kPlusMinusUpdateDelay = 0.02;
 const NSTimeInterval kHideZoomControlDelay = 5.0;
-const CGFloat kMinCameraZoomScale = 1.0;	// This MUST always be 1.0, otherwise the preview image will not fill the screen.
-const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom level. Increase this too much and it becomes unusable.
+const CGFloat kMinCameraZoomScale = 1.0;    // This MUST always be 1.0, otherwise the preview image will not fill the screen.
+const CGFloat kMaxCameraZoomScale = 3.0;    // This value specifies the maxium zoom level. Increase this too much and it becomes unusable.
 
 @interface SCMCameraZoomSlider ()
 
@@ -245,7 +245,7 @@ const CGFloat kMaxCameraZoomScale = 3.0;	// This value specifies the maxium zoom
             self.initialDelta = [NSNumber numberWithFloat:delta];
         }
         
-        delta = delta - [self.initialDelta floatValue];
+        delta = delta - self.initialDelta.floatValue;
         
         CGFloat thumbX = self.thumbOrigin + delta;
         self.zoomScale = [self scaleForX:thumbX];

@@ -83,7 +83,7 @@
 - (NSString *)md5DigestForData:(NSData *)data
 {
     uint8_t md5result[CC_MD5_DIGEST_LENGTH];
-    CC_MD5([data bytes], (CC_LONG)[data length], md5result);
+    CC_MD5(data.bytes, (CC_LONG)data.length, md5result);
     NSMutableString *hexDigest = [NSMutableString string];
     for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
         [hexDigest appendFormat:@"%02x", md5result[i]];
@@ -98,7 +98,7 @@
     [textString appendFormat:@"--%@\r\n", self.boundary];
     [textString appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n", key];
     [textString appendString:@"Content-Type: text/plain; charset=utf-8\r\n"];
-    [textString	appendFormat:@"\r\n%@\r\n", text];
+    [textString    appendFormat:@"\r\n%@\r\n", text];
     [self.bodyData appendData:[textString dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
@@ -109,7 +109,7 @@
         [textString appendFormat:@"--%@\r\n", self.boundary];
         [textString appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n", key];
         [textString appendString:@"Content-Type: application/json; charset=utf-8\r\n"];
-        [textString	appendFormat:@"\r\n"];
+        [textString    appendFormat:@"\r\n"];
         [self.bodyData appendData:[textString dataUsingEncoding:NSUTF8StringEncoding]];
         [self.bodyData appendData:jsonData];
         [self.bodyData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -134,7 +134,7 @@
     NSString *imageContentType = @"image/jpeg";
     if (self.clientData != nil) {
         for (NSString* key in self.clientData) {
-            id value = [self.clientData objectForKey:key];
+            id value = self.clientData[key];
             [self appendTextValue:value forKey:key];
         }
     }
@@ -144,7 +144,7 @@
     [self.bodyData appendData:[closingBoundary dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSString *httpMethod = @"POST";
-    NSString *urlPath = [self.queryURL path];
+    NSString *urlPath = self.queryURL.path;
     NSString *contentType = @"multipart/form-data";
     NSString *dateValue = [self.httpDateFormatter stringFromDate:[NSDate date]];
     
@@ -160,9 +160,9 @@
     NSString *contentTypeValue = [NSString stringWithFormat:@"%@; boundary=%@", contentType, self.boundary];
     
     NSMutableURLRequest *signedRequest = [NSMutableURLRequest requestWithURL:self.queryURL];
-    [signedRequest setTimeoutInterval:self.timeoutInterval];
-    [signedRequest setHTTPMethod:httpMethod];
-    [signedRequest setHTTPBody:self.bodyData];
+    signedRequest.timeoutInterval = self.timeoutInterval;
+    signedRequest.HTTPMethod = httpMethod;
+    signedRequest.HTTPBody = self.bodyData;
     [signedRequest setValue:contentTypeValue forHTTPHeaderField:@"Content-Type"];
     [signedRequest addValue:authorizationValue forHTTPHeaderField:@"Authorization"];
     [signedRequest addValue:dateValue forHTTPHeaderField:@"Date"];

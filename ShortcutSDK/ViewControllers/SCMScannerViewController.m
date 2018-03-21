@@ -229,8 +229,8 @@ typedef enum
     [self updateModeStatus];
     [self updateFlashStatus];
     
-    [self.previewImageView setContentMode:UIViewContentModeScaleAspectFit];
-    [self.previewImageView setBackgroundColor:[UIColor blackColor]];
+    self.previewImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.previewImageView.backgroundColor = [UIColor blackColor];
     // Only show the status view if we are not re-submitting a single shot image.
     [self showStatusViewForModeStatusChange]; //
 
@@ -387,7 +387,7 @@ typedef enum
     [self singleImageRecognitionFinished];
 
     NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
-    NSString *message = [error localizedDescription];
+    NSString *message = error.localizedDescription;
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:nil
@@ -398,7 +398,7 @@ typedef enum
 
 - (void)singleImageRecognitionStarted
 {
-    if ([self isViewLoaded]) {
+    if (self.viewLoaded) {
         [self showSingleImagePreviewAnimated:YES];
         self.progressToolbar.animating = YES;
     }
@@ -421,12 +421,12 @@ typedef enum
         [self updateImageNotRecognizedStatus];
     } else if (context == &kScanningStatusChanged)
     {
-        NSNumber *oldValue = [change objectForKey:NSKeyValueChangeOldKey];
-        NSNumber *newValue = [change objectForKey:NSKeyValueChangeNewKey];
+        NSNumber *oldValue = change[NSKeyValueChangeOldKey];
+        NSNumber *newValue = change[NSKeyValueChangeNewKey];
         
-        if ([oldValue boolValue] == NO && [newValue boolValue]) {
+        if (oldValue.boolValue == NO && newValue.boolValue) {
             [self startScanLineAnimation];
-        } else if ([oldValue boolValue] && [newValue boolValue] == NO)
+        } else if (oldValue.boolValue && newValue.boolValue == NO)
         {
             [self stopScanLineAnimation];
         }
@@ -522,7 +522,7 @@ typedef enum
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
 
     self.liveScanner.originalImage = image;
 
@@ -535,7 +535,7 @@ typedef enum
 {
     CGSize size = image.size;
     UIGraphicsBeginImageContext(CGSizeMake(size.height, size.width));
-    [[UIImage imageWithCGImage:[image CGImage] scale:1.0 orientation:UIImageOrientationLeft] drawInRect:CGRectMake(0,0,size.height ,size.width)];
+    [[UIImage imageWithCGImage:image.CGImage scale:1.0 orientation:UIImageOrientationLeft] drawInRect:CGRectMake(0,0,size.height ,size.width)];
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     

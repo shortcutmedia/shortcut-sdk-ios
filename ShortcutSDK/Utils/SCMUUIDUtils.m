@@ -12,13 +12,13 @@
 
 + (NSString *)generateUUID
 {
-    return [[[NSUUID UUID] UUIDString] lowercaseString];
+    return [NSUUID UUID].UUIDString.lowercaseString;
 }
 
 + (NSString *)normalizeUUID:(NSString *)uuid
 {
     // lowercase
-    NSString *normalizedUUID = [uuid lowercaseString];
+    NSString *normalizedUUID = uuid.lowercaseString;
     
     //with dashes
     if (normalizedUUID.length == 32) {

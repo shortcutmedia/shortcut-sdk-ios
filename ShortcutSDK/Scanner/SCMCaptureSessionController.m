@@ -152,7 +152,7 @@
 }
 
 - (void)toggleBackFrontCamera {
-    if(self.captureDevice != nil && [self captureSessionMode] == kSCMCaptureSessionSingleShotMode && [self hasCameraWithCapturePosition:AVCaptureDevicePositionFront])
+    if(self.captureDevice != nil && self.captureSessionMode == kSCMCaptureSessionSingleShotMode && [self hasCameraWithCapturePosition:AVCaptureDevicePositionFront])
     {
         [self.captureSession beginConfiguration];
         [self.captureSession removeInput:self.captureInput];
@@ -166,8 +166,8 @@
         }
 
         self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-        NSDictionary *outputSettings = [NSDictionary dictionaryWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
-        [self.stillImageOutput setOutputSettings:outputSettings];
+        NSDictionary *outputSettings = @{AVVideoCodecKey: AVVideoCodecJPEG};
+        self.stillImageOutput.outputSettings = outputSettings;
 
         NSError *error;
         self.captureSession.sessionPreset = [self findCaptureSessionPreset];
@@ -268,8 +268,8 @@
     }
     
     self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-    NSDictionary *outputSettings = [NSDictionary dictionaryWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
-    [self.stillImageOutput setOutputSettings:outputSettings];
+    NSDictionary *outputSettings = @{AVVideoCodecKey: AVVideoCodecJPEG};
+    self.stillImageOutput.outputSettings = outputSettings;
     [self.captureSession addOutput:self.stillImageOutput];
     [self configureConnection];
     [self.captureSession commitConfiguration];
@@ -287,8 +287,7 @@
     
     self.videoCaptureOutput = [[AVCaptureVideoDataOutput alloc] init];
     self.videoCaptureOutput.alwaysDiscardsLateVideoFrames = YES;
-    self.videoCaptureOutput.videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA], (id)kCVPixelBufferPixelFormatTypeKey,
-                                             nil];
+    self.videoCaptureOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: [NSNumber numberWithInt:kCVPixelFormatType_32BGRA]};
     
     [self.captureSession addOutput:self.videoCaptureOutput];
     
@@ -304,10 +303,10 @@
 //    if ([self.liveVideoConnection isVideoMinFrameDurationSupported]) {
 //        self.liveVideoConnection.videoMinFrameDuration = self.minimumLiveScanningFrameDuration;
 //    }
-    Float64 minFrameRate = ((AVFrameRateRange*) [_captureDevice.activeFormat.videoSupportedFrameRateRanges objectAtIndex:0]).minFrameRate;
+    Float64 minFrameRate = ((AVFrameRateRange*) (_captureDevice.activeFormat.videoSupportedFrameRateRanges)[0]).minFrameRate;
 
     if (minFrameRate <= self.minimumLiveScanningFrameRate) {
-        [_captureDevice setActiveVideoMinFrameDuration:CMTimeMake(10, self.minimumLiveScanningFrameRate * 10)];
+        _captureDevice.activeVideoMinFrameDuration = CMTimeMake(10, self.minimumLiveScanningFrameRate * 10);
     }
     
     if (self.sampleBufferDelegate != nil) {
@@ -375,7 +374,7 @@
 {
     BOOL hasFlash = NO;
     
-    hasFlash = [self.captureDevice hasFlash] && [self.captureDevice isFlashModeSupported:AVCaptureFlashModeOn];
+    hasFlash = self.captureDevice.hasFlash && [self.captureDevice isFlashModeSupported:AVCaptureFlashModeOn];
     
     return hasFlash;
 }
@@ -432,7 +431,7 @@
 {
     BOOL hasTorch = NO;
     
-    hasTorch = [self.captureDevice hasTorch] && [self.captureDevice isTorchModeSupported:AVCaptureTorchModeOn];
+    hasTorch = self.captureDevice.hasTorch && [self.captureDevice isTorchModeSupported:AVCaptureTorchModeOn];
     
     return hasTorch;
 }

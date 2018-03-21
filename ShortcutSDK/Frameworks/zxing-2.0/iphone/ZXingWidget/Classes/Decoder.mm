@@ -86,7 +86,7 @@ public:
 
 #define SUBSET_SIZE 360
 - (void) prepareSubset {
-  CGSize size = [image size];
+  CGSize size = image.size;
 #ifdef DEBUG
   NSLog(@"decoding: image is (%.1f x %.1f), cropRect is (%.1f,%.1f)x(%.1f,%.1f)", size.width, size.height,
       cropRect.origin.x, cropRect.origin.y, cropRect.size.width, cropRect.size.height);
@@ -236,10 +236,10 @@ public:
       }
     }
 #endif
-	  
-	free(subsetData);
-	self.subsetData = NULL;
-	  
+      
+    free(subsetData);
+    self.subsetData = NULL;
+      
         // DONT COMMIT
         // [decoderResult release];
         // decoderResult = nil;

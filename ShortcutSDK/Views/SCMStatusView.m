@@ -45,7 +45,7 @@ static const CGFloat kActivityIndicatorMargin = 6.0;
 {
     self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.7];
     self.layer.cornerRadius = 8.0;
-    self.layer.borderColor = [[UIColor colorWithWhite:1.0 alpha:0.8] CGColor];
+    self.layer.borderColor = [UIColor colorWithWhite:1.0 alpha:0.8].CGColor;
     self.layer.borderWidth = 1.0;
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];

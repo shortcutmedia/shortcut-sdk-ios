@@ -69,7 +69,7 @@ NSString* const kDefaultLocalizationTable = @"Localizable";
     static NSBundle* frameworkBundle = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSString* mainBundlePath = [[NSBundle mainBundle] resourcePath];
+        NSString* mainBundlePath = [NSBundle mainBundle].resourcePath;
         NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:@"ShortcutSDK.bundle"];
         frameworkBundle = [NSBundle bundleWithPath:frameworkBundlePath];
     });

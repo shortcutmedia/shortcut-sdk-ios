@@ -151,8 +151,8 @@
         self.webViewBottomConstraint.constant = self.toolbar.frame.size.height;
     }
         
-    self.toolbarBackButton.enabled = [self.webView canGoBack];
-    self.toolbarForwardButton.enabled = [self.webView canGoForward];
+    self.toolbarBackButton.enabled = self.webView.canGoBack;
+    self.toolbarForwardButton.enabled = self.webView.canGoForward;
 }
 
 - (void)updateStatusView
@@ -161,7 +161,7 @@
                            subtitle:nil
               showActivityIndicator:YES];
     
-    self.statusView.hidden = ![self.webView isLoading];
+    self.statusView.hidden = !self.webView.loading;
 }
 
 #pragma mark - WKNavigationDelegate

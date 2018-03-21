@@ -56,7 +56,7 @@
     
     NSArray *allResults = [SCMDictionaryUtils arrayFromDictionary:self.responseDictionary atPath:@"results"];
     if (allResults.count > 0) {
-        SCMQueryResult *firstResult = [[SCMQueryResult alloc] initWithDictionary:[allResults firstObject]];
+        SCMQueryResult *firstResult = [[SCMQueryResult alloc] initWithDictionary:allResults.firstObject];
         if (firstResult.metadataVersions.count > 0) {
             for (NSNumber *number in firstResult.metadataVersions) {
                 if (number.intValue == QUERY_API_METADATA_VERSION) {

@@ -24,7 +24,6 @@
 
 @synthesize currentMetadata = _currentMetadata;
 
-
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
     self = [super init];
@@ -52,7 +51,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
 
 - (NSString *)imageSHA1
 {
-    NSString *recognitionId = [SCMDictionaryUtils stringFromDictionary:[self currentMetadata] atPath:@"response/content"];
+    NSString *recognitionId = [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"response/content"];
     if ([recognitionId hasPrefix:kImageSHA1Prefix]) {
         return [recognitionId stringByReplacingOccurrencesOfString:kImageSHA1Prefix withString:@""];
     } else {
@@ -102,7 +101,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
 
 - (NSString *)responseTarget
 {
-    return [[SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"response/target"] lowercaseString];
+    return [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"response/target"].lowercaseString;
 }
 
 - (NSString *)responseContent
@@ -120,7 +119,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     NSMutableArray *foundVersions = [NSMutableArray new];
     for (NSDictionary *dict in self.metadataDictionary) {
         NSString *versionString = [dict valueForKey:@"version"];
-        NSNumber *version = [NSNumber numberWithInt:versionString.intValue];
+        NSNumber *version = @(versionString.intValue);
         [foundVersions addObject:version];
     }
     return foundVersions;
@@ -147,9 +146,9 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
 }
 
 - (NSString *)shortLanguage {
-    NSString *language = [[NSLocale preferredLanguages] firstObject];
+    NSString *language = [NSLocale preferredLanguages].firstObject;
     if (language) {
-        language = [[language componentsSeparatedByString:@"-"] firstObject];
+        language = [language componentsSeparatedByString:@"-"].firstObject;
     }
     return language;
 }
