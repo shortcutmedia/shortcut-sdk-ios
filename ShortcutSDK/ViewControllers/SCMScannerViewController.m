@@ -388,12 +388,16 @@ typedef enum
 
     NSString *title = [SCMLocalization translationFor:@"Submission failed" withDefaultValue:@"Submission failed"];
     NSString *message = error.localizedDescription;
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
-                                              otherButtonTitles:nil];
-    [alertView show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:nil];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 - (void)singleImageRecognitionStarted

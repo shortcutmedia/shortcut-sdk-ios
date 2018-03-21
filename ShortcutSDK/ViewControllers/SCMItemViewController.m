@@ -133,7 +133,9 @@
     } else if ([sender isEqual:self.toolbarForwardButton]) {
         [self.webView goForward];
     } else if ([sender isEqual:self.toolbarOpenInSafariButton]) {
-        [[UIApplication sharedApplication] openURL:self.webView.URL];
+        [[UIApplication sharedApplication] openURL:self.webView.URL
+                                           options:@{}
+                                 completionHandler:nil];
     }
 }
 
@@ -171,7 +173,9 @@
     if ([navigationAction.request.URL.scheme isEqualToString:@"http"] || [navigationAction.request.URL.scheme isEqualToString:@"https"]) {
         decisionHandler(WKNavigationActionPolicyAllow);
     } else if ([[UIApplication sharedApplication] canOpenURL:navigationAction.request.URL]) {
-        [[UIApplication sharedApplication] openURL:navigationAction.request.URL];
+        [[UIApplication sharedApplication] openURL:navigationAction.request.URL
+                                           options:@{}
+                                 completionHandler:nil];
         decisionHandler(WKNavigationActionPolicyCancel);
     } else {
         DebugLog(@"webView cannot load request with url %@", navigationAction.request.URL.absoluteString);

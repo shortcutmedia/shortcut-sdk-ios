@@ -51,7 +51,6 @@ NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
     [self.connection cancel];
 }
 
-
 #pragma mark - NSURLConnectionDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

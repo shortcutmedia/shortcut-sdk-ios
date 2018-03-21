@@ -116,14 +116,19 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 {
     if (self.running == NO) {
         if (![SCMCaptureSessionController authorizedForVideoCapture]) {
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:[SCMLocalization translationFor:@"CameraAccessRequiredTitle" withDefaultValue:@"Camera access required"]
-                                                             message:[SCMLocalization translationFor:@"CameraAccessRequiredBody" withDefaultValue:@"The app needs access to the camera to scan things.\nPlease allow usage of the camera by enabling it in the privacy settings."]
-                                                            delegate:nil
-                                                   cancelButtonTitle:nil
-                                                   otherButtonTitles:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"], nil];
-            [alert show];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[SCMLocalization translationFor:@"CameraAccessRequiredTitle" withDefaultValue:@"Camera access required"]
+                                                                                     message:[SCMLocalization translationFor:@"CameraAccessRequiredBody" withDefaultValue:@"The app needs access to the camera to scan things.\nPlease allow usage of the camera by enabling it in the privacy settings."]
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:[SCMLocalization translationFor:@"OKButtonTitle" withDefaultValue:@"OK"]
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:nil];
+            [alertController addAction:okAction];
+            UIViewController *displayingViewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+            [displayingViewController presentViewController:alertController
+                                                   animated:YES
+                                                 completion:nil];
+
             [self.delegate liveScannerShouldClose:self];
-            
         }
         
         self.running = YES;

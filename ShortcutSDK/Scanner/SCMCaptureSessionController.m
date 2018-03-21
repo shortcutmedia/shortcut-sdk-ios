@@ -10,11 +10,13 @@
 
 @interface SCMCaptureSessionController ()
 
+@property (nonatomic, strong, readwrite) AVCaptureDeviceDiscoverySession *videoDeviceDiscoverySession;
 @property (nonatomic, strong, readwrite) AVCaptureDevice *captureDevice;
 @property (nonatomic, strong, readwrite) AVCaptureSession *captureSession;
-@property (nonatomic, strong, readwrite) AVCaptureInput *captureInput;
+@property (nonatomic, strong, readwrite) AVCaptureDeviceInput *captureInput;
 @property (nonatomic, strong, readwrite) AVCaptureVideoDataOutput *videoCaptureOutput;
-@property (nonatomic, strong, readwrite) AVCaptureStillImageOutput *stillImageOutput;
+@property (nonatomic, strong, readwrite) AVCapturePhotoOutput *capturePhotoOutput;
+@property (nonatomic, assign, readwrite) AVCaptureFlashMode flashMode;
 @property (nonatomic, strong, readwrite) AVCaptureConnection *stillImageVideoConnection;
 @property (nonatomic, strong, readwrite) AVCaptureConnection *liveVideoConnection;
 @property (nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer *previewLayer;
@@ -24,6 +26,17 @@
 
 @implementation SCMCaptureSessionController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.videoDeviceDiscoverySession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera, AVCaptureDeviceTypeBuiltInDualCamera]
+                                                                                                  mediaType:AVMediaTypeVideo
+                                                                                                   position:AVCaptureDevicePositionUnspecified];
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     [self stopSession];
@@ -31,12 +44,12 @@
 
 - (SCMCaptureSessionMode)captureSessionMode
 {
-    if (self.videoCaptureOutput && !self.stillImageOutput) {
+    if (self.videoCaptureOutput && !self.capturePhotoOutput) {
         return kSCMCaptureSessionLiveScanningMode;
-    } else if (self.stillImageOutput && !self.videoCaptureOutput) {
+    } else if (self.capturePhotoOutput && !self.videoCaptureOutput) {
         return kSCMCaptureSessionSingleShotMode;
     } else {
-        NSAssert1(self.stillImageOutput == nil && self.videoCaptureOutput == nil,
+        NSAssert1(self.capturePhotoOutput == nil && self.videoCaptureOutput == nil,
                   @"%@ cannot have a still image and live video output at the same time", self);
         return kSCMCaptureSessionUnsetMode;
     }
@@ -79,9 +92,8 @@
 - (BOOL)hasCameraWithCapturePosition:(AVCaptureDevicePosition)capturePosition
 {
     BOOL returnValue = false;
-    
-    NSArray *devices = [AVCaptureDevice devices];
-    for(AVCaptureDevice *device in devices) {
+
+    for(AVCaptureDevice *device in self.videoDeviceDiscoverySession.devices) {
         if ([device hasMediaType:AVMediaTypeVideo] == YES) {
             if (device.position == capturePosition) {
                 returnValue = true;
@@ -104,8 +116,7 @@
     if (capturePosition == AVCaptureDevicePositionUnspecified) {
         self.captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     } else {
-        NSArray *devices = [AVCaptureDevice devices];
-        for(AVCaptureDevice *device in devices) {
+        for(AVCaptureDevice *device in self.videoDeviceDiscoverySession.devices) {
             if ([device hasMediaType:AVMediaTypeVideo] == YES) {
                 if (device.position == capturePosition) {
                     self.captureDevice = device;
@@ -156,7 +167,7 @@
     {
         [self.captureSession beginConfiguration];
         [self.captureSession removeInput:self.captureInput];
-        [self.captureSession removeOutput:self.stillImageOutput];
+        [self.captureSession removeOutput:self.capturePhotoOutput];
         
         //add the new input
         if ([self isCurrentCapturePositionBack] == YES) {
@@ -165,22 +176,22 @@
             [self configureCamera:AVCaptureDevicePositionBack];
         }
 
-        self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-        NSDictionary *outputSettings = @{AVVideoCodecKey: AVVideoCodecJPEG};
-        self.stillImageOutput.outputSettings = outputSettings;
-
+        self.capturePhotoOutput = [AVCapturePhotoOutput new];
+        
         NSError *error;
         self.captureSession.sessionPreset = [self findCaptureSessionPreset];
         self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
  
         
-        if ([self.captureSession canAddInput:self.captureInput] && [self.captureSession canAddOutput:self.stillImageOutput]){
+        if ([self.captureSession canAddInput:self.captureInput] && [self.captureSession canAddOutput:self.capturePhotoOutput]){
             [self.captureSession addInput:self.captureInput];
-            [self.captureSession addOutput:self.stillImageOutput];
+            
+            [self.captureSession addOutput:self.capturePhotoOutput];
+            self.capturePhotoOutput.highResolutionCaptureEnabled = YES;
         } else {
             return;
         }
-        
+
         [self configureConnection];
 
         //end the configuration
@@ -243,18 +254,6 @@
 }
 
 - (void)configureConnection {
-    for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
-        for (AVCaptureInputPort *port in connection.inputPorts) {
-            if ([port.mediaType isEqualToString:AVMediaTypeVideo]) {
-                self.stillImageVideoConnection = connection;
-                break;
-            }
-        }
-        
-        if (self.stillImageVideoConnection != nil) {
-            break;
-        }
-    }
 }
 
 - (void)switchToSingleShotMode
@@ -267,10 +266,9 @@
         self.liveVideoConnection = nil;
     }
     
-    self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-    NSDictionary *outputSettings = @{AVVideoCodecKey: AVVideoCodecJPEG};
-    self.stillImageOutput.outputSettings = outputSettings;
-    [self.captureSession addOutput:self.stillImageOutput];
+    self.capturePhotoOutput = [AVCapturePhotoOutput new];
+    [self.captureSession addOutput:self.capturePhotoOutput];
+    
     [self configureConnection];
     [self.captureSession commitConfiguration];
 }
@@ -279,9 +277,9 @@
 {
     [self.captureSession beginConfiguration];
     
-    if (self.stillImageOutput != nil) {
-        [self.captureSession removeOutput:self.stillImageOutput];
-        self.stillImageOutput = nil;
+    if (self.capturePhotoOutput != nil) {
+        [self.captureSession removeOutput:self.capturePhotoOutput];
+        self.capturePhotoOutput = nil;
         self.stillImageVideoConnection = nil;
     }
     
@@ -356,7 +354,20 @@
         default: break;
     }
 
-    [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:self.stillImageVideoConnection completionHandler:handler];
+}
+
+- (AVCapturePhotoSettings *)currentPhotoSettings {
+    AVCapturePhotoSettings *photoSettings = [AVCapturePhotoSettings photoSettings];
+
+    if (self.captureDevice.isFlashAvailable) {
+        photoSettings.flashMode = self.flashMode;
+    }
+    photoSettings.highResolutionPhotoEnabled = YES;
+    if (photoSettings.availablePreviewPhotoPixelFormatTypes.count > 0) {
+        photoSettings.previewPhotoFormat = @{(NSString *)kCVPixelBufferPixelFormatTypeKey : photoSettings.availablePreviewPhotoPixelFormatTypes.firstObject};
+    }
+    
+    return photoSettings;
 }
 
 - (BOOL)flashOn
@@ -364,7 +375,7 @@
     BOOL on = NO;
     
     if ([self hasFlash]) {
-        on = (self.captureDevice.flashMode == AVCaptureFlashModeOn);
+        on = (self.flashMode == AVCaptureFlashModeOn);
     }
     
     return on;
@@ -373,8 +384,8 @@
 - (BOOL)hasFlash
 {
     BOOL hasFlash = NO;
-    
-    hasFlash = self.captureDevice.hasFlash && [self.captureDevice isFlashModeSupported:AVCaptureFlashModeOn];
+
+    hasFlash = self.captureDevice.hasFlash && [self.capturePhotoOutput.supportedFlashModes containsObject:@(AVCaptureFlashModeOn)];
     
     return hasFlash;
 }
@@ -385,11 +396,8 @@
         return;
     }
     
-    if (self.captureDevice.flashMode != AVCaptureFlashModeOn) {
-        if ([self.captureDevice lockForConfiguration:NULL]) {
-            self.captureDevice.flashMode = AVCaptureFlashModeOn;
-            [self.captureDevice unlockForConfiguration];
-        }
+    if (self.flashMode != AVCaptureFlashModeOn) {
+        self.flashMode = AVCaptureFlashModeOn;
     }
 }
 
@@ -399,11 +407,8 @@
         return;
     }
     
-    if (self.captureDevice.flashMode != AVCaptureFlashModeOff) {
-        if ([self.captureDevice lockForConfiguration:NULL]) {
-            self.captureDevice.flashMode = AVCaptureFlashModeOff;
-            [self.captureDevice unlockForConfiguration];
-        }
+    if (self.flashMode != AVCaptureFlashModeOff) {
+        self.flashMode = AVCaptureFlashModeOff;
     }
 }
 
