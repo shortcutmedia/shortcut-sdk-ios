@@ -88,15 +88,22 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 - (void)main
 {
     @autoreleasepool {
-        NSURLResponse *response = nil;
-        NSError *connectionError = nil;
-        NSData *data = nil;
-        data = [NSURLConnection sendSynchronousRequest:self.request returningResponse:&response error:&connectionError];
-        if (connectionError) {
-            self.error = connectionError;
-        } else {
-            [self handleResponse:response withData:data];
-        }
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+
+        NSURLSession *session = [NSURLSession sharedSession];
+        [[session dataTaskWithRequest:self.request
+                    completionHandler:^(NSData * _Nullable data,
+                                        NSURLResponse * _Nullable response,
+                                        NSError * _Nullable connectionError) {
+                        if (connectionError) {
+                            self.error = connectionError;
+                        } else {
+                            [self handleResponse:response withData:data];
+                        }
+                        dispatch_semaphore_signal(semaphore);
+                }] resume];
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     }
 }
 

@@ -11,9 +11,9 @@
 
 NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
 
-@interface SCMCustomUserAgentProtocol ()  <NSURLConnectionDelegate>
+@interface SCMCustomUserAgentProtocol () <NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
-@property (strong, nonatomic) NSURLConnection *connection;
+@property (strong, nonatomic) NSURLSessionDataTask *dataTask;
 
 @end
 
@@ -41,46 +41,49 @@ NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
     NSMutableURLRequest *modifiedRequest = [self.request mutableCopy];
     [NSURLProtocol setProperty:@YES forKey:kSCMUserAgentModifiedFlag inRequest:modifiedRequest];
     
-    [self customizeUserAgentForRequest: modifiedRequest];
-    
-    self.connection = [NSURLConnection connectionWithRequest:modifiedRequest delegate:self];
+    [self customizeUserAgentForRequest:modifiedRequest];
+
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.defaultSessionConfiguration
+                                                                 delegate:self
+                                                            delegateQueue:nil];
+    self.dataTask = [defaultSession dataTaskWithRequest:modifiedRequest];
+    [self.dataTask resume];
 }
 
 - (void)stopLoading
 {
-    [self.connection cancel];
+    [self.dataTask cancel];
+    self.dataTask = nil;
 }
 
-#pragma mark - NSURLConnectionDelegate
+#pragma mark - NSURLSessionDataDelegate
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
+    [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageAllowed];
+    
+    completionHandler(NSURLSessionResponseAllow);
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     [self.client URLProtocol:self didLoadData:data];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    [self.client URLProtocol:self didFailWithError:error];
-    self.connection = nil;
-}
+#pragma mark - NSURLSessionTaskDelegate
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageAllowed];
-}
-
-- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
-{
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
     if (redirectResponse) {
         [self.client URLProtocol:self wasRedirectedToRequest:request redirectResponse:redirectResponse];
     }
-    return request;
+    completionHandler(request);
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    [self.client URLProtocolDidFinishLoading:self];
-    self.connection = nil;
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
+    if (error != nil) {
+        [self.client URLProtocol:self didFailWithError:error];
+    } else {
+        [self.client URLProtocolDidFinishLoading:self];
+    }
+    self.dataTask = nil;
 }
 
 #pragma mark - Internal
