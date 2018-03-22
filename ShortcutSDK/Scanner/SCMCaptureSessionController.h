@@ -19,9 +19,9 @@ typedef enum
 
 @interface SCMCaptureSessionController : NSObject
 
-@property (nonatomic, unsafe_unretained, readwrite) id<AVCaptureVideoDataOutputSampleBufferDelegate> sampleBufferDelegate;
-@property (nonatomic, strong, readonly) AVCaptureDevice *captureDevice;
-@property (nonatomic, strong, readonly) AVCaptureVideoPreviewLayer *previewLayer;
+@property (nonatomic, unsafe_unretained, readwrite) id<AVCaptureVideoDataOutputSampleBufferDelegate> _Nullable sampleBufferDelegate;
+@property (nonatomic, strong, readonly) AVCaptureDevice * _Nullable captureDevice;
+@property (nonatomic, strong, readonly) AVCaptureVideoPreviewLayer * _Nullable previewLayer;
 @property (nonatomic, assign, readonly) SCMCaptureSessionMode captureSessionMode;
 @property (nonatomic, assign, readonly) BOOL flashOn;
 @property (nonatomic, assign, readonly) BOOL torchOn;
@@ -33,7 +33,7 @@ typedef enum
 - (void)startSession;
 - (void)switchToMode:(SCMCaptureSessionMode)mode;
 - (void)stopSession;
-- (void)takePictureAsynchronouslyWithCompletionHandler:(void (^)(CMSampleBufferRef imageDataSampleBuffer, NSError *error))handler;
+- (void)takePictureAsynchronouslyWithCompletionHandler:(void (^_Nonnull)(NSData *_Nullable data, NSError *_Nullable error))handler;
 - (BOOL)hasTorch;
 - (void)toggleTorchMode;
 - (BOOL)hasFlash;

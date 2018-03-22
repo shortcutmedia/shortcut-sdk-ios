@@ -177,24 +177,10 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 
 - (void)takePictureWithZoomFactor:(CGFloat)zoomFactor
 {
-    [self.captureSessionController takePictureAsynchronouslyWithCompletionHandler:^(CMSampleBufferRef sampleBuffer, NSError *error) {
-        
-        if (sampleBuffer != NULL) {
-            // The sample buffer contains no image buffer, but a block buffer containing jpeg data.
-            // Therefore we cannot convert it to a CGImageRef using +[SCMImageUtils newImageFromSampleBuffer:]
-            // so we have to use +[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:] and then
-            // CGImageCreateWithJPEGDataProvider() to get a CGImageRef...
-            NSData *originalImageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:sampleBuffer];
-
-            CFDataRef imgData = (__bridge CFDataRef)originalImageData;
-            CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData (imgData);
-            CGImageRef image = CGImageCreateWithJPEGDataProvider(imgDataProvider, NULL, true, kCGRenderingIntentDefault);
-            
-            self.originalImage = [[UIImage alloc] initWithData:originalImageData];
-            [self processImage:image];
-            
-            CGDataProviderRelease(imgDataProvider);
-            CGImageRelease(image);
+    [self.captureSessionController takePictureAsynchronouslyWithCompletionHandler:^(NSData *_Nullable data, NSError *_Nullable error) {
+        if (data != nil) {
+            self.originalImage = [[UIImage alloc] initWithData:data];
+            [self processImage:self.originalImage.CGImage];
         } else {
             DebugLog(@"could not take picture because: %@", [error localizedDescription]);
         }

@@ -250,6 +250,9 @@
 		8684B98F20626773008CF111 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8684B99020626822008CF111 /* ShortcutSDK-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ShortcutSDK-Prefix.pch"; path = "Supporting Files/ShortcutSDK-Prefix.pch"; sourceTree = "<group>"; };
 		8684B99120626822008CF111 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Supporting Files/Images.xcassets"; sourceTree = "<group>"; };
+		8684B9942063B6C2008CF111 /* finish_build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = finish_build.sh; sourceTree = "<group>"; };
+		8684B9952063B6C2008CF111 /* render_docs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = render_docs.sh; sourceTree = "<group>"; };
+		8684B9962063B6C2008CF111 /* create_framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = create_framework.sh; sourceTree = "<group>"; };
 		869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMCustomUserAgentProtocol.h; sourceTree = "<group>"; };
 		869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMCustomUserAgentProtocol.m; sourceTree = "<group>"; };
 		86AB02D91A2872E600586049 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -559,6 +562,16 @@
 			name = QueryAPI;
 			sourceTree = "<group>";
 		};
+		8684B9932063B6C2008CF111 /* BuildScripts */ = {
+			isa = PBXGroup;
+			children = (
+				8684B9962063B6C2008CF111 /* create_framework.sh */,
+				8684B9942063B6C2008CF111 /* finish_build.sh */,
+				8684B9952063B6C2008CF111 /* render_docs.sh */,
+			);
+			path = BuildScripts;
+			sourceTree = "<group>";
+		};
 		86AB02DD1A2872FE00586049 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -629,6 +642,7 @@
 		86ED34A21A27726E00D9F3B0 /* ShortcutSDK */ = {
 			isa = PBXGroup;
 			children = (
+				8684B9932063B6C2008CF111 /* BuildScripts */,
 				86ED359D1A2772F700D9F3B0 /* ShortcutSDK.h */,
 				86ED35851A2772F700D9F3B0 /* SCMSDKConfig.h */,
 				86ED35861A2772F700D9F3B0 /* SCMSDKConfig.m */,
@@ -1493,7 +1507,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = ShortcutSDKResources/Info.plist;
+				INFOPLIST_FILE = ShortcutSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1512,7 +1526,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				INFOPLIST_FILE = ShortcutSDKResources/Info.plist;
+				INFOPLIST_FILE = ShortcutSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = NO;

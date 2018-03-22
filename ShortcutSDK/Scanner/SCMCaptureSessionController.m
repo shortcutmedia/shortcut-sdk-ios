@@ -8,7 +8,7 @@
 
 #import "SCMCaptureSessionController.h"
 
-@interface SCMCaptureSessionController ()
+@interface SCMCaptureSessionController () <AVCapturePhotoCaptureDelegate>
 
 @property (nonatomic, strong, readwrite) AVCaptureDeviceDiscoverySession *videoDeviceDiscoverySession;
 @property (nonatomic, strong, readwrite) AVCaptureDevice *captureDevice;
@@ -16,11 +16,12 @@
 @property (nonatomic, strong, readwrite) AVCaptureDeviceInput *captureInput;
 @property (nonatomic, strong, readwrite) AVCaptureVideoDataOutput *videoCaptureOutput;
 @property (nonatomic, strong, readwrite) AVCapturePhotoOutput *capturePhotoOutput;
+@property (nonatomic, strong, readwrite) NSData *capturePhotoData;
 @property (nonatomic, assign, readwrite) AVCaptureFlashMode flashMode;
-@property (nonatomic, strong, readwrite) AVCaptureConnection *stillImageVideoConnection;
-@property (nonatomic, strong, readwrite) AVCaptureConnection *liveVideoConnection;
 @property (nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer *previewLayer;
 @property (atomic, assign, readwrite) BOOL running;
+
+@property (nonatomic, strong) void (^photoCaptureCompletionHandler)(NSData *_Nullable data, NSError *_Nullable error);
 
 @end
 
@@ -192,9 +193,6 @@
             return;
         }
 
-        [self configureConnection];
-
-        //end the configuration
         [self.captureSession commitConfiguration];
     }
 }
@@ -253,9 +251,6 @@
     }
 }
 
-- (void)configureConnection {
-}
-
 - (void)switchToSingleShotMode
 {
     [self.captureSession beginConfiguration];
@@ -263,13 +258,11 @@
     if (self.videoCaptureOutput != nil) {
         [self.captureSession removeOutput:self.videoCaptureOutput];
         self.videoCaptureOutput = nil;
-        self.liveVideoConnection = nil;
     }
     
     self.capturePhotoOutput = [AVCapturePhotoOutput new];
     [self.captureSession addOutput:self.capturePhotoOutput];
     
-    [self configureConnection];
     [self.captureSession commitConfiguration];
 }
 
@@ -280,7 +273,6 @@
     if (self.capturePhotoOutput != nil) {
         [self.captureSession removeOutput:self.capturePhotoOutput];
         self.capturePhotoOutput = nil;
-        self.stillImageVideoConnection = nil;
     }
     
     self.videoCaptureOutput = [[AVCaptureVideoDataOutput alloc] init];
@@ -288,19 +280,7 @@
     self.videoCaptureOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: [NSNumber numberWithInt:kCVPixelFormatType_32BGRA]};
     
     [self.captureSession addOutput:self.videoCaptureOutput];
-    
-    for (AVCaptureConnection *connection in self.videoCaptureOutput.connections) {
-        for (AVCaptureInputPort *port in connection.inputPorts) {
-            if ([port.mediaType isEqualToString:AVMediaTypeVideo]) {
-                self.liveVideoConnection = connection;
-                break;
-            }
-        }
-    }
-    
-//    if ([self.liveVideoConnection isVideoMinFrameDurationSupported]) {
-//        self.liveVideoConnection.videoMinFrameDuration = self.minimumLiveScanningFrameDuration;
-//    }
+
     Float64 minFrameRate = ((AVFrameRateRange*) (_captureDevice.activeFormat.videoSupportedFrameRateRanges)[0]).minFrameRate;
 
     if (minFrameRate <= self.minimumLiveScanningFrameRate) {
@@ -320,8 +300,6 @@
     }
     
     [self.captureSession commitConfiguration];
-    
-    self.liveVideoConnection.enabled = YES;
 }
 
 - (void)stopSession
@@ -335,25 +313,15 @@
     }
 }
 
-- (void)takePictureAsynchronouslyWithCompletionHandler:(void (^)(CMSampleBufferRef imageDataSampleBuffer, NSError *error))handler
+- (void)takePictureAsynchronouslyWithCompletionHandler:(void (^)(NSData *_Nullable data, NSError *_Nullable error))handler
 {
-    switch (UIDevice.currentDevice.orientation)
-    {
-        case UIDeviceOrientationPortrait :
-            self.stillImageVideoConnection.videoOrientation = AVCaptureVideoOrientationPortrait;
-            break;
-        case UIDeviceOrientationPortraitUpsideDown :
-            self.stillImageVideoConnection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
-            break;
-        case UIDeviceOrientationLandscapeLeft :
-            self.stillImageVideoConnection.videoOrientation =  AVCaptureVideoOrientationLandscapeRight;
-            break;
-        case UIDeviceOrientationLandscapeRight :
-            self.stillImageVideoConnection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
-            break;
-        default: break;
-    }
-
+    AVCaptureVideoOrientation videoPreviewLayerVideoOrientation = self.previewLayer.connection.videoOrientation;
+    
+    AVCaptureConnection *photoOutputConnection = [self.capturePhotoOutput connectionWithMediaType:AVMediaTypeVideo];
+    photoOutputConnection.videoOrientation = videoPreviewLayerVideoOrientation;
+    
+    self.photoCaptureCompletionHandler = handler;
+    [self.capturePhotoOutput capturePhotoWithSettings:[self currentPhotoSettings] delegate:self];
 }
 
 - (AVCapturePhotoSettings *)currentPhotoSettings {
@@ -515,7 +483,33 @@
     } @finally {
         // Nothing to be done
     }
+}
+
+#pragma mark - AVCapturePhotoCaptureDelegate
+
+- (void)captureOutput:(AVCapturePhotoOutput *)captureOutput didFinishProcessingPhoto:(AVCapturePhoto *)photo error:(nullable NSError *)error
+{
+    if (error != nil) {
+        self.photoCaptureCompletionHandler(nil, error);
+        return;
+    }
     
+    self.capturePhotoData = [photo fileDataRepresentation];
+}
+
+- (void)captureOutput:(AVCapturePhotoOutput *)captureOutput didFinishCaptureForResolvedSettings:(AVCaptureResolvedPhotoSettings *)resolvedSettings error:(NSError *)error
+{
+    if (error != nil) {
+        self.photoCaptureCompletionHandler(nil, error);
+        return;
+    }
+    
+    if (self.capturePhotoData == nil) {
+        self.photoCaptureCompletionHandler(nil, error);
+        return;
+    } else {
+        self.photoCaptureCompletionHandler(self.capturePhotoData, nil);
+    }
 }
 
 @end
