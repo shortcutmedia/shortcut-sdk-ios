@@ -26,13 +26,6 @@
  */
 @interface SCMItemViewController : UIViewController
 
-/**
- *  The web view instance that is used to render the result page.
- */
-NS_ASSUME_NONNULL_BEGIN
-@property (weak, nonatomic) IBOutlet WKWebView *webView;
-NS_ASSUME_NONNULL_END
-
 /// @name Creation
 
 /**

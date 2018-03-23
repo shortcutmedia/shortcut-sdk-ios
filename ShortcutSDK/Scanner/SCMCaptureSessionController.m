@@ -177,18 +177,15 @@
             [self configureCamera:AVCaptureDevicePositionBack];
         }
 
-        self.capturePhotoOutput = [AVCapturePhotoOutput new];
-        
         NSError *error;
         self.captureSession.sessionPreset = [self findCaptureSessionPreset];
         self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
+        self.capturePhotoOutput = [AVCapturePhotoOutput new];
+        self.capturePhotoOutput.highResolutionCaptureEnabled = YES;
  
-        
         if ([self.captureSession canAddInput:self.captureInput] && [self.captureSession canAddOutput:self.capturePhotoOutput]){
             [self.captureSession addInput:self.captureInput];
-            
             [self.captureSession addOutput:self.capturePhotoOutput];
-            self.capturePhotoOutput.highResolutionCaptureEnabled = YES;
         } else {
             return;
         }
@@ -261,7 +258,12 @@
     }
     
     self.capturePhotoOutput = [AVCapturePhotoOutput new];
-    [self.captureSession addOutput:self.capturePhotoOutput];
+    self.capturePhotoOutput.highResolutionCaptureEnabled = YES;    
+    if ([self.captureSession canAddOutput:self.capturePhotoOutput]){
+        [self.captureSession addOutput:self.capturePhotoOutput];
+    } else {
+        return;
+    }
     
     [self.captureSession commitConfiguration];
 }

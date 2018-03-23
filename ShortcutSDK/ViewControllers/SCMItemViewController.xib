@@ -17,7 +17,9 @@
                 <outlet property="toolbarForwardButton" destination="QaF-MO-Zqe" id="66s-Ro-bRD"/>
                 <outlet property="toolbarOpenInSafariButton" destination="nwO-7m-1pZ" id="lQf-iN-roI"/>
                 <outlet property="view" destination="iN0-l3-epB" id="DbD-tM-d4a"/>
-                <outlet property="webView" destination="O0q-x0-FKZ" id="N0W-W4-NvY"/>
+                <outlet property="webView" destination="O0q-x0-FKZ" id="DdA-1D-qz4"/>
+                <outlet property="webViewBottomConstraint" destination="U01-XB-Fnx" id="eF9-kF-Vbe"/>
+                <outlet property="webViewTopConstraint" destination="Oia-he-axe" id="quw-xV-A7d"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

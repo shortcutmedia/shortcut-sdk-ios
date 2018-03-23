@@ -28,6 +28,7 @@
 		86197B031A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */; };
 		86197B041A2C663700BD726B /* CameraModeSingleShotIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFC1A2C663700BD726B /* CameraModeSingleShotIcon.png */; };
 		86197B051A2C663700BD726B /* CameraModeSingleShotIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFD1A2C663700BD726B /* CameraModeSingleShotIcon@2x.png */; };
+		8619E3322064ED6C00FCFDB2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8684B99120626822008CF111 /* Images.xcassets */; };
 		8684B99220626822008CF111 /* ShortcutSDK-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 8684B99020626822008CF111 /* ShortcutSDK-Prefix.pch */; };
 		869DFCFA1A83C178007B8C31 /* SCMCustomUserAgentProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 869DFCF81A83C178007B8C31 /* SCMCustomUserAgentProtocol.h */; };
 		869DFCFB1A83C178007B8C31 /* SCMCustomUserAgentProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 869DFCF91A83C178007B8C31 /* SCMCustomUserAgentProtocol.m */; };
@@ -49,6 +50,7 @@
 		86CCF7DD1A2E0BDE004FA85C /* SCMLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CCF7DB1A2E0BDE004FA85C /* SCMLocalization.m */; };
 		86D085491A2889EC005CECD3 /* SCMScannerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86ED35AC1A2772F700D9F3B0 /* SCMScannerViewController.xib */; };
 		86D0854A1A2889F2005CECD3 /* SCMItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86ED35B01A2772F700D9F3B0 /* SCMItemViewController.xib */; };
+		86D4DC782064FCA3007F2662 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D4DC772064FCA3007F2662 /* WebKit.framework */; };
 		86E5F3591A77D1170039C7A3 /* SCMQueryResultTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */; };
 		86E5F35E1A77E9F40039C7A3 /* SCMTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F35D1A77E9F40039C7A3 /* SCMTestCase.m */; };
 		86E5F3601A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E5F35F1A77EB5B0039C7A3 /* SCMRecognitionOperationTest.m */; };
@@ -272,6 +274,7 @@
 		86CCF7DA1A2E0BDE004FA85C /* SCMLocalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMLocalization.h; sourceTree = "<group>"; };
 		86CCF7DB1A2E0BDE004FA85C /* SCMLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMLocalization.m; sourceTree = "<group>"; };
 		86D085401A2888B5005CECD3 /* ShortcutSDK.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortcutSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		86D4DC772064FCA3007F2662 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		86E5F3581A77D1170039C7A3 /* SCMQueryResultTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCMQueryResultTest.m; path = QueryAPI/SCMQueryResultTest.m; sourceTree = "<group>"; };
 		86E5F35C1A77E9F40039C7A3 /* SCMTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMTestCase.h; sourceTree = "<group>"; };
 		86E5F35D1A77E9F40039C7A3 /* SCMTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMTestCase.m; sourceTree = "<group>"; };
@@ -536,6 +539,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86D4DC782064FCA3007F2662 /* WebKit.framework in Frameworks */,
 				86AB02DA1A2872E600586049 /* Foundation.framework in Frameworks */,
 				86AB02DC1A2872F000586049 /* UIKit.framework in Frameworks */,
 			);
@@ -575,6 +579,7 @@
 		86AB02DD1A2872FE00586049 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				86D4DC772064FCA3007F2662 /* WebKit.framework */,
 				86AB02DB1A2872F000586049 /* UIKit.framework */,
 				86AB02D91A2872E600586049 /* Foundation.framework */,
 			);
@@ -1284,6 +1289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86197B021A2C663700BD726B /* CameraModeLiveScannerIcon.png in Resources */,
+				8619E3322064ED6C00FCFDB2 /* Images.xcassets in Resources */,
 				86BD713D1A2DE5E500EA8633 /* PLCameraZoomMin@2x.png in Resources */,
 				86F682D31A41D69400738E2F /* ToolbarNavigationForward@2x.png in Resources */,
 				86F682D21A41D69400738E2F /* ToolbarNavigationForward.png in Resources */,
