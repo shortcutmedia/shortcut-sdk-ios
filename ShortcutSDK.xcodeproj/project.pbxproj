@@ -11,10 +11,10 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 86ED36581A277EA500D9F3B0 /* Build configuration list for PBXAggregateTarget "Framework" */;
 			buildPhases = (
-				86ED365D1A277EC300D9F3B0 /* Run Script */,
+				86ED365D1A277EC300D9F3B0 /* Build Framework */,
 			);
 			dependencies = (
-				86ED365C1A277EB400D9F3B0 /* PBXTargetDependency */,
+				61D805372065B8D4003B8C66 /* PBXTargetDependency */,
 				86D085481A2889BE005CECD3 /* PBXTargetDependency */,
 			);
 			name = Framework;
@@ -206,6 +206,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		61D805362065B8D4003B8C66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 86ED34981A27726E00D9F3B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 86ED349F1A27726E00D9F3B0;
+			remoteInfo = ShortcutSDK;
+		};
 		86D085471A2889BE005CECD3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 86ED34981A27726E00D9F3B0 /* Project object */;
@@ -214,13 +221,6 @@
 			remoteInfo = ShortcutSDKResources;
 		};
 		86ED34AD1A27726E00D9F3B0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 86ED34981A27726E00D9F3B0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 86ED349F1A27726E00D9F3B0;
-			remoteInfo = ShortcutSDK;
-		};
-		86ED365B1A277EB400D9F3B0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 86ED34981A27726E00D9F3B0 /* Project object */;
 			proxyType = 1;
@@ -1326,14 +1326,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		86ED365D1A277EC300D9F3B0 /* Run Script */ = {
+		86ED365D1A277EC300D9F3B0 /* Build Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
+			name = "Build Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1486,6 +1486,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		61D805372065B8D4003B8C66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 86ED349F1A27726E00D9F3B0 /* ShortcutSDK */;
+			targetProxy = 61D805362065B8D4003B8C66 /* PBXContainerItemProxy */;
+		};
 		86D085481A2889BE005CECD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 86D0853F1A2888B5005CECD3 /* ShortcutSDKResources */;
@@ -1495,11 +1500,6 @@
 			isa = PBXTargetDependency;
 			target = 86ED349F1A27726E00D9F3B0 /* ShortcutSDK */;
 			targetProxy = 86ED34AD1A27726E00D9F3B0 /* PBXContainerItemProxy */;
-		};
-		86ED365C1A277EB400D9F3B0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 86ED349F1A27726E00D9F3B0 /* ShortcutSDK */;
-			targetProxy = 86ED365B1A277EB400D9F3B0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
