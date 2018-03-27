@@ -2,6 +2,12 @@
 
 # Overview
 
+# Introduction
+
+The Shortcut image recognition SDK for iOS is an open source project, and we'd love to see your contributions!
+
+# About the SDK
+
 This SDK provides two components to interact with the Shortcut Image Recognition Service:
 - The first component is a Scanner view that uses the camera to capture image data which then is submitted to the image recognition service. It reports image recognition results back to you.
 - The second component is an Item view that displays a simple representation of a (recognized) item.
