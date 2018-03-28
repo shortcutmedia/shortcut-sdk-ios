@@ -28,6 +28,10 @@
 
 /// @name Creation
 
+NS_ASSUME_NONNULL_BEGIN
+@property (strong, nonatomic, readonly) IBOutlet WKWebView *webView;
+NS_ASSUME_NONNULL_END
+
 /**
  *  Returns a item view controller instance for the item with the given UUID.
  *

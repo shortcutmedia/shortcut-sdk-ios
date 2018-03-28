@@ -14,7 +14,7 @@
 
 @interface SCMItemViewController () <WKNavigationDelegate>
 
-@property (strong, nonatomic) IBOutlet WKWebView *webView;
+@property (strong, nonatomic, readwrite) IBOutlet WKWebView *webView;
 @property (strong, nonatomic) IBOutlet SCMStatusView *statusView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toolbarBackButton;
