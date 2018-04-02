@@ -272,8 +272,8 @@
 - (void)enableVideoOutput {
     self.videoCaptureOutput = [[AVCaptureVideoDataOutput alloc] init];
     self.videoCaptureOutput.alwaysDiscardsLateVideoFrames = YES;
-    self.videoCaptureOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: [NSNumber numberWithInt:kCVPixelFormatType_32BGRA]};
-    
+    self.videoCaptureOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: [self.videoCaptureOutput availableVideoCVPixelFormatTypes].firstObject};
+
     [self.captureSession addOutput:self.videoCaptureOutput];
     
     Float64 minFrameRate = ((AVFrameRateRange*) (_captureDevice.activeFormat.videoSupportedFrameRateRanges)[0]).minFrameRate;
