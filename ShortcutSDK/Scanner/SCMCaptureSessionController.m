@@ -50,9 +50,7 @@
     } else if (self.capturePhotoOutput && !self.videoCaptureOutput) {
         return kSCMCaptureSessionSingleShotMode;
     } else {
-        NSAssert1(self.capturePhotoOutput == nil && self.videoCaptureOutput == nil,
-                  @"%@ cannot have a still image and live video output at the same time", self);
-        return kSCMCaptureSessionUnsetMode;
+        return kSCMCaptureSessionTrackMode;
     }
 }
 
@@ -214,11 +212,19 @@
         
         self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession];
     }
-    
-    if (initialMode == kSCMCaptureSessionLiveScanningMode) {
-        [self switchToLiveScanningMode];
-    } else {
-        [self switchToSingleShotMode];
+
+    switch (initialMode) {
+        case kSCMCaptureSessionLiveScanningMode:
+            [self switchToLiveScanningMode];
+            break;
+        case kSCMCaptureSessionSingleShotMode:
+            [self switchToSingleShotMode];
+            break;
+        case kSCMCaptureSessionTrackMode:
+            [self switchToTrackMode];
+            break;
+        default:
+            break;
     }
 }
 
@@ -241,54 +247,64 @@
     [self turnFlashOff];
     [self turnTorchOff];
     
-    if (mode == kSCMCaptureSessionLiveScanningMode) {
-        [self switchToLiveScanningMode];
-    } else {
-        [self switchToSingleShotMode];
+    switch (mode) {
+        case kSCMCaptureSessionLiveScanningMode:
+            [self switchToLiveScanningMode];
+            break;
+        case kSCMCaptureSessionSingleShotMode:
+            [self switchToSingleShotMode];
+            break;
+        case kSCMCaptureSessionTrackMode:
+            [self switchToTrackMode];
+            break;
+        default:
+            break;
     }
 }
 
-- (void)switchToSingleShotMode
-{
-    [self.captureSession beginConfiguration];
-    
+- (void)disableVideoOutput {
     if (self.videoCaptureOutput != nil) {
         [self.captureSession removeOutput:self.videoCaptureOutput];
         self.videoCaptureOutput = nil;
     }
-    
-    self.capturePhotoOutput = [AVCapturePhotoOutput new];
-    self.capturePhotoOutput.highResolutionCaptureEnabled = YES;    
-    if ([self.captureSession canAddOutput:self.capturePhotoOutput]){
-        [self.captureSession addOutput:self.capturePhotoOutput];
-    } else {
-        return;
-    }
-    
-    [self.captureSession commitConfiguration];
 }
 
-- (void)switchToLiveScanningMode
-{
-    [self.captureSession beginConfiguration];
-    
-    if (self.capturePhotoOutput != nil) {
-        [self.captureSession removeOutput:self.capturePhotoOutput];
-        self.capturePhotoOutput = nil;
-    }
-    
+- (void)enableVideoOutput {
     self.videoCaptureOutput = [[AVCaptureVideoDataOutput alloc] init];
     self.videoCaptureOutput.alwaysDiscardsLateVideoFrames = YES;
     self.videoCaptureOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: [NSNumber numberWithInt:kCVPixelFormatType_32BGRA]};
     
     [self.captureSession addOutput:self.videoCaptureOutput];
-
+    
     Float64 minFrameRate = ((AVFrameRateRange*) (_captureDevice.activeFormat.videoSupportedFrameRateRanges)[0]).minFrameRate;
-
     if (minFrameRate <= self.minimumLiveScanningFrameRate) {
         _captureDevice.activeVideoMinFrameDuration = CMTimeMake(10, self.minimumLiveScanningFrameRate * 10);
     }
     
+    if ([self.captureSession canAddOutput:self.videoCaptureOutput]) {
+        [self.captureSession addOutput:self.videoCaptureOutput];
+    }
+}
+
+- (void)disablePhotoOutput {
+    if (self.capturePhotoOutput != nil) {
+        [self.captureSession removeOutput:self.capturePhotoOutput];
+        self.capturePhotoOutput = nil;
+    }
+}
+
+- (BOOL)enablePhotoOutput {
+    self.capturePhotoOutput = [AVCapturePhotoOutput new];
+    self.capturePhotoOutput.highResolutionCaptureEnabled = YES;
+    if ([self.captureSession canAddOutput:self.capturePhotoOutput]){
+        [self.captureSession addOutput:self.capturePhotoOutput];
+        return true;
+    } else {
+        return false;
+    }
+}
+
+- (void)setupSampleBufferDelegation {
     if (self.sampleBufferDelegate != nil) {
         dispatch_queue_t frameQueue = dispatch_queue_create("VideoFrameQueue", NULL);
         [self.videoCaptureOutput setSampleBufferDelegate:self.sampleBufferDelegate queue:frameQueue];
@@ -296,10 +312,40 @@
         // There's no point continuing because no one will be watching for the images!
         NSAssert(self.sampleBufferDelegate != nil, @"Switching to scanning mode with no sampleBufferDelegate!");
     }
+}
+
+- (void)switchToSingleShotMode
+{
+    [self.captureSession beginConfiguration];
     
-    if ([self.captureSession canAddOutput:self.videoCaptureOutput]) {
-        [self.captureSession addOutput:self.videoCaptureOutput];
+    [self disableVideoOutput];
+    if (![self enablePhotoOutput]) {
+        return;
     }
+
+    [self.captureSession commitConfiguration];
+}
+
+- (void)switchToLiveScanningMode
+{
+    [self.captureSession beginConfiguration];
+    
+    [self disablePhotoOutput];
+    [self enableVideoOutput];
+    [self setupSampleBufferDelegation];
+    
+    [self.captureSession commitConfiguration];
+}
+
+- (void)switchToTrackMode
+{
+    [self.captureSession beginConfiguration];
+    
+    [self disablePhotoOutput];
+    [self disableVideoOutput];
+    [self enablePhotoOutput];
+    [self enableVideoOutput];
+    [self setupSampleBufferDelegation];
     
     [self.captureSession commitConfiguration];
 }

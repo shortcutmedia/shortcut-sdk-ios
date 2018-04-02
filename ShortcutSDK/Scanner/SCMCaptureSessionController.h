@@ -14,7 +14,8 @@ typedef enum
 {
     kSCMCaptureSessionUnsetMode = -1,
     kSCMCaptureSessionLiveScanningMode = 0,
-    kSCMCaptureSessionSingleShotMode
+    kSCMCaptureSessionSingleShotMode,
+    kSCMCaptureSessionTrackMode
 } SCMCaptureSessionMode;
 
 @interface SCMCaptureSessionController : NSObject

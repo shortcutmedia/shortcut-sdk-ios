@@ -312,11 +312,6 @@ typedef enum
 
 #pragma mark - UI
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 - (BOOL)shouldAutorotate
 {
     return NO;
@@ -919,27 +914,26 @@ typedef enum
                          self.cameraModeControl.liveScannerIcon.transform = transform;
                      }];
 }
+
 - (void)deviceOrientationDidChange:(NSNotification *)notification
 {
     [self updateIconOrientation];
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator
 {
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
-    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
-        [self stopScanLineAnimation];
-    }
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    
-    if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
-        [self startScanLineAnimation];
-    }
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
+            [self stopScanLineAnimation];
+        }
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if (self.liveScanner.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
+            [self startScanLineAnimation];
+        }
+    }];
 }
 
 #pragma mark - UINavigationControllerDelegate
