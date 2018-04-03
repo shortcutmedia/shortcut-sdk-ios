@@ -185,6 +185,7 @@
             [self.captureSession addInput:self.captureInput];
             [self.captureSession addOutput:self.capturePhotoOutput];
         } else {
+            [self.captureSession commitConfiguration];
             return;
         }
 
@@ -269,7 +270,7 @@
     }
 }
 
-- (void)enableVideoOutput {
+- (BOOL)enableVideoOutput {
     self.videoCaptureOutput = [[AVCaptureVideoDataOutput alloc] init];
     self.videoCaptureOutput.alwaysDiscardsLateVideoFrames = YES;
     self.videoCaptureOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: [self.videoCaptureOutput availableVideoCVPixelFormatTypes].firstObject};
@@ -280,9 +281,13 @@
     if (minFrameRate <= self.minimumLiveScanningFrameRate) {
         _captureDevice.activeVideoMinFrameDuration = CMTimeMake(10, self.minimumLiveScanningFrameRate * 10);
     }
+    [self setupSampleBufferDelegation];
     
     if ([self.captureSession canAddOutput:self.videoCaptureOutput]) {
         [self.captureSession addOutput:self.videoCaptureOutput];
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -320,6 +325,7 @@
     
     [self disableVideoOutput];
     if (![self enablePhotoOutput]) {
+        [self.captureSession commitConfiguration];
         return;
     }
 
@@ -331,8 +337,10 @@
     [self.captureSession beginConfiguration];
     
     [self disablePhotoOutput];
-    [self enableVideoOutput];
-    [self setupSampleBufferDelegation];
+    if (![self enableVideoOutput]) {
+        [self.captureSession commitConfiguration];
+        return;
+    }
     
     [self.captureSession commitConfiguration];
 }
@@ -343,9 +351,14 @@
     
     [self disablePhotoOutput];
     [self disableVideoOutput];
-    [self enablePhotoOutput];
-    [self enableVideoOutput];
-    [self setupSampleBufferDelegation];
+    if (![self enablePhotoOutput]) {
+        [self.captureSession commitConfiguration];
+        return;
+    }
+    if (![self enableVideoOutput]) {
+        [self.captureSession commitConfiguration];
+        return;
+    }
     
     [self.captureSession commitConfiguration];
 }
