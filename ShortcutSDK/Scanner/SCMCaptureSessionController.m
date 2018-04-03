@@ -41,6 +41,7 @@
 - (void)dealloc
 {
     [self stopSession];
+    self.videoDeviceDiscoverySession = nil;
 }
 
 - (SCMCaptureSessionMode)captureSessionMode
@@ -263,6 +264,19 @@
     }
 }
 
+- (void)fixMinFrameRateForLiveScan {
+    Float64 minFrameRate = ((AVFrameRateRange *) (self.captureDevice.activeFormat.videoSupportedFrameRateRanges.firstObject)).minFrameRate;
+    if (minFrameRate <= self.minimumLiveScanningFrameRate) {
+        NSError *error;
+        if (![self.captureDevice lockForConfiguration:&error]) {
+            NSLog(@"Could not lock device %@ for configuration: %@", self, error);
+            return;
+        }
+        self.captureDevice.activeVideoMinFrameDuration = CMTimeMake(10, self.minimumLiveScanningFrameRate * 10);
+        [self.captureDevice unlockForConfiguration];
+    }
+}
+
 - (void)disableVideoOutput {
     if (self.videoCaptureOutput != nil) {
         [self.captureSession removeOutput:self.videoCaptureOutput];
@@ -270,16 +284,17 @@
     }
 }
 
-- (BOOL)enableVideoOutput {
-    self.videoCaptureOutput = [[AVCaptureVideoDataOutput alloc] init];
+- (BOOL)enableVideoOutput:(BOOL)isLiveScan {
+    if (self.videoCaptureOutput != nil) {
+        return true;
+    }
+    
+    self.videoCaptureOutput = [AVCaptureVideoDataOutput new];
     self.videoCaptureOutput.alwaysDiscardsLateVideoFrames = YES;
     self.videoCaptureOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: [self.videoCaptureOutput availableVideoCVPixelFormatTypes].firstObject};
-
-    [self.captureSession addOutput:self.videoCaptureOutput];
     
-    Float64 minFrameRate = ((AVFrameRateRange*) (_captureDevice.activeFormat.videoSupportedFrameRateRanges)[0]).minFrameRate;
-    if (minFrameRate <= self.minimumLiveScanningFrameRate) {
-        _captureDevice.activeVideoMinFrameDuration = CMTimeMake(10, self.minimumLiveScanningFrameRate * 10);
+    if (isLiveScan) {
+        [self fixMinFrameRateForLiveScan];
     }
     [self setupSampleBufferDelegation];
     
@@ -299,6 +314,10 @@
 }
 
 - (BOOL)enablePhotoOutput {
+    if (self.capturePhotoOutput != nil) {
+        return true;
+    }
+    
     self.capturePhotoOutput = [AVCapturePhotoOutput new];
     self.capturePhotoOutput.highResolutionCaptureEnabled = YES;
     if ([self.captureSession canAddOutput:self.capturePhotoOutput]){
@@ -337,7 +356,7 @@
     [self.captureSession beginConfiguration];
     
     [self disablePhotoOutput];
-    if (![self enableVideoOutput]) {
+    if (![self enableVideoOutput:true]) {
         [self.captureSession commitConfiguration];
         return;
     }
@@ -348,14 +367,14 @@
 - (void)switchToTrackMode
 {
     [self.captureSession beginConfiguration];
-    
-    [self disablePhotoOutput];
+
     [self disableVideoOutput];
-    if (![self enablePhotoOutput]) {
+    [self disablePhotoOutput];
+    if (![self enableVideoOutput:false]) {
         [self.captureSession commitConfiguration];
         return;
     }
-    if (![self enableVideoOutput]) {
+    if (![self enablePhotoOutput]) {
         [self.captureSession commitConfiguration];
         return;
     }
