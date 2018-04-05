@@ -22,15 +22,18 @@ typedef enum
 
 @property (nonatomic, unsafe_unretained, readwrite) id<AVCaptureVideoDataOutputSampleBufferDelegate> _Nullable sampleBufferDelegate;
 @property (nonatomic, strong, readonly) AVCaptureDevice * _Nullable captureDevice;
-@property (nonatomic, strong, readonly) AVCaptureVideoPreviewLayer * _Nullable previewLayer;
+@property (nonatomic, strong, readonly) AVCaptureSession * _Nullable captureSession;
+@property (nonatomic, strong) AVCaptureVideoPreviewLayer * _Nullable previewLayer;
 @property (nonatomic, assign, readonly) SCMCaptureSessionMode captureSessionMode;
 @property (nonatomic, assign, readonly) BOOL flashOn;
 @property (nonatomic, assign, readonly) BOOL torchOn;
 @property (nonatomic, assign, readonly) Float64 minimumLiveScanningFrameRate;
 
-+ (BOOL)authorizedForVideoCapture;
+@property (strong, nonatomic) void (^ _Nullable onSetupPhotoCapture)(void);
 
-- (void)setupCaptureSessionForMode:(SCMCaptureSessionMode)initialMode;
++ (BOOL)authorizedForVideoCapture;
+- (instancetype _Nullable)initWithMode:(SCMCaptureSessionMode)mode;
+
 - (void)startSession;
 - (void)switchToMode:(SCMCaptureSessionMode)mode;
 - (void)stopSession;

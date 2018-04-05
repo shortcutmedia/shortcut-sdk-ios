@@ -10,6 +10,8 @@
 
 @interface SCMCaptureSessionController () <AVCapturePhotoCaptureDelegate>
 
+@property (nonatomic, assign, readwrite) SCMCaptureSessionMode mode;
+
 @property (nonatomic, strong, readwrite) AVCaptureDeviceDiscoverySession *videoDeviceDiscoverySession;
 @property (nonatomic, strong, readwrite) AVCaptureDevice *captureDevice;
 @property (nonatomic, strong, readwrite) AVCaptureSession *captureSession;
@@ -18,7 +20,7 @@
 @property (nonatomic, strong, readwrite) AVCapturePhotoOutput *capturePhotoOutput;
 @property (nonatomic, strong, readwrite) NSData *capturePhotoData;
 @property (nonatomic, assign, readwrite) AVCaptureFlashMode flashMode;
-@property (nonatomic, strong, readwrite) AVCaptureVideoPreviewLayer *previewLayer;
+@property (nonatomic, strong, readwrite) dispatch_queue_t captureSessionQueue;
 @property (atomic, assign, readwrite) BOOL running;
 
 @property (nonatomic, strong) void (^photoCaptureCompletionHandler)(NSData *_Nullable data, NSError *_Nullable error);
@@ -27,13 +29,15 @@
 
 @implementation SCMCaptureSessionController
 
-- (instancetype)init
+- (instancetype)initWithMode:(SCMCaptureSessionMode)mode
 {
     self = [super init];
     if (self) {
+        self.mode = mode;
         self.videoDeviceDiscoverySession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera, AVCaptureDeviceTypeBuiltInDualCamera]
                                                                                                   mediaType:AVMediaTypeVideo
                                                                                                    position:AVCaptureDevicePositionUnspecified];
+        [self setupCaptureSessionForMode:mode];
     }
     return self;
 }
@@ -44,15 +48,19 @@
     self.videoDeviceDiscoverySession = nil;
 }
 
+#pragma mark - Camera Configuration
+
 - (SCMCaptureSessionMode)captureSessionMode
 {
-    if (self.videoCaptureOutput && !self.capturePhotoOutput) {
-        return kSCMCaptureSessionLiveScanningMode;
-    } else if (self.capturePhotoOutput && !self.videoCaptureOutput) {
-        return kSCMCaptureSessionSingleShotMode;
-    } else {
-        return kSCMCaptureSessionTrackMode;
-    }
+//    if (self.videoCaptureOutput && !self.capturePhotoOutput) {
+//        return kSCMCaptureSessionLiveScanningMode;
+//    } else if (self.capturePhotoOutput && !self.videoCaptureOutput) {
+//        return kSCMCaptureSessionSingleShotMode;
+//    } else {
+//        return kSCMCaptureSessionTrackMode;
+//    }
+    
+    return self.mode;
 }
 
 - (Float64)minimumLiveScanningFrameRate
@@ -72,34 +80,15 @@
     }
 }
 
-- (NSString *)findCaptureSessionPreset
-{
-    // use current/system-default session preset as default...
-    NSString *sessionPreset; //= self.captureSession.sessionPreset;
-    
-//    if ([self.captureDevice supportsAVCaptureSessionPreset:AVCaptureSessionPresetHigh]) {
-    sessionPreset = AVCaptureSessionPresetHigh;
-//    } else {
-//        sessionPreset = AVCaptureSessionPresetHigh;
-//    }
-    
-    return sessionPreset;
-}
-
-
-#pragma mark - Camera Configuration
-
 - (BOOL)hasCameraWithCapturePosition:(AVCaptureDevicePosition)capturePosition
 {
     BOOL returnValue = false;
-
-    for(AVCaptureDevice *device in self.videoDeviceDiscoverySession.devices) {
-        if ([device hasMediaType:AVMediaTypeVideo] == YES) {
-            if (device.position == capturePosition) {
-                returnValue = true;
-            }
+    for (AVCaptureDevice *device in self.videoDeviceDiscoverySession.devices) {
+        if ([device hasMediaType:AVMediaTypeVideo] && (device.position == capturePosition)) {
+            returnValue = true;
         }
     }
+   
     return returnValue;
 }
 
@@ -111,22 +100,115 @@
     return false;
 }
 
-- (void)configureCamera:(AVCaptureDevicePosition)capturePosition
+- (AVCaptureDevice *)getVideoDevice {
+    AVCaptureDevice *videoDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInDualCamera
+                                                                      mediaType:AVMediaTypeVideo
+                                                                       position:AVCaptureDevicePositionBack];
+    if (!videoDevice) {
+        videoDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera
+                                                         mediaType:AVMediaTypeVideo
+                                                          position:AVCaptureDevicePositionBack];
+        if (!videoDevice) {
+            videoDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera
+                                                             mediaType:AVMediaTypeVideo
+                                                              position:AVCaptureDevicePositionFront];
+            if (!videoDevice) {
+                videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+            }
+        }
+    }
+    
+    return videoDevice;
+}
+
+- (void)configureDeviceForPosition:(AVCaptureDevicePosition)capturePosition
 {
     if (capturePosition == AVCaptureDevicePositionUnspecified) {
-        self.captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        self.captureDevice = [self getVideoDevice];
     } else {
-        for(AVCaptureDevice *device in self.videoDeviceDiscoverySession.devices) {
-            if ([device hasMediaType:AVMediaTypeVideo] == YES) {
-                if (device.position == capturePosition) {
-                    self.captureDevice = device;
-                    [self configureDevice];
-                    return;
-                }
+        for (AVCaptureDevice *device in self.videoDeviceDiscoverySession.devices) {
+            if ([device hasMediaType:AVMediaTypeVideo] && (device.position == capturePosition)) {
+                self.captureDevice = device;
+                [self configureAutoFocusForDevice];
+                
+                return;
             }
         }
     }
 }
+
+- (void)configureAutoFocusForDevice
+{
+    NSError *error;
+    @try {
+        [self.captureDevice lockForConfiguration:&error];
+        if ([self.captureDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus] == YES) {
+            self.captureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+        }
+        [self.captureDevice unlockForConfiguration];
+    } @catch (NSException *exception) {
+        DebugLog(@"Auto Focus in point caught exception");
+        // Nothing to be done
+    } @finally {
+        // Nothing to be done
+    }
+}
+
+- (void)adjustPreviewLayer {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        self.previewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+    });
+}
+
+- (void)toggleBackFrontCamera {
+    if (self.captureDevice != nil &&
+        self.captureSessionMode != kSCMCaptureSessionLiveScanningMode &&
+        [self hasCameraWithCapturePosition:AVCaptureDevicePositionFront])
+    {
+        [self.captureSession beginConfiguration];
+        [self.captureSession removeInput:self.captureInput];
+        [self.captureSession removeOutput:self.capturePhotoOutput];
+        
+        if ([self isCurrentCapturePositionBack]) {
+            [self configureDeviceForPosition:AVCaptureDevicePositionFront];
+        } else {
+            [self configureDeviceForPosition:AVCaptureDevicePositionBack];
+        }
+        
+        self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
+        
+        NSError *error = nil;
+        self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
+        if (error != nil) {
+            [self.captureSession commitConfiguration];
+            return;
+        }
+        
+        self.capturePhotoOutput = [AVCapturePhotoOutput new];
+        self.capturePhotoOutput.highResolutionCaptureEnabled = YES;
+        
+        if ([self.captureSession canAddInput:self.captureInput]) {
+            [self.captureSession addInput:self.captureInput];
+            [self adjustPreviewLayer];
+        } else {
+            [self.captureSession commitConfiguration];
+            return;
+        }
+        
+        if ([self.captureSession canAddOutput:self.capturePhotoOutput]){
+            [self.captureSession addOutput:self.capturePhotoOutput];
+            self.onSetupPhotoCapture();
+        } else {
+            [self.captureSession commitConfiguration];
+            return;
+        }
+        
+        [self.captureSession commitConfiguration];
+    }
+}
+
+#pragma mark - Zoom
 
 - (void)changeZoomToScale:(CGFloat)scale {
     NSError *error = nil;
@@ -145,56 +227,6 @@
     return self.captureDevice.videoZoomFactor;
 }
 
-- (void)configureDevice
-{
-    NSError *error;
-    @try {
-        [self.captureDevice lockForConfiguration:&error];
-        if ([self.captureDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus] == YES) {
-            self.captureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
-        }
-        [self.captureDevice unlockForConfiguration];
-    } @catch (NSException *exception) {
-        DebugLog(@"Auto Focus in point caught exception");
-        // Nothing to be done
-    } @finally {
-        // Nothing to be done
-    }
-}
-
-- (void)toggleBackFrontCamera {
-    if(self.captureDevice != nil && self.captureSessionMode == kSCMCaptureSessionSingleShotMode && [self hasCameraWithCapturePosition:AVCaptureDevicePositionFront])
-    {
-        [self.captureSession beginConfiguration];
-        [self.captureSession removeInput:self.captureInput];
-        [self.captureSession removeOutput:self.capturePhotoOutput];
-        
-        //add the new input
-        if ([self isCurrentCapturePositionBack] == YES) {
-            [self configureCamera:AVCaptureDevicePositionFront];
-        } else {
-            [self configureCamera:AVCaptureDevicePositionBack];
-        }
-
-        NSError *error;
-        self.captureSession.sessionPreset = [self findCaptureSessionPreset];
-        self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
-        self.capturePhotoOutput = [AVCapturePhotoOutput new];
-        self.capturePhotoOutput.highResolutionCaptureEnabled = YES;
- 
-        if ([self.captureSession canAddInput:self.captureInput] && [self.captureSession canAddOutput:self.capturePhotoOutput]){
-            [self.captureSession addInput:self.captureInput];
-            [self.captureSession addOutput:self.capturePhotoOutput];
-        } else {
-            [self.captureSession commitConfiguration];
-            return;
-        }
-
-        [self.captureSession commitConfiguration];
-    }
-}
-
-
 #pragma mark - Camera Session
 
 - (void)setupCaptureSessionForMode:(SCMCaptureSessionMode)initialMode
@@ -203,48 +235,82 @@
         return;
     }
     
-    [self configureCamera:AVCaptureDevicePositionUnspecified];
+    self.captureSession = [AVCaptureSession new];
+    self.captureSessionQueue = dispatch_queue_create("CaptureSessionQueue", DISPATCH_QUEUE_SERIAL);
     
-    NSError *error = nil;
-    self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:&error];
-    if (error == nil) {
-        self.captureSession = [[AVCaptureSession alloc] init];
-        self.captureSession.sessionPreset = [self findCaptureSessionPreset];
-        [self.captureSession addInput:self.captureInput];
+    [self adjustPreviewLayer];
+    
+    dispatch_async(self.captureSessionQueue, ^{
+        self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
         
-        self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession];
-    }
+        [self configureDeviceForPosition:AVCaptureDevicePositionUnspecified];
 
-    switch (initialMode) {
-        case kSCMCaptureSessionLiveScanningMode:
-            [self switchToLiveScanningMode];
-            break;
-        case kSCMCaptureSessionSingleShotMode:
-            [self switchToSingleShotMode];
-            break;
-        case kSCMCaptureSessionTrackMode:
-            [self switchToTrackMode];
-            break;
-        default:
-            break;
-    }
+        NSError *error = nil;
+        self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice
+                                                                  error:&error];
+        if (!self.captureInput || error != nil) {
+            [self.captureSession commitConfiguration];
+            
+            return;
+        }
+
+        if ([self.captureSession canAddInput:self.captureInput]) {
+            [self.captureSession addInput:self.captureInput];
+            [self adjustPreviewLayer];
+        } else {
+            [self.captureSession commitConfiguration];
+            return;
+        }
+
+        switch (initialMode) {
+            case kSCMCaptureSessionLiveScanningMode:
+                [self switchToLiveScanningMode];
+                break;
+            case kSCMCaptureSessionSingleShotMode:
+                [self switchToSingleShotMode];
+                break;
+            case kSCMCaptureSessionTrackMode:
+                [self switchToTrackMode];
+                break;
+            default:
+                break;
+        }
+    });
 }
 
 - (void)startSession
 {
     if (self.running == NO) {
         self.running = YES;
-        [self.captureSession startRunning];
+        dispatch_async(self.captureSessionQueue, ^{
+            [self.captureSession startRunning]; 
+        });
     } else {
-        NSAssert1(NO, @"%@ already running when caling start session!", self);
+//        NSAssert1(NO, @"%@ already running when caling start session!", self);
     }
 }
+
+- (void)stopSession
+{
+    if (self.running) {
+        [self turnFlashOff];
+        [self turnTorchOff];
+        
+        dispatch_async(self.captureSessionQueue, ^{
+            [self.captureSession stopRunning];
+        });
+        self.running = NO;
+    }
+}
+
+#pragma mark - Mode Switching
 
 - (void)switchToMode:(SCMCaptureSessionMode)mode
 {
     if (self.captureSessionMode == mode) {
         return;
     }
+    self.mode = mode;
     
     [self turnFlashOff];
     [self turnTorchOff];
@@ -310,6 +376,7 @@
     if (self.capturePhotoOutput != nil) {
         [self.captureSession removeOutput:self.capturePhotoOutput];
         self.capturePhotoOutput = nil;
+        self.onSetupPhotoCapture();
     }
 }
 
@@ -322,6 +389,7 @@
     self.capturePhotoOutput.highResolutionCaptureEnabled = YES;
     if ([self.captureSession canAddOutput:self.capturePhotoOutput]){
         [self.captureSession addOutput:self.capturePhotoOutput];
+        self.onSetupPhotoCapture();
         return true;
     } else {
         return false;
@@ -330,8 +398,7 @@
 
 - (void)setupSampleBufferDelegation {
     if (self.sampleBufferDelegate != nil) {
-        dispatch_queue_t frameQueue = dispatch_queue_create("VideoFrameQueue", NULL);
-        [self.videoCaptureOutput setSampleBufferDelegate:self.sampleBufferDelegate queue:frameQueue];
+        [self.videoCaptureOutput setSampleBufferDelegate:self.sampleBufferDelegate queue:self.captureSessionQueue];
     } else {
         // There's no point continuing because no one will be watching for the images!
         NSAssert(self.sampleBufferDelegate != nil, @"Switching to scanning mode with no sampleBufferDelegate!");
@@ -382,16 +449,7 @@
     [self.captureSession commitConfiguration];
 }
 
-- (void)stopSession
-{
-    if (self.running) {
-        [self turnFlashOff];
-        [self turnTorchOff];
-        
-        [self.captureSession stopRunning];
-        self.running = NO;
-    }
-}
+#pragma mark - Photo Capture
 
 - (void)takePictureAsynchronouslyWithCompletionHandler:(void (^)(NSData *_Nullable data, NSError *_Nullable error))handler
 {
@@ -417,6 +475,8 @@
     
     return photoSettings;
 }
+
+#pragma mark - Flash
 
 - (BOOL)flashOn
 {
@@ -468,6 +528,8 @@
         [self turnFlashOn];
     }
 }
+
+#pragma mark - Torch
 
 - (BOOL)torchOn
 {
@@ -525,6 +587,8 @@
         [self turnTorchOn];
     }
 }
+
+#pragma mark - Focus
 
 - (void)focusInPoint:(CGPoint)focusPoint
 {
