@@ -52,8 +52,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     self = [super init];
     if (self != nil) {
         self.noMotionThreshold = kDefaultNoMotionThreshold;
-        
-        self.captureSessionController = [[SCMCaptureSessionController alloc] init];
+
         self.motionDetector = [[SCMMotionDetector alloc] init];
         self.histogramFilter = [[SCMHistogramFilter alloc] init];
         self.qrCodeScanner = [[SCMQRCodeScanner alloc] init];
@@ -88,9 +87,9 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     if (initialMode == kSCMLiveScannerSingleShotMode) {
         captureMode = kSCMCaptureSessionSingleShotMode;
     }
-    
+
+    self.captureSessionController = [[SCMCaptureSessionController alloc] initWithMode:captureMode];
     self.captureSessionController.sampleBufferDelegate = self;
-    [self.captureSessionController setupCaptureSessionForMode:captureMode];
     
     // Optimize the output size based on the capture device
     CMVideoDimensions deviceVideoDimensions = CMVideoFormatDescriptionGetDimensions(self.captureSessionController.captureDevice.activeFormat.formatDescription);
@@ -109,6 +108,24 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
         self.liveScannerMode = kSCMLiveScannerLiveScanningMode;
     } else {
         self.liveScannerMode = kSCMLiveScannerSingleShotMode;
+    }
+}
+
+- (void)switchToMode:(SCMLiveScannerMode)mode
+{
+    if (mode == kSCMLiveScannerLiveScanningMode) {
+        self.liveScannerMode = kSCMLiveScannerLiveScanningMode;
+        self.recognitionError = nil;
+        self.numImagesSentForRecognition = 0;
+        [self.motionDetector startDetectingMotion];
+        [self.captureSessionController switchToMode:kSCMCaptureSessionLiveScanningMode];
+        [self.histogramFilter reset];
+    } else {
+        self.liveScannerMode = kSCMLiveScannerSingleShotMode;
+        self.scanning = NO;
+        [self cancelAllOperations];
+        [self.motionDetector stopDetectingMotion];
+        [self.captureSessionController switchToMode:kSCMCaptureSessionSingleShotMode];
     }
 }
 
@@ -155,24 +172,6 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 - (void)cancelAllOperations
 {
     [self.recognitionQueue cancelAllOperations];
-}
-
-- (void)switchToMode:(SCMLiveScannerMode)mode
-{
-    if (mode == kSCMLiveScannerLiveScanningMode) {
-        self.liveScannerMode = kSCMLiveScannerLiveScanningMode;
-        self.recognitionError = nil;
-        self.numImagesSentForRecognition = 0;
-        [self.motionDetector startDetectingMotion];
-        [self.captureSessionController switchToMode:kSCMCaptureSessionLiveScanningMode];
-        [self.histogramFilter reset];
-    } else {
-        self.liveScannerMode = kSCMLiveScannerSingleShotMode;
-        self.scanning = NO;
-        [self cancelAllOperations];
-        [self.motionDetector stopDetectingMotion];
-        [self.captureSessionController switchToMode:kSCMCaptureSessionSingleShotMode];
-    }
 }
 
 - (void)takePictureWithZoomFactor:(CGFloat)zoomFactor
