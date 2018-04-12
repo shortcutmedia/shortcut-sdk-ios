@@ -145,7 +145,9 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
                                                    animated:YES
                                                  completion:nil];
 
-            [self.delegate liveScannerShouldClose:self];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate liveScannerShouldClose:self];
+            });
         }
         
         self.running = YES;
@@ -255,7 +257,9 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
         [self.qrCodeScanner decodeImage:scaledImage];
     }
     
-    [self.delegate liveScanner:self recognizingImage:scaledImageData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate liveScanner:self recognizingImage:scaledImageData];
+    });
     
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(backgroundQueue, ^{
@@ -412,7 +416,9 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 - (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didRecognizeQRCode:(NSString *)text
 {
     self.imageRecognized = YES;
-    [self.delegate liveScanner:self recognizedQRCode:text atLocation:self.location];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate liveScanner:self recognizedQRCode:text atLocation:self.location];
+    });
 }
 
 - (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didNotRecognizeQRCode:(NSString *)why
