@@ -4,3 +4,5 @@ ShortcutSDK.xcodeproj/xcuserdata
 ShortcutSDK.xcodeproj/project.xcworkspace/xcuserdata
 
 build/*
+framework/*
+
