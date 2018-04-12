@@ -20,6 +20,7 @@
 #import "SCMSDKConfig.h"
 #import "SCMLocalization.h"
 #import "SCMImageUtils.h"
+#import "SCMPreviewView.h"
 
 static NSString *kUnrecognizedChanged = @"unrecognized changed";
 static NSString *kScanningStatusChanged = @"scanning status changed";
@@ -40,7 +41,7 @@ typedef enum
 - (IBAction)collectionButtonPressed:(UIButton *)sender;
 
 @property (nonatomic, strong, readwrite) SCMLiveScanner *liveScanner;
-@property (nonatomic, strong, readwrite) IBOutlet UIView *previewView;
+@property (nonatomic, strong, readwrite) IBOutlet SCMPreviewView *previewView;
 @property (nonatomic, strong, readwrite) IBOutlet SCMStatusView *cameraStatusView;
 @property (nonatomic, strong, readwrite) IBOutlet SCMCameraZoomSlider *cameraZoomSlider;
 @property (nonatomic, strong, readwrite) IBOutlet SCMCameraToolbar *cameraToolbar;
@@ -234,9 +235,11 @@ typedef enum
     // Only show the status view if we are not re-submitting a single shot image.
     [self showStatusViewForModeStatusChange]; //
 
+    self.liveScanner.captureSessionController.previewLayer = self.previewView.videoPreviewLayer;
+    self.previewView.session = self.liveScanner.captureSessionController.captureSession;
     
     self.liveScanner.captureSessionController.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    [self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
+//    [self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
     
     self.cameraToolbar.doneButton.hidden = !self.showDoneButton;
     

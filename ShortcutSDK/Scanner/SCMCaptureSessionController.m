@@ -198,7 +198,7 @@
         
         if ([self.captureSession canAddOutput:self.capturePhotoOutput]){
             [self.captureSession addOutput:self.capturePhotoOutput];
-            self.onSetupPhotoCapture();
+            [self didSetupPhotoCapture];
         } else {
             [self.captureSession commitConfiguration];
             return;
@@ -241,10 +241,11 @@
     [self adjustPreviewLayer];
     
     dispatch_async(self.captureSessionQueue, ^{
+        [self.captureSession beginConfiguration];
         self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
         
         [self configureDeviceForPosition:AVCaptureDevicePositionUnspecified];
-
+        
         NSError *error = nil;
         self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice
                                                                   error:&error];
@@ -253,7 +254,7 @@
             
             return;
         }
-
+        
         if ([self.captureSession canAddInput:self.captureInput]) {
             [self.captureSession addInput:self.captureInput];
             [self adjustPreviewLayer];
@@ -261,21 +262,23 @@
             [self.captureSession commitConfiguration];
             return;
         }
-
-        switch (initialMode) {
-            case kSCMCaptureSessionLiveScanningMode:
-                [self switchToLiveScanningMode];
-                break;
-            case kSCMCaptureSessionSingleShotMode:
-                [self switchToSingleShotMode];
-                break;
-            case kSCMCaptureSessionTrackMode:
-                [self switchToTrackMode];
-                break;
-            default:
-                break;
-        }
+        
+        [self.captureSession commitConfiguration];
     });
+    
+    switch (initialMode) {
+        case kSCMCaptureSessionLiveScanningMode:
+            [self switchToLiveScanningMode];
+            break;
+        case kSCMCaptureSessionSingleShotMode:
+            [self switchToSingleShotMode];
+            break;
+        case kSCMCaptureSessionTrackMode:
+            [self switchToTrackMode];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)startSession
@@ -376,8 +379,16 @@
     if (self.capturePhotoOutput != nil) {
         [self.captureSession removeOutput:self.capturePhotoOutput];
         self.capturePhotoOutput = nil;
-        self.onSetupPhotoCapture();
+        [self didSetupPhotoCapture];
     }
+}
+
+- (void)didSetupPhotoCapture {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.onSetupPhotoCapture != nil) {
+            self.onSetupPhotoCapture();
+        }
+    });
 }
 
 - (BOOL)enablePhotoOutput {
@@ -389,7 +400,7 @@
     self.capturePhotoOutput.highResolutionCaptureEnabled = YES;
     if ([self.captureSession canAddOutput:self.capturePhotoOutput]){
         [self.captureSession addOutput:self.capturePhotoOutput];
-        self.onSetupPhotoCapture();
+        [self didSetupPhotoCapture];
         return true;
     } else {
         return false;
