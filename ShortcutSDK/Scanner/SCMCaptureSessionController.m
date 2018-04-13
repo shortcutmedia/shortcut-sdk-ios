@@ -363,7 +363,7 @@
     
     self.videoCaptureOutput = [AVCaptureVideoDataOutput new];
     self.videoCaptureOutput.alwaysDiscardsLateVideoFrames = YES;
-    self.videoCaptureOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: [self.videoCaptureOutput availableVideoCVPixelFormatTypes].firstObject};
+    self.videoCaptureOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: [NSNumber numberWithInt:kCVPixelFormatType_32BGRA]};
     
     if (isLiveScan) {
         [self fixMinFrameRateForLiveScan];
