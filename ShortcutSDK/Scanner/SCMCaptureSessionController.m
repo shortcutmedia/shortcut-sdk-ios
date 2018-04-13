@@ -239,7 +239,9 @@
     }
     
     self.captureSession = [AVCaptureSession new];
-    self.captureSessionQueue = dispatch_queue_create("CaptureSessionQueue", DISPATCH_QUEUE_SERIAL);
+    
+    const char *csqId = [[[NSProcessInfo processInfo] globallyUniqueString] cStringUsingEncoding:NSUTF8StringEncoding];
+    self.captureSessionQueue = dispatch_queue_create(csqId, DISPATCH_QUEUE_SERIAL);
     
     [self adjustPreviewLayer];
     
