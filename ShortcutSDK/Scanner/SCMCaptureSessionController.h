@@ -32,7 +32,8 @@ typedef enum
 @property (strong, nonatomic) void (^ _Nullable onSetupPhotoCapture)(void);
 
 + (BOOL)authorizedForVideoCapture;
-- (instancetype _Nullable)initWithMode:(SCMCaptureSessionMode)mode;
+- (instancetype _Nullable)initWithMode:(SCMCaptureSessionMode)mode
+                  sampleBufferDelegate:(id<AVCaptureVideoDataOutputSampleBufferDelegate> _Nullable)sampleBufferDelegate;
 
 - (void)startSession;
 - (void)switchToMode:(SCMCaptureSessionMode)mode;

@@ -13,6 +13,7 @@
 
 #import "SCMScannerViewController.h"
 #import "SCMScannerViewControllerDelegate.h"
+#import "SCMPreviewView.h"
 
 #import "SCMRecognitionOperation.h"
 #import "SCMQueryResponse.h"

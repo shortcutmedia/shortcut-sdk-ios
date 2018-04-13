@@ -88,8 +88,8 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
         captureMode = kSCMCaptureSessionSingleShotMode;
     }
 
-    self.captureSessionController = [[SCMCaptureSessionController alloc] initWithMode:captureMode];
-    self.captureSessionController.sampleBufferDelegate = self;
+    self.captureSessionController = [[SCMCaptureSessionController alloc] initWithMode:captureMode
+                                                                 sampleBufferDelegate:self];
     
     // Optimize the output size based on the capture device
     CMVideoDimensions deviceVideoDimensions = CMVideoFormatDescriptionGetDimensions(self.captureSessionController.captureDevice.activeFormat.formatDescription);

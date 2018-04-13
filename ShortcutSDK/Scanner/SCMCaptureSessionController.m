@@ -30,6 +30,7 @@
 @implementation SCMCaptureSessionController
 
 - (instancetype)initWithMode:(SCMCaptureSessionMode)mode
+        sampleBufferDelegate:(id<AVCaptureVideoDataOutputSampleBufferDelegate>)sampleBufferDelegate
 {
     self = [super init];
     if (self) {
@@ -37,6 +38,8 @@
         self.videoDeviceDiscoverySession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera, AVCaptureDeviceTypeBuiltInDualCamera]
                                                                                                   mediaType:AVMediaTypeVideo
                                                                                                    position:AVCaptureDevicePositionUnspecified];
+        
+        self.sampleBufferDelegate = sampleBufferDelegate;
         [self setupCaptureSessionForMode:mode];
     }
     return self;

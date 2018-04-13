@@ -24,7 +24,7 @@
 
 /* Begin PBXBuildFile section */
 		86037A901A76973D002010FF /* SCMQueryResponseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 86037A8F1A76973D002010FF /* SCMQueryResponseTest.m */; };
-		860B5E73207F8FEB0075C101 /* SCMPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 860B5E71207F8FEB0075C101 /* SCMPreviewView.h */; };
+		860B5E73207F8FEB0075C101 /* SCMPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 860B5E71207F8FEB0075C101 /* SCMPreviewView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		860B5E74207F8FEB0075C101 /* SCMPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 860B5E72207F8FEB0075C101 /* SCMPreviewView.m */; };
 		86197B021A2C663700BD726B /* CameraModeLiveScannerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFA1A2C663700BD726B /* CameraModeLiveScannerIcon.png */; };
 		86197B031A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86197AFB1A2C663700BD726B /* CameraModeLiveScannerIcon@2x.png */; };
@@ -1157,6 +1157,7 @@
 				86ED36381A27778800D9F3B0 /* ShortcutSDK.h in Headers */,
 				86ED36391A2777B200D9F3B0 /* SCMSDKConfig.h in Headers */,
 				86ED363A1A2777B200D9F3B0 /* SCMQueryResponse.h in Headers */,
+				860B5E73207F8FEB0075C101 /* SCMPreviewView.h in Headers */,
 				86ED363B1A2777B200D9F3B0 /* SCMQueryResult.h in Headers */,
 				86ED363C1A2777B200D9F3B0 /* SCMRecognitionOperation.h in Headers */,
 				86ED363D1A2777B200D9F3B0 /* SCMScannerViewController.h in Headers */,
@@ -1167,7 +1168,6 @@
 				86ED364C1A27786A00D9F3B0 /* SCMCustomToolbar.h in Headers */,
 				86EEC7581A2F1D7C007C6FA9 /* SCMQRCodeScannerDelegate.h in Headers */,
 				86ED36411A27781A00D9F3B0 /* KWSImageRequest.h in Headers */,
-				860B5E73207F8FEB0075C101 /* SCMPreviewView.h in Headers */,
 				86ED36531A27788400D9F3B0 /* SCMUUIDUtils.h in Headers */,
 				86ED364F1A27787400D9F3B0 /* SCMStatusView.h in Headers */,
 				86ED36511A27787D00D9F3B0 /* SCMDictionaryUtils.h in Headers */,
