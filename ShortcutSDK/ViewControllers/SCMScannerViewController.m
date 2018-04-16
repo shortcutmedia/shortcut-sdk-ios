@@ -37,9 +37,10 @@ typedef enum
     kStatusViewStateAnimatingHidden
 } StatusViewState;
 
-@interface SCMScannerViewController () <SCMLiveScannerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface SCMScannerViewController () <AVCaptureVideoDataOutputSampleBufferDelegate, SCMLiveScannerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 - (IBAction)collectionButtonPressed:(UIButton *)sender;
 
+@property (nonatomic, strong, readwrite) SCMCaptureSessionController *captureSessionController;
 @property (nonatomic, strong, readwrite) SCMLiveScanner *liveScanner;
 @property (nonatomic, strong, readwrite) IBOutlet SCMPreviewView *previewView;
 @property (nonatomic, strong, readwrite) IBOutlet SCMStatusView *cameraStatusView;
@@ -85,7 +86,7 @@ typedef enum
     return _liveScanner;
 }
 
-- (UIImage *) originalImage
+- (UIImage *)originalImage
 {
     return self.liveScanner.originalImage;
 }
@@ -183,6 +184,8 @@ typedef enum
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     } @catch (NSException *exception) { }
     
+    [self.captureSessionController stopSession];
+    
     self.previewView = nil;
     self.cameraStatusView = nil;
     self.cameraZoomSlider = nil;
@@ -205,13 +208,27 @@ typedef enum
     
     // Do any additional setup after loading the view from its nib.
     
+    // capture session controller
+    self.captureSessionController = [[SCMCaptureSessionController alloc] initWithMode:kSCMCaptureSessionSingleShotMode
+                                                                 sampleBufferDelegate:self];
+    self.captureSessionController.previewLayer = self.previewView.videoPreviewLayer;
+    self.previewView.session = self.captureSessionController.captureSession;
+    [self.captureSessionController startSession];
+    
     // The default mode is single shot mode.
-    SCMLiveScannerMode mode = kSCMLiveScannerSingleShotMode;//kSCMLiveScannerLiveScanningMode;
+    SCMLiveScannerMode mode = kSCMLiveScannerSingleShotMode;
     BOOL startInScanMode = [[NSUserDefaults standardUserDefaults] boolForKey:kUserPreferenceCameraStartsInScanMode];
     if (self.previewImageData != nil || startInScanMode == NO) {
         mode = kSCMLiveScannerSingleShotMode;
     }
-    [self.liveScanner setupForMode:mode];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        self.liveScanner.captureDevice = self.captureSessionController.captureDevice;
+        [self.liveScanner setupForMode:mode];
+        [self.liveScanner addObserver:self forKeyPath:@"currentImageIsUnrecognized" options:0 context:&kUnrecognizedChanged];
+        [self.liveScanner addObserver:self forKeyPath:@"scanning" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:&kScanningStatusChanged];
+        [self.liveScanner addObserver:self forKeyPath:@"recognitionError" options:0 context:&kRecognitionErrorChanged];
+        [self.liveScanner startScanning];
+    });
     
     [self.cameraZoomSlider addTarget:self action:@selector(cameraZoomChanged) forControlEvents:UIControlEventValueChanged];
     
@@ -224,6 +241,7 @@ typedef enum
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     self.cameraStatusView.hidden = YES;
     self.cameraStatusView.alpha = 0.0;
     
@@ -232,14 +250,11 @@ typedef enum
     
     self.previewImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.previewImageView.backgroundColor = [UIColor blackColor];
-    // Only show the status view if we are not re-submitting a single shot image.
-    [self showStatusViewForModeStatusChange]; //
-
-    self.liveScanner.captureSessionController.previewLayer = self.previewView.videoPreviewLayer;
-    self.previewView.session = self.liveScanner.captureSessionController.captureSession;
     
-    self.liveScanner.captureSessionController.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-//    [self.previewView.layer addSublayer:self.liveScanner.captureSessionController.previewLayer];
+    // Only show the status view if we are not re-submitting a single shot image.
+    [self showStatusViewForModeStatusChange];
+
+    self.captureSessionController.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
     self.cameraToolbar.doneButton.hidden = !self.showDoneButton;
     
@@ -254,10 +269,6 @@ typedef enum
     if (self.previewImageData == nil) { //
         [self showStatusViewAndHideAfterTimeInterval:kStatusViewTemporarilyVisibleDuration]; //
     } //
-    [self.liveScanner addObserver:self forKeyPath:@"currentImageIsUnrecognized" options:0 context:&kUnrecognizedChanged];
-    [self.liveScanner addObserver:self forKeyPath:@"scanning" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:&kScanningStatusChanged];
-    [self.liveScanner addObserver:self forKeyPath:@"recognitionError" options:0 context:&kRecognitionErrorChanged];
-    [self.liveScanner startScanning];
     self.shouldResumeScanning = YES;
     
     // While the camera is displayed, don't allow the device to go to sleep or dim the screen.
@@ -270,7 +281,6 @@ typedef enum
 
 - (void)viewDidLayoutSubviews
 {
-    self.liveScanner.captureSessionController.previewLayer.frame = self.previewView.bounds;
     self.previewImageView.frame = self.previewView.bounds;
 }
 
@@ -298,6 +308,12 @@ typedef enum
     } @catch (NSException *exception) { }
     
     self.navigationController.navigationBarHidden = !self.shouldShowNavigationBarWhenDisappearing;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [self.captureSessionController stopSession];
+    [super viewDidDisappear:animated];
 }
 
 #pragma mark - Delegate handling
@@ -616,9 +632,17 @@ typedef enum
     }
 }
 
-- (void)switchToMode:(SCMLiveScannerMode)mode
-{
+- (void)switchToMode:(SCMLiveScannerMode)mode {
+    switch (mode) {
+        case kSCMLiveScannerLiveScanningMode:
+            [self.captureSessionController switchToMode:kSCMCaptureSessionLiveScanningMode];
+            break;
+        case kSCMLiveScannerSingleShotMode:
+            [self.captureSessionController switchToMode:kSCMCaptureSessionSingleShotMode];
+            break;
+    }
     [self.liveScanner switchToMode:mode];
+    
     [self updateModeStatus];
     [self updateFlashStatus];
     
@@ -717,8 +741,8 @@ typedef enum
 
 - (void)updateFlashStatus
 {
-    if ([self.liveScanner.captureSessionController hasTorch]) {
-        if (self.liveScanner.captureSessionController.torchOn) {
+    if ([self.captureSessionController hasTorch]) {
+        if (self.captureSessionController.torchOn) {
             [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOn"] forState:UIControlStateNormal];
         } else {
             [self.flashButton setImage:[SCMImageUtils SDKBundleImageNamed:@"CameraFlashOff"] forState:UIControlStateNormal];
@@ -731,7 +755,7 @@ typedef enum
 
 - (IBAction)toggleTorchMode:(id)sender
 {
-    [self.liveScanner.captureSessionController toggleTorchMode];
+    [self.captureSessionController toggleTorchMode];
     [self updateFlashStatus];
 }
 
@@ -998,6 +1022,20 @@ typedef enum
     if ([self.delegate respondsToSelector:@selector(scannerViewControllerDidFinish:)]) {
         [self.delegate scannerViewControllerDidFinish:self];
     }
+}
+
+- (void)liveScanner:(SCMLiveScanner *)scanner didRequestPictureTakeWithCompletionHandler:(void (^)(NSData *data, NSError *error))completionHandler {
+    [self.captureSessionController takePictureAsynchronouslyWithCompletionHandler:completionHandler];
+}
+
+#pragma mark - Capture Output Delegate
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    if (!CMSampleBufferIsValid(sampleBuffer)) {
+        return;
+    }
+    
+    [self.liveScanner processSampleBuffer:sampleBuffer];
 }
 
 @end

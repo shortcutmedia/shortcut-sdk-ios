@@ -21,8 +21,8 @@ typedef enum
 @interface SCMLiveScanner : NSObject
 
 @property (nonatomic, unsafe_unretained, readwrite) id<SCMLiveScannerDelegate> delegate;
+@property (nonatomic, strong, readwrite) AVCaptureDevice *captureDevice;
 @property (nonatomic, assign, readwrite) NSTimeInterval noMotionThreshold;
-@property (nonatomic, strong, readonly) SCMCaptureSessionController *captureSessionController;
 @property (nonatomic, strong, readwrite) CLLocation *location;
 @property (nonatomic, assign, readwrite) BOOL scanQRCodes;
 @property (nonatomic, assign, readonly) SCMLiveScannerMode liveScannerMode;
@@ -38,6 +38,7 @@ typedef enum
 - (void)stopScanning;
 - (void)takePictureWithZoomFactor:(CGFloat)zoomFactor;
 - (void)processImage:(CGImageRef)image;
+- (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 
 @end
 

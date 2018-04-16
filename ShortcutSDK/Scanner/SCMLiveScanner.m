@@ -24,9 +24,8 @@ static const NSTimeInterval kDefaultNoMotionThreshold = 0.1;
 static const CGFloat kDefaultQueryImageSize = 640.0;
 static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 
-@interface SCMLiveScanner () <AVCaptureVideoDataOutputSampleBufferDelegate, SCMQRCodeScannerDelegate>
+@interface SCMLiveScanner () <SCMQRCodeScannerDelegate>
 
-@property (nonatomic, strong, readwrite) SCMCaptureSessionController *captureSessionController;
 @property (nonatomic, strong, readwrite) SCMMotionDetector *motionDetector;
 @property (nonatomic, strong, readwrite) SCMHistogramFilter *histogramFilter;
 @property (nonatomic, strong, readwrite) SCMQRCodeScanner *qrCodeScanner;
@@ -71,7 +70,6 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 {
     [self cancelAllOperations];
     self.originalImage = nil;
-    self.captureSessionController = nil;
     self.motionDetector = nil;
     self.histogramFilter = nil;
     self.qrCodeScanner = nil;
@@ -83,18 +81,10 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 {
     self.histogramFilter.histogramThreshold = 45000.0;
     
-    SCMCaptureSessionMode captureMode = kSCMCaptureSessionLiveScanningMode;
-    if (initialMode == kSCMLiveScannerSingleShotMode) {
-        captureMode = kSCMCaptureSessionSingleShotMode;
-    }
-
-    self.captureSessionController = [[SCMCaptureSessionController alloc] initWithMode:captureMode
-                                                                 sampleBufferDelegate:self];
-    
     // Optimize the output size based on the capture device
-    CMVideoDimensions deviceVideoDimensions = CMVideoFormatDescriptionGetDimensions(self.captureSessionController.captureDevice.activeFormat.formatDescription);
+    CMVideoDimensions deviceVideoDimensions = CMVideoFormatDescriptionGetDimensions(self.captureDevice.activeFormat.formatDescription);
     int deviceMaxSize = MAX(deviceVideoDimensions.width, deviceVideoDimensions.height);
-    
+
 //    if (deviceMaxSize >= 1280) {
 //        self.queryImageSize = 1280;
 //    } else
@@ -103,12 +93,8 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     } else {
         self.queryImageSize = 320;
     }
-    
-    if (self.captureSessionController.captureSessionMode == kSCMCaptureSessionLiveScanningMode) {
-        self.liveScannerMode = kSCMLiveScannerLiveScanningMode;
-    } else {
-        self.liveScannerMode = kSCMLiveScannerSingleShotMode;
-    }
+
+    self.liveScannerMode = initialMode;
 }
 
 - (void)switchToMode:(SCMLiveScannerMode)mode
@@ -118,20 +104,18 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
         self.recognitionError = nil;
         self.numImagesSentForRecognition = 0;
         [self.motionDetector startDetectingMotion];
-        [self.captureSessionController switchToMode:kSCMCaptureSessionLiveScanningMode];
         [self.histogramFilter reset];
     } else {
         self.liveScannerMode = kSCMLiveScannerSingleShotMode;
         self.scanning = NO;
         [self cancelAllOperations];
         [self.motionDetector stopDetectingMotion];
-        [self.captureSessionController switchToMode:kSCMCaptureSessionSingleShotMode];
     }
 }
 
 - (void)startScanning
 {
-    if (self.running == NO) {
+    if (!self.running) {
         if (![SCMCaptureSessionController authorizedForVideoCapture]) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[SCMLocalization translationFor:@"CameraAccessRequiredTitle" withDefaultValue:@"Camera access required"]
                                                                                      message:[SCMLocalization translationFor:@"CameraAccessRequiredBody" withDefaultValue:@"The app needs access to the camera to scan things.\nPlease allow usage of the camera by enabling it in the privacy settings."]
@@ -153,7 +137,6 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
         self.running = YES;
         self.imageRecognized = NO;
         self.numImagesSentForRecognition = 0;
-        [self.captureSessionController startSession];
         if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
             [self.motionDetector startDetectingMotion];
         }
@@ -166,7 +149,6 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
         self.running = NO;
         self.scanning = NO;
         [self cancelAllOperations];
-        [self.captureSessionController stopSession];
         [self.motionDetector stopDetectingMotion];
     }
 }
@@ -178,14 +160,16 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 
 - (void)takePictureWithZoomFactor:(CGFloat)zoomFactor
 {
-    [self.captureSessionController takePictureAsynchronouslyWithCompletionHandler:^(NSData *_Nullable data, NSError *_Nullable error) {
-        if (data != nil) {
-            self.originalImage = [[UIImage alloc] initWithData:data];
-            [self processImage:self.originalImage.CGImage];
-        } else {
-            DebugLog(@"could not take picture because: %@", [error localizedDescription]);
-        }
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate liveScanner:self didRequestPictureTakeWithCompletionHandler:^(NSData *data, NSError *error) {
+            if (data != nil) {
+                self.originalImage = [[UIImage alloc] initWithData:data];
+                [self processImage:self.originalImage.CGImage];
+            } else {
+                DebugLog(@"could not take picture because: %@", [error localizedDescription]);
+            }
+        }];
+    });
 }
 
 - (void)setPaused:(BOOL)value
@@ -198,18 +182,19 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     }
 }
 
-#pragma mark - Capture Output Delegate
+#pragma mark - Handling images
 
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
-{
-    CFAbsoluteTime startOfFrameHandling = CFAbsoluteTimeGetCurrent();
+- (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer {
+    if (!self.running) {
+        return;
+    }
     
     BOOL similar = [self.histogramFilter isSampleBufferHistogramSimilar:sampleBuffer];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if (similar) {
             // The image was the same as the last one sent to the server.
-            if (self.lastImageUnrecognized && self.currentImageIsUnrecognized == NO) {
+            if (self.lastImageUnrecognized && !self.currentImageIsUnrecognized) {
                 self.currentImageIsUnrecognized = YES;
                 self.scanning = NO;
             }
@@ -219,7 +204,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
                 self.currentImageIsUnrecognized = NO;
             }
             
-            if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode && self.paused == NO) {
+            if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode && !self.paused) {
                 self.scanning = YES;
             } else {
                 self.scanning = NO;
@@ -227,32 +212,25 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
         }
     });
     
-    if (similar == NO && ![self shouldSkipImage] && [self shouldSendImageForRecognition]) {
+    if (!similar && ![self shouldSkipImage] && [self shouldSendImageForRecognition]) {
         CGImageRef sampleBufferImage = [SCMImageUtils newImageFromSampleBuffer:sampleBuffer];
         [self processImage:sampleBufferImage];
         CGImageRelease(sampleBufferImage);
     }
-    
-    CFAbsoluteTime endOfFrameHandling = CFAbsoluteTimeGetCurrent();
-    
-    // Let other threads/the network thread work for a bit if this handler basically runs all the time...
-    if (endOfFrameHandling - startOfFrameHandling > (1.0f/self.captureSessionController.minimumLiveScanningFrameRate)) {
-        DebugLog(@"sample buffer handler is too slow");
-        [NSThread sleepForTimeInterval:0.01];
-    }
 }
 
-#pragma mark - Handling images
-
-- (void)processImage:(CGImageRef)image
-{
+- (void)processImage:(CGImageRef)image {
+    if (!self.running) {
+        return;
+    }
+    
     NSData *scaledImageData = [SCMImageUtils scaledImageDataWithImage:image
                                                           orientation:6
                                                               maxSize:self.queryImageSize
                                                           compression:self.outputCompressionLevel
                                                            zoomFactor:1.0];
     
-    if (self.scanQRCodes == YES && self.imageRecognized == NO) {
+    if (self.scanQRCodes && !self.imageRecognized) {
         CGImageRef scaledImage = [UIImage imageWithData:scaledImageData].CGImage;
         [self.qrCodeScanner decodeImage:scaledImage];
     }
@@ -290,7 +268,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     if (timeSinceLastMotion < self.noMotionThreshold) {
         // The device hasn't been still long enough to use this image.
         skipImage = YES;
-    } else if (self.captureSessionController.captureDevice.adjustingFocus)
+    } else if (self.captureDevice.adjustingFocus)
     {
         skipImage = YES;
     }
@@ -323,7 +301,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     
     __weak SCMRecognitionOperation *completedOperation = operation;
     operation.completionBlock = ^{
-        if (completedOperation.cancelled == NO) {
+        if (!completedOperation.cancelled) {
             [self recognitionOperationCompleted:completedOperation];
         }
     };

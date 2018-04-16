@@ -23,4 +23,6 @@
 
 - (void)liveScannerShouldClose:(SCMLiveScanner *)scanner;
 
+- (void)liveScanner:(SCMLiveScanner *)scanner didRequestPictureTakeWithCompletionHandler:(void (^)(NSData *data, NSError *error))completionHandler;
+
 @end

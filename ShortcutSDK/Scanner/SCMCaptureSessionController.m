@@ -66,13 +66,6 @@
     return self.mode;
 }
 
-- (Float64)minimumLiveScanningFrameRate
-{
-    // Note: This needs to stay at 15fps. Otherwise, the display looks really slow. iOS will automatically throttle our
-    //       frame rate if we take longer than 1/15s to process an image.
-    return 15.0f;
-}
-
 + (BOOL)authorizedForVideoCapture
 {
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
@@ -335,19 +328,6 @@
             break;
         default:
             break;
-    }
-}
-
-- (void)fixMinFrameRateForLiveScan {
-    Float64 minFrameRate = ((AVFrameRateRange *) (self.captureDevice.activeFormat.videoSupportedFrameRateRanges.firstObject)).minFrameRate;
-    if (minFrameRate <= self.minimumLiveScanningFrameRate) {
-        NSError *error;
-        if (![self.captureDevice lockForConfiguration:&error]) {
-            NSLog(@"Could not lock device %@ for configuration: %@", self, error);
-            return;
-        }
-        self.captureDevice.activeVideoMinFrameDuration = CMTimeMake(10, self.minimumLiveScanningFrameRate * 10);
-        [self.captureDevice unlockForConfiguration];
     }
 }
 
