@@ -23,6 +23,7 @@ static const NSInteger kMaxOutstandingImageRecognitionOperations = 2;
 static const NSTimeInterval kDefaultNoMotionThreshold = 0.1;
 static const CGFloat kDefaultQueryImageSize = 640.0;
 static const CGFloat kDefaultOutputCompressionLevel = 0.30;
+static const CGFloat kMinimumRequestDelay = 1.0;
 
 @interface SCMLiveScanner () <SCMQRCodeScannerDelegate>
 
@@ -40,7 +41,8 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
 @property (nonatomic, assign, readwrite) BOOL lastImageUnrecognized;
 @property (nonatomic, assign, readwrite) BOOL currentImageIsUnrecognized;
 @property (nonatomic, strong, readwrite) NSError *recognitionError;
-@property (atomic, assign, readwrite) BOOL imageRecognized;
+@property (   atomic, assign, readwrite) BOOL imageRecognized;
+@property (nonatomic, strong, readwrite) NSDate *lastRequestTimeStamp;
 
 @end
 
@@ -94,7 +96,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
         self.queryImageSize = 320;
     }
 
-    self.liveScannerMode = initialMode;
+    [self switchToMode:initialMode];
 }
 
 - (void)switchToMode:(SCMLiveScannerMode)mode
@@ -273,6 +275,10 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
         skipImage = YES;
     }
 
+    if (self.lastRequestTimeStamp) {
+        skipImage = ([[NSDate date] timeIntervalSinceDate:self.lastRequestTimeStamp] < kMinimumRequestDelay);
+    }
+
     return skipImage;
 }
 
@@ -310,6 +316,7 @@ static const CGFloat kDefaultOutputCompressionLevel = 0.30;
     [self.recognitionQueue addOperation:operation];
     self.numImagesSentForRecognition += 1;
     self.outstandingRecognitionOperations++;
+    self.lastRequestTimeStamp = [NSDate date];
 }
 
 - (void)recognitionOperationCompleted:(SCMRecognitionOperation *)recognitionOperation

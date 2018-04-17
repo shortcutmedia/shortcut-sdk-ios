@@ -209,7 +209,7 @@ typedef enum
     // Do any additional setup after loading the view from its nib.
     
     // capture session controller
-    self.captureSessionController = [[SCMCaptureSessionController alloc] initWithMode:kSCMCaptureSessionSingleShotMode
+    self.captureSessionController = [[SCMCaptureSessionController alloc] initWithMode:kSCMCaptureSessionTrackMode
                                                                  sampleBufferDelegate:self];
     self.captureSessionController.previewLayer = self.previewView.videoPreviewLayer;
     self.previewView.session = self.captureSessionController.captureSession;
@@ -633,14 +633,6 @@ typedef enum
 }
 
 - (void)switchToMode:(SCMLiveScannerMode)mode {
-    switch (mode) {
-        case kSCMLiveScannerLiveScanningMode:
-            [self.captureSessionController switchToMode:kSCMCaptureSessionLiveScanningMode];
-            break;
-        case kSCMLiveScannerSingleShotMode:
-            [self.captureSessionController switchToMode:kSCMCaptureSessionSingleShotMode];
-            break;
-    }
     [self.liveScanner switchToMode:mode];
     
     [self updateModeStatus];
