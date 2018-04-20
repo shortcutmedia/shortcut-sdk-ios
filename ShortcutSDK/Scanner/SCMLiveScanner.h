@@ -39,6 +39,7 @@ typedef enum
 - (void)takePictureWithZoomFactor:(CGFloat)zoomFactor;
 - (void)processImage:(CGImageRef)image;
 - (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+- (void)cancelAllOperations;
 
 @end
 
