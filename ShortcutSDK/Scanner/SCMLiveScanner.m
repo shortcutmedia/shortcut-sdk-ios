@@ -181,6 +181,8 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     if (value) {
         self.scanning = NO;
         [self cancelAllOperations];
+    } else {
+        self.imageRecognized = NO;
     }
 }
 
