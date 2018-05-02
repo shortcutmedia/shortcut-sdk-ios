@@ -150,10 +150,17 @@
     }
 }
 
+- (void)adjustCaptureConnectionVideoOrientation:(AVCaptureConnection *)connection {
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if (UIDeviceOrientationIsPortrait(deviceOrientation) || UIDeviceOrientationIsLandscape(deviceOrientation)) {
+        connection.videoOrientation = (AVCaptureVideoOrientation)deviceOrientation;
+    }
+}
+
 - (void)adjustPreviewLayer {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        self.previewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+        [self adjustCaptureConnectionVideoOrientation:self.previewLayer.connection];
     });
 }
 

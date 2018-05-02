@@ -48,5 +48,6 @@ typedef enum
 - (BOOL)hasCameraWithCapturePosition:(AVCaptureDevicePosition)capturePosition;
 - (void)changeZoomToScale:(CGFloat)scale;
 - (CGFloat)zoomFactor;
+- (void)adjustCaptureConnectionVideoOrientation:(AVCaptureConnection * _Nonnull)connection;
 
 @end
