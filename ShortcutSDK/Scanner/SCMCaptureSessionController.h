@@ -49,6 +49,5 @@ typedef enum
 - (void)changeZoomToScale:(CGFloat)scale;
 - (CGFloat)zoomFactor;
 - (void)adjustCaptureConnectionVideoOrientation:(AVCaptureConnection * _Nonnull)connection;
-- (AVCaptureVideoOrientation)captureVideoOrientationFromDeviceOrientation;
 
 @end

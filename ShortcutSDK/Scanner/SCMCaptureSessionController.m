@@ -151,7 +151,7 @@
 }
 
 - (void)adjustCaptureConnectionVideoOrientation:(AVCaptureConnection *)connection {
-    connection.videoOrientation = [self captureVideoOrientationFromDeviceOrientation];
+    connection.videoOrientation = AVCaptureVideoOrientationPortrait;
 }
 
 - (void)adjustPreviewLayer {
@@ -462,7 +462,7 @@
 
 - (void)takePictureAsynchronouslyWithCompletionHandler:(void (^)(NSData *_Nullable data, NSError *_Nullable error))handler
 {
-    AVCaptureVideoOrientation videoPreviewLayerVideoOrientation = self.previewLayer.connection.videoOrientation;
+    AVCaptureVideoOrientation videoPreviewLayerVideoOrientation = [self captureVideoOrientationFromDeviceOrientation];
     
     AVCaptureConnection *photoOutputConnection = [self.capturePhotoOutput connectionWithMediaType:AVMediaTypeVideo];
     photoOutputConnection.videoOrientation = videoPreviewLayerVideoOrientation;
