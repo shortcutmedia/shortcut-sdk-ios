@@ -151,10 +151,7 @@
 }
 
 - (void)adjustCaptureConnectionVideoOrientation:(AVCaptureConnection *)connection {
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    if (UIDeviceOrientationIsPortrait(deviceOrientation) || UIDeviceOrientationIsLandscape(deviceOrientation)) {
-        connection.videoOrientation = (AVCaptureVideoOrientation)deviceOrientation;
-    }
+    connection.videoOrientation = [self captureVideoOrientationFromDeviceOrientation];
 }
 
 - (void)adjustPreviewLayer {
@@ -208,6 +205,15 @@
         }
         
         [self.captureSession commitConfiguration];
+    }
+}
+
+- (AVCaptureVideoOrientation)captureVideoOrientationFromDeviceOrientation {
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if (UIDeviceOrientationIsPortrait(deviceOrientation) || UIDeviceOrientationIsLandscape(deviceOrientation)) {
+        return (AVCaptureVideoOrientation)deviceOrientation;
+    } else {
+        return AVCaptureVideoOrientationPortrait;
     }
 }
 
