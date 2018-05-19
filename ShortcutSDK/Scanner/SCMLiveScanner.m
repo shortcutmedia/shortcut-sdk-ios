@@ -166,7 +166,7 @@ static const CGFloat kMinimumRequestDelay = 1.0;
         [self.delegate liveScanner:self didRequestPictureTakeWithCompletionHandler:^(NSData *data, NSError *error) {
             if (data != nil) {
                 self.originalImage = [[UIImage alloc] initWithData:data];
-                [self processImage:self.originalImage.CGImage];
+                [self processImageRef:self.originalImage.CGImage];
             } else {
                 DebugLog(@"could not take picture because: %@", [error localizedDescription]);
             }
@@ -218,17 +218,22 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     
     if (!similar && ![self shouldSkipImage] && [self shouldSendImageForRecognition]) {
         CGImageRef sampleBufferImage = [SCMImageUtils newImageFromSampleBuffer:sampleBuffer];
-        [self processImage:sampleBufferImage];
+        [self processImageRef:sampleBufferImage];
         CGImageRelease(sampleBufferImage);
     }
 }
 
-- (void)processImage:(CGImageRef)image {
+- (void)processImage:(UIImage *)image {
+    CGImageRef imageRef = [UIImage imageWithData:UIImagePNGRepresentation(image)].CGImage;
+    [self processImageRef:imageRef];
+}
+
+- (void)processImageRef:(CGImageRef)imageRef {
     if (!self.running) {
         return;
     }
     
-    NSData *scaledImageData = [SCMImageUtils scaledImageDataWithImage:image
+    NSData *scaledImageData = [SCMImageUtils scaledImageDataWithImage:imageRef
                                                           orientation:6
                                                               maxSize:self.queryImageSize
                                                           compression:self.outputCompressionLevel

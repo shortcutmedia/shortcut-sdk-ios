@@ -369,7 +369,7 @@ typedef enum
     }
     
     CGImageRef image = [UIImage imageWithData:imageData].CGImage;
-    [self.liveScanner processImage:image];
+    [self.liveScanner processImageRef:image];
     
     [self singleImageRecognitionStarted];
 }
@@ -546,7 +546,7 @@ typedef enum
 
     UIImage * rotatedImage = [self fixImageRotation:image];
     
-    [self.liveScanner processImage:rotatedImage.CGImage];
+    [self.liveScanner processImageRef:rotatedImage.CGImage];
 }
 
 - (UIImage*)fixImageRotation:(UIImage*)image

@@ -37,7 +37,8 @@ typedef enum
 - (void)switchToMode:(SCMLiveScannerMode)mode;
 - (void)stopScanning;
 - (void)takePictureWithZoomFactor:(CGFloat)zoomFactor;
-- (void)processImage:(CGImageRef)image;
+- (void)processImage:(UIImage *)image;
+- (void)processImageRef:(CGImageRef)imageRef;
 - (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 - (void)cancelAllOperations;
 
