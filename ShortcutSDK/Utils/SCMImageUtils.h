@@ -33,5 +33,6 @@
 + (UIImage *)SDKBundleImageNamed:(NSString *)fileName;
 
 + (UIImage *)imageResize:(UIImage*)image andResizeToAspectFillSize:(CGFloat)side;
++ (UIImage *)normalizedImage:(UIImage *)image;
 
 @end

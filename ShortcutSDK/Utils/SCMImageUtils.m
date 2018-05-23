@@ -690,4 +690,16 @@
     return newImage;
 }
 
++ (UIImage *)normalizedImage:(UIImage *)image {
+    if (image.imageOrientation == UIImageOrientationUp)
+        return image;
+    
+    UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale);
+    [image drawInRect:(CGRect){0, 0, image.size}];
+    UIImage *normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return normalizedImage;
+}
+
 @end
