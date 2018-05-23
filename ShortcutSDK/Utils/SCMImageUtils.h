@@ -34,5 +34,6 @@
 
 + (UIImage *)imageResize:(UIImage*)image andResizeToAspectFillSize:(CGFloat)side;
 + (UIImage *)normalizedImage:(UIImage *)image;
++ (UIImage *)fixedOrientationImage:(UIImage *)image;
 
 @end
