@@ -467,8 +467,10 @@
     AVCaptureConnection *photoOutputConnection = [self.capturePhotoOutput connectionWithMediaType:AVMediaTypeVideo];
     photoOutputConnection.videoOrientation = videoPreviewLayerVideoOrientation;
     
-    self.photoCaptureCompletionHandler = handler;
-    [self.capturePhotoOutput capturePhotoWithSettings:[self currentPhotoSettings] delegate:self];
+    dispatch_async(self.captureSessionQueue, ^{
+        self.photoCaptureCompletionHandler = handler;
+        [self.capturePhotoOutput capturePhotoWithSettings:[self currentPhotoSettings] delegate:self];
+    });
 }
 
 - (AVCapturePhotoSettings *)currentPhotoSettings {
