@@ -645,7 +645,9 @@
 - (void)captureOutput:(AVCapturePhotoOutput *)captureOutput didFinishProcessingPhoto:(AVCapturePhoto *)photo error:(nullable NSError *)error
 {
     if (error != nil) {
-        self.photoCaptureCompletionHandler(nil, error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.photoCaptureCompletionHandler(nil, error);
+        });
         return;
     }
     
@@ -655,15 +657,21 @@
 - (void)captureOutput:(AVCapturePhotoOutput *)captureOutput didFinishCaptureForResolvedSettings:(AVCaptureResolvedPhotoSettings *)resolvedSettings error:(NSError *)error
 {
     if (error != nil) {
-        self.photoCaptureCompletionHandler(nil, error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.photoCaptureCompletionHandler(nil, error);
+        });
         return;
     }
     
     if (self.capturePhotoData == nil) {
-        self.photoCaptureCompletionHandler(nil, error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.photoCaptureCompletionHandler(nil, error);
+        });
         return;
     } else {
-        self.photoCaptureCompletionHandler(self.capturePhotoData, nil);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.photoCaptureCompletionHandler(self.capturePhotoData, nil);
+        });
     }
 }
 
