@@ -88,6 +88,11 @@
 @property (strong, nonatomic, readonly) NSString *thumbnailURL;
 
 /**
+ *  Array of OIDs of the item.
+ */
+@property (strong, nonatomic, readonly) NSArray *oids;
+
+/**
  *  Array containing all API version numbers supported by this result.
  *
  *  @discussion
