@@ -14,6 +14,7 @@
 @protocol SCMQRCodeScannerDelegate <NSObject>
 
 - (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didRecognizeQRCode:(NSString *)text;
+
 - (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didNotRecognizeQRCode:(NSString *)why;
 
 @end

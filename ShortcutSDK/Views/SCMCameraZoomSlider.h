@@ -15,8 +15,11 @@
 @property (nonatomic, assign, readwrite) CGFloat maxScale;
 
 - (void)showZoomControl;
+
 - (void)resetHideZoomControlTimer;
+
 - (void)hideZoomControl;
+
 - (void)pinchToZoom:(UIGestureRecognizer *)gestureRecognizer;
 
 @end

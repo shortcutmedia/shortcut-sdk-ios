@@ -12,7 +12,7 @@
 
 @interface SCMQRCodeScanner : NSObject
 
-@property (nonatomic, assign, readwrite) id<SCMQRCodeScannerDelegate> delegate;
+@property (nonatomic, assign, readwrite) id <SCMQRCodeScannerDelegate> delegate;
 
 - (void)decodeImage:(CGImageRef)imageRef;
 

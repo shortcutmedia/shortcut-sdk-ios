@@ -11,8 +11,11 @@
 @interface SCMDictionaryUtils : NSObject
 
 + (NSString *)stringFromDictionary:(NSDictionary *)dictionary atPath:(NSString *)path;
+
 + (NSNumber *)numberFromDictionary:(NSDictionary *)dictionary atPath:(NSString *)path;
+
 + (NSArray *)arrayFromDictionary:(NSDictionary *)dictionary atPath:(NSString *)path;
+
 + (NSDictionary *)dictionaryFromDictionary:(NSDictionary *)dictionary atPath:(NSString *)path;
 
 @end

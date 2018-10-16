@@ -40,7 +40,9 @@ NS_ASSUME_NONNULL_END
  *  @return A new item view controller instance.
  */
 NS_ASSUME_NONNULL_BEGIN
+
 - (instancetype)initWithItemUUID:(NSString *)itemUUID;
+
 NS_ASSUME_NONNULL_END
 
 /**
@@ -52,7 +54,9 @@ NS_ASSUME_NONNULL_END
  *  @return A new item view controller instance.
  */
 NS_ASSUME_NONNULL_BEGIN
+
 - (instancetype)initWithItemUUID:(NSString *)itemUUID imageSHA1:(NSString *_Nullable)imageSHA1;
+
 NS_ASSUME_NONNULL_END
 
 #pragma mark - Protected
@@ -66,7 +70,9 @@ NS_ASSUME_NONNULL_END
  */
 
 NS_ASSUME_NONNULL_BEGIN
+
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
+
 NS_ASSUME_NONNULL_END
 
 /**
@@ -75,7 +81,9 @@ NS_ASSUME_NONNULL_END
  *  @see WKNavigationDelegate -webView:didStartProvisionalNavigation:
  */
 NS_ASSUME_NONNULL_BEGIN
+
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation;
+
 NS_ASSUME_NONNULL_END
 
 /**
@@ -85,7 +93,9 @@ NS_ASSUME_NONNULL_END
  */
 
 NS_ASSUME_NONNULL_BEGIN
+
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation;
+
 NS_ASSUME_NONNULL_END
 
 /**
@@ -94,7 +104,9 @@ NS_ASSUME_NONNULL_END
  *  @see WKNavigationDelegate -webView:didFailNavigation:withError:
  */
 NS_ASSUME_NONNULL_BEGIN
+
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(nonnull NSError *)error;
+
 NS_ASSUME_NONNULL_END
 
 @end

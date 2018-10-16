@@ -9,9 +9,8 @@
 #import "SCMMotionDetector.h"
 #import <CoreMotion/CoreMotion.h>
 
-
-static const double kAccelerometerUpdateFrequency = 30.0;		// n times per second
-static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from AccelerometerGraph demo code
+static const double kAccelerometerUpdateFrequency = 30.0;       // n times per second
+static const double kAccelerometerCutoffFrequency = 5.0;        // value taken from AccelerometerGraph demo code
 
 @interface SCMMotionDetector ()
 
@@ -32,35 +31,32 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
 
 @implementation SCMMotionDetector
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self != nil) {
         self.deviceMotionManager = [[CMMotionManager alloc] init];
         self.deviceMotionQueue = [[NSOperationQueue alloc] init];
-        
+
         self.rotationThreshold = 0.2;
         self.accelerationThreshold = 0.1;
     }
-    
+
     return self;
 }
 
-- (BOOL)canDetectDeviceMotion
-{
+- (BOOL)canDetectDeviceMotion {
     return self.deviceMotionManager.deviceMotionAvailable;
 }
 
-- (void)startDetectingMotion
-{
+- (void)startDetectingMotion {
     self.lastStillTimestamp = nil;
-    
+
     DebugLog(@"deviceMotionAvailable %@", self.deviceMotionManager.deviceMotionAvailable ? @"YES" : @"NO");
-    
+
     if (self.deviceMotionManager.deviceMotionAvailable) {
         self.deviceMotionManager.deviceMotionUpdateInterval = 0.025;
         [self.deviceMotionManager startDeviceMotionUpdatesToQueue:self.deviceMotionQueue withHandler:^(CMDeviceMotion *motion, NSError *error) {
-            
+
             if (error == nil) {
                 [self processDeviceMotionUpdate:motion];
             } else {
@@ -68,7 +64,7 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
                 // Weird.
                 [self stopDetectingMotion];
             }
-            
+
         }];
     } else {
         // This needs work. It is too sensitive to gravity and cannot properly detect motion with just an accelerometer.
@@ -79,13 +75,13 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
         self.lastAccelerationX = 0.0;
         self.lastAccelerationY = 0.0;
         self.lastAccelerationZ = 0.0;
-        
+
         self.deviceMotionManager.accelerometerUpdateInterval = 1.0 / kAccelerometerUpdateFrequency;
         double dt = 1.0 / kAccelerometerUpdateFrequency;
         double rc = 1.0 / kAccelerometerCutoffFrequency;
         self.highPassAlpha = rc / (dt + rc);
         [self.deviceMotionManager startAccelerometerUpdatesToQueue:self.deviceMotionQueue withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
-            
+
             if (error == nil) {
                 [self processDeviceAccelerationUpdate:accelerometerData];
             } else {
@@ -96,8 +92,7 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     }
 }
 
-- (void)stopDetectingMotion
-{
+- (void)stopDetectingMotion {
     if (self.deviceMotionManager.deviceMotionAvailable) {
         [self.deviceMotionManager stopDeviceMotionUpdates];
     } else {
@@ -105,56 +100,51 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     }
 }
 
-- (BOOL)isAccelerating
-{
+- (BOOL)isAccelerating {
     double totalAcceleration = sqrt((self.accelerationX * self.accelerationX) + (self.accelerationY * self.accelerationY) + (self.accelerationZ * self.accelerationZ));
-    
+
     BOOL accelerating = NO;
     if (totalAcceleration > self.accelerationThreshold) {
         accelerating = YES;
     }
-    
+
     return accelerating;
 }
 
-- (BOOL)isRotating:(CMRotationRate)rotation
-{
+- (BOOL)isRotating:(CMRotationRate)rotation {
     double totalRotation = sqrt((rotation.x * rotation.x) + (rotation.y * rotation.y) + (rotation.z * rotation.z));
-    
+
     BOOL rotating = NO;
     if (totalRotation > self.rotationThreshold) {
         rotating = YES;
     }
-    
+
     return rotating;
 }
 
-- (void)processDeviceMotionUpdate:(CMDeviceMotion *)motion
-{
+- (void)processDeviceMotionUpdate:(CMDeviceMotion *)motion {
     NSDate *now = [NSDate date];
     BOOL rotating = [self isRotating:motion.rotationRate];
-    
+
     self.accelerationX = motion.userAcceleration.x;
     self.accelerationY = motion.userAcceleration.y;
     self.accelerationZ = motion.userAcceleration.z;
-    
+
     BOOL accelerating = [self isAccelerating];
     BOOL currentlyMoving = (rotating | accelerating);
     if (currentlyMoving != self.moving) {
         // Only set this when the value changes so that observers aren't bombarded with updates.
         self.moving = currentlyMoving;
     }
-    
+
     if (currentlyMoving) {
         self.lastStillTimestamp = nil;
-    } else if (self.lastStillTimestamp == nil)
-    {
+    } else if (self.lastStillTimestamp == nil) {
         self.lastStillTimestamp = now;
     }
 }
 
-- (void)processDeviceAccelerationUpdate:(CMAccelerometerData *)accelerometerData
-{
+- (void)processDeviceAccelerationUpdate:(CMAccelerometerData *)accelerometerData {
     NSDate *now = [NSDate date];
 
     double alpha = self.highPassAlpha;
@@ -164,27 +154,25 @@ static const double kAccelerometerCutoffFrequency = 5.0;		// value taken from Ac
     self.lastAccelerationX = accelerometerData.acceleration.x;
     self.lastAccelerationY = accelerometerData.acceleration.y;
     self.lastAccelerationZ = accelerometerData.acceleration.z;
-        
+
     BOOL currentlyMoving = [self isAccelerating];
     if (currentlyMoving != self.moving) {
         // Only set this when the value changes so that observers aren't bombarded with updates.
         self.moving = currentlyMoving;
     }
-    
+
     if (currentlyMoving) {
         self.lastStillTimestamp = nil;
-    } else if (self.lastStillTimestamp == nil)
-    {
+    } else if (self.lastStillTimestamp == nil) {
         self.lastStillTimestamp = now;
     }
 }
 
-- (NSTimeInterval)timeIntervalSinceLastMotionDetected
-{
+- (NSTimeInterval)timeIntervalSinceLastMotionDetected {
     if (self.lastStillTimestamp == nil) {
         return 0.0;
     }
-    
+
     NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:self.lastStillTimestamp];
     return interval;
 }

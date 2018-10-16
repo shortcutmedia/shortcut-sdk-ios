@@ -21,18 +21,16 @@
 
 @implementation SCMCameraToolbar
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
-    
+
     [self.doneButton setTitle:[SCMLocalization translationFor:@"CancelButtonTitle" withDefaultValue:@"Cancel"]
                      forState:UIControlStateNormal];
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     // The width of the button is 16 pixels wider than the text label. This is 4.0 for the edge insets + 12.0 for the rounded edges.
     CGFloat buttonEdgeInset = 16.0;
     CGFloat cancelButtonX = CGRectGetMinX(self.doneButton.frame);
@@ -41,12 +39,12 @@
 
     CGSize constraintSize = CGSizeMake(maxCancelButtonX - cancelButtonX - buttonEdgeInset, CGFLOAT_MAX);
     CGSize cancelTitleSize = [cancelButtonTitle boundingRectWithSize:constraintSize
-                                                         options:NSStringDrawingUsesLineFragmentOrigin
-                                                      attributes:@{NSFontAttributeName: self.doneButton.titleLabel.font}
-                                                         context:nil].size;
-    
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:@{NSFontAttributeName: self.doneButton.titleLabel.font}
+                                                             context:nil].size;
+
     self.doneButton.frame = CGRectMake(cancelButtonX, CGRectGetMinY(self.doneButton.frame),
-                                       cancelTitleSize.width + buttonEdgeInset, CGRectGetHeight(self.doneButton.frame));
+            cancelTitleSize.width + buttonEdgeInset, CGRectGetHeight(self.doneButton.frame));
 }
 
 @end

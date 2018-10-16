@@ -38,7 +38,7 @@
  *
  *  @see SCMScannerViewControllerDelegate
  */
-@property (nonatomic, unsafe_unretained, readwrite) id<SCMScannerViewControllerDelegate> delegate;
+@property (nonatomic, unsafe_unretained, readwrite) id <SCMScannerViewControllerDelegate> delegate;
 
 /**
  *  The current location of the user/device.

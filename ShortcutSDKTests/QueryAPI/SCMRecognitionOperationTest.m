@@ -21,47 +21,43 @@
 @implementation SCMRecognitionOperationTest
 
 
-- (SCMRecognitionOperation *)createRecognitionOperation
-{
+- (SCMRecognitionOperation *)createRecognitionOperation {
     return [[SCMRecognitionOperation alloc] initWithImageData:self.imageData location:self.location];
 }
 
-- (void)testMain_PopulatesQueryResponseWithResultsWhenImageWasRecognized
-{
+- (void)testMain_PopulatesQueryResponseWithResultsWhenImageWasRecognized {
     self.imageData = [NSData dataWithContentsOfURL:[[SCMTestCase testBundle] URLForResource:@"recognizable_image" withExtension:@"jpg"]];
-    
+
     SCMRecognitionOperation *operation = [self createRecognitionOperation];
     [operation main];
-    
+
     XCTAssertNotNil(operation.queryResponse);
     XCTAssertGreaterThan(operation.queryResponse.results.count, 0);
     XCTAssertNil(operation.error);
 }
 
-- (void)testMain_DoesntPopulateQueryResponseWithResultsWhenImageWasNotRecognized
-{
+- (void)testMain_DoesntPopulateQueryResponseWithResultsWhenImageWasNotRecognized {
     self.imageData = [NSData dataWithContentsOfURL:[[SCMTestCase testBundle] URLForResource:@"unrecognizable_image" withExtension:@"jpg"]];
-    
+
     SCMRecognitionOperation *operation = [self createRecognitionOperation];
     [operation main];
-    
+
     XCTAssertNotNil(operation.queryResponse);
     XCTAssertEqual(operation.queryResponse.results.count, 0);
     XCTAssertNil(operation.error);
 }
 
-- (void)testMain_PopulatesErrorWhenErrorOccurs
-{
+- (void)testMain_PopulatesErrorWhenErrorOccurs {
     // cause an error by providing invalid token
     NSString *oldAccessKey = [SCMSDKConfig sharedConfig].accessKey;
     [SCMSDKConfig sharedConfig].accessKey = @"invalid";
-    
+
     SCMRecognitionOperation *operation = [self createRecognitionOperation];
     [operation main];
-    
+
     XCTAssertNil(operation.queryResponse);
     XCTAssertNotNil(operation.error);
-    
+
     [SCMSDKConfig sharedConfig].accessKey = oldAccessKey;
 }
 

@@ -11,8 +11,7 @@
 
 @implementation SCMLocalization
 
-+ (NSString *)translationFor:(NSString *)key withDefaultValue:(NSString *)defaultValue
-{
++ (NSString *)translationFor:(NSString *)key withDefaultValue:(NSString *)defaultValue {
     return [[SCMSDKConfig sharedConfig].localizationTableBundle localizedStringForKey:key
                                                                                 value:defaultValue
                                                                                 table:[SCMSDKConfig sharedConfig].localizationTable];

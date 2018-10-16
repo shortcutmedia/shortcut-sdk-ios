@@ -9,7 +9,6 @@
 #import "SCMRecognitionOperation.h"
 #import "SCMSDKConfig.h"
 #import "KWSImageRequest.h"
-#import "SCMLocalization.h"
 
 NSString *kSCMRecognitionOperationErrorDomain = @"SCMRecognitionOperationErrorDomain";
 int kSCMRecognitionOperationNoMatchingMetadata = -1;
@@ -33,86 +32,79 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 
 @synthesize clientData = _clientData;
 
-- (NSDictionary *)clientData
-{
+- (NSDictionary *)clientData {
     if (!_clientData) {
         NSMutableDictionary *data = [NSMutableDictionary dictionaryWithCapacity:2];
         data[@"max_num_results"] = @10;
         data[@"include_target_data"] = @"all";
         _clientData = data;
     }
-    
+
     return _clientData;
 }
 
 @synthesize request = _request;
 
-- (NSURLRequest *)request
-{
+- (NSURLRequest *)request {
     if (!_request) {
         KWSImageRequest *imageRequest = [[KWSImageRequest alloc] initWithURL:self.queriesURL imageData:self.imageData timeoutInterval:self.timeoutInterval];
         imageRequest.returnedMetadata = @"details";
-        
+
         if (self.clientData.count > 0) {
             DebugLog(@"clientData: %@", self.clientData);
             imageRequest.clientData = self.clientData;
         }
-        
+
         NSMutableURLRequest *signedRequest = [imageRequest signedRequestWithAccessKey:[SCMSDKConfig sharedConfig].accessKey
-                                                                            secretToken:[SCMSDKConfig sharedConfig].secretToken];
+                                                                          secretToken:[SCMSDKConfig sharedConfig].secretToken];
         [signedRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Accept"];
         if (self.requestLanguage) {
             [signedRequest setValue:self.requestLanguage forHTTPHeaderField:@"Accept-Language"];
         }
-        
+
         _request = signedRequest;
     }
-    
+
     return _request;
 }
 
-- (instancetype)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation
-{
+- (instancetype)initWithImageData:(NSData *)data location:(CLLocation *)queryLocation {
     self = [super init];
     if (self != nil) {
         self.location = queryLocation;
         self.imageData = data;
         self.timeoutInterval = 15.0;
     }
-    
+
     return self;
 }
 
 #pragma mark - Operation implementation
 
-- (void)main
-{
+- (void)main {
     @autoreleasepool {
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
         NSURLSession *session = [NSURLSession sharedSession];
         [[session dataTaskWithRequest:self.request
-                    completionHandler:^(NSData * _Nullable data,
-                                        NSURLResponse * _Nullable response,
-                                        NSError * _Nullable connectionError) {
+                    completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable connectionError) {
                         if (connectionError) {
                             self.error = connectionError;
                         } else {
                             [self handleResponse:response withData:data];
                         }
                         dispatch_semaphore_signal(semaphore);
-                }] resume];
-        
+                    }] resume];
+
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     }
 }
 
-- (void)handleResponse:(NSURLResponse *)response withData:(NSData *)data
-{
+- (void)handleResponse:(NSURLResponse *)response withData:(NSData *)data {
     if (data) {
-        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
+        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:NULL];
         SCMQueryResponse *response = [[SCMQueryResponse alloc] initWithDictionary:responseDictionary];
-        
+
         if (response.hasCurrentMetadata) {
             self.queryResponse = response;
         } else {
@@ -125,19 +117,17 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 
 #pragma mark - Helpers
 
-- (NSURL *)queriesURL
-{
+- (NSURL *)queriesURL {
     NSString *queriesURLString = [NSString stringWithFormat:@"https://%@/v1/query", [SCMSDKConfig sharedConfig].queryServerAddress];
     return [NSURL URLWithString:queriesURLString];
 }
 
-- (NSString *)requestLanguage
-{
+- (NSString *)requestLanguage {
     NSString *language = [NSLocale preferredLanguages][0];
     if (!language) {
         language = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
     }
-    
+
     return language;
 }
 

@@ -24,33 +24,30 @@
 
 @synthesize currentMetadata = _currentMetadata;
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
         self.resultDictionary = dictionary;
         self.currentMetadata = NULL;
         NSString *applicationMetadata = [SCMDictionaryUtils stringFromDictionary:self.resultDictionary atPath:@"target_data/application_metadata"];
         NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:applicationMetadata options:0];
-        self.metadataDictionary = [NSJSONSerialization JSONObjectWithData:decodedData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
+        self.metadataDictionary = [NSJSONSerialization JSONObjectWithData:decodedData options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:NULL];
     }
     return self;
 }
 
-- (NSString *)uuid
-{
+- (NSString *)uuid {
     NSString *uuid = [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"uuid"];
     if (uuid != nil) {
         uuid = [SCMUUIDUtils normalizeUUID:uuid];
     }
-    
+
     return uuid;
 }
 
 static NSString *const kImageSHA1Prefix = @"image.sha1:";
 
-- (NSString *)imageSHA1
-{
+- (NSString *)imageSHA1 {
     NSString *recognitionId = [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"response/content"];
     if ([recognitionId hasPrefix:kImageSHA1Prefix]) {
         return [recognitionId stringByReplacingOccurrencesOfString:kImageSHA1Prefix withString:@""];
@@ -59,13 +56,11 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     }
 }
 
-- (NSNumber *)score
-{
+- (NSNumber *)score {
     return [SCMDictionaryUtils numberFromDictionary:self.resultDictionary atPath:@"recognitions/score"];
 }
 
-- (NSString *)title
-{
+- (NSString *)title {
     NSString *title = [SCMDictionaryUtils stringFromDictionary:self.resultDictionary atPath:@"title"];
     NSDictionary *titleLocalizations = [SCMDictionaryUtils dictionaryFromDictionary:self.currentMetadata atPath:@"title"];
     if (titleLocalizations) {
@@ -79,8 +74,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
     return title;
 }
 
-- (NSString *)subtitle
-{
+- (NSString *)subtitle {
     NSString *subtitle = [SCMDictionaryUtils stringFromDictionary:self.resultDictionary atPath:@"subtitle"];
     NSDictionary *subtitleLocalizations = [SCMDictionaryUtils dictionaryFromDictionary:self.currentMetadata atPath:@"subtitle"];
     if (subtitleLocalizations) {
@@ -90,37 +84,31 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
             subtitle = localizedSubtitle;
         }
     }
-    
+
     return subtitle;
 }
 
-- (NSString *)mediumType
-{
+- (NSString *)mediumType {
     return [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"kind"];
 }
 
-- (NSString *)responseTarget
-{
+- (NSString *)responseTarget {
     return [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"response/target"].lowercaseString;
 }
 
-- (NSString *)responseContent
-{
+- (NSString *)responseContent {
     return [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"response/content"];
 }
 
-- (NSString *)thumbnailURL
-{
+- (NSString *)thumbnailURL {
     return [SCMDictionaryUtils stringFromDictionary:self.currentMetadata atPath:@"thumbnail_url"];
 }
 
-- (NSArray *)oids
-{
+- (NSArray *)oids {
     return [SCMDictionaryUtils arrayFromDictionary:self.currentMetadata atPath:@"oids"];
 }
 
-- (NSArray *)metadataVersions
-{
+- (NSArray *)metadataVersions {
     NSMutableArray *foundVersions = [NSMutableArray new];
     for (NSDictionary *dict in self.metadataDictionary) {
         NSString *versionString = [dict valueForKey:@"version"];
@@ -132,13 +120,12 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
 
 #pragma mark - Private
 
-- (NSDictionary *)currentMetadata
-{
+- (NSDictionary *)currentMetadata {
     if (!_currentMetadata) {
         NSString *applicationMetadata = [SCMDictionaryUtils stringFromDictionary:self.resultDictionary atPath:@"target_data/application_metadata"];
         NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:applicationMetadata options:0];
-        self.metadataDictionary = [NSJSONSerialization JSONObjectWithData:decodedData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:NULL];
-        
+        self.metadataDictionary = [NSJSONSerialization JSONObjectWithData:decodedData options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:NULL];
+
         for (NSDictionary *dict in self.metadataDictionary) {
             if ([[SCMDictionaryUtils numberFromDictionary:dict atPath:@"version"] isEqual:@(QUERY_API_METADATA_VERSION)]) {
                 _currentMetadata = dict;
@@ -146,7 +133,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
             }
         }
     }
-    
+
     return _currentMetadata;
 }
 

@@ -16,14 +16,12 @@
 
 @implementation SCMQueryResultViewController
 
-- (instancetype)initWithQueryResult:(SCMQueryResult *)result
-{
+- (instancetype)initWithQueryResult:(SCMQueryResult *)result {
     self.queryResult = result;
     return [super initWithItemUUID:self.queryResult.uuid imageSHA1:self.queryResult.imageSHA1];
 }
 
--(instancetype)initWithItemUUID:(NSString *)itemUUID imageSHA1:(NSString *)imageSHA1
-{
+- (instancetype)initWithItemUUID:(NSString *)itemUUID imageSHA1:(NSString *)imageSHA1 {
     self = [self init];
     return self;
 }

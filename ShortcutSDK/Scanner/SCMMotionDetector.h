@@ -21,8 +21,11 @@
 @property (nonatomic, assign, readonly) BOOL moving;
 
 - (BOOL)canDetectDeviceMotion;
+
 - (NSTimeInterval)timeIntervalSinceLastMotionDetected;
+
 - (void)startDetectingMotion;
+
 - (void)stopDetectingMotion;
 
 @end

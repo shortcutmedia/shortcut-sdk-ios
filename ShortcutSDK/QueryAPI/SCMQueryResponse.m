@@ -18,8 +18,7 @@
 
 @implementation SCMQueryResponse
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
         self.responseDictionary = dictionary;
@@ -27,8 +26,7 @@
     return self;
 }
 
-- (NSString *)queryUUID
-{
+- (NSString *)queryUUID {
     NSString *uuid = [SCMDictionaryUtils stringFromDictionary:self.responseDictionary atPath:@"query_id"];
     if (uuid) {
         uuid = [SCMUUIDUtils normalizeUUID:uuid];
@@ -36,10 +34,9 @@
     return uuid;
 }
 
-- (NSArray *)results
-{
+- (NSArray *)results {
     NSMutableArray *usableResults = [[NSMutableArray alloc] init];
-    
+
     NSArray *allResults = [SCMDictionaryUtils arrayFromDictionary:self.responseDictionary atPath:@"results"];
     for (NSDictionary *resultDictionary in allResults) {
         SCMQueryResult *result = [[SCMQueryResult alloc] initWithDictionary:resultDictionary];
@@ -50,10 +47,9 @@
     return usableResults;
 }
 
-- (BOOL)hasCurrentMetadata
-{
+- (BOOL)hasCurrentMetadata {
     BOOL result = NO;
-    
+
     NSArray *allResults = [SCMDictionaryUtils arrayFromDictionary:self.responseDictionary atPath:@"results"];
     if (allResults.count > 0) {
         SCMQueryResult *firstResult = [[SCMQueryResult alloc] initWithDictionary:allResults.firstObject];
@@ -70,7 +66,7 @@
     } else {
         result = YES;
     }
-    
+
     return result;
 }
 

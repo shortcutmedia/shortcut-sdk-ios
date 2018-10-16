@@ -10,8 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "SCMLiveScannerDelegate.h"
 
-typedef enum
-{
+typedef enum {
     kSCMLiveScannerLiveScanningMode = 0,
     kSCMLiveScannerSingleShotMode
 } SCMLiveScannerMode;
@@ -20,7 +19,7 @@ typedef enum
 
 @interface SCMLiveScanner : NSObject
 
-@property (nonatomic, unsafe_unretained, readwrite) id<SCMLiveScannerDelegate> delegate;
+@property (nonatomic, unsafe_unretained, readwrite) id <SCMLiveScannerDelegate> delegate;
 @property (nonatomic, strong, readwrite) AVCaptureDevice *captureDevice;
 @property (nonatomic, assign, readwrite) NSTimeInterval noMotionThreshold;
 @property (nonatomic, strong, readwrite) CLLocation *location;
@@ -33,21 +32,28 @@ typedef enum
 @property (nonatomic, strong, readwrite) UIImage *originalImage;
 
 - (void)setupForMode:(SCMLiveScannerMode)initialMode;
+
 - (void)startScanning;
+
 - (void)switchToMode:(SCMLiveScannerMode)mode;
+
 - (void)stopScanning;
+
 - (void)takePictureWithZoomFactor:(CGFloat)zoomFactor;
+
 - (void)processImage:(UIImage *)image;
+
 - (void)processImageRef:(CGImageRef)imageRef;
+
 - (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+
 - (void)cancelAllOperations;
 
 @end
 
 extern NSString *kSCMLiveScannerErrorDomain;
 
-typedef enum
-{
+typedef enum {
     kSCMLiveScannerErrorServerResponseTooSlow = -1,
     kSCMLiveScannerErrorInternationalRoamingOff = -2
 } SCMLiveScannerErrorCode;

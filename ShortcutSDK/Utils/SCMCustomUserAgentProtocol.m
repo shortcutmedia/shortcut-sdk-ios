@@ -9,7 +9,7 @@
 #import "SCMCustomUserAgentProtocol.h"
 #import "SCMSDKConfig.h"
 
-NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
+NSString *kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
 
 @interface SCMCustomUserAgentProtocol () <NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
@@ -21,8 +21,7 @@ NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
 
 #pragma mark - NSURLProtocol
 
-+ (BOOL)canInitWithRequest:(NSURLRequest *)request
-{
++ (BOOL)canInitWithRequest:(NSURLRequest *)request {
     id alreadyHandled = [NSURLProtocol propertyForKey:kSCMUserAgentModifiedFlag inRequest:request];
     if (!alreadyHandled) {
         return [self isShortcutServiceRequest:request];
@@ -31,16 +30,14 @@ NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
     }
 }
 
-+ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
-{
++ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
     return request;
 }
 
-- (void)startLoading
-{
+- (void)startLoading {
     NSMutableURLRequest *modifiedRequest = [self.request mutableCopy];
     [NSURLProtocol setProperty:@YES forKey:kSCMUserAgentModifiedFlag inRequest:modifiedRequest];
-    
+
     [self customizeUserAgentForRequest:modifiedRequest];
 
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.defaultSessionConfiguration
@@ -50,8 +47,7 @@ NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
     [self.dataTask resume];
 }
 
-- (void)stopLoading
-{
+- (void)stopLoading {
     [self.dataTask cancel];
     self.dataTask = nil;
 }
@@ -60,7 +56,7 @@ NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageAllowed];
-    
+
     completionHandler(NSURLSessionResponseAllow);
 }
 
@@ -70,7 +66,7 @@ NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
 
 #pragma mark - NSURLSessionTaskDelegate
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest *_Nullable))completionHandler {
     if (redirectResponse) {
         [self.client URLProtocol:self wasRedirectedToRequest:request redirectResponse:redirectResponse];
     }
@@ -88,26 +84,24 @@ NSString* kSCMUserAgentModifiedFlag = @"SCMUserAgentModified";
 
 #pragma mark - Internal
 
-+ (BOOL)isShortcutServiceRequest:(NSURLRequest *)request
-{
++ (BOOL)isShortcutServiceRequest:(NSURLRequest *)request {
     NSString *scheme = request.URL.scheme;
-    
+
     NSString *fullHost;
     if (!request.URL.port || [request.URL.port isEqualToNumber:@80]) {
         fullHost = request.URL.host;
     } else {
         fullHost = [NSString stringWithFormat:@"%@:%@", request.URL.host, request.URL.port];
     }
-    
+
     return (([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) && [fullHost isEqualToString:[SCMSDKConfig sharedConfig].itemServerAddress]);
 }
 
-- (void)customizeUserAgentForRequest:(NSMutableURLRequest *)request
-{
-    NSString *existingUserAgent   = [request valueForHTTPHeaderField:@"User-Agent"];
-    NSString *SDKUserAgentPart    = [NSString stringWithFormat:@"ShortcutSDK/%d", SDK_BUILD_NUMBER];
+- (void)customizeUserAgentForRequest:(NSMutableURLRequest *)request {
+    NSString *existingUserAgent = [request valueForHTTPHeaderField:@"User-Agent"];
+    NSString *SDKUserAgentPart = [NSString stringWithFormat:@"ShortcutSDK/%d", SDK_BUILD_NUMBER];
     NSString *customizedUserAgent = [NSString stringWithFormat:@"%@ %@", existingUserAgent, SDKUserAgentPart];
-    
+
     [request setValue:customizedUserAgent forHTTPHeaderField:@"User-Agent"];
 }
 

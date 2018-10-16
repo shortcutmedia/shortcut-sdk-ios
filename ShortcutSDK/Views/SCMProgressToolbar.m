@@ -21,19 +21,17 @@
 
 @implementation SCMProgressToolbar
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
-    
+
     [self.cancelButton setTitle:[SCMLocalization translationFor:@"SkipButtonTitle" withDefaultValue:@"Skip"] forState:UIControlStateNormal];
     self.statusLabel.text = [SCMLocalization translationFor:@"ProcessingTitle" withDefaultValue:@"Processing…"];
     self.activityIndicator.hidesWhenStopped = YES;
 }
 
-- (void)setAnimating:(BOOL)value
-{
+- (void)setAnimating:(BOOL)value {
     _animating = value;
-    
+
     if (_animating) {
         self.statusLabel.hidden = NO;
         [self.activityIndicator startAnimating];
@@ -43,10 +41,9 @@
     }
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     // The width of the button is 16 pixels wider than the text label. This is 4.0 for the edge insets + 12.0 for the rounded edges.
     CGFloat buttonEdgeInset = 16.0;
     CGFloat cancelButtonX = CGRectGetMinX(self.cancelButton.frame);
@@ -58,10 +55,10 @@
                                                              options:NSStringDrawingUsesLineFragmentOrigin
                                                           attributes:@{NSFontAttributeName: self.cancelButton.titleLabel.font}
                                                              context:nil].size;
-    
+
     self.cancelButton.frame = CGRectMake(cancelButtonX, CGRectGetMinY(self.cancelButton.frame),
-                                         cancelTitleSize.width + buttonEdgeInset, CGRectGetHeight(self.cancelButton.frame));
-    
+            cancelTitleSize.width + buttonEdgeInset, CGRectGetHeight(self.cancelButton.frame));
+
     CGFloat statusLabelX = CGRectGetMaxX(self.cancelButton.frame) + 8.0;
     CGFloat statusLabelWidth = CGRectGetMinX(self.activityIndicator.frame) - 8.0 - statusLabelX;
     self.statusLabel.frame = CGRectMake(statusLabelX, CGRectGetMinY(self.statusLabel.frame), statusLabelWidth, CGRectGetHeight(self.statusLabel.frame));

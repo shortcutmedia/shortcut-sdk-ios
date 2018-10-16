@@ -10,16 +10,14 @@
 
 @implementation SCMUUIDUtils
 
-+ (NSString *)generateUUID
-{
++ (NSString *)generateUUID {
     return [NSUUID UUID].UUIDString.lowercaseString;
 }
 
-+ (NSString *)normalizeUUID:(NSString *)uuid
-{
++ (NSString *)normalizeUUID:(NSString *)uuid {
     // lowercase
     NSString *normalizedUUID = uuid.lowercaseString;
-    
+
     //with dashes
     if (normalizedUUID.length == 32) {
         // UUID contains no dashes. Add them back in.

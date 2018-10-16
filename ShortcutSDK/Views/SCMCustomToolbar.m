@@ -7,13 +7,11 @@
 //
 
 #import "SCMCustomToolbar.h"
-#import "SCMSDKConfig.h"
 
 
 @implementation SCMCustomToolbar
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
 }
 

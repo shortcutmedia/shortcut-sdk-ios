@@ -8,32 +8,29 @@
 
 #import "SCMSDKConfig.h"
 
-NSString* const kDefaultQueryServerAddress = @"cloudreco.vuforia.com";
-NSString* const kDefaultItemServerAddress = @"shortcut-service.shortcutmedia.com";
-NSString* const kDefaultLocalizationTable = @"Localizable";
+NSString *const kDefaultQueryServerAddress = @"cloudreco.vuforia.com";
+NSString *const kDefaultItemServerAddress = @"shortcut-service.shortcutmedia.com";
+NSString *const kDefaultLocalizationTable = @"Localizable";
 
 @implementation SCMSDKConfig
 
 #pragma mark - Properties (default values)
 
-- (NSString *)localizationTable
-{
+- (NSString *)localizationTable {
     if (!_localizationTable) {
         _localizationTable = kDefaultLocalizationTable;
     }
     return _localizationTable;
 }
 
-- (NSBundle *)localizationTableBundle
-{
+- (NSBundle *)localizationTableBundle {
     if (!_localizationTableBundle) {
         _localizationTableBundle = [NSBundle mainBundle];
     }
     return _localizationTableBundle;
 }
 
-- (NSString *)queryServerAddress
-{
+- (NSString *)queryServerAddress {
     if (!_queryServerAddress) {
         _queryServerAddress = kDefaultQueryServerAddress;
     }
@@ -41,8 +38,7 @@ NSString* const kDefaultLocalizationTable = @"Localizable";
     return kDefaultQueryServerAddress;
 }
 
-- (NSString *)itemServerAddress
-{
+- (NSString *)itemServerAddress {
     if (!_itemServerAddress) {
         _itemServerAddress = kDefaultItemServerAddress;
     }
@@ -51,26 +47,25 @@ NSString* const kDefaultLocalizationTable = @"Localizable";
 
 #pragma mark - Singleton instance
 
-+ (instancetype)sharedConfig
-{
-    static SCMSDKConfig* config = nil;
-    
++ (instancetype)sharedConfig {
+    static SCMSDKConfig *config = nil;
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         config = [[self alloc] init];
     });
-    
+
     return config;
 }
 
 #pragma mark - Other
 
 + (NSBundle *)SDKBundle {
-    static NSBundle* frameworkBundle = nil;
+    static NSBundle *frameworkBundle = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSString* mainBundlePath = [NSBundle mainBundle].resourcePath;
-        NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:@"ShortcutSDK.bundle"];
+        NSString *mainBundlePath = [NSBundle mainBundle].resourcePath;
+        NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:@"ShortcutSDK.bundle"];
         frameworkBundle = [NSBundle bundleWithPath:frameworkBundlePath];
     });
     return frameworkBundle;

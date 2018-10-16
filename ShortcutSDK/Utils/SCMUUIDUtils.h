@@ -11,6 +11,7 @@
 @interface SCMUUIDUtils : NSObject
 
 + (NSString *)generateUUID;
+
 + (NSString *)normalizeUUID:(NSString *)uuid;
 
 @end

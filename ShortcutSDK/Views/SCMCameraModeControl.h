@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-typedef enum
-{
+typedef enum {
     kCameraModeSingleShot = 0,
     kCameraModeLiveScanning
 } SCMCameraMode;

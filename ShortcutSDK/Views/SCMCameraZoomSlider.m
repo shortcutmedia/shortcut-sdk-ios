@@ -51,10 +51,9 @@ const CGFloat kMaxCameraZoomScale = 3.0;    // This value specifies the maxium z
 
 @implementation SCMCameraZoomSlider
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
-    
+
     self.trackMinImage = [SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomTrackMin"];
     self.trackMaxImage = [SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomTrackMax"];
     self.trackImage = [[SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomTrack"] stretchableImageWithLeftCapWidth:8.0 topCapHeight:0.0];
@@ -62,47 +61,45 @@ const CGFloat kMaxCameraZoomScale = 3.0;    // This value specifies the maxium z
     self.minusImage = [SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomMin"];
     self.plusImage = [SCMImageUtils SDKBundleImageNamed:@"PLCameraZoomMax"];
     self.backgroundColor = [UIColor clearColor];
-    
+
     // These are initialized without the accessors. If accessors are used, then maxScale must be set first, since
     // zoomScale uses maxScale to constrain the value of zoomScale.
     self.maxScale = 3.0;
     self.zoomScale = 1.0;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     CGFloat genericY = floorf((CGRectGetHeight(self.bounds) - self.trackImage.size.height) / 2.0);
     self.trackMinRect = CGRectMake(kTrackLeftMargin, genericY, self.trackMinImage.size.width, self.trackMinImage.size.height);
-    
+
     CGFloat minusImageX = CGRectGetMinX(self.trackMinRect) + kPlusMinusMargin;
     CGFloat minusImageY = floorf((self.trackMinImage.size.height - self.minusImage.size.height) / 2.0) + genericY;
     self.minusImageRect = CGRectMake(minusImageX, minusImageY, self.minusImage.size.width, self.minusImage.size.height);
-    
+
     CGFloat trackMaxImageX = CGRectGetMaxX(self.bounds) - kTrackRightMargin - self.trackMaxImage.size.width;
     self.trackMaxRect = CGRectMake(trackMaxImageX, genericY, self.trackMaxImage.size.width, self.trackMaxImage.size.height);
-    
+
     CGFloat plusImageX = CGRectGetMaxX(self.trackMaxRect) - kPlusMinusMargin - self.plusImage.size.width;
     CGFloat plusImageY = floorf((self.trackMaxImage.size.height - self.plusImage.size.height) / 2.0) + genericY;
     self.plusImageRect = CGRectMake(plusImageX, plusImageY, self.plusImage.size.width, self.plusImage.size.height);
-    
+
     CGFloat minusMaxX = kTrackLeftMargin + self.trackMinImage.size.width;
     self.minusTouchRect = CGRectMake(0.0, 0.0, minusMaxX, CGRectGetMaxY(self.bounds));
-    
+
     self.plusTouchRect = CGRectMake(trackMaxImageX, 0.0, CGRectGetMaxX(self.bounds) - trackMaxImageX, CGRectGetMaxY(self.bounds));
-    
+
     CGFloat trackMinX = kTrackLeftMargin + self.trackMinImage.size.width;
     CGFloat trackWidth = trackMaxImageX - trackMinX;
     self.trackRect = CGRectMake(trackMinX, genericY, trackWidth, self.trackImage.size.height);
-    
+
     [self updateThumbRects];
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
+
     [self.trackMinImage drawInRect:self.trackMinRect];
     [self.trackMaxImage drawInRect:self.trackMaxRect];
     [self.trackImage drawInRect:self.trackRect];
@@ -111,18 +108,15 @@ const CGFloat kMaxCameraZoomScale = 3.0;    // This value specifies the maxium z
     [self.minusImage drawInRect:self.minusImageRect];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.hideControlsTimer invalidate];
 }
 
-- (void)setZoomScale:(CGFloat)scale
-{
+- (void)setZoomScale:(CGFloat)scale {
     // Constrain the zoomScale to 1.0 to maxScale.
     if (scale < 1.0) {
         scale = 1.0;
-    } else if (scale > self.maxScale)
-    {
+    } else if (scale > self.maxScale) {
         scale = self.maxScale;
     }
     _zoomScale = scale;
@@ -130,44 +124,39 @@ const CGFloat kMaxCameraZoomScale = 3.0;    // This value specifies the maxium z
     [self setNeedsDisplay];
 }
 
-- (void)updateThumbRects
-{
+- (void)updateThumbRects {
     CGFloat genericY = floorf((CGRectGetHeight(self.bounds) - self.trackImage.size.height) / 2.0);
     CGFloat thumbX = [self XForScale:self.zoomScale];
     CGFloat thumbY = floorf((self.trackImage.size.height - self.thumbImage.size.height) / 2.0) + genericY;
     self.thumbImageRect = CGRectMake(thumbX, thumbY, self.thumbImage.size.width, self.thumbImage.size.height);
-    
+
     CGFloat trackMinX = CGRectGetMinX(self.trackRect);
     CGFloat trackMaxX = CGRectGetMaxX(self.trackRect);
-    
+
     CGFloat touchRectWidth = self.thumbImage.size.width + (2 * kThumbTouchRectMargin);
     CGFloat touchRectX = thumbX - kThumbTouchRectMargin;
     CGFloat touchRectMaxX = thumbX + self.thumbImage.size.width + kThumbTouchRectMargin;
     if (touchRectX < trackMinX) {
         touchRectX = trackMinX;
-    } else if (touchRectMaxX > trackMaxX)
-    {
+    } else if (touchRectMaxX > trackMaxX) {
         touchRectX = trackMaxX - touchRectWidth;
     }
-    
+
     self.thumbTouchRect = CGRectMake(touchRectX, 0.0, touchRectWidth, CGRectGetMaxY(self.bounds));
 }
 
-- (void)continueZooming
-{
+- (void)continueZooming {
     [self performSelector:@selector(updateZoomLevel) withObject:nil afterDelay:kPlusMinusUpdateDelay];
 }
 
-- (void)updateZoomLevel
-{
+- (void)updateZoomLevel {
     CGFloat delta = 0.0;
     if (self.zoomingIn) {
         delta = kPlusMinusUpdateDelta;
-    } else if (self.zoomingOut)
-    {
+    } else if (self.zoomingOut) {
         delta = -kPlusMinusUpdateDelta;
     }
-    
+
     if (delta != 0.0) {
         CGFloat relativeScale = (self.zoomScale - 1.0) / (self.maxScale - 1.0);
         CGFloat updatedRelativeScale = relativeScale + delta;
@@ -180,17 +169,15 @@ const CGFloat kMaxCameraZoomScale = 3.0;    // This value specifies the maxium z
     }
 }
 
-- (CGFloat)scaleForX:(CGFloat)x
-{
+- (CGFloat)scaleForX:(CGFloat)x {
     CGFloat thumbMinX = CGRectGetMinX(self.trackRect) + kThumbMargin;
     CGFloat thumbMaxX = CGRectGetMaxX(self.trackRect) - self.thumbImage.size.width - kThumbMargin;
     if (x < thumbMinX) {
         x = thumbMinX;
-    } else if (x > thumbMaxX)
-    {
+    } else if (x > thumbMaxX) {
         x = thumbMaxX;
     }
-    
+
     CGFloat relativeThumbX = x - thumbMinX;
     CGFloat relativeTrackMaxX = thumbMaxX - thumbMinX;
     CGFloat relativeScale = relativeThumbX / relativeTrackMaxX;
@@ -198,8 +185,7 @@ const CGFloat kMaxCameraZoomScale = 3.0;    // This value specifies the maxium z
     return scale;
 }
 
-- (CGFloat)XForScale:(CGFloat)scale
-{
+- (CGFloat)XForScale:(CGFloat)scale {
     CGFloat thumbMinX = CGRectGetMinX(self.trackRect) + kThumbMargin;
     CGFloat thumbMaxX = CGRectGetMaxX(self.trackRect) - self.thumbImage.size.width - kThumbMargin;
     CGFloat thumbTrackWidth = thumbMaxX - thumbMinX;
@@ -208,97 +194,87 @@ const CGFloat kMaxCameraZoomScale = 3.0;    // This value specifies the maxium z
     return x;
 }
 
-- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
+- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     CGPoint location = [touch locationInView:self];
-    
+
     if (CGRectContainsPoint(self.minusTouchRect, location)) {
         self.zoomingOut = YES;
         [self continueZooming];
-    } else if (CGRectContainsPoint(self.plusTouchRect, location))
-    {
+    } else if (CGRectContainsPoint(self.plusTouchRect, location)) {
         self.zoomingIn = YES;
         [self continueZooming];
-    } else if (CGRectContainsPoint(self.thumbTouchRect, location))
-    {
+    } else if (CGRectContainsPoint(self.thumbTouchRect, location)) {
         self.thumbOrigin = CGRectGetMinX(self.thumbImageRect);
         self.touchOrigin = location.x;
         self.draggingThumb = YES;
     }
-    
+
     // We'll set the timer once the tracking is done.
     [self cancelHideZoomControlTimer];
     return YES;
 }
 
-- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
+- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     if (self.draggingThumb == NO && self.zoomingIn == NO && self.zoomingOut == NO) {
         return YES;
     }
-    
+
     if (self.draggingThumb) {
         CGPoint location = [touch locationInView:self];
         CGFloat delta = location.x - self.touchOrigin;
-        
+
         if (self.initialDelta == nil) {
-            self.initialDelta = [NSNumber numberWithFloat:delta];
+            self.initialDelta = @(delta);
         }
-        
+
         delta = delta - self.initialDelta.floatValue;
-        
+
         CGFloat thumbX = self.thumbOrigin + delta;
         self.zoomScale = [self scaleForX:thumbX];
         [self sendActionsForControlEvents:UIControlEventValueChanged];
     }
-    
+
     return YES;
 }
 
-- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
+- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     self.draggingThumb = NO;
     self.zoomingIn = NO;
     self.zoomingOut = NO;
     self.initialDelta = nil;
-    
+
     [self resetHideZoomControlTimer];
 }
 
-- (void)cancelTrackingWithEvent:(UIEvent *)event
-{
+- (void)cancelTrackingWithEvent:(UIEvent *)event {
     self.draggingThumb = NO;
     self.zoomingIn = NO;
     self.zoomingOut = NO;
     self.initialDelta = nil;
-    
+
     [self resetHideZoomControlTimer];
 }
 
-- (void)showZoomControl
-{
+- (void)showZoomControl {
     self.hidden = NO;
     [self resetHideZoomControlTimer];
 }
 
-- (void)hideZoomControl
-{
+- (void)hideZoomControl {
     [self cancelHideZoomControlTimer];
     [self animateToHidden];
 }
 
-- (void)cancelHideZoomControlTimer
-{
+- (void)cancelHideZoomControlTimer {
     if (self.hideControlsTimer != nil) {
         [self.hideControlsTimer invalidate];
         self.hideControlsTimer = nil;
     }
 }
 
-- (void)resetHideZoomControlTimer
-{
+- (void)resetHideZoomControlTimer {
     [self cancelHideZoomControlTimer];
-    
+
     self.hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:kHideZoomControlDelay
                                                               target:self
                                                             selector:@selector(hideZoomControlTimerExpired:)
@@ -306,46 +282,43 @@ const CGFloat kMaxCameraZoomScale = 3.0;    // This value specifies the maxium z
                                                              repeats:NO];
 }
 
-- (void)animateToHidden
-{
+- (void)animateToHidden {
     [UIView animateWithDuration:0.2
                      animations:^{
-                         
+
                          self.alpha = 0.0;
                      }
                      completion:^(BOOL finished) {
-                         
+
                          self.hidden = YES;
                          self.alpha = 1.0;
                      }];
 }
 
-- (void)hideZoomControlTimerExpired:(NSTimer *)timer
-{
+- (void)hideZoomControlTimerExpired:(NSTimer *)timer {
     self.hideControlsTimer = nil;
     [self animateToHidden];
 }
 
-- (void)pinchToZoom:(UIGestureRecognizer *)gestureRecognizer
-{
+- (void)pinchToZoom:(UIGestureRecognizer *)gestureRecognizer {
     NSAssert([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]], @"Requires a UIPinchGestureRecognizer");
-    
-    UIPinchGestureRecognizer *pinchGestureRecognizer = (UIPinchGestureRecognizer *)gestureRecognizer;
-    
+
+    UIPinchGestureRecognizer *pinchGestureRecognizer = (UIPinchGestureRecognizer *) gestureRecognizer;
+
     if (pinchGestureRecognizer.state == UIGestureRecognizerStateBegan) {
         self.initialPinchZoomScale = self.zoomScale;
     }
-    
+
     if (pinchGestureRecognizer.state == UIGestureRecognizerStateBegan ||
-        pinchGestureRecognizer.state == UIGestureRecognizerStateChanged ||
-        pinchGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+            pinchGestureRecognizer.state == UIGestureRecognizerStateChanged ||
+            pinchGestureRecognizer.state == UIGestureRecognizerStateEnded) {
         CGFloat scale = self.initialPinchZoomScale * pinchGestureRecognizer.scale;
         self.zoomScale = scale;
         [self sendActionsForControlEvents:UIControlEventValueChanged];
-        
+
         [self showZoomControl];
     }
-    
+
 }
 
 @end

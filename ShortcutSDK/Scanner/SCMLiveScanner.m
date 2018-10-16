@@ -12,7 +12,6 @@
 #import "SCMCaptureSessionController.h"
 #import "SCMRecognitionOperation.h"
 #import "SCMQRCodeScanner.h"
-#import "SCMQRCodeScannerDelegate.h"
 #import "SCMImageUtils.h"
 #import "SCMLocalization.h"
 
@@ -32,7 +31,7 @@ static const CGFloat kMinimumRequestDelay = 1.0;
 @property (nonatomic, strong, readwrite) SCMQRCodeScanner *qrCodeScanner;
 @property (nonatomic, strong, readwrite) NSOperationQueue *recognitionQueue;
 @property (nonatomic, assign, readwrite) NSInteger numImagesSentForRecognition;
-@property (   atomic, assign, readwrite) NSInteger outstandingRecognitionOperations;
+@property (atomic, assign, readwrite) NSInteger outstandingRecognitionOperations;
 @property (nonatomic, assign, readwrite) CGFloat queryImageSize;
 @property (nonatomic, assign, readwrite) CGFloat outputCompressionLevel;
 @property (nonatomic, assign, readwrite) SCMLiveScannerMode liveScannerMode;
@@ -41,15 +40,14 @@ static const CGFloat kMinimumRequestDelay = 1.0;
 @property (nonatomic, assign, readwrite) BOOL lastImageUnrecognized;
 @property (nonatomic, assign, readwrite) BOOL currentImageIsUnrecognized;
 @property (nonatomic, strong, readwrite) NSError *recognitionError;
-@property (   atomic, assign, readwrite) BOOL imageRecognized;
+@property (atomic, assign, readwrite) BOOL imageRecognized;
 @property (nonatomic, strong, readwrite) NSDate *lastRequestTimeStamp;
 
 @end
 
 @implementation SCMLiveScanner
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self != nil) {
         self.noMotionThreshold = kDefaultNoMotionThreshold;
@@ -58,18 +56,17 @@ static const CGFloat kMinimumRequestDelay = 1.0;
         self.histogramFilter = [[SCMHistogramFilter alloc] init];
         self.qrCodeScanner = [[SCMQRCodeScanner alloc] init];
         self.qrCodeScanner.delegate = self;
-        
+
         self.queryImageSize = kDefaultQueryImageSize;
         self.outputCompressionLevel = kDefaultOutputCompressionLevel;
-        
+
         self.recognitionQueue = [[NSOperationQueue alloc] init];
     }
-    
+
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self cancelAllOperations];
     self.originalImage = nil;
     self.motionDetector = nil;
@@ -79,10 +76,9 @@ static const CGFloat kMinimumRequestDelay = 1.0;
 
 #pragma mark - Public Methods
 
-- (void)setupForMode:(SCMLiveScannerMode)initialMode
-{
+- (void)setupForMode:(SCMLiveScannerMode)initialMode {
     self.histogramFilter.histogramThreshold = 45000.0;
-    
+
     // Optimize the output size based on the capture device
     CMVideoDimensions deviceVideoDimensions = CMVideoFormatDescriptionGetDimensions(self.captureDevice.activeFormat.formatDescription);
     int deviceMaxSize = MAX(deviceVideoDimensions.width, deviceVideoDimensions.height);
@@ -99,8 +95,7 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     [self switchToMode:initialMode];
 }
 
-- (void)switchToMode:(SCMLiveScannerMode)mode
-{
+- (void)switchToMode:(SCMLiveScannerMode)mode {
     if (mode == kSCMLiveScannerLiveScanningMode) {
         self.liveScannerMode = kSCMLiveScannerLiveScanningMode;
         self.recognitionError = nil;
@@ -115,8 +110,7 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     }
 }
 
-- (void)startScanning
-{
+- (void)startScanning {
     if (!self.running) {
         if (![SCMCaptureSessionController authorizedForVideoCapture]) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[SCMLocalization translationFor:@"CameraAccessRequiredTitle" withDefaultValue:@"Camera access required"]
@@ -135,7 +129,7 @@ static const CGFloat kMinimumRequestDelay = 1.0;
                 [self.delegate liveScannerShouldClose:self];
             });
         }
-        
+
         self.running = YES;
         self.imageRecognized = NO;
         self.numImagesSentForRecognition = 0;
@@ -145,8 +139,7 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     }
 }
 
-- (void)stopScanning
-{
+- (void)stopScanning {
     if (self.running) {
         self.running = NO;
         self.scanning = NO;
@@ -155,13 +148,11 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     }
 }
 
-- (void)cancelAllOperations
-{
+- (void)cancelAllOperations {
     [self.recognitionQueue cancelAllOperations];
 }
 
-- (void)takePictureWithZoomFactor:(CGFloat)zoomFactor
-{
+- (void)takePictureWithZoomFactor:(CGFloat)zoomFactor {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate liveScanner:self didRequestPictureTakeWithCompletionHandler:^(NSData *data, NSError *error) {
             if (data != nil) {
@@ -174,10 +165,9 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     });
 }
 
-- (void)setPaused:(BOOL)value
-{
+- (void)setPaused:(BOOL)value {
     _paused = value;
-    
+
     if (value) {
         self.scanning = NO;
         [self cancelAllOperations];
@@ -192,9 +182,9 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     if (!self.running) {
         return;
     }
-    
+
     BOOL similar = [self.histogramFilter isSampleBufferHistogramSimilar:sampleBuffer];
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         if (similar) {
             // The image was the same as the last one sent to the server.
@@ -207,7 +197,7 @@ static const CGFloat kMinimumRequestDelay = 1.0;
             if (self.currentImageIsUnrecognized) {
                 self.currentImageIsUnrecognized = NO;
             }
-            
+
             if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode && !self.paused) {
                 self.scanning = YES;
             } else {
@@ -215,7 +205,7 @@ static const CGFloat kMinimumRequestDelay = 1.0;
             }
         }
     });
-    
+
     if (!similar && ![self shouldSkipImage] && [self shouldSendImageForRecognition]) {
         CGImageRef sampleBufferImage = [SCMImageUtils newImageFromSampleBuffer:sampleBuffer];
         [self processImageRef:sampleBufferImage];
@@ -232,53 +222,51 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     if (!self.running) {
         return;
     }
-    
+
     NSData *scaledImageData = [SCMImageUtils scaledImageDataWithImage:imageRef
                                                           orientation:6
                                                               maxSize:self.queryImageSize
                                                           compression:self.outputCompressionLevel
                                                            zoomFactor:1.0];
-    
+
     if (self.scanQRCodes && !self.imageRecognized) {
         CGImageRef scaledImage = [UIImage imageWithData:scaledImageData].CGImage;
         [self.qrCodeScanner decodeImage:scaledImage];
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate liveScanner:self recognizingImage:scaledImageData];
     });
-    
+
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(backgroundQueue, ^{
         [self sendImageDataForRecognition:scaledImageData];
     });
 }
 
-- (BOOL)shouldSkipImage
-{
+- (BOOL)shouldSkipImage {
     if (self.paused) {
         // When paused, we don't do anything with the image. We just skip them until we are no longer paused.
         return YES;
     }
-    
+
     if (self.numImagesSentForRecognition == 0) {
         // We always send the first image regardless of motion or focusing.
         return NO;
     }
-    
+
     if (self.imageRecognized) {
         // No need to send an image if we have already recognized one
         return YES;
     }
-    
+
     BOOL skipImage = NO;
-    
+
     NSTimeInterval timeSinceLastMotion = [self.motionDetector timeIntervalSinceLastMotionDetected];
     if (timeSinceLastMotion < self.noMotionThreshold) {
         // The device hasn't been still long enough to use this image.
         skipImage = YES;
-    } else if (self.captureDevice.adjustingFocus)
-    {
+    } else if (self.captureDevice.adjustingFocus) {
         skipImage = YES;
     }
 
@@ -289,10 +277,9 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     return skipImage;
 }
 
-- (BOOL)shouldSendImageForRecognition
-{
+- (BOOL)shouldSendImageForRecognition {
     BOOL sendImageForRecognition = YES;
-    
+
     if (self.outstandingRecognitionOperations >= kMaxOutstandingImageRecognitionOperations) {
         // We already have the maximum number of images waiting for recognition.
         // If we have already sent the first set of images (including the very first image), then skip this image.
@@ -302,23 +289,22 @@ static const CGFloat kMinimumRequestDelay = 1.0;
             sendImageForRecognition = NO;
         }
     }
-    
+
     return sendImageForRecognition;
 }
 
-- (void)sendImageDataForRecognition:(NSData *)scaledImageData
-{
+- (void)sendImageDataForRecognition:(NSData *)scaledImageData {
     // We need to start this operation on a different thread since this thread may not stick around.
     // For now, we'll use the main thread.
     SCMRecognitionOperation *operation = [[SCMRecognitionOperation alloc] initWithImageData:scaledImageData location:self.location];
-    
+
     __weak SCMRecognitionOperation *completedOperation = operation;
     operation.completionBlock = ^{
         if (!completedOperation.cancelled) {
             [self recognitionOperationCompleted:completedOperation];
         }
     };
-    
+
     self.recognitionError = nil;
     [self.recognitionQueue addOperation:operation];
     self.numImagesSentForRecognition += 1;
@@ -326,12 +312,11 @@ static const CGFloat kMinimumRequestDelay = 1.0;
     self.lastRequestTimeStamp = [NSDate date];
 }
 
-- (void)recognitionOperationCompleted:(SCMRecognitionOperation *)recognitionOperation
-{
+- (void)recognitionOperationCompleted:(SCMRecognitionOperation *)recognitionOperation {
     self.outstandingRecognitionOperations--;
-    
+
     BOOL imageNotRecognized = NO;
-    
+
     if (recognitionOperation.error == nil) {
         BOOL recognized = (recognitionOperation.queryResponse.results.count > 0);
         if (recognized) {
@@ -343,7 +328,7 @@ static const CGFloat kMinimumRequestDelay = 1.0;
                                     atLocation:self.location
                                   withResponse:recognitionOperation.queryResponse];
                 });
-                
+
                 // Cancel any other image operations
                 [self cancelAllOperations];
             }
@@ -357,15 +342,15 @@ static const CGFloat kMinimumRequestDelay = 1.0;
         DebugLog(@"RecognitionOperation failed: %@", [recognitionOperation.error localizedDescription]);
         dispatch_async(dispatch_get_main_queue(), ^{
             BOOL sentOfflineImage = false;
-            
+
             if ([recognitionOperation.error.domain isEqualToString:NSURLErrorDomain]) {
 
                 if (recognitionOperation.error.code == NSURLErrorTimedOut ||
-                    recognitionOperation.error.code == NSURLErrorCannotFindHost ||
-                    recognitionOperation.error.code == NSURLErrorCannotConnectToHost ||
-                    recognitionOperation.error.code == NSURLErrorNetworkConnectionLost ||
-                    recognitionOperation.error.code == NSURLErrorDNSLookupFailed ||
-                    recognitionOperation.error.code == NSURLErrorNotConnectedToInternet) {
+                        recognitionOperation.error.code == NSURLErrorCannotFindHost ||
+                        recognitionOperation.error.code == NSURLErrorCannotConnectToHost ||
+                        recognitionOperation.error.code == NSURLErrorNetworkConnectionLost ||
+                        recognitionOperation.error.code == NSURLErrorDNSLookupFailed ||
+                        recognitionOperation.error.code == NSURLErrorNotConnectedToInternet) {
 
                     if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
                         self.recognitionError = [NSError errorWithDomain:kSCMLiveScannerErrorDomain code:kSCMLiveScannerErrorServerResponseTooSlow userInfo:nil];
@@ -387,15 +372,14 @@ static const CGFloat kMinimumRequestDelay = 1.0;
                 if (self.liveScannerMode == kSCMLiveScannerLiveScanningMode) {
                     self.recognitionError = recognitionOperation.error;
                 } else {
-                    if (!sentOfflineImage)
-                    {
+                    if (!sentOfflineImage) {
                         [self.delegate liveScanner:self capturedSingleImageWhileOffline:recognitionOperation.imageData atLocation:self.location];
                     }
                 }
             }
         });
     }
-    
+
     if (self.outstandingRecognitionOperations == 0 && imageNotRecognized) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.lastImageUnrecognized = YES;
@@ -405,16 +389,14 @@ static const CGFloat kMinimumRequestDelay = 1.0;
 
 #pragma mark - SCMQRCodeScannerDelegate
 
-- (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didRecognizeQRCode:(NSString *)text
-{
+- (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didRecognizeQRCode:(NSString *)text {
     self.imageRecognized = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate liveScanner:self recognizedQRCode:text atLocation:self.location];
     });
 }
 
-- (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didNotRecognizeQRCode:(NSString *)why
-{
+- (void)qrcodeScanner:(SCMQRCodeScanner *)scanner didNotRecognizeQRCode:(NSString *)why {
     //empty
 }
 
