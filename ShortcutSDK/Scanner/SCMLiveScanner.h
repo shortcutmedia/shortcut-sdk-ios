@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Shortcut Media AG. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "SCMLiveScannerDelegate.h"

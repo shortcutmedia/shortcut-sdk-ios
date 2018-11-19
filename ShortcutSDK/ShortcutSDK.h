@@ -22,6 +22,10 @@
 #import "SCMItemViewController.h"
 #import "SCMQueryResultViewController.h"
 
+#import "SCMCaptureSessionController.h"
+#import "SCMLiveScanner.h"
+#import "SCMLiveScannerDelegate.h"
+
 //! Project version number for TestSDK.
 FOUNDATION_EXPORT double TestSDKVersionNumber;
 

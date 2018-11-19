@@ -180,9 +180,9 @@
 		86ED363F1A2777B200D9F3B0 /* SCMItemViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35AE1A2772F700D9F3B0 /* SCMItemViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86ED36401A2777B200D9F3B0 /* SCMQueryResultViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35B11A2772F700D9F3B0 /* SCMQueryResultViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86ED36411A27781A00D9F3B0 /* KWSImageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED358E1A2772F700D9F3B0 /* KWSImageRequest.h */; };
-		86ED36441A27783800D9F3B0 /* SCMCaptureSessionController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35941A2772F700D9F3B0 /* SCMCaptureSessionController.h */; };
+		86ED36441A27783800D9F3B0 /* SCMCaptureSessionController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35941A2772F700D9F3B0 /* SCMCaptureSessionController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86ED36451A27783C00D9F3B0 /* SCMHistogramFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35961A2772F700D9F3B0 /* SCMHistogramFilter.h */; };
-		86ED36461A27784100D9F3B0 /* SCMLiveScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35981A2772F700D9F3B0 /* SCMLiveScanner.h */; };
+		86ED36461A27784100D9F3B0 /* SCMLiveScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35981A2772F700D9F3B0 /* SCMLiveScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86ED36481A27784700D9F3B0 /* SCMMotionDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED359B1A2772F700D9F3B0 /* SCMMotionDetector.h */; };
 		86ED36491A27785F00D9F3B0 /* SCMCameraModeControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35B41A2772F700D9F3B0 /* SCMCameraModeControl.h */; };
 		86ED364A1A27786300D9F3B0 /* SCMCameraToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 86ED35B61A2772F700D9F3B0 /* SCMCameraToolbar.h */; };
@@ -199,7 +199,7 @@
 		86EEC7561A2F1D7C007C6FA9 /* SCMQRCodeScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7531A2F1D7C007C6FA9 /* SCMQRCodeScanner.h */; };
 		86EEC7571A2F1D7C007C6FA9 /* SCMQRCodeScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = 86EEC7541A2F1D7C007C6FA9 /* SCMQRCodeScanner.mm */; };
 		86EEC7581A2F1D7C007C6FA9 /* SCMQRCodeScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7551A2F1D7C007C6FA9 /* SCMQRCodeScannerDelegate.h */; };
-		86EEC75A1A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7591A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h */; };
+		86EEC75A1A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC7591A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86EEC75C1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 86EEC75B1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86F682D01A41D69400738E2F /* ToolbarNavigationBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CC1A41D69400738E2F /* ToolbarNavigationBack.png */; };
 		86F682D11A41D69400738E2F /* ToolbarNavigationBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CD1A41D69400738E2F /* ToolbarNavigationBack@2x.png */; };
@@ -482,9 +482,9 @@
 		86ED35941A2772F700D9F3B0 /* SCMCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SCMCaptureSessionController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86ED35951A2772F700D9F3B0 /* SCMCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMCaptureSessionController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED35961A2772F700D9F3B0 /* SCMHistogramFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMHistogramFilter.h; sourceTree = "<group>"; };
-		86ED35971A2772F700D9F3B0 /* SCMHistogramFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMHistogramFilter.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		86ED35971A2772F700D9F3B0 /* SCMHistogramFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMHistogramFilter.m; sourceTree = "<group>"; };
 		86ED35981A2772F700D9F3B0 /* SCMLiveScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMLiveScanner.h; sourceTree = "<group>"; };
-		86ED35991A2772F700D9F3B0 /* SCMLiveScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMLiveScanner.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		86ED35991A2772F700D9F3B0 /* SCMLiveScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMLiveScanner.m; sourceTree = "<group>"; };
 		86ED359B1A2772F700D9F3B0 /* SCMMotionDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMMotionDetector.h; sourceTree = "<group>"; };
 		86ED359C1A2772F700D9F3B0 /* SCMMotionDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SCMMotionDetector.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86ED359D1A2772F700D9F3B0 /* ShortcutSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortcutSDK.h; sourceTree = "<group>"; };
@@ -1161,9 +1161,11 @@
 				86ED363B1A2777B200D9F3B0 /* SCMQueryResult.h in Headers */,
 				86ED363C1A2777B200D9F3B0 /* SCMRecognitionOperation.h in Headers */,
 				86ED363D1A2777B200D9F3B0 /* SCMScannerViewController.h in Headers */,
-				86EEC75A1A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h in Headers */,
 				86ED363F1A2777B200D9F3B0 /* SCMItemViewController.h in Headers */,
 				86ED36401A2777B200D9F3B0 /* SCMQueryResultViewController.h in Headers */,
+				86EEC75A1A2F1DF3007C6FA9 /* SCMLiveScannerDelegate.h in Headers */,
+				86ED36461A27784100D9F3B0 /* SCMLiveScanner.h in Headers */,
+				86ED36441A27783800D9F3B0 /* SCMCaptureSessionController.h in Headers */,
 				86ED364E1A27787100D9F3B0 /* SCMProgressToolbar.h in Headers */,
 				86ED364C1A27786A00D9F3B0 /* SCMCustomToolbar.h in Headers */,
 				86EEC7581A2F1D7C007C6FA9 /* SCMQRCodeScannerDelegate.h in Headers */,
@@ -1176,12 +1178,10 @@
 				86ED36541A27788800D9F3B0 /* UIImage+ImageOrientation.h in Headers */,
 				86ED36521A27788100D9F3B0 /* SCMImageUtils.h in Headers */,
 				86ED36501A27787A00D9F3B0 /* SCMBase64Utils.h in Headers */,
-				86ED36461A27784100D9F3B0 /* SCMLiveScanner.h in Headers */,
 				86ED364B1A27786600D9F3B0 /* SCMCameraZoomSlider.h in Headers */,
 				86EEC75C1A2F1E86007C6FA9 /* SCMScannerViewControllerDelegate.h in Headers */,
 				8684B99220626822008CF111 /* ShortcutSDK-Prefix.pch in Headers */,
 				86ED36481A27784700D9F3B0 /* SCMMotionDetector.h in Headers */,
-				86ED36441A27783800D9F3B0 /* SCMCaptureSessionController.h in Headers */,
 				86CCF7DC1A2E0BDE004FA85C /* SCMLocalization.h in Headers */,
 				86ED36451A27783C00D9F3B0 /* SCMHistogramFilter.h in Headers */,
 				86ED364A1A27786300D9F3B0 /* SCMCameraToolbar.h in Headers */,
