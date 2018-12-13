@@ -11,6 +11,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import "SCMLiveScannerDelegate.h"
 
+#ifndef _SCMLiveScanner_h
+#define _SCMLiveScanner_h
+
 typedef enum {
     kSCMLiveScannerLiveScanningMode = 0,
     kSCMLiveScannerSingleShotMode
@@ -59,3 +62,4 @@ typedef enum {
     kSCMLiveScannerErrorInternationalRoamingOff = -2
 } SCMLiveScannerErrorCode;
 
+#endif

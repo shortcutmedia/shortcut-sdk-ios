@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
+#ifndef _SCMCaptureSessionController_h
+#define _SCMCaptureSessionController_h
 
 typedef enum {
     kSCMCaptureSessionUnsetMode = -1,
@@ -64,3 +66,5 @@ typedef enum {
 - (void)adjustCaptureConnectionVideoOrientation:(AVCaptureConnection *_Nonnull)connection;
 
 @end
+
+#endif

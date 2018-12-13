@@ -10,6 +10,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import "SCMQueryResponse.h"
 
+#ifndef _SCMLiveScannerDelegate_h
+#define _SCMLiveScannerDelegate_h
+
 @class SCMLiveScanner;
 
 @protocol SCMLiveScannerDelegate <NSObject>
@@ -29,3 +32,5 @@
 - (void)liveScanner:(SCMLiveScanner *)scanner didRequestPictureTakeWithCompletionHandler:(void (^)(NSData *data, NSError *error))completionHandler;
 
 @end
+
+#endif
