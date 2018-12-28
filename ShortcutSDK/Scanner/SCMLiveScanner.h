@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Shortcut Media AG. All rights reserved.
 //
 
+#ifndef _SCMLiveScanner_h
+#define _SCMLiveScanner_h
+
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "SCMLiveScannerDelegate.h"
-
-#ifndef _SCMLiveScanner_h
-#define _SCMLiveScanner_h
 
 typedef enum {
     kSCMLiveScannerLiveScanningMode = 0,

@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Shortcut Media AG. All rights reserved.
 //
 
+#ifndef _SCMLiveScannerDelegate_h
+#define _SCMLiveScannerDelegate_h
+
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "SCMQueryResponse.h"
-
-#ifndef _SCMLiveScannerDelegate_h
-#define _SCMLiveScannerDelegate_h
 
 @class SCMLiveScanner;
 

@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Shortcut Media AG. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <AVFoundation/AVFoundation.h>
-
 #ifndef _SCMCaptureSessionController_h
 #define _SCMCaptureSessionController_h
+
+#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
 typedef enum {
     kSCMCaptureSessionUnsetMode = -1,
