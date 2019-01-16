@@ -115,7 +115,9 @@
 
 - (IBAction)toolbarButtonClicked:(UIBarButtonItem *)sender {
     if ([sender isEqual:self.toolbarBackButton]) {
-        [self.webView goBack];
+        if ([self.webView isKindOfClass:[WKWebView class]] && [self.webView respondsToSelector:@selector(goBack)]) {
+            [self.webView goBack];
+        }
     } else if ([sender isEqual:self.toolbarForwardButton]) {
         [self.webView goForward];
     } else if ([sender isEqual:self.toolbarOpenInSafariButton]) {
