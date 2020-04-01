@@ -138,7 +138,7 @@ static NSString *const kImageSHA1Prefix = @"image.sha1:";
 }
 
 - (NSString *)shortLanguage {
-    NSString *language = [NSLocale preferredLanguages].firstObject;
+    NSString *language = [[NSBundle mainBundle] preferredLocalizations].firstObject;
     if (language) {
         language = [language componentsSeparatedByString:@"-"].firstObject;
     }

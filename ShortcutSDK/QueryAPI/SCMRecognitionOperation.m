@@ -123,7 +123,7 @@ int kSCMRecognitionOperationNoMatchingMetadata = -1;
 }
 
 - (NSString *)requestLanguage {
-    NSString *language = [NSLocale preferredLanguages][0];
+    NSString *language = [[NSBundle mainBundle] preferredLocalizations][0];
     if (!language) {
         language = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
     }
