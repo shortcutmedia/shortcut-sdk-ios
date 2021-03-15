@@ -143,7 +143,7 @@
 }
 
 - (void)adjustCaptureConnectionVideoOrientation:(AVCaptureConnection *)connection {
-    connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+    connection.videoOrientation = [self captureVideoOrientationFromDeviceOrientation];
 }
 
 - (void)adjustPreviewLayer {
